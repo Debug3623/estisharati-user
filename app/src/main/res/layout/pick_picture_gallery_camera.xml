@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/corner_redius_15dp_white"
+    android:orientation="horizontal"
+    android:padding="25dp"
+    android:weightSum="2">
+
+    <LinearLayout
+        android:id="@+id/upload_from_camera"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/ic_upload_camera" />
+
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/corner_redius_15dp_white"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Camera"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/upload_from_gallery"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/ic_upload_galeary" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/corner_redius_15dp_white"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Gallery"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+    </LinearLayout>
+</LinearLayout>
