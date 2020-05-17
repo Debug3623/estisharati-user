@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import org.codehaus.jackson.map.ObjectMapper
 
-class SharedPreferencesHelper(private val mContext: Context) {
+ class SharedPreferencesHelper(  mContext: Context) {
     private val PREF_NAME = "estisharati_user"
     private val pref_editor: SharedPreferences.Editor
 

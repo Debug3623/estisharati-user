@@ -6,7 +6,7 @@
 
     <color name="orange">#ea7636</color>
 
-    <color name="green">#9fb761</color>
+    <color name="green">#80a02e</color>
     <color name="dark_green">#008000</color>
 
 
@@ -18,8 +18,7 @@
     <color name="ach_white_dark">#f0f0f0</color>
 
     <color name="black">#000000</color>
-    <color name="light_black">#494242</color>
-
+    <color name="black_light">#595959</color>
 
     <color name="red">#FF0000</color>
     <color name="light_red">#f04015</color>
@@ -27,8 +26,7 @@
 
     <color name="yellow">#ffcd00</color>
 
-
-    <color name="dark_gray">#aaa</color>
+    <color name="dark_gray">#aaaaaa</color>
     <color name="light_gray">#c9c9c9</color>
     <color name="gray">#cacaca</color>
     <color name="gainsboro">#DCDCDC</color>

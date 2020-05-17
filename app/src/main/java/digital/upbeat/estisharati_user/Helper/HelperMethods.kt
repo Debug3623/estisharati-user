@@ -28,6 +28,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -45,10 +46,16 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern
 
-class HelperMethods(var context: Context) {
-    var calendarInstance: Calendar? = null
+class HelperMethods(val context: Context) {
+    val calendarInstance: Calendar
     var dialog: android.app.AlertDialog? = null
-    var preferencesHelper: SharedPreferencesHelper
+    val preferencesHelper: SharedPreferencesHelper
+
+    init {
+        preferencesHelper = SharedPreferencesHelper(context)
+        calendarInstance = Calendar.getInstance()
+    }
+
     fun ShowDatePickerDialog(date_picker_text: TextView) {
         DatePickerDialog(context, OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
             val newDate = Calendar.getInstance()
@@ -139,6 +146,23 @@ class HelperMethods(var context: Context) {
         }
     }
 
+    fun setStatusBarColor(activity: Activity, StatusBarColor: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val window = activity.window
+            val view = window.decorView
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_OVERSCAN)
+            window.statusBarColor = ContextCompat.getColor(activity, StatusBarColor)
+//            window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                var flags = view.systemUiVisibility
+                flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                view.systemUiVisibility = flags
+            }
+        }
+    }
+
     fun SelfPermission(activity: Activity?) {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.CAMERA, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), 123)
@@ -189,7 +213,7 @@ class HelperMethods(var context: Context) {
         val minutes = millisUntilFinished / 1000 / 60
         val seconds = (millisUntilFinished / 1000 % 60).toInt()
         Log.d("timier", "seconds remaining: " + DecimalFormat("00").format(minutes) + "." + DecimalFormat("00").format(seconds.toLong()))
-        return DecimalFormat("00").format(minutes) + ":" + DecimalFormat("00").format(seconds.toLong())
+        return DecimalFormat("00").format(minutes) + "." + DecimalFormat("00").format(seconds.toLong())
     }
 
     fun SendPushNotification(title: String?, text: String?) {
@@ -397,10 +421,5 @@ class HelperMethods(var context: Context) {
         fun isMediaDocument(uri: Uri): Boolean {
             return "com.android.providers.media.documents" == uri.authority
         }
-    }
-
-    init {
-        preferencesHelper = SharedPreferencesHelper(context)
-        calendarInstance = Calendar.getInstance()
     }
 }
