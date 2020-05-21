@@ -1,23 +1,23 @@
 package digital.upbeat.estisharati_user.UI
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
-import digital.upbeat.estisharati_user.Adapter.ViewPagerAdapter
+import digital.upbeat.estisharati_user.Adapter.OnBoardingPagerAdapter
 import digital.upbeat.estisharati_user.DataClassHelper.DataBoarding
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.R
 import digital.upbeat.estisharati_user.Utils.CirclePageIndicator
+import kotlinx.android.synthetic.main.activity_on_boarding.*
 
 class OnBoarding : AppCompatActivity() {
     lateinit var helperMethods: HelperMethods
-    var adapter: ViewPagerAdapter? = null
-    lateinit var viewPager: ViewPager
-    lateinit var mIndicator: CirclePageIndicator
+    var adapter: OnBoardingPagerAdapter? = null
     var count = 0
-    private var handler: Handler? = null
+     var handler: Handler = Handler()
     val delay: Long = 3000
     var runnable: Runnable = object : Runnable {
         override fun run() {
@@ -26,8 +26,8 @@ class OnBoarding : AppCompatActivity() {
             } else {
                 count++
             }
-            viewPager.setCurrentItem(count, true)
-            handler!!.postDelayed(this, delay.toLong())
+            viewpager.setCurrentItem(count, true)
+            handler.postDelayed(this, delay.toLong())
         }
     }
 
@@ -43,32 +43,35 @@ class OnBoarding : AppCompatActivity() {
         helperMethods = HelperMethods(this@OnBoarding);
 
         helperMethods.setStatusBarColor(this, R.color.white)
-        viewPager = findViewById(R.id.viewpager) as ViewPager
-        mIndicator = findViewById(R.id.indicator) as CirclePageIndicator
-        handler = Handler();
+        handler = Handler()
     }
 
-    fun clickEvents() {}
+    fun clickEvents() {
+        skip.setOnClickListener {
+            startActivity(Intent(this@OnBoarding, UserDrawer::class.java))
+            finish()
+        }
+    }
+
     private fun ShowViewPager() {
-        //        ArrayList images_array = shared_preferences.GET_SHARED_TUTORIAL_IMAGES_ARRALIST();
         val boardingArrayList: ArrayList<DataBoarding> = arrayListOf()
         boardingArrayList.add(DataBoarding(R.drawable.ic_onboard_1, "Online Cources", "Browse Now hundreds of e-courses\nIn all fields .. learn now"))
-        boardingArrayList.add(DataBoarding(R.drawable.ic_onboard_2, "Chat", "Chat and speak with members and consultants\nFreely through audio and video"))
+        boardingArrayList.add(DataBoarding(R.drawable.ic_onboard_2, "Chat", "Chat and speak with members and\nconsultants Freely through audio and video"))
         boardingArrayList.add(DataBoarding(R.drawable.ic_onboard_3, "Ask for advice", "We have consultants in all fields\nWe are here to help you .. start now"))
-        adapter = ViewPagerAdapter(this@OnBoarding, boardingArrayList)
+        adapter = OnBoardingPagerAdapter(this@OnBoarding, boardingArrayList)
         val rotateimage = AnimationUtils.loadAnimation(this, R.anim.slide_in)
-        viewPager.adapter = adapter
-        mIndicator.setViewPager(viewPager)
-        viewPager.startAnimation(rotateimage)
+        viewpager.adapter = adapter
+        indicator.setViewPager(viewpager)
+        viewpager.startAnimation(rotateimage)
     }
 
     override fun onResume() {
         super.onResume()
-        handler?.postDelayed(runnable, delay)
+        handler.postDelayed(runnable, delay)
     }
 
     override fun onPause() {
         super.onPause()
-        handler?.removeCallbacks(runnable)
+        handler.removeCallbacks(runnable)
     }
 }

@@ -22,6 +22,7 @@ class Verification : AppCompatActivity() {
         setContentView(R.layout.activity_verification)
         initViews()
         clickEvents()
+        ResendCountdown()
     }
 
     fun initViews() {
@@ -79,5 +80,12 @@ class Verification : AppCompatActivity() {
             }
         }
         resendTimer?.start()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (resendTimer != null) {
+            resendTimer?.cancel()
+        }
     }
 }

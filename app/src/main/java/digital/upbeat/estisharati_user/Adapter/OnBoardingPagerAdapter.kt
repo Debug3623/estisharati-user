@@ -13,7 +13,7 @@ import digital.upbeat.estisharati_user.DataClassHelper.DataBoarding
 import digital.upbeat.estisharati_user.R
 import kotlin.collections.ArrayList
 
-class ViewPagerAdapter(var context: Context, val boardingArrayList: ArrayList<DataBoarding>) : PagerAdapter() {
+class OnBoardingPagerAdapter(var context: Context, val boardingArrayList: ArrayList<DataBoarding>) : PagerAdapter() {
     var layoutInflater: LayoutInflater
 
     init {

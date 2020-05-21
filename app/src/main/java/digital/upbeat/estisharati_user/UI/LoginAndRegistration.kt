@@ -10,8 +10,6 @@ import android.util.Log
 import android.view.View
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.R
-import digital.upbeat.estisharati_user.Utils.PinOnKeyListener
-import digital.upbeat.estisharati_user.Utils.PinTextWatcher
 import kotlinx.android.synthetic.main.activity_login_and_registration.*
 
 class LoginAndRegistration : AppCompatActivity() {
@@ -92,6 +90,10 @@ class LoginAndRegistration : AppCompatActivity() {
             startActivityForResult(intent, 123)
         }
         nav_forget_password.setOnClickListener { startActivity(Intent(this@LoginAndRegistration, ForgotPassword::class.java)) }
+        btn_login.setOnClickListener {
+            startActivity(Intent(this@LoginAndRegistration, UserDrawer::class.java))
+            finish()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -102,6 +104,8 @@ class LoginAndRegistration : AppCompatActivity() {
                 val city = data.getStringExtra("value2")
                 val home = data.getStringExtra("value3")
                 Log.d("result", "$street $city $home")
+                startActivity(Intent(this@LoginAndRegistration,OnBoarding::class.java))
+                finish()
             }
         }
     }

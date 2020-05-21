@@ -18,7 +18,7 @@ class SplashScreen : AppCompatActivity() {
 
 
     fun initViews() {
-        helperMethods = HelperMethods(this@SplashScreen);
+        helperMethods = HelperMethods(this@SplashScreen)
 
         helperMethods.setStatusBarColor(this, R.color.white)
     }

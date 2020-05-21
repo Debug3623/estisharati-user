@@ -16,7 +16,7 @@
     <style name="CustomCirclePageIndicators">
         <item name="fillColor">#411e25</item>
         <item name="strokeColor">#ececec</item>
-        <item name="strokeWidth">1dp</item>
+        <item name="strokeWidth">0dp</item>
         <item name="radius">4dp</item>
         <item name="centered">false</item>
     </style>
@@ -24,5 +24,14 @@
     <style name="StyledIndicators_sell_items" parent="@android:style/Theme.Light">
         <item name="vpiCirclePageIndicatorStyle">@style/CustomCirclePageIndicators</item>
     </style>
+
+    <style name="AppTheme.NoActionBar.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

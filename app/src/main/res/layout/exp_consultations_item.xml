@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/exp_consultations_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="2dp"
+        android:background="@drawable/corner_redius_30dp_white_pink"
+        android:paddingLeft="15dp"
+        android:paddingTop="5dp"
+        android:fontFamily="@font/almarai_regular"
+        android:layout_marginBottom="10dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="5dp"
+        android:text="Design"
+        android:textSize="12sp"
+        android:textColor="@color/black_light" />
+
+</LinearLayout>

@@ -13,14 +13,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".UI.OnBoarding">
+        <activity android:name=".UI.MyConsultations"></activity>
+        <activity android:name=".UI.UserDrawer">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".UI.OnBoarding" />
         <activity
             android:name=".UI.ForgotPassword"
             android:screenOrientation="portrait" />
@@ -32,9 +33,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".UI.SplashScreen"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

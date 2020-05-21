@@ -197,7 +197,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/almarai_regular"
                             android:gravity="right"
-                            android:text="Forget Password ?"
+                            android:text="Forgot Password ?"
                             android:textColor="@color/black_light"
                             android:textSize="15sp" />
 
@@ -213,7 +213,7 @@
                     android:orientation="vertical">
 
                     <Button
-
+android:id="@+id/btn_login"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="50dp"
