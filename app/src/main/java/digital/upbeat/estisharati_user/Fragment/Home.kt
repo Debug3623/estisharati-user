@@ -1,5 +1,6 @@
 package digital.upbeat.estisharati_user.Fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import androidx.fragment.app.Fragment
@@ -14,6 +15,8 @@ import digital.upbeat.estisharati_user.Adapter.*
 import digital.upbeat.estisharati_user.DataClassHelper.DataBoarding
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.UI.LegalAdvice
+import digital.upbeat.estisharati_user.UI.MyCourses
 import digital.upbeat.estisharati_user.Utils.CirclePageIndicator
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -52,7 +55,12 @@ class Home : Fragment() {
         helperMethods = HelperMethods(requireContext())
     }
 
-    fun clickEvents() {}
+    fun clickEvents() {
+        ask_for_advice.setOnClickListener {
+            startActivity(Intent(requireContext(), LegalAdvice::class.java))
+        }
+    }
+
     private fun ShowViewPager() {
         val boardingArrayList: ArrayList<DataBoarding> = arrayListOf()
         boardingArrayList.add(DataBoarding(R.drawable.ic_onboard_1, "Online Cources", "Browse Now hundreds of e-courses\nIn all fields .. learn now"))
@@ -93,7 +101,7 @@ class Home : Fragment() {
         exp_consultations_recycler.removeAllViews()
         exp_consultations_recycler.layoutManager = GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false)
         exp_consultations_recycler.adapter = ExpConsultationsAdapter(requireContext(), this, arrayList)
-        arrayList= arrayListOf()
+        arrayList = arrayListOf()
         arrayList.add("Finance and Accounting")
         arrayList.add("Money & business")
         arrayList.add("Law")
@@ -114,16 +122,14 @@ class Home : Fragment() {
         exp_consultations_recycler1.layoutManager = GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false)
         exp_consultations_recycler1.adapter = ExpConsultationsAdapter(requireContext(), this, arrayList)
 
-         exp_courses_recycler.setHasFixedSize(true)
+        exp_courses_recycler.setHasFixedSize(true)
         exp_courses_recycler.removeAllViews()
-        exp_courses_recycler.layoutManager = LinearLayoutManager(requireContext(),  LinearLayoutManager.HORIZONTAL, false)
+        exp_courses_recycler.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         exp_courses_recycler.adapter = ExpCoursesAdapter(requireContext(), this, arrayList)
 
         online_user_recycler.setHasFixedSize(true)
         online_user_recycler.removeAllViews()
-        online_user_recycler.layoutManager = LinearLayoutManager(requireContext(),  LinearLayoutManager.HORIZONTAL, false)
+        online_user_recycler.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         online_user_recycler.adapter = OnlineUserAdapter(requireContext(), this, arrayList)
-
-
     }
 }

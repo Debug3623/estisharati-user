@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".UI.ContactUs">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="4">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/orange" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:background="@color/white" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/orange"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingTop="15dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="15dp">
+
+            <ImageView
+                android:id="@+id/nav_back"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_left_arrow_white" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:fontFamily="@font/almarai_regular"
+                android:text="Contact us"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/corner_redius_15dp_white"
+            android:elevation="3dp"
+            android:orientation="vertical">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:fontFamily="@font/almarai_regular"
+                android:hint="Name"
+                android:inputType="text"
+                android:padding="25dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black_light"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gainsboro" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:fontFamily="@font/almarai_regular"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:padding="25dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black_light"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gainsboro" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:fontFamily="@font/almarai_regular"
+                android:hint="Phone"
+                android:inputType="phone"
+                android:padding="25dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black_light"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gainsboro" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:background="@color/transparent"
+                android:fontFamily="@font/almarai_regular"
+                android:gravity="top|left"
+                android:hint="Message"
+                android:inputType="textMultiLine"
+                android:padding="25dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black_light"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/corner_redius_5dp_light_green"
+            android:elevation="3dp"
+            android:fontFamily="@font/almarai_bold"
+            android:gravity="center"
+            android:padding="18dp"
+            android:text="Send"
+            android:textAllCaps="false"
+
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+    </LinearLayout>
+</RelativeLayout>

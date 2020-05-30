@@ -1,5 +1,6 @@
 package digital.upbeat.estisharati_user.UI
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Typeface
 import android.os.Build
@@ -40,7 +41,7 @@ class UserDrawer : AppCompatActivity() {
         almarai_regular = ResourcesCompat.getFont(this@UserDrawer, R.font.almarai_regular)!!
 
 
-        supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, Consultations()).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, Home()).commit()
     }
 
     fun clickEvents() {
@@ -59,6 +60,9 @@ class UserDrawer : AppCompatActivity() {
         menu.setOnClickListener {
             drawer_layout.openDrawer(GravityCompat.START, true)
         }
+        notification_layout.setOnClickListener {
+            startActivity(Intent(this@UserDrawer, Notifications::class.java))
+        }
     }
 
     fun navPageClickEvents() {
@@ -73,6 +77,27 @@ class UserDrawer : AppCompatActivity() {
             action_bar_title.visibility = View.VISIBLE
             supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, Consultations()).commit()
             drawer_layout.closeDrawer(GravityCompat.START, true)
+        }
+        nav_my_consultations.setOnClickListener {
+            startActivity(Intent(this@UserDrawer, MyConsultations::class.java))
+        }
+        nav_online_courses.setOnClickListener {
+            startActivity(Intent(this@UserDrawer, OnlineCourses::class.java))
+        }
+        nav_my_courses.setOnClickListener {
+            startActivity(Intent(this@UserDrawer, MyCourses::class.java))
+        }
+        nav_about_app.setOnClickListener {
+            startActivity(Intent(this@UserDrawer, AboutUs::class.java))
+        }
+        nav_contect_us.setOnClickListener {
+            startActivity(Intent(this@UserDrawer, ContactUs::class.java))
+        }
+        nav_my_profile1.setOnClickListener {
+            startActivity(Intent(this@UserDrawer, MyProfile::class.java))
+        }
+        nav_my_profile2.setOnClickListener {
+            startActivity(Intent(this@UserDrawer, MyProfile::class.java))
         }
     }
 

@@ -29,6 +29,7 @@
                 android:paddingBottom="15dp">
 
                 <LinearLayout
+                    android:id="@+id/nav_my_profile1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -83,6 +84,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/nav_my_profile2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -182,7 +184,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Consulting"
+                        android:text="Consultations"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -195,6 +197,7 @@
                     android:background="@color/gainsboro" />
 
                 <LinearLayout
+                    android:id="@+id/nav_my_consultations"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -226,6 +229,7 @@
 
 
                 <LinearLayout
+                    android:id="@+id/nav_online_courses"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -257,6 +261,7 @@
 
 
                 <LinearLayout
+                    android:id="@+id/nav_my_courses"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -288,6 +293,7 @@
 
 
                 <LinearLayout
+                    android:id="@+id/nav_about_app"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -319,6 +325,7 @@
 
 
                 <LinearLayout
+                    android:id="@+id/nav_contect_us"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -336,7 +343,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Contect us"
+                        android:text="Contact us"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>

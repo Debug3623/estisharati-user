@@ -31,7 +31,7 @@
             android:layout_height="35dp"
             android:layout_centerInParent="true"
             android:adjustViewBounds="true"
-            android:visibility="gone"
+            android:visibility="visible"
             android:src="@drawable/ic_logo_white"
             />
 
@@ -42,6 +42,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="35dp"
             android:padding="4dp"
+            android:visibility="gone"
             android:fontFamily="@font/almarai_regular"
             android:text="Consultations"
             android:textColor="@color/white"
@@ -56,6 +57,7 @@
             android:orientation="horizontal">
 
             <RelativeLayout
+                android:id="@+id/notification_layout"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp">
