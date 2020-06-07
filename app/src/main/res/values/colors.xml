@@ -14,11 +14,14 @@
     <color name="parrot_green">#6adb67</color>
 
     <color name="transparent">#00000000</color>
+    <color name="transparent_white">#80ffffff</color>
     <color name="gray_transparent">#C3706F6F</color>
     <color name="blur_transparent">#66000000</color>
 
+    <color name="pink">#ffe8dd</color>
+    <color name="white_pink">#FAF4F4</color>
+
     <color name="white">#ffffffff</color>
-    <color name="white_pink">#FBF4F4</color>
     <color name="ach_white_light">#f5f5f5</color>
     <color name="ach_white_dark">#f0f0f0</color>
 

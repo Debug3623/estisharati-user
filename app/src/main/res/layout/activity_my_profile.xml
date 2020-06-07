@@ -293,7 +293,7 @@
                     android:orientation="horizontal"
                     android:layout_marginBottom="20dp"
                     android:layout_marginTop="30dp"
-                    android:weightSum="3">
+                    android:weightSum="4">
 
 
                     <LinearLayout
@@ -323,7 +323,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:gravity="bottom|right">
 
                     <LinearLayout
@@ -369,7 +369,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="30dp"
-                android:background="@drawable/corner_redius_10dp_white_sroke_dark_gray"
+                android:background="@drawable/corner_redius_15dp_white_sroke_dark_gray"
                 android:orientation="vertical"
                 android:padding="20dp">
 

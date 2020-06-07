@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <digital.upbeat.estisharati_user.Utils.CircleImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:elevation="3dp"
+        android:src="@drawable/ic_temp_profile"
+        app:civ_border_color="@color/white"
+        app:civ_border_width="0.5dp" />
+</LinearLayout>

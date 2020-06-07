@@ -14,8 +14,8 @@
 
 
         <digital.upbeat.estisharati_user.Utils.CircleImageView
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:elevation="3dp"
             android:src="@drawable/ic_temp_profile"
             app:civ_border_color="@color/black"

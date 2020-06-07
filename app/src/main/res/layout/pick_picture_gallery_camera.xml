@@ -5,6 +5,7 @@
     android:background="@drawable/corner_redius_15dp_orange"
     android:orientation="horizontal"
     android:padding="25dp"
+    android:layout_margin="20dp"
     android:weightSum="2">
 
     <LinearLayout

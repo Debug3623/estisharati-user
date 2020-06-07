@@ -16,8 +16,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".UI.Notifications"></activity>
-        <activity android:name=".UI.ConsultantDetails"></activity>
+        <activity android:name=".UI.ChatPage">
+
+        </activity>
+        <activity android:name=".UI.ChatHome"></activity>
+        <activity android:name=".UI.ThanksPage" />
+        <activity android:name=".UI.ConsultantsInThePackage" />
+        <activity android:name=".UI.ExistingCourses" />
+        <activity android:name=".UI.PackagesSelection" />
+        <activity android:name=".UI.Packages" />
+        <activity android:name=".UI.PreviewCourse" />
+        <activity android:name=".UI.ConsultationDetailsVideo" />
+        <activity android:name=".UI.CourseDetails" />
+        <activity android:name=".UI.Notifications" />
+        <activity android:name=".UI.ConsultantDetails" />
         <activity android:name=".UI.LegalAdvice" />
         <activity android:name=".UI.MyProfile" />
         <activity android:name=".UI.AboutUs" />

@@ -25,6 +25,9 @@ import android.os.Build
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.text.Html
+import android.text.Spanned
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -153,8 +156,7 @@ class HelperMethods(val context: Context) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_OVERSCAN)
             window.statusBarColor = ContextCompat.getColor(activity, StatusBarColor)
-//            window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-
+            //            window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 var flags = view.systemUiVisibility
                 flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
@@ -166,6 +168,15 @@ class HelperMethods(val context: Context) {
     fun SelfPermission(activity: Activity?) {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.CAMERA, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), 123)
+        }
+    }
+
+    fun getColorString(text: String, color: Int): Spanned {
+        val bodyData = "<font color='$color'>$text</font>"
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return Html.fromHtml(bodyData, Html.FROM_HTML_MODE_LEGACY)
+        } else {
+            return Html.fromHtml(bodyData)
         }
     }
 
@@ -303,7 +314,7 @@ class HelperMethods(val context: Context) {
         }
     }
 
-    fun AlertPopup(Title: String?, Message: String?) {
+    fun AlertPopup(Title: String, Message: String) {
         val LayoutView = LayoutInflater.from(context).inflate(R.layout.alert_popup, null)
         val aleatdialog = android.app.AlertDialog.Builder(context)
         aleatdialog.setView(LayoutView)
@@ -316,6 +327,7 @@ class HelperMethods(val context: Context) {
         val action_ok = LayoutView.findViewById<TextView>(R.id.action_ok)
         title.text = Title
         message.text = Message
+        message.movementMethod = ScrollingMovementMethod()
         action_ok.setOnClickListener { dialog.dismiss() }
     }
 

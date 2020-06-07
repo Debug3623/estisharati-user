@@ -44,8 +44,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-              >
+                android:layout_centerVertical="true">
 
                 <ImageView
                     android:id="@+id/bell"
@@ -78,33 +77,20 @@
             android:background="@color/orange"
             android:orientation="horizontal"
             android:paddingLeft="30dp"
-            android:paddingTop="10dp"
+            android:gravity="center_vertical"
             android:paddingRight="30dp"
             android:paddingBottom="20dp"
             android:weightSum="2">
 
-            <LinearLayout
+
+            <Spinner
+                android:id="@+id/courses_spinner"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:backgroundTint="@color/white"
+                android:spinnerMode="dropdown" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/almarai_regular"
-                    android:text="All Cources"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-
-                <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_marginLeft="10dp"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/ic_down_arrow_white" />
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"

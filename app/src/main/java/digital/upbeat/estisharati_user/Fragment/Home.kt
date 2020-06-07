@@ -119,13 +119,22 @@ class Home : Fragment() {
 
         exp_consultations_recycler1.setHasFixedSize(true)
         exp_consultations_recycler1.removeAllViews()
-        exp_consultations_recycler1.layoutManager = GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false)
+        exp_consultations_recycler1.layoutManager = LinearLayoutManager(requireContext(),  LinearLayoutManager.HORIZONTAL, false)
         exp_consultations_recycler1.adapter = ExpConsultationsAdapter(requireContext(), this, arrayList)
 
         exp_courses_recycler.setHasFixedSize(true)
         exp_courses_recycler.removeAllViews()
         exp_courses_recycler.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         exp_courses_recycler.adapter = ExpCoursesAdapter(requireContext(), this, arrayList)
+
+        arrayList.clear()
+        arrayList.add("Money & business")
+        arrayList.add("Law")
+        arrayList.add("Marketing")
+        arrayList.add("Design")
+        arrayList.add("Human Development")
+        arrayList.add("Human Development")
+
 
         online_user_recycler.setHasFixedSize(true)
         online_user_recycler.removeAllViews()

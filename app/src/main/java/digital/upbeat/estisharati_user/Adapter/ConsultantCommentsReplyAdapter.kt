@@ -10,7 +10,7 @@ import digital.upbeat.estisharati_user.R
 import digital.upbeat.estisharati_user.UI.ConsultantDetails
 import digital.upbeat.estisharati_user.ViewHolder.ConsultantCommentsReplyViewHolder
 
-class ConsultantCommentsReplyAdapter(val context: Context,val consultantDetails: ConsultantDetails, val arrayListStr: ArrayList<String>) : RecyclerView.Adapter<ConsultantCommentsReplyViewHolder>() {
+class ConsultantCommentsReplyAdapter(val context: Context, val consultantDetails: ConsultantDetails?, val arrayListStr: ArrayList<String>) : RecyclerView.Adapter<ConsultantCommentsReplyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConsultantCommentsReplyViewHolder {
         val layoutView = LayoutInflater.from(context).inflate(R.layout.comment_reply_item, parent, false)
         return ConsultantCommentsReplyViewHolder(layoutView)
@@ -30,6 +30,13 @@ class ConsultantCommentsReplyAdapter(val context: Context,val consultantDetails:
         holder.consultant_comments_reply_sub_recycler.removeAllViews()
         holder.consultant_comments_reply_sub_recycler.layoutManager = LinearLayoutManager(context)
         holder.consultant_comments_reply_sub_recycler.adapter = ConsultantCommentsReplySubAdapter(context, consultantDetails, arrayList)
-    }
 
+        holder.main_item.setOnClickListener {
+            if (holder.sub_item_reply_layout.visibility == View.VISIBLE) {
+                holder.sub_item_reply_layout.visibility = View.GONE
+            } else {
+                holder.sub_item_reply_layout.visibility = View.VISIBLE
+            }
+        }
+    }
 }

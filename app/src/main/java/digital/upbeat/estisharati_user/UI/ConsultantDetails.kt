@@ -1,13 +1,14 @@
 package digital.upbeat.estisharati_user.UI
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import digital.upbeat.estisharati_user.Adapter.ConsultantCommentsReplyAdapter
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.R
-import digital.upbeat.estisharati_user.Utils.BlurTransformation
 import kotlinx.android.synthetic.main.activity_consultant_details.*
 
 class ConsultantDetails : AppCompatActivity() {
@@ -26,6 +27,12 @@ class ConsultantDetails : AppCompatActivity() {
 
     fun clickEvents() {
         nav_back.setOnClickListener { finish() }
+        consultant_profile.setOnClickListener {
+            startActivity(Intent(this@ConsultantDetails, ConsultationDetailsVideo::class.java))
+        }
+        req_consultation_now.setOnClickListener {
+            startActivity(Intent(this@ConsultantDetails, Packages::class.java))
+        }
     }
 
     fun InitializeRecyclerview() {

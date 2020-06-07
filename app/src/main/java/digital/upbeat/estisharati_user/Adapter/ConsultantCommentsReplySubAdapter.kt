@@ -11,7 +11,7 @@ import digital.upbeat.estisharati_user.UI.LegalAdvice
 import digital.upbeat.estisharati_user.ViewHolder.ConsultantCommentsReplyViewHolder
 import digital.upbeat.estisharati_user.ViewHolder.ConsultantCommentsSubReplyViewHolder
 
-class ConsultantCommentsReplySubAdapter(val context: Context,val consultantDetails: ConsultantDetails, val arrayListStr: ArrayList<String>) : RecyclerView.Adapter<ConsultantCommentsSubReplyViewHolder>() {
+class ConsultantCommentsReplySubAdapter(val context: Context,val consultantDetails: ConsultantDetails?, val arrayListStr: ArrayList<String>) : RecyclerView.Adapter<ConsultantCommentsSubReplyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConsultantCommentsSubReplyViewHolder {
         val layoutView = LayoutInflater.from(context).inflate(R.layout.comments_reply_sub_item, parent, false)
         return ConsultantCommentsSubReplyViewHolder(layoutView)

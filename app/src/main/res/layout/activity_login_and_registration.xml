@@ -213,7 +213,7 @@
                     android:orientation="vertical">
 
                     <Button
-android:id="@+id/btn_login"
+                        android:id="@+id/btn_login"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="50dp"
@@ -585,7 +585,6 @@ android:id="@+id/btn_login"
 
                 </LinearLayout>
             </LinearLayout>
-
 
 
         </LinearLayout>
