@@ -101,6 +101,7 @@ class Home : Fragment() {
         exp_consultations_recycler.removeAllViews()
         exp_consultations_recycler.layoutManager = GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false)
         exp_consultations_recycler.adapter = ExpConsultationsAdapter(requireContext(), this, arrayList)
+
         arrayList = arrayListOf()
         arrayList.add("Finance and Accounting")
         arrayList.add("Money & business")

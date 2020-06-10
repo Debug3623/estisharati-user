@@ -5,6 +5,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import digital.upbeat.estisharati_user.CarouselHelper.CarouselLayoutManager
 import digital.upbeat.estisharati_user.CarouselHelper.CarouselZoomPostLayoutListener
@@ -40,12 +41,12 @@ class PackageAdapter(val context: Context, val packages: Packages, val arrayList
         arrayList.add("Health and Fitness")
         arrayList.add("Finance and Accounting")
         arrayList.add("Health and Fitness")
-        val layoutManager = CarouselLayoutManager(CarouselLayoutManager.HORIZONTAL, false)
-        layoutManager.setPostLayoutListener(CarouselZoomPostLayoutListener())
-        holder.consultant_profile_recycler.addOnScrollListener(CenterScrollListener())
+//        val layoutManager = CarouselLayoutManager(CarouselLayoutManager.HORIZONTAL, false)
+//        layoutManager.setPostLayoutListener(CarouselZoomPostLayoutListener())
+//        holder.consultant_profile_recycler.addOnScrollListener(CenterScrollListener())
         holder.consultant_profile_recycler.setHasFixedSize(true)
         holder.consultant_profile_recycler.removeAllViews()
-        holder.consultant_profile_recycler.layoutManager = layoutManager
+        holder.consultant_profile_recycler.layoutManager = LinearLayoutManager(packages,LinearLayoutManager.HORIZONTAL,false)
         holder.consultant_profile_recycler.adapter = ConsultantProfileAdapter(context, packages, arrayList)
     }
 }

@@ -74,11 +74,11 @@
                         android:layout_marginTop="50dp"
                         android:fontFamily="@font/almarai_regular"
                         android:text="The idea of ​​the project is based on the work of an application in which the written and audio chatting service and a special part for consultations' The application is divided into two sections, a free chat section for users' and another paid part for consulting 'and if the user wants to choose the consulting section he finds it divided into two groups:
-                    \nThe first section: It contains training courses that are displayed on the application, the user is not entitled to download or save them on his device, as the user is allowed to view them after paying the value due.
+                    \n\nThe first section: It contains training courses that are displayed on the application, the user is not entitled to download or save them on his device, as the user is allowed to view them after paying the value due.
                     \nThe second  section: the user chooses the type of consultation and then chooses one of the consultants registered on the application ‘then the user determines how to chat (written - audio - video)"
 
-                        android:textColor="@color/black_light"
-                        android:textSize="16sp" />
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
                 </LinearLayout>
 
             </ScrollView>

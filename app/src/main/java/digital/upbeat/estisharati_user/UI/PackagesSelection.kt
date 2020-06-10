@@ -23,6 +23,6 @@ class PackagesSelection : AppCompatActivity() {
     fun clickEvents() {
         nav_back.setOnClickListener { finish() }
         change_packages.setOnClickListener { finish() }
-        proceed.setOnClickListener { startActivity(Intent(this@PackagesSelection, ThanksPage::class.java)) }
+        proceed.setOnClickListener { startActivity(Intent(this@PackagesSelection, PaymentMethods::class.java)) }
     }
 }

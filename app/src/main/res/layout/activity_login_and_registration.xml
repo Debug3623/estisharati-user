@@ -95,11 +95,12 @@
                     android:orientation="vertical">
 
                     <EditText
+                        android:id="@+id/email_phone_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/transparent"
                         android:fontFamily="@font/almarai_regular"
-                        android:hint="Email Address"
+                        android:hint="Email Address or Phone Number"
                         android:inputType="textEmailAddress"
                         android:paddingLeft="0dp"
                         android:paddingBottom="10dp"
@@ -244,6 +245,7 @@
                             android:textSize="15sp" />
 
                         <TextView
+                            android:id="@+id/terms_policy"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
@@ -546,6 +548,7 @@
                             android:textSize="15sp" />
 
                         <TextView
+                            android:id="@+id/terms_policy1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/almarai_regular"

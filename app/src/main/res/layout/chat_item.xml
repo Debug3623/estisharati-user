@@ -67,6 +67,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/other_image_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:elevation="3dp"
@@ -164,6 +165,7 @@
             android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/me_image_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="3dp"

@@ -30,11 +30,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:fontFamily="@font/almarai_regular"
             android:text="Basics of employment"
             android:textColor="@color/black_light"
-            android:textSize="15sp" />
+            android:textSize="13sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -49,11 +49,11 @@
                 android:layout_height="wrap_content"
                 android:text="4.5"
                 android:textColor="@color/yellow"
-                android:textSize="14sp" />
+                android:textSize="13sp" />
 
             <ImageView
-                android:layout_width="13dp"
-                android:layout_height="13dp"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
                 android:layout_marginLeft="5dp"
                 android:src="@drawable/ic_star_yellow" />
         </LinearLayout>
@@ -64,7 +64,7 @@
             android:layout_marginTop="5dp"
             android:text="AUD 1.599"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
     </LinearLayout>
 
 

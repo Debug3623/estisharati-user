@@ -16,17 +16,17 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/almarai_bold"
             android:gravity="center"
             android:text="How was your experience?"
             android:textColor="@color/black"
-            android:textSize="25sp" />
+            android:textSize="23sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/almarai_regular"
             android:gravity="center"
             android:text="Your opinion will help improve the level of service"
@@ -39,15 +39,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
             android:isIndicator="false"
             android:numStars="5"
             android:progressBackgroundTint="@color/black"
             android:progressTint="@color/yellow"
             android:rating="4"
-            android:scaleX="3.5"
-            android:scaleY="3.5"
+            android:scaleX="3.3"
+            android:scaleY="3.53"
             android:secondaryProgressTint="@color/yellow" />
 
         <TextView

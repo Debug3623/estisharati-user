@@ -37,8 +37,8 @@
                 android:fontFamily="@font/almarai_regular"
                 android:lines="3"
                 android:text="Introduction to human resources tasks "
-                android:textColor="@color/black_light"
-                android:textSize="15sp" />
+                android:textColor="@color/black"
+                android:textSize="14sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -76,7 +76,7 @@
                         android:layout_centerVertical="true"
                         android:fontFamily="@font/almarai_regular"
                         android:text="complete 70%"
-                        android:textColor="@color/black_light"
+                        android:textColor="@color/dark_gray"
                         android:textSize="14sp" />
 
                     <TextView

@@ -22,7 +22,9 @@ class ChatPage : AppCompatActivity() {
         helperMethods = HelperMethods(this@ChatPage)
     }
 
-    fun clickEvents() {}
+    fun clickEvents() {
+        nav_back.setOnClickListener { finish() }
+    }
     fun InitializeRecyclerview() {
         val arrayList: ArrayList<String> = arrayListOf()
         arrayList.add("Marketing advice")

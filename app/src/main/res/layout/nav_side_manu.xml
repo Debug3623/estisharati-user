@@ -35,6 +35,7 @@
                     android:orientation="horizontal">
 
                     <digital.upbeat.estisharati_user.Utils.CircleImageView
+                       android:id="@+id/user_image"
                         android:layout_width="65dp"
                         android:layout_height="65dp"
                         android:elevation="3dp"
@@ -50,6 +51,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/user_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/almarai_regular"
@@ -410,6 +412,7 @@
                 </RadioGroup>
 
                 <TextView
+                    android:id="@+id/nav_logout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="40dp"

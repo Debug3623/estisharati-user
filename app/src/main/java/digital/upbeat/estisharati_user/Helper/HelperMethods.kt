@@ -29,6 +29,7 @@ import android.text.Html
 import android.text.Spanned
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
@@ -82,9 +83,9 @@ class HelperMethods(val context: Context) {
         mTimePicker.show()
     }
 
-    fun isValidPassword(password: String?): Boolean {
+    fun isValidPassword(password: String): Boolean {
         val specialCharacters = "-@%\\[\\}+'!/#$^?:;,\\(\"\\)~`.*=&\\{>\\]<_"
-        val PASSWORD_PATTERN = "((?=.*\\d)(?=.*[a-zA-Z])(?=.*[-@%\\[\\}+'!/#$^?:;,\\(\"\\)~`.*=&\\{>\\]<_]).{6,})"
+        val PASSWORD_PATTERN = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-@%\\[\\}+'!/#$^?:;,\\(\"\\)~`.*=&\\{>\\]<_]).{8,})"
         val pattern = Pattern.compile(PASSWORD_PATTERN)
         return pattern.matcher(password).matches()
     }
@@ -116,7 +117,15 @@ class HelperMethods(val context: Context) {
         imm.hideSoftInputFromWindow(input.windowToken, 0)
     }
 
-    fun ShowProgressDialog(msg: String) {
+    val getProfileRequestOption: RequestOptions
+        get() {
+            val requestOptions = RequestOptions()
+            requestOptions.placeholder(R.drawable.ic_img_no_avatar)
+            requestOptions.error(R.drawable.ic_img_no_avatar)
+            return requestOptions
+        }
+
+    fun showProgressDialog(msg: String) {
         if (dialog != null) {
             if (dialog!!.isShowing) {
                 dialog!!.dismiss()
@@ -137,7 +146,7 @@ class HelperMethods(val context: Context) {
         dialog!!.show()
     }
 
-    fun DismissProgressDialog() {
+    fun dismissProgressDialog() {
         try {
             if (dialog != null) {
                 if (dialog!!.isShowing) {
@@ -163,6 +172,26 @@ class HelperMethods(val context: Context) {
                 view.systemUiVisibility = flags
             }
         }
+    }
+
+    fun setStatusBarColorLightIcon(activity: Activity, StatusBarColor: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val window = activity.window
+            val view = window.decorView
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_OVERSCAN)
+            window.statusBarColor = ContextCompat.getColor(activity, StatusBarColor)
+            //            window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                var flags = view.systemUiVisibility
+                flags = flags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                view.systemUiVisibility = flags
+            }
+        }
+    }
+
+    fun showToastMessage(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
     fun SelfPermission(activity: Activity?) {
@@ -266,23 +295,45 @@ class HelperMethods(val context: Context) {
         }
     }
 
-    fun isvalidMobileNumber(number: String): Boolean {
-        return try {
-            if (!number.trim().equals("", ignoreCase = true)) {
-                if (number.trim().length >= 10 && number.toLong() > 0) {
-                    true
-                } else {
-                    false
-                }
-            } else {
-                false
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            false
-        }
+    fun isValidPassword(password: String?): Boolean? {
+        val specialCharacters = "-@%\\[\\}+'!/#$^?:;,\\(\"\\)~`.*=&\\{>\\]<_"
+        val PASSWORD_PATTERN = "((?=.*\\d)(?=.*[a-zA-Z])(?=.*[-@%\\[\\}+'!/#$^?:;,\\(\"\\)~`.*=&\\{>\\]<_]).{8,})"
+        val pattern = Pattern.compile(PASSWORD_PATTERN)
+        return pattern.matcher(password).matches()
     }
 
+    fun isValidMobile(phone: String): Boolean {
+        var check = false
+        check = if (!Pattern.matches("[a-zA-Z]+", phone)) {
+            if (phone.length < 9 || phone.length > 13) {
+                // if(phone.length() != 10) {
+                false
+                // txtPhone.setError("Not Valid Number");
+            } else {
+                Patterns.PHONE.matcher(phone).matches()
+            }
+        } else {
+            false
+        }
+        return check
+    }
+
+    //    fun isvalidMobileNumber(number: String): Boolean {
+    //        return try {
+    //            if (!number.trim().equals("", ignoreCase = true)) {
+    //                if (number.trim().length >= 10 && number.toLong() > 0) {
+    //                    true
+    //                } else {
+    //                    false
+    //                }
+    //            } else {
+    //                false
+    //            }
+    //        } catch (e: Exception) {
+    //            e.printStackTrace()
+    //            false
+    //        }
+    //    }
     val requestOption: RequestOptions
         get() {
             val requestOptions = RequestOptions()

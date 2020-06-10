@@ -54,14 +54,17 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:gravity="center"
+            android:weightSum="10"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/change_packages"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="4.5"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
+                android:layout_margin="10dp"
                 android:background="@drawable/corner_redius_15dp_white"
                 android:elevation="3dp"
                 android:orientation="vertical"
@@ -70,12 +73,12 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="23dp"
                     android:fontFamily="@font/almarai_regular"
                     android:gravity="center"
                     android:text="Packages"
                     android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -86,23 +89,25 @@
                     android:gravity="center"
                     android:text="Monthly / Yearly"
                     android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <RelativeLayout
-                android:layout_width="190dp"
+                android:layout_width="0dp"
+                android:layout_weight="5.5"
                 android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
+                    android:layout_margin="10dp"
                     android:background="@drawable/corner_redius_15dp_parrot_green"
                     android:elevation="3dp"
                     android:orientation="vertical"
                     android:padding="20dp">
 
                     <LinearLayout
+                        android:layout_marginTop="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
@@ -114,7 +119,7 @@
                             android:fontFamily="@font/almarai_regular"
                             android:text="AUD"
                             android:textColor="@color/light_green"
-                            android:textSize="16sp" />
+                            android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -123,7 +128,7 @@
                             android:text="1.599"
                             android:singleLine="true"
                             android:textColor="@color/light_green"
-                            android:textSize="30sp"
+                            android:textSize="25sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -137,14 +142,14 @@
                         android:gravity="center"
                         android:text="One Time"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="5dp"
                     android:elevation="4dp"
                     android:src="@drawable/ic_check_round_green" />
             </RelativeLayout>
