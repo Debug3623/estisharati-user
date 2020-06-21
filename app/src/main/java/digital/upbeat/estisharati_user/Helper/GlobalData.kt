@@ -7,4 +7,6 @@ object GlobalData {
     const val PICK_IMAGE_CAMERA = 2
     var LanguageCode = "en"
     var BaseUrl = "https://super-servers.com/estisharati/api/v1/$LanguageCode/"
+    var profileUpdate=false
+    var FcmToken=""
 }

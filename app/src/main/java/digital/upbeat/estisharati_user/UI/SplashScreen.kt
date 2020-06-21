@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.iid.FirebaseInstanceId
+import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
@@ -15,6 +18,18 @@ class SplashScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
+        FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener(OnCompleteListener {
+            if (!it.isSuccessful) {
+                Log.d("FirebaseInstanceId   ", "FirebaseInstanceId failed", it.exception)
+                return@OnCompleteListener
+            }
+            it.result?.let {
+                GlobalData.FcmToken=it.token
+            }
+            Log.e("FirebaseInstanceId",it.result!!.token)
+
+        })
+
         initViews()
         startCountDownTimer()
     }
@@ -26,9 +41,12 @@ class SplashScreen : AppCompatActivity() {
     }
 
     fun startCountDownTimer() {
+
+
         object : CountDownTimer(2000, 1000) {
             override fun onFinish() {
                 if (preferencesHelper.isUserLogIn) {
+
                     startActivity(Intent(this@SplashScreen, UserDrawer::class.java))
                 } else {
                     startActivity(Intent(this@SplashScreen, LoginAndRegistration::class.java))

@@ -42,9 +42,11 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.request.RequestOptions
+import com.google.firebase.firestore.FirebaseFirestore
 import digital.upbeat.estisharati_user.R
 import java.io.ByteArrayOutputStream
 import java.io.IOException
+import java.lang.String.format
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -54,10 +56,12 @@ class HelperMethods(val context: Context) {
     val calendarInstance: Calendar
     var dialog: android.app.AlertDialog? = null
     val preferencesHelper: SharedPreferencesHelper
+    val firebaseFirestore:FirebaseFirestore
 
     init {
         preferencesHelper = SharedPreferencesHelper(context)
         calendarInstance = Calendar.getInstance()
+        firebaseFirestore= FirebaseFirestore.getInstance()
     }
 
     fun ShowDatePickerDialog(date_picker_text: TextView) {
@@ -117,7 +121,7 @@ class HelperMethods(val context: Context) {
         imm.hideSoftInputFromWindow(input.windowToken, 0)
     }
 
-    val getProfileRequestOption: RequestOptions
+    val profileRequestOption: RequestOptions
         get() {
             val requestOptions = RequestOptions()
             requestOptions.placeholder(R.drawable.ic_img_no_avatar)
@@ -191,12 +195,13 @@ class HelperMethods(val context: Context) {
     }
 
     fun showToastMessage(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+
     }
 
-    fun SelfPermission(activity: Activity?) {
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.CAMERA, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), 123)
+    fun selfPermission(activity: Activity?) {
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.RECORD_AUDIO), 123)
         }
     }
 
@@ -238,7 +243,7 @@ class HelperMethods(val context: Context) {
                 dialog.dismiss()
             }
         } else {
-            SelfPermission(activity)
+            selfPermission(activity)
         }
     }
 
@@ -256,7 +261,7 @@ class HelperMethods(val context: Context) {
         return DecimalFormat("00").format(minutes) + "." + DecimalFormat("00").format(seconds.toLong())
     }
 
-    fun SendPushNotification(title: String?, text: String?) {
+    fun sendPushNotification(title: String, text: String) {
         //        Intent intent=null;
         //        if(BaseIntent!=null||!BaseIntent.equalsIgnoreCase("")){
         //            intent=new Intent(BaseIntent);
@@ -265,7 +270,7 @@ class HelperMethods(val context: Context) {
         //            intent=new Intent();
         //        }
         val num = System.currentTimeMillis().toInt()
-        val CHANNEL_ID = "RideHomeUser"
+        val CHANNEL_ID = "EstisharatiUser"
         val pendingIntent = PendingIntent.getActivity(context, num, Intent(), PendingIntent.FLAG_UPDATE_CURRENT)
         val notification = NotificationCompat.Builder(context, CHANNEL_ID).setTicker(context.getString(R.string.app_name)).setContentTitle(title).setContentText(text).setStyle(NotificationCompat.BigTextStyle().bigText(text)).setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)).setColor(ContextCompat.getColor(context, R.color.yellow)).setSmallIcon(R.drawable.ic_logo).setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_logo)).setVibrate(longArrayOf(100, 100, 100, 100, 100)).setChannelId(CHANNEL_ID).setContentIntent(pendingIntent)
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -273,7 +278,7 @@ class HelperMethods(val context: Context) {
             val audioAttributes = AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).setUsage(AudioAttributes.USAGE_NOTIFICATION).build()
             val importance = NotificationManager.IMPORTANCE_HIGH
             val mChannel = NotificationChannel(CHANNEL_ID, "Ride Home", importance)
-            mChannel.description = "Ride Home Notification Settings"
+            mChannel.description = "Estisharati Notification Settings"
             mChannel.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION), audioAttributes)
             mChannel.enableLights(true)
             mChannel.lightColor = ContextCompat.getColor(context, R.color.yellow)
@@ -301,7 +306,47 @@ class HelperMethods(val context: Context) {
         val pattern = Pattern.compile(PASSWORD_PATTERN)
         return pattern.matcher(password).matches()
     }
+    fun setUserDetailsToFirestore(user_id:String,hashMap: HashMap<String,Any>){
+        firebaseFirestore.collection("Users").document(user_id).set(hashMap).addOnSuccessListener {
 
+        }.addOnFailureListener {
+            it.localizedMessage?.let {
+                Log.d("firebaseFirestore",it)
+
+            }
+        }
+    }
+
+    fun updateUserDetailsToFirestore(user_id:String,hashMap: HashMap<String,Any>){
+        firebaseFirestore.collection("Users").document(user_id).update(hashMap).addOnSuccessListener {
+
+        }.addOnFailureListener {
+            it.localizedMessage?.let {
+                Log.d("firebaseFirestore",it)
+
+            }
+        }
+    }
+    fun setCallsDetailsToFirestore(id:String,hashMap: HashMap<String,Any>){
+        firebaseFirestore.collection("Calls").document(id).set(hashMap).addOnSuccessListener {
+
+        }.addOnFailureListener {
+            it.localizedMessage?.let {
+                Log.d("firebaseFirestore",it)
+
+            }
+        }
+    }
+    fun updateCallsDetailsToFirestore(id:String,hashMap: HashMap<String,Any>){
+        firebaseFirestore.collection("Calls").document(id).update(hashMap).addOnSuccessListener {
+
+        }.addOnFailureListener {
+            it.localizedMessage?.let {
+                Log.d("firebaseFirestore",it)
+
+            }
+        }
+    }
     fun isValidMobile(phone: String): Boolean {
         var check = false
         check = if (!Pattern.matches("[a-zA-Z]+", phone)) {
@@ -317,7 +362,23 @@ class HelperMethods(val context: Context) {
         }
         return check
     }
-
+    fun getFormattedDate(timeInMilis: Long): String? {
+        val smsTime = Calendar.getInstance()
+        smsTime.timeInMillis = timeInMilis
+        val now = Calendar.getInstance()
+        val timeFormatString = "h:mm aa"
+        val dateTimeFormatString = "EEEE, MMMM d, h:mm aa"
+        val HOURS = 60 * 60 * 60.toLong()
+        return if (now[Calendar.DATE] === smsTime[Calendar.DATE]) {
+            "Today " + SimpleDateFormat(timeFormatString).format( smsTime.time)
+        } else if (now[Calendar.DATE] - smsTime[Calendar.DATE] === 1) {
+            "Yesterday " + SimpleDateFormat(timeFormatString).format( smsTime.time)
+        } else if (now[Calendar.YEAR] === smsTime[Calendar.YEAR]) {
+            SimpleDateFormat(dateTimeFormatString).format( smsTime.time).toString()
+        } else {
+            SimpleDateFormat("MMMM dd yyyy, h:mm aa").format( smsTime.time).toString()
+        }
+    }
     //    fun isvalidMobileNumber(number: String): Boolean {
     //        return try {
     //            if (!number.trim().equals("", ignoreCase = true)) {

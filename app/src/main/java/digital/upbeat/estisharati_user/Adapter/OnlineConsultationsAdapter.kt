@@ -1,29 +1,48 @@
 package digital.upbeat.estisharati_user.Adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import digital.upbeat.estisharati_user.DataClassHelper.DataUserFireStore
 import digital.upbeat.estisharati_user.Fragment.Home
+import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.R
 import digital.upbeat.estisharati_user.UI.ChatHome
+import digital.upbeat.estisharati_user.UI.ChatPage
 import digital.upbeat.estisharati_user.ViewHolder.ExpConsultationsViewHolder
 import digital.upbeat.estisharati_user.ViewHolder.ExpCoursesViewHolder
 import digital.upbeat.estisharati_user.ViewHolder.OnlineConsultationsViewHolder
 import digital.upbeat.estisharati_user.ViewHolder.OnlineUserViewHolder
 
-class OnlineConsultationsAdapter(val context: Context, val chatHome: ChatHome, val arrayListStr: ArrayList<String>) : RecyclerView.Adapter<OnlineConsultationsViewHolder>() {
+class OnlineConsultationsAdapter(val context: Context, val chatHome: ChatHome, val dataUserFireStoreArraylist: ArrayList<DataUserFireStore>) : RecyclerView.Adapter<OnlineConsultationsViewHolder>() {
+    var helperMethods: HelperMethods
+
+    init {
+        helperMethods = HelperMethods(context)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OnlineConsultationsViewHolder {
         val layoutView = LayoutInflater.from(context).inflate(R.layout.online_consultations_item, parent, false)
         return OnlineConsultationsViewHolder(layoutView)
     }
 
     override fun getItemCount(): Int {
-        return arrayListStr.size
+        return dataUserFireStoreArraylist.size
     }
 
     override fun onBindViewHolder(holder: OnlineConsultationsViewHolder, position: Int) {
+        val dataUserFireStore = dataUserFireStoreArraylist.get(position)
+        Glide.with(context).load(dataUserFireStore.image).apply(helperMethods.profileRequestOption).into(holder.profile_picture)
+        holder.name.text = dataUserFireStore.fname + " " + dataUserFireStore.lname
+        holder.consultants_layout.setOnClickListener {
+            val intent =Intent(context,ChatPage::class.java)
+            intent.putExtra("user_id",dataUserFireStore.user_id)
+            context.startActivity(intent)
 
+        }
     }
 }

@@ -3,6 +3,7 @@ package digital.upbeat.estisharati_user.Fragment
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,21 +12,35 @@ import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
+import com.google.firebase.firestore.*
 import digital.upbeat.estisharati_user.Adapter.*
 import digital.upbeat.estisharati_user.DataClassHelper.DataBoarding
+import digital.upbeat.estisharati_user.DataClassHelper.DataUser
+import digital.upbeat.estisharati_user.DataClassHelper.DataUserFireStore
 import digital.upbeat.estisharati_user.Helper.HelperMethods
+import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.UI.IncomingCall
 import digital.upbeat.estisharati_user.UI.LegalAdvice
 import digital.upbeat.estisharati_user.UI.MyCourses
 import digital.upbeat.estisharati_user.Utils.CirclePageIndicator
 import kotlinx.android.synthetic.main.fragment_home.*
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class Home : Fragment() {
     lateinit var helperMethods: HelperMethods
+    lateinit var preferencesHelper: SharedPreferencesHelper
     var homePagerAdapter: HomePagerAdapter? = null
     var count = 0
     private var handler: Handler = Handler()
     val delay: Long = 3000
+    lateinit var firestore: FirebaseFirestore
+    lateinit var dataUser: DataUser
+    lateinit var dataUserFireStore: DataUserFireStore
+    var onlineUserListener: ListenerRegistration? = null
+    var incomingCallListener: ListenerRegistration? = null
     var runnable: Runnable = object : Runnable {
         override fun run() {
             if (count == homePagerAdapter!!.count - 1) {
@@ -37,7 +52,7 @@ class Home : Fragment() {
             handler.postDelayed(this, delay.toLong())
         }
     }
-
+    var onlineUserArraylist = arrayListOf<DataUserFireStore>()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
@@ -46,6 +61,7 @@ class Home : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
+        firestoreLisiner()
         clickEvents()
         ShowViewPager()
         InitializeRecyclerview()
@@ -53,12 +69,19 @@ class Home : Fragment() {
 
     fun initViews() {
         helperMethods = HelperMethods(requireContext())
+        preferencesHelper = SharedPreferencesHelper(requireContext())
+        firestore = FirebaseFirestore.getInstance()
+        dataUser = preferencesHelper.getLogInUser()
+        val hashMap = hashMapOf<String, Any>("online_status" to true)
+        helperMethods.updateUserDetailsToFirestore(dataUser.id, hashMap)
     }
 
     fun clickEvents() {
         ask_for_advice.setOnClickListener {
             startActivity(Intent(requireContext(), LegalAdvice::class.java))
         }
+        exp_consultations_all.setOnClickListener {}
+        exp_courses_all.setOnClickListener {}
     }
 
     private fun ShowViewPager() {
@@ -81,6 +104,14 @@ class Home : Fragment() {
     override fun onPause() {
         super.onPause()
         handler.removeCallbacks(runnable)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        onlineUserListener?.remove()
+        incomingCallListener?.remove()
+        val hashMap = hashMapOf<String, Any>("online_status" to false, "last_seen" to FieldValue.serverTimestamp())
+        helperMethods.updateUserDetailsToFirestore(dataUser.id, hashMap)
     }
 
     fun InitializeRecyclerview() {
@@ -120,26 +151,43 @@ class Home : Fragment() {
 
         exp_consultations_recycler1.setHasFixedSize(true)
         exp_consultations_recycler1.removeAllViews()
-        exp_consultations_recycler1.layoutManager = LinearLayoutManager(requireContext(),  LinearLayoutManager.HORIZONTAL, false)
+        exp_consultations_recycler1.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         exp_consultations_recycler1.adapter = ExpConsultationsAdapter(requireContext(), this, arrayList)
 
         exp_courses_recycler.setHasFixedSize(true)
         exp_courses_recycler.removeAllViews()
         exp_courses_recycler.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         exp_courses_recycler.adapter = ExpCoursesAdapter(requireContext(), this, arrayList)
+    }
 
-        arrayList.clear()
-        arrayList.add("Money & business")
-        arrayList.add("Law")
-        arrayList.add("Marketing")
-        arrayList.add("Design")
-        arrayList.add("Human Development")
-        arrayList.add("Human Development")
+    fun firestoreLisiner() {
+        onlineUserListener = firestore.collection("Users").addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+            querySnapshot?.let {
+                onlineUserArraylist = arrayListOf<DataUserFireStore>()
+                for (data in querySnapshot) {
+                    val dataUserFireStore = data.toObject(DataUserFireStore::class.java)
+                    if (!dataUserFireStore.user_id.equals(dataUser.id)) {
+                        onlineUserArraylist.add(dataUserFireStore)
+                    }
+                }
+                initializeOnlineUserRecyclerview()
+            }
+        }
 
+        incomingCallListener = firestore.collection("Users").document(dataUser.id).addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
+            documentSnapshot?.let {
+                dataUserFireStore = documentSnapshot.toObject(DataUserFireStore::class.java)!!
+                if (!dataUserFireStore.channel_unique_id.equals("")) {
+                    startActivity(Intent(requireContext(), IncomingCall::class.java))
+                }
+            }
+        }
+    }
 
+    fun initializeOnlineUserRecyclerview() {
         online_user_recycler.setHasFixedSize(true)
         online_user_recycler.removeAllViews()
         online_user_recycler.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        online_user_recycler.adapter = OnlineUserAdapter(requireContext(), this, arrayList)
+        online_user_recycler.adapter = OnlineUserAdapter(requireContext(), this, onlineUserArraylist)
     }
 }

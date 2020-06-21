@@ -1,4 +1,4 @@
-package com.hexagonitsolutions.ridehomeuser.ApiHelper
+package digital.upbeat.estisharati_user.ApiHelper
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

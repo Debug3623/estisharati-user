@@ -80,6 +80,7 @@
                     android:padding="15dp">
 
                     <TextView
+                        android:id="@+id/user_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="50dp"
@@ -111,6 +112,7 @@
                                 android:src="@drawable/ic_courses" />
 
                             <TextView
+                                android:id="@+id/courses_count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
@@ -149,6 +151,7 @@
                                 android:src="@drawable/ic_my_consultations" />
 
                             <TextView
+                                android:id="@+id/consultations_count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
@@ -186,7 +189,8 @@
                                 android:adjustViewBounds="true"
                                 android:src="@drawable/ic_diamond_green" />
 
-                            <TextView
+                                <TextView
+                                android:id="@+id/current_package"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="13dp"
@@ -276,6 +280,7 @@
                         android:background="@drawable/ic_email" />
 
                     <TextView
+                        android:id="@+id/email_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"

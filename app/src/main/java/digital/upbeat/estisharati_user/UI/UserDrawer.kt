@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide
 import digital.upbeat.estisharati_user.DataClassHelper.DataUser
 import digital.upbeat.estisharati_user.Fragment.Consultations
 import digital.upbeat.estisharati_user.Fragment.Home
+import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
@@ -51,10 +52,19 @@ class UserDrawer : AppCompatActivity() {
         radioArabic = language_group.findViewById(R.id.radio_arabic) as RadioButton
         almarai_bold = ResourcesCompat.getFont(this@UserDrawer, R.font.almarai_bold)!!
         almarai_regular = ResourcesCompat.getFont(this@UserDrawer, R.font.almarai_regular)!!
+        dataUser = preferencesHelper.getLogInUser()
 
-        dataUser=  preferencesHelper.getLogInUser()
 
         supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, Home()).commit()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (GlobalData.profileUpdate) {
+            dataUser = preferencesHelper.getLogInUser()
+            GlobalData.profileUpdate = false
+            setUserDetails()
+        }
     }
 
     fun clickEvents() {
@@ -113,13 +123,14 @@ class UserDrawer : AppCompatActivity() {
             startActivity(Intent(this@UserDrawer, MyProfile::class.java))
         }
         nav_logout.setOnClickListener {
-            LogOutPopup("LogOut", "Are you sure?\n" + "Do you want to logout!")
+            LogOutPopup("LogOut", "Are you sure?\n" + "Do you want to logout !")
         }
     }
 
     fun setUserDetails() {
         user_name.text = "${dataUser.fname} ${dataUser.lname}"
-        Glide.with(this@UserDrawer).load(dataUser.image+"123").apply(helperMethods.getProfileRequestOption).into(user_image)
+        Glide.with(this@UserDrawer).load(dataUser.image).apply(helperMethods.profileRequestOption).into(user_image)
+        package_name.text = "${dataUser.subscription.current_package} Package"
     }
 
     fun LogOutPopup(titleStr: String, messageStr: String) {

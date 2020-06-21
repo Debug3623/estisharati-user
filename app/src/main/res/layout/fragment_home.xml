@@ -73,6 +73,7 @@
                             android:textSize="18sp" />
 
                         <TextView
+                            android:id="@+id/exp_consultations_all"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -175,6 +176,7 @@
                             android:textSize="18sp" />
 
                         <TextView
+                            android:id="@+id/exp_courses_all"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"

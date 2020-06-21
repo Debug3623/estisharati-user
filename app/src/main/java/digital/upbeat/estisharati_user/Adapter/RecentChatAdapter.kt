@@ -22,6 +22,6 @@ class RecentChatAdapter(val context: Context, val chatHome: ChatHome, val arrayL
     }
 
     override fun onBindViewHolder(holder: RecentChatViewHolder, position: Int) {
-        holder.parent_layout.setOnClickListener { context.startActivity(Intent(context, ChatPage::class.java)) }
+        holder.parent_layout.setOnClickListener {  }
     }
 }

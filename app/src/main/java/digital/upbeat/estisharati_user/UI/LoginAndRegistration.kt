@@ -10,8 +10,10 @@ import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.View
 import android.widget.EditText
-import com.hexagonitsolutions.ridehomeuser.ApiHelper.RetrofitApiClient
-import com.hexagonitsolutions.ridehomeuser.ApiHelper.RetrofitInterface
+import com.google.firebase.firestore.FieldValue
+import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
+import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
+import digital.upbeat.estisharati_user.DataClassHelper.DataSubscription
 import digital.upbeat.estisharati_user.DataClassHelper.DataUser
 import digital.upbeat.estisharati_user.DataClassHelper.DataUserMetas
 import digital.upbeat.estisharati_user.Helper.GlobalData
@@ -103,11 +105,7 @@ class LoginAndRegistration : AppCompatActivity() {
             login_layout.visibility = View.GONE
             register_layout.visibility = View.VISIBLE
         }
-        register.setOnClickListener {
-            val intent = Intent(this@LoginAndRegistration, Verification::class.java)
-            intent.putExtra("come_from", "LoginAndRegistration")
-            startActivityForResult(intent, 123)
-        }
+
         nav_forget_password.setOnClickListener { startActivity(Intent(this@LoginAndRegistration, ForgotPassword::class.java)) }
         terms_policy.setOnClickListener {
             val intent = Intent(this@LoginAndRegistration, WebView::class.java)
@@ -122,8 +120,17 @@ class LoginAndRegistration : AppCompatActivity() {
             startActivity(intent)
         }
         btn_login.setOnClickListener {
+
+            val remember=if(remember_me.isChecked)"on" else "off"
             if (loginValidation()) {
-                LgoinInApiCall(email_phone_number.toText(), password.toText())
+
+
+                logInApiCall(email_phone_number.toText(), password.toText(),remember)
+            }
+        }
+        register.setOnClickListener {
+            if (registrationValidation()) {
+                registrationApiCall(reg_fname.toText(), reg_lname.toText(), reg_email_address.toText(), codePicker.selectedCountryCodeWithPlus + "" + reg_phone.toText(), reg_password.toText())
             }
         }
     }
@@ -133,15 +140,17 @@ class LoginAndRegistration : AppCompatActivity() {
             helperMethods.showToastMessage("Enter email address or phone number")
             return false
         }
+        if (!helperMethods.isvalidEmail(email_phone_number.toText())) {
+            helperMethods.AlertPopup("Alert", "Enter valid email address")
+            return false
+            //            if (!helperMethods.isValidMobile(email_phone_number.toText())) {
+            //                helperMethods.AlertPopup("Alert", "Enter valid email address or vaid phone number with country code")
+            //                return false
+            //            }
+        }
         if (password.toText().equals("")) {
             helperMethods.showToastMessage("Enter password")
             return false
-        }
-        if (!helperMethods.isvalidEmail(email_phone_number.toText())) {
-            if (!helperMethods.isValidMobile(email_phone_number.toText())) {
-                helperMethods.AlertPopup("Alert", "Enter valid email address or vaid phone number with country code")
-                return false
-            }
         }
         if (!helperMethods.isValidPassword(password.toText())) {
             helperMethods.AlertPopup("Alert", "Password at least 8 characters including a lower-case letter, an upper–case letter, a number and one special character")
@@ -155,9 +164,9 @@ class LoginAndRegistration : AppCompatActivity() {
         return true
     }
 
-    fun LgoinInApiCall(userId: String, password: String) {
+    fun logInApiCall(userIdStr: String, password: String,remember:String) {
         helperMethods.showProgressDialog("Please wait while login in...")
-        val responseBodyCall = retrofitInterface.LOGIN_API_CALL(userId, password)
+        val responseBodyCall = retrofitInterface.LOGIN_API_CALL(userIdStr, password,remember,GlobalData.FcmToken)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()
@@ -177,13 +186,45 @@ class LoginAndRegistration : AppCompatActivity() {
                                 val phone = userObject.getString("phone")
                                 val image = userObject.getString("image")
                                 val member_since = userObject.getString("member_since")
+
                                 val user_metasStr = userObject.getString("user_metas")
                                 val userMetasObject = JSONObject(user_metasStr)
                                 val city = userMetasObject.getString("city")
                                 val contact = userMetasObject.getString("contact")
+                                val fire_base_token = userMetasObject.getString("fire_base_token")
+
                                 val user_metas = DataUserMetas(city, contact)
+
+                                val subscription_str = userObject.getString("subscription")
+                                val subscriptionObject = JSONObject(subscription_str)
+                                val courses = subscriptionObject.getString("courses")
+                                val consultations = subscriptionObject.getString("consultations")
+                                val current_package = subscriptionObject.getString("package")
+                                val subscription = DataSubscription(courses, consultations,current_package)
+
                                 val access_token = userObject.getString("access_token")
-                                val dataUser = DataUser(id, fname, lname, email, phone, image, member_since, user_metas, access_token)
+                                val dataUser = DataUser(id, fname, lname, email, phone, image, member_since, user_metas, access_token,subscription)
+
+                                val hashMap= hashMapOf<String,Any>()
+                                hashMap.put("user_id",id)
+                                hashMap.put("fname",fname)
+                                hashMap.put("lname",lname)
+                                hashMap.put("email",email)
+                                hashMap.put("phone",phone)
+                                hashMap.put("image",image)
+                                hashMap.put("fire_base_token",fire_base_token)
+                                hashMap.put("user_type","user")
+                                hashMap.put("online_status",true)
+                                hashMap.put("last_seen",FieldValue.serverTimestamp())
+                                hashMap.put("availability",true)
+                                hashMap.put("channel_unique_id","")
+
+
+//                                hashMap.put("call_type","")
+//                                hashMap.put("call_connected_time",FieldValue.serverTimestamp())
+//                                hashMap.put("call_status","")
+                                helperMethods.setUserDetailsToFirestore(id,hashMap)
+
                                 preferencesHelper.isUserLogIn = true
                                 preferencesHelper.setLogInUser(dataUser)
                                 startActivity(Intent(this@LoginAndRegistration, UserDrawer::class.java))
@@ -213,6 +254,106 @@ class LoginAndRegistration : AppCompatActivity() {
                 helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
+    }
+
+    fun registrationApiCall(fname: String, lname: String, email: String, phone: String, passwrod: String) {
+        helperMethods.showProgressDialog("Please wait while registering...")
+        val responseBodyCall = retrofitInterface.REGISTER_API_CALL(fname, lname, email, phone, passwrod, "User")
+        responseBodyCall.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                helperMethods.dismissProgressDialog()
+
+                if (response.isSuccessful) {
+                    if (response.body() != null) {
+                        try {
+                            val jsonObject = JSONObject(response.body()!!.string())
+                            val status = jsonObject.getString("status")
+                            if (status.equals("200")) {
+                                val code = jsonObject.getString("code")
+                                val message = jsonObject.getString("message")
+                                helperMethods.sendPushNotification("Estisharati", "OTP code is " + code)
+                                helperMethods.showToastMessage(message)
+                                val intent = Intent(this@LoginAndRegistration, Verification::class.java)
+                                intent.putExtra("come_from", "Registration")
+                                intent.putExtra("phone", phone)
+                                intent.putExtra("password", passwrod)
+                                intent.putExtra("verified", "")
+                                startActivityForResult(intent, 123)
+                            } else {
+                                val message = jsonObject.getString("message")
+                                val verified = jsonObject.optBoolean("verified", true)
+                                if (!verified) {
+                                    val intent = Intent(this@LoginAndRegistration, Verification::class.java)
+                                    intent.putExtra("come_from", "Registration")
+                                    intent.putExtra("phone", phone)
+                                    intent.putExtra("password", passwrod)
+                                    intent.putExtra("verified", verified.toString())
+
+                                    startActivityForResult(intent, 123)
+                                }
+                                helperMethods.showToastMessage(message)
+                            }
+                        } catch (e: JSONException) {
+                            helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
+                            e.printStackTrace()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    } else {
+                        Log.d("body", "Body Empty")
+                    }
+                } else {
+                    helperMethods.showToastMessage(getString(R.string.something_went_wrong))
+                    Log.d("body", "Not Successful")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                helperMethods.dismissProgressDialog()
+                t.printStackTrace()
+                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+            }
+        })
+    }
+
+    fun registrationValidation(): Boolean {
+        if (reg_fname.toText().equals("")) {
+            helperMethods.showToastMessage("Enter first name")
+            return false
+        }
+        if (reg_lname.toText().equals("")) {
+            helperMethods.showToastMessage("Enter last name")
+            return false
+        }
+        if (reg_email_address.toText().equals("")) {
+            helperMethods.showToastMessage("Enter email address")
+            return false
+        }
+        if (!helperMethods.isvalidEmail(reg_email_address.toText())) {
+            helperMethods.showToastMessage("Enter valid email address")
+            return false
+        }
+        if (reg_phone.toText().equals("")) {
+            helperMethods.showToastMessage("Enter phone number")
+            return false
+        }
+        if (!helperMethods.isValidMobile(codePicker.selectedCountryCodeWithPlus + "" + reg_phone.toText())) {
+            helperMethods.showToastMessage("Enter vaid phone number")
+            return false
+        }
+        if (reg_password.toText().equals("")) {
+            helperMethods.showToastMessage("Enter password")
+            return false
+        }
+        if (!helperMethods.isValidPassword(reg_password.toText())) {
+            helperMethods.AlertPopup("Alert", "Password at least 8 characters including a lower-case letter, an upper–case letter, a number and one special character")
+            return false
+        }
+        if (!helperMethods.isConnectingToInternet) {
+            helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
+            return false
+        }
+        return true
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

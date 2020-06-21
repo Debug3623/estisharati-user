@@ -100,7 +100,7 @@
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/transparent"
                         android:fontFamily="@font/almarai_regular"
-                        android:hint="Email Address or Phone Number"
+                        android:hint="Email Address"
                         android:inputType="textEmailAddress"
                         android:paddingLeft="0dp"
                         android:paddingBottom="10dp"
@@ -168,6 +168,7 @@
                         android:orientation="horizontal">
 
                         <CheckBox
+                            android:id="@+id/remember_me"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="-6dp"
@@ -372,14 +373,16 @@
                         android:orientation="vertical">
 
                         <EditText
+                            android:id="@+id/reg_fname"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/transparent"
                             android:fontFamily="@font/almarai_regular"
                             android:hint="First Name"
-                            android:inputType="textEmailAddress"
+                            android:inputType="text"
                             android:paddingLeft="0dp"
                             android:paddingBottom="10dp"
+                            android:singleLine="true"
                             android:textColor="@color/black"
                             android:textColorHint="@color/black_light"
                             android:textSize="15sp" />
@@ -398,14 +401,16 @@
                         android:orientation="vertical">
 
                         <EditText
+                            android:id="@+id/reg_lname"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/transparent"
                             android:fontFamily="@font/almarai_regular"
                             android:hint="Last Name"
-                            android:inputType="textEmailAddress"
+                            android:inputType="text"
                             android:paddingLeft="0dp"
                             android:paddingBottom="10dp"
+                            android:singleLine="true"
                             android:textColor="@color/black"
                             android:textColorHint="@color/black_light"
                             android:textSize="15sp" />
@@ -425,6 +430,7 @@
                     android:orientation="vertical">
 
                     <EditText
+                        android:id="@+id/reg_email_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/transparent"
@@ -433,6 +439,7 @@
                         android:inputType="textEmailAddress"
                         android:paddingLeft="0dp"
                         android:paddingBottom="10dp"
+                        android:singleLine="true"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black_light"
                         android:textSize="15sp" />
@@ -449,18 +456,39 @@
                     android:layout_marginTop="25dp"
                     android:orientation="vertical">
 
-                    <EditText
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@color/transparent"
-                        android:fontFamily="@font/almarai_regular"
-                        android:hint="Phone"
-                        android:inputType="phone"
-                        android:paddingLeft="0dp"
-                        android:paddingBottom="10dp"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/black_light"
-                        android:textSize="15sp" />
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <com.hbb20.CountryCodePicker
+                            android:id="@+id/codePicker"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/almarai_regular"
+                            app:ccp_arrowSize="12dp"
+                            app:ccp_contentColor="@color/black"
+                            app:ccp_defaultNameCode="AE"
+                            app:ccp_showFlag="true"
+                            app:ccp_showPhoneCode="true"
+                            app:ccp_textSize="14sp" />
+
+                        <EditText
+                            android:id="@+id/reg_phone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/transparent"
+                            android:fontFamily="@font/almarai_regular"
+                            android:hint="Phone"
+                            android:inputType="phone"
+                            android:paddingLeft="0dp"
+                            android:paddingBottom="10dp"
+                            android:singleLine="true"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black_light"
+                            android:textSize="15sp" />
+                    </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
@@ -488,6 +516,7 @@
                             android:inputType="textPassword"
                             android:paddingLeft="0dp"
                             android:paddingBottom="10dp"
+                            android:singleLine="true"
                             android:textColor="@color/black"
                             android:textColorHint="@color/black_light"
                             android:textSize="15sp" />
