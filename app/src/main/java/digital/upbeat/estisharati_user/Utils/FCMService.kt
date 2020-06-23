@@ -10,32 +10,35 @@ import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.UI.SplashScreen
 
 class FCMService : FirebaseMessagingService() {
-    val helperMethods: HelperMethods
-    val preferencesHelper: SharedPreferencesHelper
+    lateinit var helperMethods: HelperMethods
+    lateinit var preferencesHelper: SharedPreferencesHelper
 
-    init {
-        helperMethods = HelperMethods(this)
-        preferencesHelper = SharedPreferencesHelper(this)
-    }
+
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
+        helperMethods = HelperMethods(this)
+        preferencesHelper = SharedPreferencesHelper(this)
         val title = remoteMessage.getData().get("title") as String
         val message = remoteMessage.getData().get("message") as String
         val tag = remoteMessage.getData().get("tag") as String
         helperMethods.sendPushNotification(title, message)
 
-        if (tag.equals("incoming_voice_call")) {
+        if (tag.equals("incoming_voice_call") || tag.equals("incoming_video_call")) {
             if (GlobalData.FcmToken.equals("")) {
-                val intent = Intent(this, SplashScreen::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                this.startActivity(intent)
+                if (preferencesHelper.isUserLogIn) {
+                    val intent = Intent(this, SplashScreen::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    this.startActivity(intent)
+                }
             }
         }
     }
 
     override fun onNewToken(newToken: String) {
         super.onNewToken(newToken)
+        helperMethods = HelperMethods(this)
+        preferencesHelper = SharedPreferencesHelper(this)
         if (preferencesHelper.isUserLogIn) {
             val hashMap = hashMapOf<String, Any>("fire_base_token" to newToken)
             GlobalData.FcmToken = newToken

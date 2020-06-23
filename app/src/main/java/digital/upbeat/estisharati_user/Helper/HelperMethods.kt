@@ -362,7 +362,24 @@ class HelperMethods(val context: Context) {
         }
         return check
     }
-    fun getFormattedDate(timeInMilis: Long): String? {
+    fun getFormattedDate(date: Date?): String {
+        val smsTime = Calendar.getInstance()
+        smsTime.timeInMillis = if(date!=null)date.time else Date().time
+        val now = Calendar.getInstance()
+        val timeFormatString = "h:mm aa"
+        val dateTimeFormatString = "EEEE, MMMM d, h:mm aa"
+        val HOURS = 60 * 60 * 60.toLong()
+        return if (now[Calendar.DATE] === smsTime[Calendar.DATE]) {
+            "Today " + SimpleDateFormat(timeFormatString).format( smsTime.time)
+        } else if (now[Calendar.DATE] - smsTime[Calendar.DATE] === 1) {
+            "Yesterday " + SimpleDateFormat(timeFormatString).format( smsTime.time)
+        } else if (now[Calendar.YEAR] === smsTime[Calendar.YEAR]) {
+            SimpleDateFormat(dateTimeFormatString).format( smsTime.time).toString()
+        } else {
+            SimpleDateFormat("MMMM dd yyyy, h:mm aa").format( smsTime.time).toString()
+        }
+    }
+    fun getFormattedTimeInMilis(timeInMilis: Long): String {
         val smsTime = Calendar.getInstance()
         smsTime.timeInMillis = timeInMilis
         val now = Calendar.getInstance()

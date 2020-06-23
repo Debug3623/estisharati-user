@@ -20,6 +20,11 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
+import digital.upbeat.estisharati_user.DataClassHelper.DataCallsFireStore
+import digital.upbeat.estisharati_user.DataClassHelper.DataUser
+import digital.upbeat.estisharati_user.DataClassHelper.DataUserFireStore
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
@@ -37,18 +42,22 @@ class VoiceCall : AppCompatActivity(), SensorEventListener {
     var muteLocalAudioStrea = false
     lateinit var helperMethods: HelperMethods
     lateinit var preferencesHelper: SharedPreferencesHelper
+    lateinit var firestore: FirebaseFirestore
+    lateinit var dataUser: DataUser
+    lateinit var dataUserFireStore: DataUserFireStore
+    lateinit var dataOtherUserFireStore: DataUserFireStore
+    lateinit var dataCallsFireStore: DataCallsFireStore
     var countDownTimer: CountDownTimer? = null
+    var ringingDuration: CountDownTimer? = null
     var callConnectedTimeMilles = ""
-    var channelUniqueId = ""
-    var callerId = ""
-    var callerName = ""
-    var callerImage = ""
+    lateinit var firestoreRegistrar: ListenerRegistration
+
     private lateinit var sensorManager: SensorManager
     private var sensor: Sensor? = null
     val iRtcEngineEventHandler = object : IRtcEngineEventHandler() {
         override fun onUserOffline(uid: Int, reason: Int) { // Tutorial Step 4
             runOnUiThread {
-                helperMethods.showToastMessage("$callerName left the conversation")
+                helperMethods.showToastMessage("${dataOtherUserFireStore.fname} left the conversation")
                 endTheCall()
             }
         }
@@ -56,7 +65,7 @@ class VoiceCall : AppCompatActivity(), SensorEventListener {
         override fun onUserMuteAudio(uid: Int, muted: Boolean) {
             runOnUiThread {
                 if (muted) {
-                    muted_status.text = "$callerName muted this call"
+                    muted_status.text = "${dataOtherUserFireStore.fname} muted this call"
                     muted_status.visibility = View.VISIBLE
                 } else {
                     muted_status.visibility = View.GONE
@@ -71,12 +80,15 @@ class VoiceCall : AppCompatActivity(), SensorEventListener {
                 if (countDownTimer != null) {
                     countDownTimer?.cancel()
                 }
+                if (ringingDuration != null) {
+                    ringingDuration?.cancel()
+                }
                 callCountDownTimer()
                 calling_status.text = "Connected"
                 circle_progress.visibility = View.GONE
                 stopRigntone()
 
-                helperMethods.showToastMessage("$callerName join the conversation")
+                helperMethods.showToastMessage("${dataOtherUserFireStore.fname} join the conversation")
             }
         }
     }
@@ -87,21 +99,18 @@ class VoiceCall : AppCompatActivity(), SensorEventListener {
         initViews()
         getDetails()
         clickEvents()
-        object : CountDownTimer(2000, 1000) {
-            override fun onFinish() {
-                if (callConnectedTimeMilles.equals("")) {
-                    playRigntone()
-                }
-            }
-
-            override fun onTick(millisUntilFinished: Long) {
-            }
-        }.start()
     }
 
     fun initViews() {
         helperMethods = HelperMethods(this@VoiceCall)
         preferencesHelper = SharedPreferencesHelper(this@VoiceCall)
+
+        dataUser = preferencesHelper.getLogInUser()
+        firestore = FirebaseFirestore.getInstance()
+
+
+
+
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY)
     }
@@ -125,23 +134,105 @@ class VoiceCall : AppCompatActivity(), SensorEventListener {
     }
 
     fun getDetails() {
-        if (intent.extras != null) {
-            channelUniqueId = intent.getStringExtra("channelUniqueId")
-            callerId = intent.getStringExtra("callerId")
-            callerName = intent.getStringExtra("callerName")
-            callerImage = intent.getStringExtra("callerImage")
-            setDatils()
-            if (ContextCompat.checkSelfPermission(this@VoiceCall, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
-                initAgoraEngineAndJoinChannel()
-            } else {
-                helperMethods.selfPermission(this@VoiceCall)
+        //        if (intent.extras != null) {
+        ////            channelUniqueId = intent.getStringExtra("channelUniqueId")
+        ////            callerId = intent.getStringExtra("callerId")
+        ////            callerName = intent.getStringExtra("callerName")
+        ////            callerImage = intent.getStringExtra("callerImage")
+        ////
+        ////
+        ////            setDatils()
+        ////
+        ////        }
+        firestore.collection("Users").document(dataUser.id).get().addOnSuccessListener {
+            dataUserFireStore = it.toObject(DataUserFireStore::class.java)!!
+            firestore.collection("Calls").document(dataUserFireStore.channel_unique_id).get().addOnSuccessListener {
+                dataCallsFireStore = it.toObject(DataCallsFireStore::class.java)!!
+                val contact_person_id = if (dataCallsFireStore.caller_id.equals(dataUserFireStore.user_id)) dataCallsFireStore.receiver_id else dataCallsFireStore.caller_id
+                firestore.collection("Users").document(contact_person_id).get().addOnSuccessListener {
+                    dataOtherUserFireStore = it.toObject(DataUserFireStore::class.java)!!
+                    setDetails()
+                }
             }
         }
     }
 
-    fun setDatils() {
-        Glide.with(this@VoiceCall).load(callerImage).apply(helperMethods.profileRequestOption).into(caller_profile)
-        caller_name.text = callerName
+    fun setDetails() {
+        Glide.with(this@VoiceCall).load(dataOtherUserFireStore.image).apply(helperMethods.profileRequestOption).into(caller_profile)
+        caller_name.text = dataOtherUserFireStore.fname + " " + dataOtherUserFireStore.lname
+        if (ContextCompat.checkSelfPermission(this@VoiceCall, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+            initAgoraEngineAndJoinChannel()
+        } else {
+            helperMethods.selfPermission(this@VoiceCall)
+        }
+
+        if (dataCallsFireStore.caller_id.equals(dataUserFireStore.user_id)) {
+            callRingingDuration()
+            playRigntone()
+        }else{
+            calling_status.text="Connecting..."
+        }
+        val hashMap = hashMapOf<String, Any>("availability" to true, "channel_unique_id" to "")
+        firestoreRegistrar=  firestore.collection("Calls").document(dataUserFireStore.channel_unique_id).addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
+            documentSnapshot?.let {
+                dataCallsFireStore = documentSnapshot.toObject(DataCallsFireStore::class.java)!!
+                when (dataCallsFireStore.call_status) {
+                    "accept" -> {
+                    }
+                    "reject" -> {
+                        firestoreRegistrar.remove()
+                        helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
+                        helperMethods.updateUserDetailsToFirestore(dataOtherUserFireStore.user_id, hashMap)
+                        helperMethods.showToastMessage("reject")
+
+                        finish()
+                    }
+                    "cancel" -> {
+                        firestoreRegistrar.remove()
+                        helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
+                        helperMethods.updateUserDetailsToFirestore(dataOtherUserFireStore.user_id, hashMap)
+                        helperMethods.showToastMessage("cancel")
+
+                        finish()
+                    }
+                    "end_call" -> {
+                        firestoreRegistrar.remove()
+                        helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
+                        helperMethods.updateUserDetailsToFirestore(dataOtherUserFireStore.user_id, hashMap)
+                        helperMethods.showToastMessage("end_call")
+
+                        finish()
+                    }
+                    "not_responding" -> {
+                        firestoreRegistrar.remove()
+                        helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
+                        helperMethods.updateUserDetailsToFirestore(dataOtherUserFireStore.user_id, hashMap)
+                        helperMethods.showToastMessage("not_responding")
+                        finish()
+                    }
+                    else -> {
+                    }
+                }
+            }
+        }
+    }
+
+    fun callRingingDuration() {
+        var hashMap = hashMapOf<String, Any>()
+        val ringingCount = dataCallsFireStore.ringing_duration.toLong()
+        ringingDuration = object : CountDownTimer(1000 * ringingCount, 1000) {
+            override fun onFinish() {
+                hashMap = hashMapOf("call_status" to "not_responding")
+                helperMethods.updateCallsDetailsToFirestore(dataCallsFireStore.channel_unique_id, hashMap)
+            }
+
+            override fun onTick(millisUntilFinished: Long) {
+                val time_seconds = millisUntilFinished / 1000
+                hashMap = hashMapOf("ringing_duration" to time_seconds.toString())
+                helperMethods.updateCallsDetailsToFirestore(dataCallsFireStore.channel_unique_id, hashMap)
+                Log.d("ringing_duration", "" + time_seconds)
+            }
+        }.start()
     }
 
     fun callCountDownTimer() {
@@ -166,12 +257,19 @@ class VoiceCall : AppCompatActivity(), SensorEventListener {
     }
 
     fun endTheCall() {
+        var hashMap = hashMapOf<String, Any>()
+        if (callConnectedTimeMilles.equals("")) {
+            hashMap = hashMapOf("call_status" to "cancel")
+        } else {
+            hashMap = hashMapOf("call_status" to "end_call")
+        }
+        helperMethods.updateCallsDetailsToFirestore(dataCallsFireStore.channel_unique_id, hashMap)
+
         mRtcEngine.leaveChannel()
         RtcEngine.destroy()
         if (countDownTimer != null) {
             countDownTimer?.cancel()
         }
-        finish()
     }
 
     fun clickEvents() {
@@ -238,7 +336,7 @@ class VoiceCall : AppCompatActivity(), SensorEventListener {
             accessToken = null // default, no token
         }
         // Allows a user to join a channel.
-        mRtcEngine.joinChannel(accessToken, "demoChannel2", "Extra Optional Data", 0) // if you do not specify the uid, we will generate the uid for you
+        mRtcEngine.joinChannel(accessToken, dataCallsFireStore.channel_unique_id, "Extra Optional Data", 0) // if you do not specify the uid, we will generate the uid for you
     }
 
     override fun onBackPressed() {
@@ -262,6 +360,12 @@ class VoiceCall : AppCompatActivity(), SensorEventListener {
     override fun onDestroy() {
         super.onDestroy()
         stopRigntone()
+        if (countDownTimer != null) {
+            countDownTimer?.cancel()
+        }
+        if (ringingDuration != null) {
+            ringingDuration?.cancel()
+        }
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {

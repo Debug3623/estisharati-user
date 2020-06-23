@@ -7,16 +7,19 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
-import android.view.MotionEvent
 import android.view.SurfaceView
 import android.view.View
 import android.view.WindowManager
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
+import digital.upbeat.estisharati_user.DataClassHelper.DataCallsFireStore
+import digital.upbeat.estisharati_user.DataClassHelper.DataUser
+import digital.upbeat.estisharati_user.DataClassHelper.DataUserFireStore
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
@@ -26,6 +29,13 @@ import io.agora.rtc.RtcEngine
 import io.agora.rtc.video.VideoCanvas
 import io.agora.rtc.video.VideoEncoderConfiguration
 import kotlinx.android.synthetic.main.activity_video_call.*
+import kotlinx.android.synthetic.main.activity_video_call.caller_name
+import kotlinx.android.synthetic.main.activity_video_call.caller_profile
+import kotlinx.android.synthetic.main.activity_video_call.calling_status
+import kotlinx.android.synthetic.main.activity_video_call.circle_progress
+import kotlinx.android.synthetic.main.activity_video_call.end_call
+import kotlinx.android.synthetic.main.activity_video_call.timer
+import kotlinx.android.synthetic.main.activity_voice_call.*
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -35,27 +45,37 @@ class VideoCall : AppCompatActivity() {
     lateinit var mRtcEngine: RtcEngine
     var countDownTimer: CountDownTimer? = null
     var showAction: CountDownTimer? = null
+    var ringingDuration: CountDownTimer? = null
+
     var callConnectedTimeMilles = ""
-    var channelUniqueId = ""
-    var callerId = ""
-    var callerName = ""
-    var callerImage = ""
+
+    //    var channelUniqueId = ""
+    //    var callerId = ""
+    //    var callerName = ""
+    //    var callerImage = ""
     var player: MediaPlayer? = null
+    lateinit var firestore: FirebaseFirestore
+    lateinit var dataUser: DataUser
+    lateinit var dataUserFireStore: DataUserFireStore
+    lateinit var dataOtherUserFireStore: DataUserFireStore
+    lateinit var dataCallsFireStore: DataCallsFireStore
+    lateinit var firestoreRegistrar: ListenerRegistration
     val iRtcEngineEventHandler = object : IRtcEngineEventHandler() {
         override fun onUserJoined(uid: Int, p1: Int) {
             runOnUiThread {
-
                 callConnectedTimeMilles = Date().time.toString()
                 if (countDownTimer != null) {
                     countDownTimer?.cancel()
                 }
+                if(ringingDuration!=null){
+                    ringingDuration?.cancel()
+                }
                 callCountDownTimer()
                 calling_status.text = "Connected"
                 circle_progress.visibility = View.GONE
-                helperMethods.showToastMessage("$callerName join the conversation")
+                helperMethods.showToastMessage("${dataOtherUserFireStore.fname} join the conversation")
                 frontAction()
                 stopRigntone()
-
             }
         }
 
@@ -66,7 +86,7 @@ class VideoCall : AppCompatActivity() {
         override fun onUserMuteAudio(uid: Int, muted: Boolean) {
             runOnUiThread {
                 if (muted) {
-                    voice_muted_status.text = "$callerName muted this call"
+                    voice_muted_status.text = "${dataOtherUserFireStore.fname} muted this call"
                     voice_muted_layout.visibility = View.VISIBLE
                 } else {
                     voice_muted_layout.visibility = View.GONE
@@ -81,7 +101,7 @@ class VideoCall : AppCompatActivity() {
         override fun onUserMuteVideo(uid: Int, muted: Boolean) {
             runOnUiThread {
                 if (muted) {
-                    video_muted_status.text = "$callerName video paused this call"
+                    video_muted_status.text = "${dataOtherUserFireStore.fname} video paused this call"
                     video_muted_layout.visibility = View.VISIBLE
                 } else {
                     video_muted_layout.visibility = View.GONE
@@ -104,41 +124,47 @@ class VideoCall : AppCompatActivity() {
         initViews()
         getDetails()
         clickEvents()
-        object :CountDownTimer(2000,1000){
-            override fun onFinish() {
-                if(callConnectedTimeMilles.equals("")){
-                    playRigntone()
-
-                }
-            }
-            override fun onTick(millisUntilFinished: Long) {
-
-            }
-        }.start()
     }
 
     fun initViews() {
         helperMethods = HelperMethods(this@VideoCall)
         preferencesHelper = SharedPreferencesHelper(this@VideoCall)
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
+
+        dataUser = preferencesHelper.getLogInUser()
+        firestore = FirebaseFirestore.getInstance()
     }
 
     fun getDetails() {
-        if (intent.extras != null) {
-            channelUniqueId = intent.getStringExtra("channelUniqueId")
-            callerId = intent.getStringExtra("callerId")
-            callerName = intent.getStringExtra("callerName")
-            callerImage = intent.getStringExtra("callerImage")
-            setDatils()
+        //        if (intent.extras != null) {
+        //            channelUniqueId = intent.getStringExtra("channelUniqueId")
+        //            callerId = intent.getStringExtra("callerId")
+        //            callerName = intent.getStringExtra("callerName")
+        //            callerImage = intent.getStringExtra("callerImage")
+        //            setDatils()
+        //        }
+        firestore.collection("Users").document(dataUser.id).get().addOnSuccessListener {
+            dataUserFireStore = it.toObject(DataUserFireStore::class.java)!!
+            firestore.collection("Calls").document(dataUserFireStore.channel_unique_id).get().addOnSuccessListener {
+                dataCallsFireStore = it.toObject(DataCallsFireStore::class.java)!!
+                val contact_person_id=if(dataCallsFireStore.caller_id.equals(dataUserFireStore.user_id))dataCallsFireStore.receiver_id else dataCallsFireStore.caller_id
+                firestore.collection("Users").document(contact_person_id).get().addOnSuccessListener {
+                    dataOtherUserFireStore = it.toObject(DataUserFireStore::class.java)!!
+                    setDetails()
+                }
+            }
         }
     }
+
     fun playRigntone() {
         player = MediaPlayer.create(this, R.raw.ringtone_fbi)
         player?.setLooping(true) // Set looping
         player?.setVolume(100f, 100f)
         player?.start()
     }
-    fun stopRigntone(){
+
+    fun stopRigntone() {
         try {
             if (player!!.isPlaying) {
                 player?.stop()
@@ -149,13 +175,62 @@ class VideoCall : AppCompatActivity() {
         }
     }
 
-    fun setDatils() {
-        Glide.with(this@VideoCall).load(callerImage).apply(helperMethods.profileRequestOption).into(caller_profile)
-        caller_name.text = callerName
+    fun setDetails() {
+        Glide.with(this@VideoCall).load(dataOtherUserFireStore.image).apply(helperMethods.profileRequestOption).into(caller_profile)
+        caller_name.text = dataOtherUserFireStore.fname + " " + dataOtherUserFireStore.lname
         if (ContextCompat.checkSelfPermission(this@VideoCall, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this@VideoCall, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             initAgoraEngineAndJoinChannel()
         } else {
             helperMethods.selfPermission(this@VideoCall)
+        }
+
+        if (dataCallsFireStore.caller_id.equals(dataUserFireStore.user_id)) {
+            playRigntone()
+            callRingingDuration()
+        }else{
+            calling_status.text="Connecting..."
+        }
+        val hashMap = hashMapOf<String, Any>("availability" to true, "channel_unique_id" to "")
+        firestoreRegistrar=  firestore.collection("Calls").document(dataUserFireStore.channel_unique_id).addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
+            documentSnapshot?.let {
+                dataCallsFireStore = documentSnapshot.toObject(DataCallsFireStore::class.java)!!
+                when (dataCallsFireStore.call_status) {
+                    "accept" -> {
+                    }
+                    "reject" -> {
+                        firestoreRegistrar.remove()
+                        helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
+                        helperMethods.updateUserDetailsToFirestore(dataOtherUserFireStore.user_id, hashMap)
+                        helperMethods.showToastMessage("reject")
+                        finish()
+                    }
+                    "cancel" -> {
+                        firestoreRegistrar.remove()
+                        helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
+                        helperMethods.updateUserDetailsToFirestore(dataOtherUserFireStore.user_id, hashMap)
+                        helperMethods.showToastMessage("cancel")
+
+                        finish()
+                    }
+                    "end_call" -> {
+                        firestoreRegistrar.remove()
+                        helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
+                        helperMethods.updateUserDetailsToFirestore(dataOtherUserFireStore.user_id, hashMap)
+                        helperMethods.showToastMessage("end_call")
+
+                        finish()
+                    }
+                    "not_responding" -> {
+                        firestoreRegistrar.remove()
+                        helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
+                        helperMethods.updateUserDetailsToFirestore(dataOtherUserFireStore.user_id, hashMap)
+                        helperMethods.showToastMessage("not_responding")
+                        finish()
+                    }
+                    else -> {
+                    }
+                }
+            }
         }
     }
 
@@ -200,18 +275,23 @@ class VideoCall : AppCompatActivity() {
         }
 
         root.viewTreeObserver.addOnGlobalLayoutListener { local_video_view_container.setOnTouchListener(CustomTouchListener(root.width, root.height)) }
-
     }
 
     override fun onDestroy() {
         leaveChannel()
         stopRigntone()
+        if (countDownTimer != null) {
+            countDownTimer?.cancel()
+        }
+        if(ringingDuration!=null){
+            ringingDuration?.cancel()
+        }
         super.onDestroy()
     }
 
     override fun onBackPressed() {
-
     }
+
     fun frontAction() {
         if (circle_progress.visibility == View.GONE) {
             header_layout.visibility = View.VISIBLE
@@ -245,7 +325,23 @@ class VideoCall : AppCompatActivity() {
             finish()
         }
     }
+    fun callRingingDuration() {
+        var hashMap = hashMapOf<String, Any>()
+        val ringingCount=dataCallsFireStore.ringing_duration.toLong()
+        ringingDuration= object :CountDownTimer(1000 * ringingCount,1000){
+            override fun onFinish() {
+                hashMap = hashMapOf("call_status" to "not_responding")
+                helperMethods.updateCallsDetailsToFirestore(dataCallsFireStore.channel_unique_id, hashMap)
 
+            }
+            override fun onTick(millisUntilFinished: Long) {
+                val time_seconds = millisUntilFinished / 1000
+                hashMap = hashMapOf("ringing_duration" to time_seconds.toString())
+                helperMethods.updateCallsDetailsToFirestore(dataCallsFireStore.channel_unique_id, hashMap)
+
+            }
+        }.start()
+    }
     fun callCountDownTimer() {
         //15 mins
         countDownTimer = object : CountDownTimer(1000 * 30 * 30, 1000) {
@@ -301,7 +397,7 @@ class VideoCall : AppCompatActivity() {
         surfaceView.setZOrderMediaOverlay(true)
         container.addView(surfaceView)
         // Initializes the local video view.
-        // RENDER_MODE_FIT: Uniformly scale the video until one of its dimension fits the boundary. Areas that are not filled due to the disparity in the aspect ratio are filled with black. 
+        // RENDER_MODE_FIT: Uniformly scale the video until one of its dimension fits the boundary. Areas that are not filled due to the disparity in the aspect ratio are filled with black.
         mRtcEngine.setupLocalVideo(VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FIT, 0))
     }
 
@@ -314,7 +410,7 @@ class VideoCall : AppCompatActivity() {
         if (token!!.isEmpty()) {
             token = null
         }
-        mRtcEngine.joinChannel(token, "demoChannel1", "Extra Optional Data", 0) // if you do not specify the uid, we will generate the uid for you
+        mRtcEngine.joinChannel(token, dataCallsFireStore.channel_unique_id, "Extra Optional Data", 0) // if you do not specify the uid, we will generate the uid for you
     }
 
     private fun setupRemoteVideo(uid: Int) {
@@ -337,18 +433,25 @@ class VideoCall : AppCompatActivity() {
         container.addView(surfaceView)
         // Initializes the video view of a remote user.
         mRtcEngine.setupRemoteVideo(VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FIT, uid))
-
         surfaceView.tag = uid // for mark purpose
     }
 
     private fun leaveChannel() {
+        var hashMap= hashMapOf<String, Any>()
+        if (callConnectedTimeMilles.equals("")) {
+             hashMap = hashMapOf("call_status" to "cancel")
+        } else {
+             hashMap = hashMapOf("call_status" to "end_call")
+        }
+        helperMethods.updateCallsDetailsToFirestore(dataCallsFireStore.channel_unique_id, hashMap)
+
         mRtcEngine.leaveChannel()
         RtcEngine.destroy()
-        finish()
     }
 
     private fun onRemoteUserLeft() {
         val container = findViewById(R.id.remote_video_view_container) as FrameLayout
         container.removeAllViews()
-        leaveChannel()    }
+        leaveChannel()
+    }
 }

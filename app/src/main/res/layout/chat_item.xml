@@ -6,12 +6,15 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/other_text_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
+        android:visibility="gone"
         android:orientation="horizontal">
 
         <digital.upbeat.estisharati_user.Utils.CircleImageView
+            android:id="@+id/other_text_profile"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/ic_temp_profile" />
@@ -24,6 +27,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/other_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -36,6 +40,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/other_text_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
@@ -49,12 +54,15 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/other_image_hole_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
+        android:visibility="gone"
         android:orientation="horizontal">
 
         <digital.upbeat.estisharati_user.Utils.CircleImageView
+            android:id="@+id/other_image_profile"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/ic_temp_profile" />
@@ -68,7 +76,7 @@
 
             <LinearLayout
                 android:id="@+id/other_image_layout"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:elevation="3dp"
                 android:layout_margin="5dp"
@@ -84,6 +92,7 @@
 
 
                     <ImageView
+                        android:id="@+id/other_image"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
@@ -95,6 +104,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/other_image_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
@@ -108,19 +118,23 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/me_text_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
+        android:visibility="gone"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="35dp"
+            android:layout_alignParentRight="true"
             android:layout_marginRight="65dp"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/me_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -128,11 +142,12 @@
                 android:elevation="3dp"
                 android:fontFamily="@font/almarai_light"
                 android:padding="20dp"
-                android:text="I'm fine, thanks I'm fine, thanksI'm fine"
+                android:text="I'm fine, e, thanksI'm fine"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/me_text_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
@@ -145,6 +160,7 @@
 
 
         <digital.upbeat.estisharati_user.Utils.CircleImageView
+            android:id="@+id/me_text_profile"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
@@ -152,12 +168,15 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/me_image_layout_hole"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
+        android:visibility="gone"
         android:orientation="horizontal">
 
         <LinearLayout
+            android:layout_alignParentRight="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="75dp"
@@ -166,7 +185,7 @@
 
         <LinearLayout
             android:id="@+id/me_image_layout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="3dp"
             android:layout_margin="5dp"
@@ -181,6 +200,7 @@
 
 
                 <ImageView
+                    android:id="@+id/me_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
@@ -191,6 +211,7 @@
         </LinearLayout>
 
             <TextView
+                android:id="@+id/me_image_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
@@ -205,6 +226,7 @@
         <digital.upbeat.estisharati_user.Utils.CircleImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:id="@+id/me_image_profile"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_temp_profile" />
     </RelativeLayout>

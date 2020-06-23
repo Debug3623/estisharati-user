@@ -15,14 +15,13 @@ import androidx.viewpager.widget.ViewPager
 import com.google.firebase.firestore.*
 import digital.upbeat.estisharati_user.Adapter.*
 import digital.upbeat.estisharati_user.DataClassHelper.DataBoarding
+import digital.upbeat.estisharati_user.DataClassHelper.DataCallsFireStore
 import digital.upbeat.estisharati_user.DataClassHelper.DataUser
 import digital.upbeat.estisharati_user.DataClassHelper.DataUserFireStore
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
-import digital.upbeat.estisharati_user.UI.IncomingCall
-import digital.upbeat.estisharati_user.UI.LegalAdvice
-import digital.upbeat.estisharati_user.UI.MyCourses
+import digital.upbeat.estisharati_user.UI.*
 import digital.upbeat.estisharati_user.Utils.CirclePageIndicator
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.util.*
@@ -178,7 +177,17 @@ class Home : Fragment() {
             documentSnapshot?.let {
                 dataUserFireStore = documentSnapshot.toObject(DataUserFireStore::class.java)!!
                 if (!dataUserFireStore.channel_unique_id.equals("")) {
-                    startActivity(Intent(requireContext(), IncomingCall::class.java))
+                    firestore.collection("Calls").document(dataUserFireStore.channel_unique_id).get().addOnSuccessListener {
+                        it.let {
+                            val dataCallsFireStore = it.toObject(DataCallsFireStore::class.java)!!
+                            if (dataCallsFireStore.receiver_id.equals(dataUser.id)) {
+                                startActivity(Intent(requireContext(), IncomingCall::class.java))
+                            } else {
+
+                            }
+                        }
+
+                    }
                 }
             }
         }
