@@ -4,6 +4,7 @@ import android.content.Intent
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import digital.upbeat.estisharati_user.CommonApiHelper.SendDeviceTokenHelper
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
@@ -20,9 +21,9 @@ class FCMService : FirebaseMessagingService() {
         helperMethods = HelperMethods(this)
         preferencesHelper = SharedPreferencesHelper(this)
         val title = remoteMessage.getData().get("title") as String
-        val message = remoteMessage.getData().get("message") as String
+        val body = remoteMessage.getData().get("body") as String
         val tag = remoteMessage.getData().get("tag") as String
-        helperMethods.sendPushNotification(title, message)
+        helperMethods.sendPushNotification(title, body)
 
         if (tag.equals("incoming_voice_call") || tag.equals("incoming_video_call")) {
             if (GlobalData.FcmToken.equals("")) {
@@ -43,6 +44,8 @@ class FCMService : FirebaseMessagingService() {
             val hashMap = hashMapOf<String, Any>("fire_base_token" to newToken)
             GlobalData.FcmToken = newToken
             FirebaseFirestore.getInstance().collection("Users").document(preferencesHelper.getLogInUser().id).update(hashMap)
+            SendDeviceTokenHelper(this, null, false).SendDeviceTokenFirebase()
+
         }
     }
 }

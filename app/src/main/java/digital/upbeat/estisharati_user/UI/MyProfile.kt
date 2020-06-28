@@ -116,7 +116,6 @@ class MyProfile : AppCompatActivity() {
     }
 
     fun profilePictureUpdateApiCall(filePath: String) {
-        val first_name = RequestBody.create(MediaType.parse("text/plain"), dataUserObject.fname)
 
 
         val file = File(filePath)
@@ -161,6 +160,12 @@ class MyProfile : AppCompatActivity() {
                                 helperMethods.showToastMessage(message)
                                 GlobalData.profileUpdate=true
                                 setUserDetils()
+
+                                val hashMap= hashMapOf<String,Any>()
+                                hashMap.put("image",image)
+                                helperMethods.updateUserDetailsToFirestore(id,hashMap)
+
+
                             } else {
                                 val message = jsonObject.getString("message")
                                 helperMethods.AlertPopup("Alert", message)

@@ -220,9 +220,6 @@ class LoginAndRegistration : AppCompatActivity() {
                                 hashMap.put("channel_unique_id","")
 
 
-//                                hashMap.put("call_type","")
-//                                hashMap.put("call_connected_time",FieldValue.serverTimestamp())
-//                                hashMap.put("call_status","")
                                 helperMethods.setUserDetailsToFirestore(id,hashMap)
 
                                 preferencesHelper.isUserLogIn = true

@@ -160,7 +160,7 @@ class Home : Fragment() {
     }
 
     fun firestoreLisiner() {
-        onlineUserListener = firestore.collection("Users").addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+        onlineUserListener = firestore.collection("Users").orderBy("fname", Query.Direction.ASCENDING).addSnapshotListener { querySnapshot, firebaseFirestoreException ->
             querySnapshot?.let {
                 onlineUserArraylist = arrayListOf<DataUserFireStore>()
                 for (data in querySnapshot) {
@@ -183,10 +183,8 @@ class Home : Fragment() {
                             if (dataCallsFireStore.receiver_id.equals(dataUser.id)) {
                                 startActivity(Intent(requireContext(), IncomingCall::class.java))
                             } else {
-
                             }
                         }
-
                     }
                 }
             }
@@ -194,9 +192,15 @@ class Home : Fragment() {
     }
 
     fun initializeOnlineUserRecyclerview() {
-        online_user_recycler.setHasFixedSize(true)
-        online_user_recycler.removeAllViews()
-        online_user_recycler.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        online_user_recycler.adapter = OnlineUserAdapter(requireContext(), this, onlineUserArraylist)
+        if (!onlineUserArraylist.isEmpty()) {
+            online_now_layout.visibility=View.VISIBLE
+            onlineUserArraylist.add(DataUserFireStore())
+            online_user_recycler.setHasFixedSize(true)
+            online_user_recycler.removeAllViews()
+            online_user_recycler.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            online_user_recycler.adapter = OnlineUserAdapter(requireContext(), this, onlineUserArraylist)
+        } else {
+            online_now_layout.visibility=View.GONE
+        }
     }
 }

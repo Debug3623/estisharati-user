@@ -39,39 +39,65 @@ class ChatAdapter(val context: Context, val chatPage: ChatPage, val messagesArra
                 holder.me_text_layout.visibility = View.VISIBLE
                 Glide.with(context).load(chatPage.dataUser.image).apply(helperMethods.profileRequestOption).into(holder.me_text_profile)
                 holder.me_text.text = dataMessageFireStore.message_content
-                holder.me_text_time.text=helperMethods.getFormattedDate(dataMessageFireStore.send_time)
+                holder.me_text_time.text = helperMethods.getFormattedDate(dataMessageFireStore.send_time)
+                when (dataMessageFireStore.message_status) {
+                    "send" -> {
+                        holder.text_message_status.setImageResource(R.drawable.ic_sended)
+                    }
+                    "delivered" -> {
+                        holder.text_message_status.setImageResource(R.drawable.ic_delivered)
+                    }
+                    "seened" -> {
+                        holder.text_message_status.setImageResource(R.drawable.ic_seened)
+                    }
+                    else -> {
+                    }
+                }
             } else {
                 holder.other_text_layout.visibility = View.VISIBLE
                 Glide.with(context).load(chatPage.dataUserFireStore.image).apply(helperMethods.profileRequestOption).into(holder.other_text_profile)
                 holder.other_text.text = dataMessageFireStore.message_content
-                holder.other_text_time.text=helperMethods.getFormattedDate(dataMessageFireStore.send_time)
+                holder.other_text_time.text = helperMethods.getFormattedDate(dataMessageFireStore.send_time)
             }
         } else if (dataMessageFireStore.message_type.equals("image")) {
             if (dataMessageFireStore.sender_id.equals(chatPage.dataUser.id)) {
                 holder.me_image_layout_hole.visibility = View.VISIBLE
                 Glide.with(context).load(chatPage.dataUser.image).apply(helperMethods.profileRequestOption).into(holder.me_image_profile)
-                Glide.with(context).load(dataMessageFireStore.message_content).apply(helperMethods.profileRequestOption).into(holder.me_image)
-                holder.me_image_time.text=helperMethods.getFormattedDate(dataMessageFireStore.send_time)
+                Glide.with(context).load(dataMessageFireStore.message_content).apply(helperMethods.requestOption).into(holder.me_image)
+                holder.me_image_time.text = helperMethods.getFormattedDate(dataMessageFireStore.send_time)
                 holder.me_image_layout.setOnClickListener {
                     val intent = Intent(context, PhotoViewer::class.java)
-                    intent.putExtra("name","${chatPage.dataUser.fname} ${chatPage.dataUser.lname}")
-                    intent.putExtra("image_url",dataMessageFireStore.message_content)
-                    intent.putExtra("send_time",helperMethods.getFormattedDate(dataMessageFireStore.send_time))
+                    intent.putExtra("name", "${chatPage.dataUser.fname} ${chatPage.dataUser.lname}")
+                    intent.putExtra("image_url", dataMessageFireStore.message_content)
+                    intent.putExtra("send_time", helperMethods.getFormattedDate(dataMessageFireStore.send_time))
                     context.startActivity(intent)
+                }
+                when (dataMessageFireStore.message_status) {
+                    "send" -> {
+                        holder.image_message_status.setImageResource(R.drawable.ic_sended)
+                    }
+                    "delivered" -> {
+                        holder.image_message_status.setImageResource(R.drawable.ic_delivered)
+                    }
+                    "seened" -> {
+                        holder.image_message_status.setImageResource(R.drawable.ic_seened)
+                    }
+                    else -> {
+                    }
                 }
             } else {
                 holder.other_image_hole_layout.visibility = View.VISIBLE
                 Glide.with(context).load(chatPage.dataUserFireStore.image).apply(helperMethods.profileRequestOption).into(holder.other_image_profile)
-                Glide.with(context).load(dataMessageFireStore.message_content).apply(helperMethods.profileRequestOption).into(holder.other_image)
-                holder.other_image_time.text=helperMethods.getFormattedDate(dataMessageFireStore.send_time)
+                Glide.with(context).load(dataMessageFireStore.message_content).apply(helperMethods.requestOption).into(holder.other_image)
+                holder.other_image_time.text = helperMethods.getFormattedDate(dataMessageFireStore.send_time)
                 holder.other_image_layout.setOnClickListener {
                     val intent = Intent(context, PhotoViewer::class.java)
-                    intent.putExtra("name","${chatPage.dataUserFireStore.fname} ${chatPage.dataUserFireStore.lname}")
-                    intent.putExtra("image_url",dataMessageFireStore.message_content)
-                    intent.putExtra("send_time",helperMethods.getFormattedDate(dataMessageFireStore.send_time))
+                    intent.putExtra("name", "${chatPage.dataUserFireStore.fname} ${chatPage.dataUserFireStore.lname}")
+                    intent.putExtra("image_url", dataMessageFireStore.message_content)
+                    intent.putExtra("send_time", helperMethods.getFormattedDate(dataMessageFireStore.send_time))
                     context.startActivity(intent)
                 }
             }
         }
-  }
+    }
 }

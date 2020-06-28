@@ -272,7 +272,7 @@ class HelperMethods(val context: Context) {
         val num = System.currentTimeMillis().toInt()
         val CHANNEL_ID = "EstisharatiUser"
         val pendingIntent = PendingIntent.getActivity(context, num, Intent(), PendingIntent.FLAG_UPDATE_CURRENT)
-        val notification = NotificationCompat.Builder(context, CHANNEL_ID).setTicker(context.getString(R.string.app_name)).setContentTitle(title).setContentText(text).setStyle(NotificationCompat.BigTextStyle().bigText(text)).setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)).setColor(ContextCompat.getColor(context, R.color.yellow)).setSmallIcon(R.drawable.ic_logo).setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_logo)).setVibrate(longArrayOf(100, 100, 100, 100, 100)).setChannelId(CHANNEL_ID).setContentIntent(pendingIntent)
+        val notification = NotificationCompat.Builder(context, CHANNEL_ID).setTicker(context.getString(R.string.app_name)).setContentTitle(title).setContentText(text).setStyle(NotificationCompat.BigTextStyle().bigText(text)).setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)).setColor(ContextCompat.getColor(context, R.color.orange)).setSmallIcon(R.drawable.ic_logo).setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_logo)).setVibrate(longArrayOf(100, 100, 100, 100, 100)).setChannelId(CHANNEL_ID).setContentIntent(pendingIntent)
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val audioAttributes = AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).setUsage(AudioAttributes.USAGE_NOTIFICATION).build()
@@ -281,7 +281,7 @@ class HelperMethods(val context: Context) {
             mChannel.description = "Estisharati Notification Settings"
             mChannel.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION), audioAttributes)
             mChannel.enableLights(true)
-            mChannel.lightColor = ContextCompat.getColor(context, R.color.yellow)
+            mChannel.lightColor = ContextCompat.getColor(context, R.color.orange)
             mChannel.enableVibration(true)
             mChannel.vibrationPattern = longArrayOf(100, 100, 100, 100, 100)
             mChannel.setShowBadge(true)
@@ -367,7 +367,7 @@ class HelperMethods(val context: Context) {
         smsTime.timeInMillis = if(date!=null)date.time else Date().time
         val now = Calendar.getInstance()
         val timeFormatString = "h:mm aa"
-        val dateTimeFormatString = "EEEE, MMMM d, h:mm aa"
+        val dateTimeFormatString = "E, MMMM d, h:mm aa"
         val HOURS = 60 * 60 * 60.toLong()
         return if (now[Calendar.DATE] === smsTime[Calendar.DATE]) {
             "Today " + SimpleDateFormat(timeFormatString).format( smsTime.time)

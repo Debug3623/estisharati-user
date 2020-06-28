@@ -20,10 +20,12 @@ class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val me_text = itemView.me_text
     val me_text_time = itemView.me_text_time
     val me_text_profile = itemView.me_text_profile
-
+    val text_message_status=itemView.text_message_status
     val me_image_layout_hole = itemView.me_image_layout_hole
+
     val me_image_layout = itemView.me_image_layout
     val me_image = itemView.me_image
     val me_image_time=itemView.me_image_time
     val me_image_profile=itemView.me_image_profile
+    val image_message_status=itemView.image_message_status
 }

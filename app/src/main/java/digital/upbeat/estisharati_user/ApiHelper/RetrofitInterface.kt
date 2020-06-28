@@ -1,6 +1,7 @@
 package digital.upbeat.estisharati_user.ApiHelper
 
 import digital.upbeat.estisharati_user.DataClassHelper.DataFcmBody
+import digital.upbeat.estisharati_user.DataClassHelper.data
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -8,10 +9,9 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface RetrofitInterface {
-
     @FormUrlEncoded
     @POST("user/login")
-    fun LOGIN_API_CALL(@Field("user_id") user_id: String, @Field("password") password: String,@Field("remember") remember:String,@Field("fire_base_token") fire_base_token:String): Call<ResponseBody>
+    fun LOGIN_API_CALL(@Field("user_id") user_id: String, @Field("password") password: String, @Field("remember") remember: String, @Field("fire_base_token") fire_base_token: String): Call<ResponseBody>
 
     @FormUrlEncoded
     @POST("user/test_register")
@@ -37,10 +37,19 @@ interface RetrofitInterface {
     @POST("fcm/send")
     fun FCM_SEND_API_CALL(@Body dataFcmBody: DataFcmBody): Call<ResponseBody>
 
+    @FormUrlEncoded
+    @POST("notify")
+    fun NOTIFY_API_CALL(@Header("Authorization") token: String, @Field("receiver_id") receiver_id: String, @Field("title") title: String, @Field("body") body: String, @Field("data") data: String): Call<ResponseBody>
+
     @Multipart
     @POST("user/profile/edit")
-    fun PROFILE_PICTURE_UPDATE_API_CALL(@Header("Authorization") token:String,@Part profile_picture: MultipartBody.Part): Call<ResponseBody>
+    fun PROFILE_PICTURE_UPDATE_API_CALL(@Header("Authorization") token: String, @Part profile_picture: MultipartBody.Part): Call<ResponseBody>
 
+    @FormUrlEncoded
+    @POST("user/profile/edit")
+    fun UPDATE_FCM_API_CALL(@Header("Authorization") token: String, @Field("fire_base_token") fire_base_token: String): Call<ResponseBody>
 
-
+    @Multipart
+    @POST("upload-chatting-image")
+    fun upload_chatting_image_API_CALL(@Header("Authorization") token: String, @Part profile_picture: MultipartBody.Part): Call<ResponseBody>
 }

@@ -157,6 +157,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:layout_marginBottom="20dp"
                     android:visibility="visible">
 
                     <RelativeLayout
@@ -206,9 +207,10 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/online_now_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:visibility="visible"
                     android:background="@color/white_pink"
                     android:orientation="vertical">
 
