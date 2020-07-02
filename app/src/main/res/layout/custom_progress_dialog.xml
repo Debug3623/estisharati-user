@@ -23,6 +23,6 @@
         android:layout_marginBottom="5dp"
         android:gravity="center"
         android:text="progress..."
-        android:textColor="@color/white"
+        android:textColor="@color/dark_gray"
         android:textSize="15sp" />
 </LinearLayout>

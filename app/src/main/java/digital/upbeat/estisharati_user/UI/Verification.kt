@@ -1,15 +1,12 @@
 package digital.upbeat.estisharati_user.UI
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
 import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.firestore.FieldValue
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
 import digital.upbeat.estisharati_user.DataClassHelper.DataSubscription
@@ -52,11 +49,11 @@ class Verification : AppCompatActivity() {
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
 
         if (intent.extras != null) {
-            come_from = intent.getStringExtra("come_from")
-            phone = intent.getStringExtra("phone")
+            come_from = intent.getStringExtra("come_from")!!
+            phone = intent.getStringExtra("phone")!!
             if (come_from.equals("Registration")) {
-                password = intent.getStringExtra("password")
-                verified = intent.getStringExtra("verified")
+                password = intent.getStringExtra("password")!!
+                verified = intent.getStringExtra("verified")!!
                 if (verified.equals("false")) {
                     resendApiCall(phone)
                 } else {
@@ -257,16 +254,18 @@ class Verification : AppCompatActivity() {
                                 val phone = userObject.getString("phone")
                                 val image = userObject.getString("image")
                                 val member_since = userObject.getString("member_since")
+
                                 val user_metasStr = userObject.getString("user_metas")
                                 val userMetasObject = JSONObject(user_metasStr)
                                 val city = userMetasObject.getString("city")
-                                val contact = userMetasObject.getString("contact")
-                                val user_metas = DataUserMetas(city, contact)
+                                val phone_code = userMetasObject.getString("phone_code")
+                                val country = userMetasObject.getString("country")
+                                val fire_base_token = userMetasObject.getString("fire_base_token")
+                                val user_metas = DataUserMetas(city, phone_code,country, fire_base_token)
                                 val access_token = userObject.getString("access_token")
 
                                 val subscription_str = userObject.getString("subscription")
                                 val subscriptionObject = JSONObject(subscription_str)
-                                val fire_base_token = subscriptionObject.getString("fire_base_token")
                                 val courses = subscriptionObject.getString("courses")
                                 val consultations = subscriptionObject.getString("consultations")
                                 val current_package = subscriptionObject.getString("package")
@@ -274,7 +273,7 @@ class Verification : AppCompatActivity() {
 
                                 val dataUser = DataUser(id, fname, lname, email, phone, image, member_since, user_metas, access_token,subscription)
                                 preferencesHelper.isUserLogIn = true
-                                preferencesHelper.setLogInUser(dataUser)
+                                preferencesHelper.logInUser=dataUser
                                 val intent = Intent(this@Verification, OnBoarding::class.java)
                                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                 startActivity(intent)

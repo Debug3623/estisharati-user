@@ -47,9 +47,10 @@ class RecentChatAdapter(val context: Context, val chatHome: ChatHome, val dataUs
         }
         Glide.with(context).load(dataUserMessageFireStore.dataUserFireStore.image).apply(helperMethods.profileRequestOption).into(holder.profile_picture)
         if (0 < count) {
-            holder.unread_message_count.text = count.toString()
+            holder.unread_message_count.text=  if(count>50)  "50+" else count.toString()
+
             holder.unread_message_count.visibility = View.VISIBLE
-            holder.profile_picture.borderWidth = 5
+            holder.profile_picture.borderWidth = 10
         } else {
             holder.unread_message_count.visibility = View.GONE
             holder.profile_picture.borderWidth = 0

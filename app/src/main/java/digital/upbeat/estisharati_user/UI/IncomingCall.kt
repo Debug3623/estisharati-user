@@ -47,7 +47,7 @@ class IncomingCall : AppCompatActivity() {
     fun initViews() {
         helperMethods = HelperMethods(this@IncomingCall)
         preferencesHelper = SharedPreferencesHelper(this@IncomingCall)
-        dataUser = preferencesHelper.getLogInUser()
+        dataUser = preferencesHelper.logInUser
         firestore = FirebaseFirestore.getInstance()
     }
 

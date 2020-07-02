@@ -3,7 +3,6 @@ package digital.upbeat.estisharati_user.Fragment
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewpager.widget.ViewPager
 import com.google.firebase.firestore.*
 import digital.upbeat.estisharati_user.Adapter.*
 import digital.upbeat.estisharati_user.DataClassHelper.DataBoarding
@@ -22,11 +20,8 @@ import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
 import digital.upbeat.estisharati_user.UI.*
-import digital.upbeat.estisharati_user.Utils.CirclePageIndicator
 import kotlinx.android.synthetic.main.fragment_home.*
-import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 class Home : Fragment() {
     lateinit var helperMethods: HelperMethods
@@ -70,7 +65,7 @@ class Home : Fragment() {
         helperMethods = HelperMethods(requireContext())
         preferencesHelper = SharedPreferencesHelper(requireContext())
         firestore = FirebaseFirestore.getInstance()
-        dataUser = preferencesHelper.getLogInUser()
+        dataUser = preferencesHelper.logInUser
         val hashMap = hashMapOf<String, Any>("online_status" to true)
         helperMethods.updateUserDetailsToFirestore(dataUser.id, hashMap)
     }
@@ -160,12 +155,13 @@ class Home : Fragment() {
     }
 
     fun firestoreLisiner() {
+//        .whereIn("user_id", listOf("193","163"))
         onlineUserListener = firestore.collection("Users").orderBy("fname", Query.Direction.ASCENDING).addSnapshotListener { querySnapshot, firebaseFirestoreException ->
             querySnapshot?.let {
                 onlineUserArraylist = arrayListOf<DataUserFireStore>()
                 for (data in querySnapshot) {
                     val dataUserFireStore = data.toObject(DataUserFireStore::class.java)
-                    if (!dataUserFireStore.user_id.equals(dataUser.id)) {
+                    if (!dataUserFireStore.user_id.equals(dataUser.id)&&dataUserFireStore.online_status) {
                         onlineUserArraylist.add(dataUserFireStore)
                     }
                 }

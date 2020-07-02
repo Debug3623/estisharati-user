@@ -35,7 +35,6 @@ import kotlinx.android.synthetic.main.activity_video_call.calling_status
 import kotlinx.android.synthetic.main.activity_video_call.circle_progress
 import kotlinx.android.synthetic.main.activity_video_call.end_call
 import kotlinx.android.synthetic.main.activity_video_call.timer
-import kotlinx.android.synthetic.main.activity_voice_call.*
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -132,7 +131,7 @@ class VideoCall : AppCompatActivity() {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
 
-        dataUser = preferencesHelper.getLogInUser()
+        dataUser = preferencesHelper.logInUser
         firestore = FirebaseFirestore.getInstance()
     }
 

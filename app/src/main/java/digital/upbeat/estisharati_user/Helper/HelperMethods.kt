@@ -46,7 +46,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import digital.upbeat.estisharati_user.R
 import java.io.ByteArrayOutputStream
 import java.io.IOException
-import java.lang.String.format
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*

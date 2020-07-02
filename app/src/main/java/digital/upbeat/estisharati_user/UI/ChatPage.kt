@@ -40,8 +40,6 @@ import java.util.*
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 class ChatPage : AppCompatActivity() {
     lateinit var helperMethods: HelperMethods
@@ -85,7 +83,7 @@ class ChatPage : AppCompatActivity() {
     fun initViews() {
         helperMethods = HelperMethods(this@ChatPage)
         preferencesHelper = SharedPreferencesHelper(this@ChatPage)
-        dataUser = preferencesHelper.getLogInUser()
+        dataUser = preferencesHelper.logInUser
         firestore = FirebaseFirestore.getInstance()
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
         FcmPushretrofitInterface = RetrofitApiClient("https://fcm.googleapis.com/").getRetrofit().create(RetrofitInterface::class.java)

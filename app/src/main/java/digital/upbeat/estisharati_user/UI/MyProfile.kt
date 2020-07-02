@@ -5,27 +5,35 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Toast
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import com.bumptech.glide.Glide
+import com.google.firebase.firestore.FieldValue
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_user.DataClassHelper.DataSubscription
-import digital.upbeat.estisharati_user.DataClassHelper.DataUser
-import digital.upbeat.estisharati_user.DataClassHelper.DataUserMetas
+import digital.upbeat.estisharati_user.DataClassHelper.*
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
 import kotlinx.android.synthetic.main.activity_my_profile.*
+import kotlinx.android.synthetic.main.profile_edit_popup.*
+import kotlinx.android.synthetic.main.profile_edit_popup.view.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
@@ -39,6 +47,7 @@ class MyProfile : AppCompatActivity() {
     lateinit var preferencesHelper: SharedPreferencesHelper
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var dataUserObject: DataUser
+    lateinit var LayoutView: View
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_profile)
@@ -54,8 +63,9 @@ class MyProfile : AppCompatActivity() {
     }
 
     fun setUserDetils() {
-        dataUserObject = preferencesHelper.getLogInUser()
+        dataUserObject = preferencesHelper.logInUser
         user_name.text = dataUserObject.fname + " " + dataUserObject.lname
+        phone.text = dataUserObject.phone
         courses_count.text = dataUserObject.subscription.courses
         consultations_count.text = dataUserObject.subscription.consultations
         current_package.text = dataUserObject.subscription.current_package
@@ -79,6 +89,17 @@ class MyProfile : AppCompatActivity() {
         }
         profile_picture_layout.setOnClickListener {
             helperMethods.ChangeProfilePhotoPopup(this@MyProfile)
+        }
+        edit_profile.setOnClickListener {
+            if (helperMethods.isConnectingToInternet) {
+                if (preferencesHelper.countryCity.size > 0) {
+                    profileEditPopup()
+                } else {
+                    countryCityApiCall()
+                }
+            } else {
+                helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
+            }
         }
     }
 
@@ -116,14 +137,12 @@ class MyProfile : AppCompatActivity() {
     }
 
     fun profilePictureUpdateApiCall(filePath: String) {
-
-
         val file = File(filePath)
         val requestBody = RequestBody.create(MediaType.parse("*/*"), file)
-        val image = MultipartBody.Part.createFormData("image", file.getName(), requestBody)
+        val imageFile = MultipartBody.Part.createFormData("image", file.getName(), requestBody)
 
         helperMethods.showProgressDialog("Profile picture is updating...")
-        val responseBodyCall = retrofitInterface.PROFILE_PICTURE_UPDATE_API_CALL("Bearer ${dataUserObject.access_token}", image)
+        val responseBodyCall = retrofitInterface.PROFILE_PICTURE_UPDATE_API_CALL("Bearer ${dataUserObject.access_token}", imageFile)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()
@@ -146,8 +165,10 @@ class MyProfile : AppCompatActivity() {
                                 val user_metasStr = userObject.getString("user_metas")
                                 val userMetasObject = JSONObject(user_metasStr)
                                 val city = userMetasObject.getString("city")
-                                val contact = userMetasObject.getString("contact")
-                                val user_metas = DataUserMetas(city, contact)
+                                val phone_code = userMetasObject.getString("phone_code")
+                                val country = userMetasObject.getString("country")
+                                val fire_base_token = userMetasObject.getString("fire_base_token")
+                                val user_metas = DataUserMetas(city, phone_code, country, fire_base_token)
                                 val subscription_str = userObject.getString("subscription")
                                 val subscriptionObject = JSONObject(subscription_str)
                                 val courses = subscriptionObject.getString("courses")
@@ -155,17 +176,14 @@ class MyProfile : AppCompatActivity() {
                                 val current_package = subscriptionObject.getString("package")
                                 val subscription = DataSubscription(courses, consultations, current_package)
                                 val dataUser = DataUser(id, fname, lname, email, phone, image, member_since, user_metas, dataUserObject.access_token, subscription)
-                                preferencesHelper.setLogInUser(dataUser)
+                                preferencesHelper.logInUser = dataUser
                                 val message = jsonObject.getString("message")
                                 helperMethods.showToastMessage(message)
-                                GlobalData.profileUpdate=true
+                                GlobalData.profileUpdate = true
                                 setUserDetils()
-
-                                val hashMap= hashMapOf<String,Any>()
-                                hashMap.put("image",image)
-                                helperMethods.updateUserDetailsToFirestore(id,hashMap)
-
-
+                                val hashMap = hashMapOf<String, Any>()
+                                hashMap.put("image", image)
+                                helperMethods.updateUserDetailsToFirestore(id, hashMap)
                             } else {
                                 val message = jsonObject.getString("message")
                                 helperMethods.AlertPopup("Alert", message)
@@ -192,4 +210,275 @@ class MyProfile : AppCompatActivity() {
             }
         })
     }
+
+    fun profileEditPopup() {
+        val countryArrayList = preferencesHelper.countryCity
+        LayoutView = LayoutInflater.from(this@MyProfile).inflate(R.layout.profile_edit_popup, null)
+        val aleatdialog = AlertDialog.Builder(this@MyProfile)
+        aleatdialog.setView(LayoutView)
+        aleatdialog.setCancelable(false)
+        val dialog = aleatdialog.create()
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+        //        val ud_fname = LayoutView.findViewById<EditText>(R.id.ud_fname)
+        //        val ud_lname = LayoutView.findViewById<EditText>(R.id.ud_lname)
+        //        val ud_email_address = LayoutView.findViewById<EditText>(R.id.ud_email_address)
+        //        val ud_phone_codePicker = LayoutView.findViewById<CountryCodePicker>(R.id.ud_phone_codePicker)
+        //        val ud_phone = LayoutView.findViewById<EditText>(R.id.ud_phone)
+        //        val ud_country = LayoutView.findViewById<EditText>(R.id.ud_country)
+        //        val ud_city = LayoutView.findViewById<EditText>(R.id.ud_city)
+        //        val ud_contect_codePicker = LayoutView.findViewById<CountryCodePicker>(R.id.ud_contect_codePicker)
+        //        val ud_contect = LayoutView.findViewById<EditText>(R.id.ud_contect)
+        //        val cancel = LayoutView.findViewById<TextView>(R.id.cancel)
+        //        val update = LayoutView.findViewById<TextView>(R.id.update)
+        LayoutView.ud_fname.text = dataUserObject.fname.toEditable()
+        LayoutView.ud_lname.text = dataUserObject.lname.toEditable()
+        LayoutView.ud_email_address.text = dataUserObject.email.toEditable()
+        //        val phone = dataUserObject.phone.replace(dataUserObject.user_metas.phone_code, "")
+        //        LayoutView.ud_phone_codePicker.setCountryForPhoneCode(dataUserObject.user_metas.phone_code.toInt())
+        //        LayoutView.ud_phone.text = phone.toEditable()
+        //        LayoutView.ud_phone_codePicker.isEnabled = false
+        //        LayoutView.ud_phone.isEnabled = false
+        /*******Spinner start***********/
+        var countryIndex = 0
+        var cityIndex = 0
+        val countryArrString = arrayListOf<String>()
+        for (index in countryArrayList.indices) {
+            countryArrString.add(countryArrayList.get(index).country_name)
+            if (countryArrayList.get(index).country_id.equals(dataUserObject.user_metas.country)) {
+                countryIndex = index
+            }
+        }
+        val typeface = ResourcesCompat.getFont(this@MyProfile, R.font.almarai_regular)
+        val countryAdapter = ArrayAdapter(this@MyProfile, R.layout.support_simple_spinner_dropdown_item, countryArrString)
+        countryAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+        LayoutView.ud_country_spinner.adapter = countryAdapter
+        LayoutView.ud_country_spinner.setSelection(countryIndex, true)
+        val v2 = LayoutView.ud_country_spinner.selectedView
+        (v2 as TextView).textSize = 15f
+        v2.typeface = typeface
+        v2.setTextColor(ContextCompat.getColor(this@MyProfile, R.color.black))
+        LayoutView.ud_country_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                (view as TextView).textSize = 15f
+                view.typeface = typeface
+                view.setTextColor(ContextCompat.getColor(this@MyProfile, R.color.black))
+                val cityArrString = arrayListOf<String>()
+                for (city in countryArrayList.get(position).cities) {
+                    cityArrString.add(city.city_name)
+                }
+                val cityAdapter = ArrayAdapter(this@MyProfile, R.layout.support_simple_spinner_dropdown_item, cityArrString)
+                cityAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+                LayoutView.ud_city_spinner.adapter = cityAdapter
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+            }
+        }
+        val cityArrString = arrayListOf<String>()
+        for (index in countryArrayList.get(countryIndex).cities.indices) {
+            cityArrString.add(countryArrayList.get(countryIndex).cities.get(index).city_name)
+            if (countryArrayList.get(countryIndex).cities.get(index).city_id.equals(dataUserObject.user_metas.city)) {
+                cityIndex = index
+            }
+        }
+        val cityAdapter = ArrayAdapter(this@MyProfile, R.layout.support_simple_spinner_dropdown_item, cityArrString)
+        cityAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+        LayoutView.ud_city_spinner.adapter = cityAdapter
+        LayoutView.ud_city_spinner.setSelection(cityIndex, true)
+        val v3 = LayoutView.ud_city_spinner.selectedView
+        (v3 as TextView).textSize = 15f
+        v3.typeface = typeface
+        v3.setTextColor(ContextCompat.getColor(this@MyProfile, R.color.black))
+        LayoutView.ud_city_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                (view as TextView).textSize = 15f
+                view.typeface = typeface
+                view.setTextColor(ContextCompat.getColor(this@MyProfile, R.color.black))
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+            }
+        }
+        /*******Spinner end***********/
+        LayoutView.cancel.setOnClickListener {
+            dialog.dismiss()
+        }
+        LayoutView.update.setOnClickListener {
+            if (updateProfileValidation()) {
+                dialog.dismiss()
+                profileUpdateApiCall(LayoutView.ud_fname.toText(), LayoutView.ud_lname.toText(), LayoutView.ud_email_address.toText(), countryArrayList.get(LayoutView.ud_country_spinner.selectedItemPosition).country_id, countryArrayList.get(LayoutView.ud_country_spinner.selectedItemPosition).cities.get(LayoutView.ud_city_spinner.selectedItemPosition).city_id)
+            }
+        }
+    }
+
+    fun updateProfileValidation(): Boolean {
+        if (LayoutView.ud_fname.toText().equals("")) {
+            helperMethods.showToastMessage("Enter first name")
+            return false
+        }
+        if (LayoutView.ud_lname.toText().equals("")) {
+            helperMethods.showToastMessage("Enter last name")
+            return false
+        }
+        if (LayoutView.ud_email_address.toText().equals("")) {
+            helperMethods.showToastMessage("Enter email address")
+            return false
+        }
+        if (!helperMethods.isvalidEmail(LayoutView.ud_email_address.toText())) {
+            helperMethods.showToastMessage("Enter valid email address")
+            return false
+        }
+
+        if (!helperMethods.isConnectingToInternet) {
+            helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
+            return false
+        }
+        return true
+    }
+
+    fun countryCityApiCall() {
+        helperMethods.showProgressDialog("Please wait while Loading...")
+        val responseBodyCall = retrofitInterface.GEOGRAPHIES_API_CALL("Bearer ${dataUserObject.access_token}")
+        responseBodyCall.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                helperMethods.dismissProgressDialog()
+
+                if (response.isSuccessful) {
+                    if (response.body() != null) {
+                        try {
+                            val jsonObject = JSONObject(response.body()!!.string())
+                            val status = jsonObject.getString("status")
+                            if (status.equals("200")) {
+                                val dataString = jsonObject.getString("data")
+                                val countryArray = JSONArray(dataString)
+                                val countryArrayList = arrayListOf<DataCountry>()
+                                for (country_index in 0 until countryArray.length()) {
+                                    val countryObject = countryArray.getJSONObject(country_index)
+                                    val country_id = countryObject.getString("country_id")
+                                    val country_name = countryObject.getString("country_name")
+                                    val citiesStr = countryObject.getString("cities")
+                                    val cityArray = JSONArray(citiesStr)
+                                    val cities = arrayListOf<DataCity>()
+                                    for (city_index in 0 until cityArray.length()) {
+                                        val cityObject = cityArray.getJSONObject(city_index)
+                                        val city_id = cityObject.getString("city_id")
+                                        val city_name = cityObject.getString("city_name")
+                                        cities.add(DataCity(city_id, city_name))
+                                    }
+                                    countryArrayList.add(DataCountry(country_id, country_name, cities))
+                                }
+                                preferencesHelper.countryCity = countryArrayList
+                                profileEditPopup()
+                            } else {
+                                val message = jsonObject.getString("message")
+                                helperMethods.AlertPopup("Alert", message)
+                            }
+                        } catch (e: JSONException) {
+                            helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
+                            e.printStackTrace()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    } else {
+                        Log.d("body", "Body Empty")
+                    }
+                } else {
+                    helperMethods.showToastMessage(getString(R.string.something_went_wrong))
+                    Log.d("body", "Not Successful")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                helperMethods.dismissProgressDialog()
+                t.printStackTrace()
+                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+            }
+        })
+    }
+
+    fun profileUpdateApiCall(fNmae: String, lName: String, emailAddress: String, countryID: String, cityID: String) {
+        helperMethods.showProgressDialog("Profile is updating...")
+        val responseBodyCall = retrofitInterface.PROFILE_UPDATE_API_CALL("Bearer ${dataUserObject.access_token}", fNmae, lName, emailAddress, countryID, cityID)
+        responseBodyCall.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                helperMethods.dismissProgressDialog()
+
+                if (response.isSuccessful) {
+                    if (response.body() != null) {
+                        try {
+                            val jsonObject = JSONObject(response.body()!!.string())
+                            val status = jsonObject.getString("status")
+                            if (status.equals("200")) {
+                                val userString = jsonObject.getString("user")
+                                val userObject = JSONObject(userString)
+                                val id = userObject.getString("id")
+                                val fname = userObject.getString("fname")
+                                val lname = userObject.getString("lname")
+                                val email = userObject.getString("email")
+                                val phone = userObject.getString("phone")
+                                val image = userObject.getString("image")
+                                val member_since = userObject.getString("member_since")
+                                val user_metasStr = userObject.getString("user_metas")
+                                val userMetasObject = JSONObject(user_metasStr)
+                                val city = userMetasObject.getString("city")
+                                val phone_code = userMetasObject.getString("phone_code")
+                                val country = userMetasObject.getString("country")
+                                val fire_base_token = userMetasObject.getString("fire_base_token")
+                                val user_metas = DataUserMetas(city, phone_code, country, fire_base_token)
+                                val subscription_str = userObject.getString("subscription")
+                                val subscriptionObject = JSONObject(subscription_str)
+                                val courses = subscriptionObject.getString("courses")
+                                val consultations = subscriptionObject.getString("consultations")
+                                val current_package = subscriptionObject.getString("package")
+                                val subscription = DataSubscription(courses, consultations, current_package)
+                                val dataUser = DataUser(id, fname, lname, email, phone, image, member_since, user_metas, dataUserObject.access_token, subscription)
+                                preferencesHelper.logInUser = dataUser
+                                val message = jsonObject.getString("message")
+                                helperMethods.showToastMessage(message)
+                                GlobalData.profileUpdate = true
+                                setUserDetils()
+                                val hashMap = hashMapOf<String, Any>()
+                                hashMap.put("user_id", id)
+                                hashMap.put("fname", fname)
+                                hashMap.put("lname", lname)
+                                hashMap.put("email", email)
+                                hashMap.put("phone", phone)
+                                hashMap.put("image", image)
+                                hashMap.put("fire_base_token", fire_base_token)
+                                hashMap.put("user_type", "user")
+                                hashMap.put("online_status", true)
+                                hashMap.put("last_seen", FieldValue.serverTimestamp())
+                                hashMap.put("availability", true)
+                                hashMap.put("channel_unique_id", "")
+                                helperMethods.setUserDetailsToFirestore(id, hashMap)
+                            } else {
+                                val message = jsonObject.getString("message")
+                                helperMethods.AlertPopup("Alert", message)
+                            }
+                        } catch (e: JSONException) {
+                            helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
+                            e.printStackTrace()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    } else {
+                        Log.d("body", "Body Empty")
+                    }
+                } else {
+                    helperMethods.showToastMessage(getString(R.string.something_went_wrong))
+                    Log.d("body", "Not Successful")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                helperMethods.dismissProgressDialog()
+                t.printStackTrace()
+                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+            }
+        })
+    }
+
+    fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
+    fun EditText.toText(): String = text.toString().trim()
 }

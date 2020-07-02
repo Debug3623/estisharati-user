@@ -45,7 +45,7 @@ class SendDeviceTokenHelper(val context: Context, val splashScreen: SplashScreen
 
             return
         }
-        val responseBodyCall = retrofitInterface.UPDATE_FCM_API_CALL("Bearer ${preferencesHelper.getLogInUser().access_token}", GlobalData.FcmToken)
+        val responseBodyCall = retrofitInterface.UPDATE_FCM_API_CALL("Bearer ${preferencesHelper.logInUser.access_token}", GlobalData.FcmToken)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()

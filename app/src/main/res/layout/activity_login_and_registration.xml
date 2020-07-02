@@ -379,7 +379,7 @@
                             android:backgroundTint="@color/transparent"
                             android:fontFamily="@font/almarai_regular"
                             android:hint="First Name"
-                            android:inputType="text"
+                            android:inputType="textCapSentences"
                             android:paddingLeft="0dp"
                             android:paddingBottom="10dp"
                             android:singleLine="true"

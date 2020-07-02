@@ -3,8 +3,10 @@ package digital.upbeat.estisharati_user.Helper
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
+import digital.upbeat.estisharati_user.DataClassHelper.DataCountry
 import digital.upbeat.estisharati_user.DataClassHelper.DataUser
 import org.codehaus.jackson.map.ObjectMapper
+import java.io.IOException
 
 class SharedPreferencesHelper(mContext: Context) {
     private val PREF_NAME = "estisharati_user"
@@ -30,45 +32,43 @@ class SharedPreferencesHelper(mContext: Context) {
             pref_editor.putBoolean("IsUserLogIn", IsUserLogIn).apply()
         }
 
-    fun setLogInUser(user: DataUser) {
+
+
+    var logInUser:DataUser
+        get() {
+            val gson = Gson()
+            val json = pref.getString("DataUser", "")
+            if (json.equals("")) {
+                return DataUser()
+            } else {
+                return gson.fromJson(json, DataUser::class.java)
+            }
+        }
+    set(user) {
         val gson = Gson()
         val json = gson.toJson(user)
         pref_editor.putString("DataUser", json).apply()
+
     }
 
-    fun getLogInUser(): DataUser {
-        val gson = Gson()
-        val json = pref.getString("DataUser", "")
-        if (json.equals("")) {
-            return DataUser()
-        } else {
-            return gson.fromJson(json, DataUser::class.java)
+    var countryCity: ArrayList<DataCountry>
+        get() {
+            val list = pref.getString("countryCity", null)
+            var Arraylist: ArrayList<DataCountry> = ArrayList()
+            if (list != null) {
+                try {
+                    Arraylist = mapper!!.readValue(list, mapper!!.typeFactory.constructCollectionType(ArrayList::class.java, DataCountry::class.java))
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+            return Arraylist
         }
-    }
-    //    var countryState: ArrayList<Any?>?
-    //        get() {
-    //            val list =
-    //                pref.getString("countrystate", null)
-    //            var Arraylist: ArrayList<DataCountryList> = ArrayList()
-    //            if (list != null) {
-    //                try {
-    //                    Arraylist = mapper.readValue(
-    //                        list, mapper!!.typeFactory.constructCollectionType(
-    //                            ArrayList::class.java, DataCountryList::class.java
-    //                        )
-    //                    )
-    //                } catch (e: IOException) {
-    //                    e.printStackTrace()
-    //                }
-    //            }
-    //            return Arraylist
-    //        }
-    //        set(datacountrylist) {
-    //            try {
-    //                pref_editor.putString("countrystate", mapper!!.writeValueAsString(datacountrylist))
-    //                    .apply()
-    //            } catch (e: IOException) {
-    //                e.printStackTrace()
-    //            }
-    //        }
+        set(datacountrylist) {
+            try {
+                pref_editor.putString("countryCity", mapper!!.writeValueAsString(datacountrylist)).apply()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
 }

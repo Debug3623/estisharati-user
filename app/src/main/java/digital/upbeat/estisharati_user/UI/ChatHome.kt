@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
-import digital.upbeat.estisharati_user.Adapter.ChatAdapter
 import digital.upbeat.estisharati_user.Adapter.OnlineConsultationsAdapter
 import digital.upbeat.estisharati_user.Adapter.RecentChatAdapter
 import digital.upbeat.estisharati_user.DataClassHelper.DataMessageFireStore
@@ -46,7 +45,7 @@ class ChatHome : AppCompatActivity() {
         helperMethods = HelperMethods(this@ChatHome)
         preferencesHelper = SharedPreferencesHelper(this@ChatHome)
         firestore = FirebaseFirestore.getInstance()
-        dataUser = preferencesHelper.getLogInUser()
+        dataUser = preferencesHelper.logInUser
     }
 
     fun clickEvents() {
@@ -61,7 +60,9 @@ class ChatHome : AppCompatActivity() {
                 for (data in querySnapshot) {
                     val dataUserFireStore = data.toObject(DataUserFireStore::class.java)
                     if (!dataUserFireStore.user_id.equals(dataUser.id)) {
-                        onlineConsultationArraylist.add(dataUserFireStore)
+                        if (dataUserFireStore.online_status) {
+                            onlineConsultationArraylist.add(dataUserFireStore)
+                        }
                         userArraylist.add(dataUserFireStore)
                     }
                 }
@@ -79,7 +80,7 @@ class ChatHome : AppCompatActivity() {
                 IdArray.add(dataUser.id.toInt())
                 IdArray.add(data.user_id.toInt())
                 Collections.sort(IdArray)
-                firestore.collection("Chats").whereEqualTo("communication_id", IdArray).orderBy("send_time", Query.Direction.ASCENDING).get().addOnSuccessListener {
+                firestore.collection("Chats").whereEqualTo("communication_id", IdArray).orderBy("send_time", Query.Direction.ASCENDING).limitToLast(51).get().addOnSuccessListener {
                     val messagesArrayList = arrayListOf<DataMessageFireStore>()
                     it?.let {
                         for (dataMsg in it) {

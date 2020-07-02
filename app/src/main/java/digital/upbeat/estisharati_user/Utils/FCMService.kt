@@ -43,7 +43,7 @@ class FCMService : FirebaseMessagingService() {
         if (preferencesHelper.isUserLogIn) {
             val hashMap = hashMapOf<String, Any>("fire_base_token" to newToken)
             GlobalData.FcmToken = newToken
-            FirebaseFirestore.getInstance().collection("Users").document(preferencesHelper.getLogInUser().id).update(hashMap)
+            FirebaseFirestore.getInstance().collection("Users").document(preferencesHelper.logInUser.id).update(hashMap)
             SendDeviceTokenHelper(this, null, false).SendDeviceTokenFirebase()
 
         }

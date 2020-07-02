@@ -52,7 +52,7 @@ class UserDrawer : AppCompatActivity() {
         radioArabic = language_group.findViewById(R.id.radio_arabic) as RadioButton
         almarai_bold = ResourcesCompat.getFont(this@UserDrawer, R.font.almarai_bold)!!
         almarai_regular = ResourcesCompat.getFont(this@UserDrawer, R.font.almarai_regular)!!
-        dataUser = preferencesHelper.getLogInUser()
+        dataUser = preferencesHelper.logInUser
 
 
         supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, Home()).commit()
@@ -61,7 +61,7 @@ class UserDrawer : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         if (GlobalData.profileUpdate) {
-            dataUser = preferencesHelper.getLogInUser()
+            dataUser = preferencesHelper.logInUser
             GlobalData.profileUpdate = false
             setUserDetails()
         }
@@ -150,7 +150,7 @@ class UserDrawer : AppCompatActivity() {
         action_ok.setOnClickListener {
             dialog.dismiss()
             preferencesHelper.isUserLogIn = false
-            preferencesHelper.setLogInUser(DataUser())
+            preferencesHelper.logInUser= DataUser()
             val intent = Intent(this@UserDrawer, LoginAndRegistration::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)

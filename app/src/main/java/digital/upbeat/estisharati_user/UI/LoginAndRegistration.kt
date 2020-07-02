@@ -1,6 +1,5 @@
 package digital.upbeat.estisharati_user.UI
 
-import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -120,24 +119,21 @@ class LoginAndRegistration : AppCompatActivity() {
             startActivity(intent)
         }
         btn_login.setOnClickListener {
-
-            val remember=if(remember_me.isChecked)"on" else "off"
+            val remember = if (remember_me.isChecked) "on" else "off"
             if (loginValidation()) {
-
-
-                logInApiCall(email_phone_number.toText(), password.toText(),remember)
+                logInApiCall(email_phone_number.toText(), password.toText(), remember)
             }
         }
         register.setOnClickListener {
             if (registrationValidation()) {
-                registrationApiCall(reg_fname.toText(), reg_lname.toText(), reg_email_address.toText(), codePicker.selectedCountryCodeWithPlus + "" + reg_phone.toText(), reg_password.toText())
+                registrationApiCall(reg_fname.toText(), reg_lname.toText(), reg_email_address.toText(), codePicker.selectedCountryCodeWithPlus + " " + reg_phone.toText(), reg_password.toText())
             }
         }
     }
 
     fun loginValidation(): Boolean {
         if (email_phone_number.toText().equals("")) {
-            helperMethods.showToastMessage("Enter email address or phone number")
+            helperMethods.showToastMessage("Enter email address")
             return false
         }
         if (!helperMethods.isvalidEmail(email_phone_number.toText())) {
@@ -164,9 +160,9 @@ class LoginAndRegistration : AppCompatActivity() {
         return true
     }
 
-    fun logInApiCall(userIdStr: String, password: String,remember:String) {
+    fun logInApiCall(userIdStr: String, password: String, remember: String) {
         helperMethods.showProgressDialog("Please wait while login in...")
-        val responseBodyCall = retrofitInterface.LOGIN_API_CALL(userIdStr, password,remember,GlobalData.FcmToken)
+        val responseBodyCall = retrofitInterface.LOGIN_API_CALL(userIdStr, password, remember, GlobalData.FcmToken)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()
@@ -186,44 +182,40 @@ class LoginAndRegistration : AppCompatActivity() {
                                 val phone = userObject.getString("phone")
                                 val image = userObject.getString("image")
                                 val member_since = userObject.getString("member_since")
-
                                 val user_metasStr = userObject.getString("user_metas")
                                 val userMetasObject = JSONObject(user_metasStr)
                                 val city = userMetasObject.getString("city")
-                                val contact = userMetasObject.getString("contact")
+                                val phone_code = userMetasObject.getString("phone_code")
+                                val country = userMetasObject.getString("country")
                                 val fire_base_token = userMetasObject.getString("fire_base_token")
-
-                                val user_metas = DataUserMetas(city, contact)
-
+                                val user_metas = DataUserMetas(city, phone_code, country, fire_base_token)
                                 val subscription_str = userObject.getString("subscription")
                                 val subscriptionObject = JSONObject(subscription_str)
                                 val courses = subscriptionObject.getString("courses")
                                 val consultations = subscriptionObject.getString("consultations")
                                 val current_package = subscriptionObject.getString("package")
-                                val subscription = DataSubscription(courses, consultations,current_package)
-
+                                val subscription = DataSubscription(courses, consultations, current_package)
                                 val access_token = userObject.getString("access_token")
-                                val dataUser = DataUser(id, fname, lname, email, phone, image, member_since, user_metas, access_token,subscription)
+                                val dataUser = DataUser(id, fname, lname, email, phone, image, member_since, user_metas, access_token, subscription)
+                                val hashMap = hashMapOf<String, Any>()
+                                hashMap.put("user_id", id)
+                                hashMap.put("fname", fname)
+                                hashMap.put("lname", lname)
+                                hashMap.put("email", email)
+                                hashMap.put("phone", phone)
+                                hashMap.put("image", image)
+                                hashMap.put("fire_base_token", fire_base_token)
+                                hashMap.put("user_type", "user")
+                                hashMap.put("online_status", true)
+                                hashMap.put("last_seen", FieldValue.serverTimestamp())
+                                hashMap.put("availability", true)
+                                hashMap.put("channel_unique_id", "")
 
-                                val hashMap= hashMapOf<String,Any>()
-                                hashMap.put("user_id",id)
-                                hashMap.put("fname",fname)
-                                hashMap.put("lname",lname)
-                                hashMap.put("email",email)
-                                hashMap.put("phone",phone)
-                                hashMap.put("image",image)
-                                hashMap.put("fire_base_token",fire_base_token)
-                                hashMap.put("user_type","user")
-                                hashMap.put("online_status",true)
-                                hashMap.put("last_seen",FieldValue.serverTimestamp())
-                                hashMap.put("availability",true)
-                                hashMap.put("channel_unique_id","")
 
-
-                                helperMethods.setUserDetailsToFirestore(id,hashMap)
+                                helperMethods.setUserDetailsToFirestore(id, hashMap)
 
                                 preferencesHelper.isUserLogIn = true
-                                preferencesHelper.setLogInUser(dataUser)
+                                preferencesHelper.logInUser=dataUser
                                 startActivity(Intent(this@LoginAndRegistration, UserDrawer::class.java))
                                 finish()
                             } else {
@@ -355,16 +347,16 @@ class LoginAndRegistration : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 123) {
-            if (resultCode == Activity.RESULT_OK) {
-                val street = data!!.getStringExtra("value1")
-                val city = data.getStringExtra("value2")
-                val home = data.getStringExtra("value3")
-                Log.d("result", "$street $city $home")
-                startActivity(Intent(this@LoginAndRegistration, OnBoarding::class.java))
-                finish()
-            }
-        }
+        //        if (requestCode == 123) {
+        //            if (resultCode == Activity.RESULT_OK) {
+        //                val street = data!!.getStringExtra("value1")
+        //                val city = data.getStringExtra("value2")
+        //                val home = data.getStringExtra("value3")
+        //                Log.d("result", "$street $city $home")
+        //                startActivity(Intent(this@LoginAndRegistration, OnBoarding::class.java))
+        //                finish()
+        //            }
+        //        }
     }
 
     fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)

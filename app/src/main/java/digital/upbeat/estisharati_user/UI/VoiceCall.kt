@@ -105,7 +105,7 @@ class VoiceCall : AppCompatActivity(), SensorEventListener {
         helperMethods = HelperMethods(this@VoiceCall)
         preferencesHelper = SharedPreferencesHelper(this@VoiceCall)
 
-        dataUser = preferencesHelper.getLogInUser()
+        dataUser = preferencesHelper.logInUser
         firestore = FirebaseFirestore.getInstance()
 
 
