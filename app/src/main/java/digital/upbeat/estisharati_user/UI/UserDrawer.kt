@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.GravityCompat
 import com.bumptech.glide.Glide
+import com.google.firebase.firestore.FieldValue
 import digital.upbeat.estisharati_user.DataClassHelper.DataUser
 import digital.upbeat.estisharati_user.Fragment.Consultations
 import digital.upbeat.estisharati_user.Fragment.Home
@@ -36,6 +37,7 @@ class UserDrawer : AppCompatActivity() {
     lateinit var almarai_bold: Typeface
     lateinit var almarai_regular: Typeface
     lateinit var dataUser: DataUser
+    var mBackPressed: Long = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_drawer)
@@ -53,7 +55,8 @@ class UserDrawer : AppCompatActivity() {
         almarai_bold = ResourcesCompat.getFont(this@UserDrawer, R.font.almarai_bold)!!
         almarai_regular = ResourcesCompat.getFont(this@UserDrawer, R.font.almarai_regular)!!
         dataUser = preferencesHelper.logInUser
-
+        val hashMap = hashMapOf<String, Any>("online_status" to true)
+        helperMethods.updateUserDetailsToFirestore(dataUser.id, hashMap)
 
         supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, Home()).commit()
     }
@@ -116,10 +119,10 @@ class UserDrawer : AppCompatActivity() {
         nav_contect_us.setOnClickListener {
             startActivity(Intent(this@UserDrawer, ContactUs::class.java))
         }
-        nav_my_profile1.setOnClickListener {
+        nav_header1.setOnClickListener {
             startActivity(Intent(this@UserDrawer, MyProfile::class.java))
         }
-        nav_my_profile2.setOnClickListener {
+        nav_header2.setOnClickListener {
             startActivity(Intent(this@UserDrawer, MyProfile::class.java))
         }
         nav_logout.setOnClickListener {
@@ -150,7 +153,7 @@ class UserDrawer : AppCompatActivity() {
         action_ok.setOnClickListener {
             dialog.dismiss()
             preferencesHelper.isUserLogIn = false
-            preferencesHelper.logInUser= DataUser()
+            preferencesHelper.logInUser = DataUser()
             val intent = Intent(this@UserDrawer, LoginAndRegistration::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
@@ -181,5 +184,43 @@ class UserDrawer : AppCompatActivity() {
             radioEnglish.typeface = almarai_regular
             radioArabic.typeface = almarai_bold
         }
+    }
+
+    fun exitPopup(titleStr: String, messageStr: String) {
+        val LayoutView = LayoutInflater.from(this@UserDrawer).inflate(R.layout.confirmation_alert_popup, null)
+        val aleatdialog = AlertDialog.Builder(this@UserDrawer)
+        aleatdialog.setView(LayoutView)
+        aleatdialog.setCancelable(false)
+        val dialog = aleatdialog.create()
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+        val title = LayoutView.findViewById<TextView>(R.id.title)
+        val message = LayoutView.findViewById<TextView>(R.id.message)
+        val action_ok = LayoutView.findViewById<TextView>(R.id.action_ok)
+        val action_cancel = LayoutView.findViewById<TextView>(R.id.action_cancel)
+        title.text = titleStr
+        message.text = messageStr
+        action_ok.setOnClickListener {
+            dialog.dismiss()
+            finish()
+        }
+        action_cancel.setOnClickListener { dialog.dismiss() }
+    }
+
+    override fun onDestroy() {
+        val hashMap = hashMapOf<String, Any>("online_status" to false, "last_seen" to FieldValue.serverTimestamp())
+        helperMethods.updateUserDetailsToFirestore(dataUser.id, hashMap)
+
+        super.onDestroy()
+    }
+
+    override fun onBackPressed() {
+        if (mBackPressed + 2000 > System.currentTimeMillis()) {
+            exitPopup("Exit", "Are you sure?\nDo you want exit and offline the app.")
+            return
+        } else {
+            helperMethods.showToastMessage("Please click back again to exit!")
+        }
+        mBackPressed = System.currentTimeMillis()
     }
 }

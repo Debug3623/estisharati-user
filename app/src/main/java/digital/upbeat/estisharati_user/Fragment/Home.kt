@@ -66,9 +66,7 @@ class Home : Fragment() {
         preferencesHelper = SharedPreferencesHelper(requireContext())
         firestore = FirebaseFirestore.getInstance()
         dataUser = preferencesHelper.logInUser
-        val hashMap = hashMapOf<String, Any>("online_status" to true)
-        helperMethods.updateUserDetailsToFirestore(dataUser.id, hashMap)
-    }
+      }
 
     fun clickEvents() {
         ask_for_advice.setOnClickListener {
@@ -104,8 +102,6 @@ class Home : Fragment() {
         super.onDestroy()
         onlineUserListener?.remove()
         incomingCallListener?.remove()
-        val hashMap = hashMapOf<String, Any>("online_status" to false, "last_seen" to FieldValue.serverTimestamp())
-        helperMethods.updateUserDetailsToFirestore(dataUser.id, hashMap)
     }
 
     fun InitializeRecyclerview() {
