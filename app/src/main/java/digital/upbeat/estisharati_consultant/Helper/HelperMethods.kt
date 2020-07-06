@@ -25,9 +25,12 @@ import android.os.Build
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.text.Html
+import android.text.Spanned
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -37,10 +40,13 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.request.RequestOptions
+import com.google.firebase.firestore.FirebaseFirestore
 import digital.upbeat.estisharati_consultant.R
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import java.io.ByteArrayOutputStream
 import java.io.IOException
+import java.net.MalformedURLException
+import java.net.URL
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -50,6 +56,14 @@ class HelperMethods(var context: Context) {
     var calendarInstance: Calendar? = null
     var dialog: android.app.AlertDialog? = null
     var preferencesHelper: SharedPreferencesHelper
+    val firebaseFirestore: FirebaseFirestore
+
+    init {
+        preferencesHelper = SharedPreferencesHelper(context)
+        calendarInstance = Calendar.getInstance()
+        firebaseFirestore = FirebaseFirestore.getInstance()
+    }
+
     fun ShowDatePickerDialog(date_picker_text: TextView) {
         DatePickerDialog(context, OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
             val newDate = Calendar.getInstance()
@@ -107,7 +121,7 @@ class HelperMethods(var context: Context) {
         imm.hideSoftInputFromWindow(input.windowToken, 0)
     }
 
-    fun ShowProgressDialog(msg: String) {
+    fun showProgressDialog(msg: String) {
         if (dialog != null) {
             if (dialog!!.isShowing) {
                 dialog!!.dismiss()
@@ -128,7 +142,7 @@ class HelperMethods(var context: Context) {
         dialog!!.show()
     }
 
-    fun DismissProgressDialog() {
+    fun dismissProgressDialog() {
         try {
             if (dialog != null) {
                 if (dialog!!.isShowing) {
@@ -140,9 +154,29 @@ class HelperMethods(var context: Context) {
         }
     }
 
-    fun SelfPermission(activity: Activity?) {
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.CAMERA, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), 123)
+    fun showToastMessage(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+    }
+
+    fun setStatusBarColor(activity: Activity, StatusBarColor: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val window = activity.window
+            val view = window.decorView
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_OVERSCAN)
+            window.statusBarColor = ContextCompat.getColor(activity, StatusBarColor)
+            //            window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                var flags = view.systemUiVisibility
+                flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                view.systemUiVisibility = flags
+            }
+        }
+    }
+
+    fun selfPermission(activity: Activity?) {
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO), 123)
         }
     }
 
@@ -175,15 +209,55 @@ class HelperMethods(var context: Context) {
                 dialog.dismiss()
             }
         } else {
-            SelfPermission(activity)
+            selfPermission(activity)
         }
     }
 
-    fun ActionDialIntent(number: String) {
+    fun getFileNameFromURL(url: String?): String {
+        if (url.equals("") || url == null) {
+            return ""
+        }
+        try {
+            val resource = URL(url)
+            val host: String = resource.getHost()
+            if (host.length > 0 && url.endsWith(host)) {
+                // handle ...example.com
+                return ""
+            }
+        } catch (e: MalformedURLException) {
+            return ""
+        }
+        val startIndex = url.lastIndexOf('/') + 1
+        val length = url.length
+        // find end index for ?
+        var lastQMPos = url.lastIndexOf('?')
+        if (lastQMPos == -1) {
+            lastQMPos = length
+        }
+        // find end index for #
+        var lastHashPos = url.lastIndexOf('#')
+        if (lastHashPos == -1) {
+            lastHashPos = length
+        }
+        // calculate the end index
+        val endIndex = Math.min(lastQMPos, lastHashPos)
+        return url.substring(startIndex, endIndex)
+    }
+
+    fun actionDialIntent(number: String) {
         val i = Intent(Intent.ACTION_DIAL)
         val p = "tel:$number"
         i.data = Uri.parse(p)
         context.startActivity(i)
+    }
+
+    fun getColorString(text: String, color: Int): Spanned {
+        val bodyData = "<font color='$color'>$text</font>"
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return Html.fromHtml(bodyData, Html.FROM_HTML_MODE_LEGACY)
+        } else {
+            return Html.fromHtml(bodyData)
+        }
     }
 
     fun MillisUntilToTime(millisUntilFinished: Long): String {
@@ -193,7 +267,7 @@ class HelperMethods(var context: Context) {
         return DecimalFormat("00").format(minutes) + ":" + DecimalFormat("00").format(seconds.toLong())
     }
 
-    fun SendPushNotification(title: String?, text: String?) {
+    fun sendPushNotification(title: String, text: String) {
         //        Intent intent=null;
         //        if(BaseIntent!=null||!BaseIntent.equalsIgnoreCase("")){
         //            intent=new Intent(BaseIntent);
@@ -204,7 +278,7 @@ class HelperMethods(var context: Context) {
         val num = System.currentTimeMillis().toInt()
         val CHANNEL_ID = "RideHomeUser"
         val pendingIntent = PendingIntent.getActivity(context, num, Intent(), PendingIntent.FLAG_UPDATE_CURRENT)
-        val notification = NotificationCompat.Builder(context, CHANNEL_ID).setTicker(context.getString(R.string.app_name)).setContentTitle(title).setContentText(text).setStyle(NotificationCompat.BigTextStyle().bigText(text)).setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)).setColor(ContextCompat.getColor(context, R.color.yellow)).setSmallIcon(R.drawable.ic_launcher_background).setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_launcher_background)).setVibrate(longArrayOf(100, 100, 100, 100, 100)).setChannelId(CHANNEL_ID).setContentIntent(pendingIntent)
+        val notification = NotificationCompat.Builder(context, CHANNEL_ID).setTicker(context.getString(R.string.app_name)).setContentTitle(title).setContentText(text).setStyle(NotificationCompat.BigTextStyle().bigText(text)).setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)).setColor(ContextCompat.getColor(context, R.color.orange)).setSmallIcon(R.drawable.ic_logo).setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_logo)).setVibrate(longArrayOf(100, 100, 100, 100, 100)).setChannelId(CHANNEL_ID).setContentIntent(pendingIntent)
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val audioAttributes = AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).setUsage(AudioAttributes.USAGE_NOTIFICATION).build()
@@ -213,7 +287,7 @@ class HelperMethods(var context: Context) {
             mChannel.description = "Ride Home Notification Settings"
             mChannel.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION), audioAttributes)
             mChannel.enableLights(true)
-            mChannel.lightColor = ContextCompat.getColor(context, R.color.yellow)
+            mChannel.lightColor = ContextCompat.getColor(context, R.color.orange)
             mChannel.enableVibration(true)
             mChannel.vibrationPattern = longArrayOf(100, 100, 100, 100, 100)
             mChannel.setShowBadge(true)
@@ -252,8 +326,15 @@ class HelperMethods(var context: Context) {
     val requestOption: RequestOptions
         get() {
             val requestOptions = RequestOptions()
-            requestOptions.placeholder(R.drawable.ic_launcher_background)
-            requestOptions.error(R.drawable.ic_launcher_background)
+            requestOptions.placeholder(R.drawable.ic_logo)
+            requestOptions.error(R.drawable.ic_logo)
+            return requestOptions
+        }
+    val profileRequestOption: RequestOptions
+        get() {
+            val requestOptions = RequestOptions()
+            requestOptions.placeholder(R.drawable.ic_img_no_avatar)
+            requestOptions.error(R.drawable.ic_img_no_avatar)
             return requestOptions
         }
     val isConnectingToInternet: Boolean
@@ -267,6 +348,47 @@ class HelperMethods(var context: Context) {
             }
             return false
         }
+
+    fun setUserDetailsToFirestore(user_id: String, hashMap: HashMap<String, Any>) {
+        firebaseFirestore.collection("Users").document(user_id).set(hashMap).addOnSuccessListener {}.addOnFailureListener {
+            it.localizedMessage?.let {
+                Log.d("firebaseFirestore", it)
+            }
+        }
+    }
+
+    fun updateUserDetailsToFirestore(user_id: String, hashMap: HashMap<String, Any>) {
+        firebaseFirestore.collection("Users").document(user_id).update(hashMap).addOnSuccessListener {}.addOnFailureListener {
+            it.localizedMessage?.let {
+                Log.d("firebaseFirestore", it)
+            }
+        }
+    }
+
+    fun setCallsDetailsToFirestore(id: String, hashMap: HashMap<String, Any>) {
+        firebaseFirestore.collection("Calls").document(id).set(hashMap).addOnSuccessListener {}.addOnFailureListener {
+            it.localizedMessage?.let {
+                Log.d("firebaseFirestore", it)
+            }
+        }
+    }
+
+    fun updateCallsDetailsToFirestore(id: String, hashMap: HashMap<String, Any>) {
+        firebaseFirestore.collection("Calls").document(id).update(hashMap).addOnSuccessListener {}.addOnFailureListener {
+            it.localizedMessage?.let {
+                Log.d("firebaseFirestore", it)
+            }
+        }
+    }
+
+    fun getCustomFileChooserIntent(vararg types: String?): Intent? {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        // Filter to only show results that can be "opened"
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+        intent.type = "*/*"
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, types)
+        return intent
+    }
 
     fun getAddressArrFromLatLong(latitude: Double, longitude: Double): List<Address?> {
         val geocoder = Geocoder(context, Locale.getDefault())
@@ -303,8 +425,7 @@ class HelperMethods(var context: Context) {
         return Uri.parse(path)
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    fun getFilePath(uri: Uri): String? {
+    @TargetApi(Build.VERSION_CODES.KITKAT) fun getFilePath(uri: Uri): String? {
         val isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
         // DocumentProvider
         if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
@@ -398,10 +519,5 @@ class HelperMethods(var context: Context) {
         fun isMediaDocument(uri: Uri): Boolean {
             return "com.android.providers.media.documents" == uri.authority
         }
-    }
-
-    init {
-        preferencesHelper = SharedPreferencesHelper(context)
-        calendarInstance = Calendar.getInstance()
     }
 }

@@ -5,33 +5,40 @@
     <color name="colorAccent">#000000</color>
 
     <color name="orange">#ea7636</color>
-
-    <color name="green">#9fb761</color>
+    91b146
+    <color name="green">#80a02e</color>
+    <color name="light_green">#9fb761</color>
+    <color name="light_green1">#91b146</color>
+    <color name="light_green2">#b4d460</color>
     <color name="dark_green">#008000</color>
-
+    <color name="parrot_green">#6adb67</color>
 
     <color name="transparent">#00000000</color>
+    <color name="transparent_white">#80ffffff</color>
     <color name="gray_transparent">#C3706F6F</color>
+    <color name="blur_transparent">#66000000</color>
+
+    <color name="pink">#ffe8dd</color>
+    <color name="white_pink">#FAF4F4</color>
 
     <color name="white">#ffffffff</color>
     <color name="ach_white_light">#f5f5f5</color>
     <color name="ach_white_dark">#f0f0f0</color>
 
     <color name="black">#000000</color>
-    <color name="light_black">#494242</color>
-
+    <color name="black_light">#595959</color>
+    <color name="black_light1">#6e6d6d</color>
 
     <color name="red">#FF0000</color>
     <color name="light_red">#f04015</color>
 
 
-    <color name="yellow">#ffcd00</color>
+    <color name="yellow">#f4cc07</color>
 
-
-    <color name="dark_gray">#aaa</color>
+    <color name="dark_gray">#aaaaaa</color>
     <color name="light_gray">#c9c9c9</color>
     <color name="gray">#cacaca</color>
+    <color name="gray1">#e6e6e6</color>
+
     <color name="gainsboro">#DCDCDC</color>
-
-
 </resources>

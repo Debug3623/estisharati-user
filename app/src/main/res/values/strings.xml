@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Estisharati User</string>
+    <string name="app_name">Estisharati Consultant</string>
 
 
     <string name="press_once_again_to_exit">Press once again to exit!</string>
@@ -8,5 +8,6 @@
     <string name="something_went_wrong">Something went wrong!</string>
     <string name="your_network_connection_is_slow_please_try_again">Your network connection is slow, please try again.</string>
     <string name="something_went_wrong_on_backend_server">Something went wrong on backend server!</string>
+    <string name="could_not_get_your_device_token_please_try_again">Could not get your device token please try again</string>
 
 </resources>

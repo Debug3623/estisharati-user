@@ -2,9 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/corner_redius_15dp_white"
+    android:background="@drawable/corner_redius_15dp_orange"
     android:orientation="horizontal"
     android:padding="25dp"
+    android:layout_margin="20dp"
     android:weightSum="2">
 
     <LinearLayout
@@ -30,7 +31,7 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="Camera"
-            android:textColor="@color/black"
+            android:textColor="@color/orange"
             android:textSize="17sp" />
     </LinearLayout>
 
@@ -57,7 +58,7 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="Gallery"
-            android:textColor="@color/black"
+            android:textColor="@color/orange"
             android:textSize="17sp" />
     </LinearLayout>
 </LinearLayout>
