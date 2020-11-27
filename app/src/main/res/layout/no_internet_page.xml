@@ -19,6 +19,7 @@
             <ImageView
                 android:layout_width="230dp"
                 android:layout_height="230dp"
+
                 android:adjustViewBounds="true"
                 android:src="@drawable/ic_cloud" />
         </LinearLayout>

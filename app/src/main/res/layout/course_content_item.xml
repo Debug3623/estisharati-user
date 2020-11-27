@@ -20,13 +20,14 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/main_text"
+                android:id="@+id/chapter_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="35dp"
                 android:fontFamily="@font/almarai_regular"
                 android:text="Introduction to the course"
                 android:textColor="@color/black"
+                android:singleLine="true"
                 android:textSize="16sp" />
 
             <ImageView

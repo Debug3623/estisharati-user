@@ -15,24 +15,23 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
+        android:largeHeap="true"
         android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-
+        <activity android:name=".UI.Favorites"></activity>
+        <activity
+            android:name=".UI.NotificationDetails"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UI.VideoCall"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UI.IncomingCall"
             android:screenOrientation="portrait" />
         <activity
             android:name=".UI.VoiceCall"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".UI.WebView"
             android:screenOrientation="portrait" />
         <activity
             android:name=".UI.AddPaymentMethod"
@@ -86,7 +85,7 @@
             android:name=".UI.MyProfile"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.AboutUs"
+            android:name=".UI.Pages"
             android:screenOrientation="portrait" />
         <activity
             android:name=".UI.ContactUs"
@@ -102,9 +101,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".UI.UserDrawer"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UI.OnBoarding"
             android:screenOrientation="portrait" />

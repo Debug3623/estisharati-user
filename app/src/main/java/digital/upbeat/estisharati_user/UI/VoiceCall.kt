@@ -336,7 +336,7 @@ class VoiceCall : AppCompatActivity(), SensorEventListener {
             accessToken = null // default, no token
         }
         // Allows a user to join a channel.
-        mRtcEngine.joinChannel(accessToken, dataCallsFireStore.channel_unique_id, "Extra Optional Data", 0) // if you do not specify the uid, we will generate the uid for you
+        mRtcEngine.joinChannel(accessToken, dataCallsFireStore.channel_unique_id, "Extra Optional Data", dataUser.id.toInt()) // if you do not specify the uid, we will generate the uid for you
     }
 
     override fun onBackPressed() {

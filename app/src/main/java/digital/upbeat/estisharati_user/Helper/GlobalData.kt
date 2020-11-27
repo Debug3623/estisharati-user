@@ -1,5 +1,6 @@
 package digital.upbeat.estisharati_user.Helper
 
+import digital.upbeat.estisharati_user.DataClassHelper.Home.HomeResponse
 import org.intellij.lang.annotations.Language
 
 object GlobalData {
@@ -10,4 +11,11 @@ object GlobalData {
 
     var profileUpdate=false
     var FcmToken=""
+
+
+    var forwardType = ""
+    var forwardContent = ""
+
+    lateinit var homeResponse :HomeResponse
+
 }

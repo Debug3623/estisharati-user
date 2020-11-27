@@ -249,11 +249,6 @@ class ForgotPassword : AppCompatActivity() {
                             } else {
                                 val message = jsonObject.getString("message")
                                 helperMethods.showToastMessage(message)
-
-                                forgot_password_layout.visibility = View.GONE
-                                verification_layout.visibility = View.VISIBLE
-                                ResendCountdown()
-                                helperMethods.setStatusBarColor(this@ForgotPassword, R.color.orange)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))

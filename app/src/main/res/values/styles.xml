@@ -3,6 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
+
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -18,7 +19,7 @@
         <item name="strokeColor">#ececec</item>
         <item name="strokeWidth">0dp</item>
         <item name="radius">4dp</item>
-        <item name="centered">false</item>
+        <item name="centered">true</item>
     </style>
 
     <style name="StyledIndicators_sell_items" parent="@android:style/Theme.Light">

@@ -20,6 +20,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="4.5"
+                android:id="@+id/avarageRatings"
                 android:textColor="@color/black"
                 android:textSize="40sp" />
 
@@ -59,6 +60,7 @@
                         android:ems="2"
                         android:fontFamily="@font/almarai_bold"
                         android:text="55%"
+                        android:id="@+id/star5Percent"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
@@ -96,6 +98,7 @@
                         android:weightSum="100">
 
                         <View
+                            android:id="@+id/star5PercentView"
                             android:layout_width="0dp"
                             android:layout_height="20dp"
                             android:layout_weight="55"
@@ -122,6 +125,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ems="2"
+                        android:id="@+id/star4Percent"
                         android:fontFamily="@font/almarai_bold"
                         android:text="30%"
                         android:textColor="@color/black"
@@ -161,6 +165,7 @@
                         android:weightSum="100">
 
                         <View
+                            android:id="@+id/star4PercentView"
                             android:layout_width="0dp"
                             android:layout_height="20dp"
                             android:layout_weight="30"
@@ -187,6 +192,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ems="2"
+                        android:id="@+id/star3Percent"
                         android:fontFamily="@font/almarai_bold"
                         android:text="10%"
                         android:textColor="@color/black"
@@ -226,6 +232,7 @@
                         android:weightSum="100">
 
                         <View
+                            android:id="@+id/star3PercentView"
                             android:layout_width="0dp"
                             android:layout_height="20dp"
                             android:layout_weight="10"
@@ -252,6 +259,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ems="2"
+                        android:id="@+id/star2Percent"
                         android:fontFamily="@font/almarai_bold"
                         android:text="5%"
                         android:textColor="@color/black"
@@ -291,6 +299,7 @@
                         android:weightSum="100">
 
                         <View
+                            android:id="@+id/star2PercentView"
                             android:layout_width="0dp"
                             android:layout_height="20dp"
                             android:layout_weight="5"
@@ -317,6 +326,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ems="2"
+                        android:id="@+id/star1Percent"
                         android:fontFamily="@font/almarai_bold"
                         android:text="0%"
                         android:textColor="@color/black"
@@ -356,6 +366,7 @@
                         android:weightSum="100">
 
                         <View
+                            android:id="@+id/star1PercentView"
                             android:layout_width="0dp"
                             android:layout_height="20dp"
                             android:layout_weight="0"
@@ -373,6 +384,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
+            android:id="@+id/commentsHeader"
             android:layout_marginBottom="10dp"
             android:weightSum="2">
 

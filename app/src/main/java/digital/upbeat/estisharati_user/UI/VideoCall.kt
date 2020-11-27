@@ -26,6 +26,7 @@ import digital.upbeat.estisharati_user.R
 import digital.upbeat.estisharati_user.Utils.CustomTouchListener
 import io.agora.rtc.IRtcEngineEventHandler
 import io.agora.rtc.RtcEngine
+import io.agora.rtc.video.BeautyOptions
 import io.agora.rtc.video.VideoCanvas
 import io.agora.rtc.video.VideoEncoderConfiguration
 import kotlinx.android.synthetic.main.activity_video_call.*
@@ -381,6 +382,8 @@ class VideoCall : AppCompatActivity() {
         // Please go to this page for detailed explanation
         // https://docs.agora.io/en/Video/API%20Reference/java/classio_1_1agora_1_1rtc_1_1_rtc_engine.html#af5f4de754e2c1f493096641c5c5c1d8f
         mRtcEngine.setVideoEncoderConfiguration(VideoEncoderConfiguration(VideoEncoderConfiguration.VD_640x360, VideoEncoderConfiguration.FRAME_RATE.FRAME_RATE_FPS_15, VideoEncoderConfiguration.STANDARD_BITRATE, VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT))
+        mRtcEngine.setBeautyEffectOptions(true, BeautyOptions(BeautyOptions.LIGHTENING_CONTRAST_NORMAL, 0.5f, 0.5f, 0.5f))
+
     }
 
     private fun setupLocalVideo() {
@@ -409,7 +412,7 @@ class VideoCall : AppCompatActivity() {
         if (token!!.isEmpty()) {
             token = null
         }
-        mRtcEngine.joinChannel(token, dataCallsFireStore.channel_unique_id, "Extra Optional Data", 0) // if you do not specify the uid, we will generate the uid for you
+        mRtcEngine.joinChannel(token, dataCallsFireStore.channel_unique_id, "Extra Optional Data", dataUser.id.toInt()) // if you do not specify the uid, we will generate the uid for you
     }
 
     private fun setupRemoteVideo(uid: Int) {

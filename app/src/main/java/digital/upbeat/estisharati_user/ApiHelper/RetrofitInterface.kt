@@ -15,7 +15,7 @@ interface RetrofitInterface {
 
     @FormUrlEncoded
     @POST("user/test_register")
-    fun REGISTER_API_CALL(@Field("fname") fname: String, @Field("lname") lname: String, @Field("email") email: String, @Field("phone") phone: String, @Field("password") password: String, @Field("user_type") user_type: String): Call<ResponseBody>
+    fun REGISTER_API_CALL(@Field("fname") fname: String, @Field("lname") lname: String, @Field("email") email: String, @Field("phone") phone: String, @Field("phone_code") phone_code: String, @Field("password") password: String, @Field("user_type") user_type: String): Call<ResponseBody>
 
     @FormUrlEncoded
     @POST("user/verify_phone")
@@ -59,4 +59,37 @@ interface RetrofitInterface {
     @Multipart
     @POST("upload-chatting-image")
     fun upload_chatting_image_API_CALL(@Header("Authorization") token: String, @Part profile_picture: MultipartBody.Part): Call<ResponseBody>
+
+    @GET("courses")
+    fun COURSES_API_CALL(@Header("Authorization") token: String, @Query("category_id") category_id: String, @Query("sortby") sortby: String): Call<ResponseBody>
+
+    @GET("courses/{courseId}")
+    fun COURSES_DETAILS_API_CALL(@Header("Authorization") token: String, @Path("courseId") courseId: String): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("favourites/favourite-course")
+    fun FAVOURITE_COURSE_API_CALL(@Header("Authorization") token: String, @Field("course_id") course_id: String): Call<ResponseBody>
+
+    @GET("favourites")
+    fun FAVOURITES_LIST_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("courses/comment")
+    fun COURSES_COMMENT_API_CALL(@Header("Authorization") token: String, @Field("course_id") course_id: String, @Field("parent_id") parent_id: String, @Field("comment") comment: String): Call<ResponseBody>
+
+    @GET("pages/{pages}")
+    fun PAGES_API_CALL(@Header("Authorization") token: String, @Path("pages") pages: String): Call<ResponseBody>
+
+    @GET("user/home")
+    fun HOME_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
+
+    @GET("consultants")
+    fun ALL_CONSULTANTS_API_CALL(@Header("Authorization") token: String, @Query("category_id") category_id: String): Call<ResponseBody>
+
+    @GET("consultant/{consultant_id}")
+    fun CONSULTANT_API_CALL(@Header("Authorization") token: String, @Path("consultant_id") consultant_id: String): Call<ResponseBody>
+    @FormUrlEncoded
+    @POST("consultant/comment")
+    fun CONSULTANT_COMMENT_API_CALL(@Header("Authorization") token: String, @Field("consultant_id") consultant_id: String, @Field("parent_id") parent_id: String, @Field("comment") comment: String): Call<ResponseBody>
+
 }

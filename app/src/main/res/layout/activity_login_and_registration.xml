@@ -53,19 +53,25 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/almarai_bold"
-                            android:text="@string/login"
-                            android:textColor="@color/black_light"
-                            android:textSize="16sp" />
+                            android:orientation="vertical">
 
-                        <View
-                            android:layout_width="42dp"
-                            android:layout_height="4dp"
-                            android:layout_marginTop="4dp"
-                            android:background="@color/orange" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/almarai_bold"
+                                android:text="@string/login"
+                                android:textColor="@color/black_light"
+                                android:textSize="16sp" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="4dp"
+                                android:layout_marginTop="4dp"
+                                android:background="@color/orange" />
+                        </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
@@ -80,7 +86,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/almarai_regular"
-                            android:text="Register"
+                            android:text="@string/register"
                             android:textColor="@color/dark_gray"
                             android:textSize="16sp" />
 
@@ -100,7 +106,7 @@
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/transparent"
                         android:fontFamily="@font/almarai_regular"
-                        android:hint="Email Address"
+                        android:hint="@string/email_address"
                         android:inputType="textEmailAddress"
                         android:paddingLeft="0dp"
                         android:paddingBottom="10dp"
@@ -130,7 +136,7 @@
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/transparent"
                             android:fontFamily="@font/almarai_regular"
-                            android:hint="Password"
+                            android:hint="@string/password"
                             android:inputType="textPassword"
                             android:paddingLeft="0dp"
                             android:paddingBottom="10dp"
@@ -180,7 +186,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/almarai_regular"
-                            android:text="Remember me"
+                            android:text="@string/remember_me"
                             android:textColor="@color/black_light"
                             android:textSize="15sp" />
 
@@ -199,7 +205,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/almarai_regular"
                             android:gravity="right"
-                            android:text="Forgot Password ?"
+                            android:text="@string/forgot_password"
                             android:textColor="@color/black_light"
                             android:textSize="15sp" />
 
@@ -226,7 +232,7 @@
                         android:fontFamily="@font/almarai_regular"
                         android:gravity="center"
                         android:padding="12dp"
-                        android:text="LOGIN"
+                        android:text="@string/login_caps"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
@@ -241,7 +247,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/almarai_regular"
-                            android:text="By Continuing you accept"
+                            android:text="@string/by_continuing_you_accept"
                             android:textColor="@color/black"
                             android:textSize="15sp" />
 
@@ -252,7 +258,7 @@
                             android:layout_marginLeft="5dp"
                             android:fontFamily="@font/almarai_regular"
                             android:singleLine="true"
-                            android:text="terms and policy"
+                            android:text="@string/terms_and_policy"
                             android:textColor="@color/orange"
                             android:textSize="15sp" />
                     </LinearLayout>
@@ -269,7 +275,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Don't have an account !"
+                        android:text="@string/don_t_have_an_account"
                         android:textColor="@color/dark_gray"
                         android:textSize="15sp" />
 
@@ -285,7 +291,7 @@
                         android:fontFamily="@font/almarai_regular"
                         android:gravity="center"
                         android:padding="12dp"
-                        android:text="Register"
+                        android:text="@string/register"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
@@ -341,19 +347,25 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/almarai_regular"
-                            android:text="Register"
-                            android:textColor="@color/black"
-                            android:textSize="16sp" />
+                            android:orientation="vertical">
 
-                        <View
-                            android:layout_width="60dp"
-                            android:layout_height="4dp"
-                            android:layout_marginTop="4dp"
-                            android:background="@color/orange" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/almarai_regular"
+                                android:text="@string/register"
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="4dp"
+                                android:layout_marginTop="4dp"
+                                android:background="@color/orange" />
+                        </LinearLayout>
 
                     </LinearLayout>
                 </LinearLayout>
@@ -378,7 +390,7 @@
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/transparent"
                             android:fontFamily="@font/almarai_regular"
-                            android:hint="First Name"
+                            android:hint="@string/first_name"
                             android:inputType="textCapSentences"
                             android:paddingLeft="0dp"
                             android:paddingBottom="10dp"
@@ -406,7 +418,7 @@
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/transparent"
                             android:fontFamily="@font/almarai_regular"
-                            android:hint="Last Name"
+                            android:hint="@string/last_name"
                             android:inputType="text"
                             android:paddingLeft="0dp"
                             android:paddingBottom="10dp"
@@ -435,7 +447,7 @@
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/transparent"
                         android:fontFamily="@font/almarai_regular"
-                        android:hint="Email Address"
+                        android:hint="@string/email_address"
                         android:inputType="textEmailAddress"
                         android:paddingLeft="0dp"
                         android:paddingBottom="10dp"
@@ -480,7 +492,7 @@
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/transparent"
                             android:fontFamily="@font/almarai_regular"
-                            android:hint="Phone"
+                            android:hint="@string/phone"
                             android:inputType="phone"
                             android:paddingLeft="0dp"
                             android:paddingBottom="10dp"
@@ -512,7 +524,7 @@
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/transparent"
                             android:fontFamily="@font/almarai_regular"
-                            android:hint="Password"
+                            android:hint="@string/password"
                             android:inputType="textPassword"
                             android:paddingLeft="0dp"
                             android:paddingBottom="10dp"
@@ -557,7 +569,7 @@
                         android:fontFamily="@font/almarai_regular"
                         android:gravity="center"
                         android:padding="12dp"
-                        android:text="REGISTER"
+                        android:text="@string/register_caps"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
@@ -572,7 +584,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/almarai_regular"
-                            android:text="By Continuing you accept "
+                            android:text="@string/by_continuing_you_accept"
                             android:textColor="@color/black"
                             android:textSize="15sp" />
 
@@ -582,7 +594,8 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/almarai_regular"
                             android:singleLine="true"
-                            android:text="terms and policy"
+                            android:layout_marginLeft="5dp"
+                            android:text="@string/terms_and_policy"
                             android:textColor="@color/orange"
                             android:textSize="15sp" />
                     </LinearLayout>
@@ -601,7 +614,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Already have account !"
+                        android:text="@string/already_have_account"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
 
@@ -611,7 +624,7 @@
                         android:layout_marginLeft="5dp"
                         android:fontFamily="@font/almarai_bold"
                         android:singleLine="true"
-                        android:text="LOGIN"
+                        android:text="@string/login_caps"
                         android:textColor="@color/orange"
                         android:textSize="15sp" />
 

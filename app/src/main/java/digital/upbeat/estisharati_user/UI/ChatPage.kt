@@ -5,27 +5,35 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
 import android.text.Editable
 import android.util.Log
+import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.gson.Gson
+import digital.upbeat.estisharati_user.Adapter.ChatAdapter
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_user.Adapter.ChatAdapter
 import digital.upbeat.estisharati_user.DataClassHelper.*
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
+import digital.upbeat.estisharati_user.MessageSwipe.MessageSwipeController
+import digital.upbeat.estisharati_user.MessageSwipe.SwipeControllerActions
 import digital.upbeat.estisharati_user.R
 import kotlinx.android.synthetic.main.activity_chat_page.*
 import okhttp3.MediaType
@@ -35,17 +43,19 @@ import okhttp3.ResponseBody
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
-import java.io.IOException
-import java.util.*
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
+import java.io.IOException
+import java.util.*
 
 class ChatPage : AppCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var preferencesHelper: SharedPreferencesHelper
     lateinit var firestore: FirebaseFirestore
     var userId = ""
+    var forward_type = ""
+    var forward_content = ""
     var dataUserFireStore = DataUserFireStore()
     lateinit var dataUser: DataUser
     lateinit var retrofitInterface: RetrofitInterface
@@ -53,14 +63,64 @@ class ChatPage : AppCompatActivity() {
     var uploadFile: File? = null
     val IdArray = arrayListOf<Int>()
     val messagesArrayList = arrayListOf<DataMessageFireStore>()
+    var inside_reply = hashMapOf<String, String>()
     private var chatAdapter: ChatAdapter? = null
     private var recyclerChatViewState: Parcelable? = null
     lateinit var firestoreRegistrar: ListenerRegistration
+    var slide_right: Animation? = null
+    var slide_left: Animation? = null
+    var slide_top: Animation? = null
+    var slide_bottom: Animation? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_page)
         initViews()
         clickEvents()
+    }
+
+    fun initViews() {
+        helperMethods = HelperMethods(this@ChatPage)
+        preferencesHelper = SharedPreferencesHelper(this@ChatPage)
+        dataUser = preferencesHelper.logInUser
+        firestore = FirebaseFirestore.getInstance()
+        slide_right = AnimationUtils.loadAnimation(this@ChatPage, R.anim.slide_right)
+        slide_left = AnimationUtils.loadAnimation(this@ChatPage, R.anim.slide_left)
+        slide_top = AnimationUtils.loadAnimation(this@ChatPage, R.anim.slide_top)
+        slide_bottom = AnimationUtils.loadAnimation(this@ChatPage, R.anim.slide_bottom)
+
+        retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
+        FcmPushretrofitInterface = RetrofitApiClient("https://fcm.googleapis.com/").getRetrofit().create(RetrofitInterface::class.java)
+        intent.extras?.let {
+            it.getString("user_id")?.let {
+                userId = it
+            }
+            it.getString("forward_type")?.let {
+                if (!it.equals("")) {
+                    forward_type = it
+                }
+            }
+            it.getString("forward_content")?.let {
+                if (!it.equals("")) {
+                    forward_content = it
+                }
+            }
+        }
+        IdArray.add(dataUser.id.toInt())
+        IdArray.add(userId.toInt())
+        Collections.sort(IdArray)
+        firestoreUserLisiner()
+        if (!forward_content.isEmpty()) {
+            val hashMap = hashMapOf<String, Any>("sender_id" to dataUser.id, "receiver_id" to userId, "message_type" to forward_type, "message_content" to forward_content, "message_status" to "send", "message_other_type" to "forwarded", "send_time" to FieldValue.serverTimestamp(), "communication_id" to IdArray, "inside_reply" to inside_reply)
+            firestore.collection("Chats").add(hashMap).addOnSuccessListener {}.addOnFailureListener {
+                Log.d("FailureListener", "" + it.localizedMessage)
+            }
+        }
+        // ********for empty inside reply message*********
+        inside_reply.put("message_id", "")
+        inside_reply.put("message_type", "")
+        inside_reply.put("message_content", "")
+        inside_reply.put("sender_id", "")
+        inside_reply.put("position", "")
     }
 
     fun InitializeRecyclerview() {
@@ -78,27 +138,51 @@ class ChatPage : AppCompatActivity() {
         recyclerChatViewState?.let {
             chat_recycler.layoutManager?.onRestoreInstanceState(recyclerChatViewState)
         }
+        val messageSwipeController = MessageSwipeController(this, object : SwipeControllerActions {
+            override fun showReplyUI(position: Int) {
+                insideReply(position)
+            }
+        })
+        val itemTouchHelper = ItemTouchHelper(messageSwipeController)
+        itemTouchHelper.attachToRecyclerView(chat_recycler)
+        chat_recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                var position: Int = (chat_recycler.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                position++
+                Log.e("position", position.toString() + "          " + messagesArrayList.size)
+                if (newState === RecyclerView.SCROLL_STATE_DRAGGING) {
+                    if (messagesArrayList.size > 10) {
+                        showChatScrollToBottom(position)
+                    }
+                } else if (newState === RecyclerView.SCROLL_STATE_IDLE) {
+                    if (messagesArrayList.size > 10) {
+                        showChatScrollToBottom(position)
+                    }
+                }
+            }
+        })
+        chat_scroll_to_bottom.setOnClickListener {
+            showChatScrollToBottom(messagesArrayList.size)
+            chat_recycler.scrollToPosition(messagesArrayList.size - 1)
+        }
     }
 
-    fun initViews() {
-        helperMethods = HelperMethods(this@ChatPage)
-        preferencesHelper = SharedPreferencesHelper(this@ChatPage)
-        dataUser = preferencesHelper.logInUser
-        firestore = FirebaseFirestore.getInstance()
-        retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
-        FcmPushretrofitInterface = RetrofitApiClient("https://fcm.googleapis.com/").getRetrofit().create(RetrofitInterface::class.java)
-        intent.extras?.let {
-            it.getString("user_id")?.let {
-                userId = it
+    fun showChatScrollToBottom(position: Int) {
+        if (position >= (messagesArrayList.size - 3)) {
+            if (chat_scroll_to_bottom.visibility == View.VISIBLE) {
+                chat_scroll_to_bottom.startAnimation(slide_bottom)
+                chat_scroll_to_bottom.visibility = View.GONE
+            }
+        } else {
+            if (chat_scroll_to_bottom.visibility == View.GONE) {
+                chat_scroll_to_bottom.startAnimation(slide_top)
+                chat_scroll_to_bottom.visibility = View.VISIBLE
             }
         }
-        IdArray.add(dataUser.id.toInt())
-        IdArray.add(userId.toInt())
-        Collections.sort(IdArray)
-        firestoreLisiner()
     }
 
-    fun firestoreLisiner() {
+    fun firestoreUserLisiner() {
         firestore.collection("Users").document(userId).addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
             documentSnapshot?.let {
                 dataUserFireStore = documentSnapshot.toObject(DataUserFireStore::class.java)!!
@@ -116,6 +200,7 @@ class ChatPage : AppCompatActivity() {
                 messagesArrayList.clear()
                 for (data in it) {
                     val messageFireStore = data.toObject(DataMessageFireStore::class.java)
+                    messageFireStore.message_id = data.id
                     messagesArrayList.add(messageFireStore)
                     if (messageFireStore.receiver_id.equals(dataUser.id)) {
                         if (messageFireStore.message_status.equals("send") || messageFireStore.message_status.equals("delivered")) {
@@ -184,13 +269,27 @@ class ChatPage : AppCompatActivity() {
         }
         send_msg.setOnClickListener {
             if (sendMessageValidation()) {
-                val hashMap = hashMapOf<String, Any>("sender_id" to dataUser.id, "receiver_id" to dataUserFireStore.user_id, "message_type" to "text", "message_content" to message.toText(), "message_status" to "send", "send_time" to FieldValue.serverTimestamp(), "communication_id" to IdArray)
+                val hashMap = hashMapOf<String, Any>("sender_id" to dataUser.id, "receiver_id" to dataUserFireStore.user_id, "message_type" to "text", "message_content" to message.toText(), "message_status" to "send", "message_other_type" to "normal", "send_time" to FieldValue.serverTimestamp(), "communication_id" to IdArray, "inside_reply" to inside_reply)
                 firestore.collection("Chats").add(hashMap).addOnSuccessListener {
                     message.text = "".toEditable()
+                    inside_reply_layout.visibility = View.GONE
+                    inside_reply.put("message_id", "")
+                    inside_reply.put("message_type", "")
+                    inside_reply.put("message_content", "")
+                    inside_reply.put("sender_id", "")
+                    inside_reply.put("position", "")
                 }.addOnFailureListener {
                     Log.d("FailureListener", "" + it.localizedMessage)
                 }
             }
+        }
+        inside_reply_close.setOnClickListener {
+            inside_reply.put("message_id", "")
+            inside_reply.put("message_type", "")
+            inside_reply.put("message_content", "")
+            inside_reply.put("sender_id", "")
+            inside_reply.put("position", "")
+            inside_reply_layout.visibility = View.GONE
         }
     }
 
@@ -204,6 +303,33 @@ class ChatPage : AppCompatActivity() {
             return false
         }
         return true
+    }
+
+    fun insideReply(position: Int) {
+        helperMethods.showKeyboard(message)
+        val dataMessageFireStore = messagesArrayList.get(position)
+        inside_reply.put("message_id", dataMessageFireStore.message_id)
+        inside_reply.put("message_type", dataMessageFireStore.message_type)
+        inside_reply.put("message_content", dataMessageFireStore.message_content)
+        inside_reply.put("sender_id", dataMessageFireStore.sender_id)
+        inside_reply.put("position", position.toString())
+        inside_reply_layout.visibility = View.VISIBLE
+        if (dataMessageFireStore.sender_id.equals(dataUser.id)) {
+            inside_reply_from.text = "You"
+            inside_reply_from.setTextColor(ContextCompat.getColor(this@ChatPage, R.color.green))
+        } else {
+            inside_reply_from.text = dataUserFireStore.fname + " " + dataUserFireStore.lname
+            inside_reply_from.setTextColor(ContextCompat.getColor(this@ChatPage, R.color.orange))
+        }
+        if (dataMessageFireStore.message_type.equals("text")) {
+            inside_reply_text.text = dataMessageFireStore.message_content
+            inside_reply_text.visibility = View.VISIBLE
+            inside_reply_image_layout.visibility = View.GONE
+        } else if (dataMessageFireStore.message_type.equals("image")) {
+            Glide.with(this@ChatPage).load(dataMessageFireStore.message_content).apply(helperMethods.requestOption).into(inside_reply_image)
+            inside_reply_image_layout.visibility = View.VISIBLE
+            inside_reply_text.visibility = View.GONE
+        }
     }
 
     override fun onDestroy() {
@@ -258,8 +384,17 @@ class ChatPage : AppCompatActivity() {
                                 val dataObject = JSONObject(dataString)
                                 val image_path = dataObject.getString("image_path")
                                 val image_thumb = dataObject.getString("image_thumb")
-                                val hashMap = hashMapOf<String, Any>("sender_id" to dataUser.id, "receiver_id" to dataUserFireStore.user_id, "message_type" to "image", "message_content" to image_path, "message_status" to "send", "send_time" to FieldValue.serverTimestamp(), "communication_id" to IdArray)
-                                firestore.collection("Chats").add(hashMap).addOnSuccessListener {}
+                                val hashMap = hashMapOf<String, Any>("sender_id" to dataUser.id, "receiver_id" to dataUserFireStore.user_id, "message_type" to "image", "message_content" to image_path, "message_status" to "send", "message_other_type" to "normal", "send_time" to FieldValue.serverTimestamp(), "communication_id" to IdArray, "inside_reply" to inside_reply)
+                                firestore.collection("Chats").add(hashMap).addOnSuccessListener {
+                                    inside_reply_layout.visibility = View.GONE
+                                    inside_reply.put("message_id", "")
+                                    inside_reply.put("message_type", "")
+                                    inside_reply.put("message_content", "")
+                                    inside_reply.put("sender_id", "")
+                                    inside_reply.put("position", "")
+                                }.addOnFailureListener {
+                                    Log.d("FailureListener", "" + it.localizedMessage)
+                                }
                             } else {
                                 val message = jsonObject.getString("message")
                                 helperMethods.AlertPopup("Alert", message)
@@ -335,7 +470,12 @@ class ChatPage : AppCompatActivity() {
             override fun onFailure(call: Call<okhttp3.ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
-                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+                if (dataFcmBody.data.tag.equals("incoming_voice_call")) {
+                    startActivity(Intent(this@ChatPage, VoiceCall::class.java))
+                } else {
+                    startActivity(Intent(this@ChatPage, VideoCall::class.java))
+                }
+                helperMethods.showToastMessage("oops notification sending problem!")
             }
         })
     }

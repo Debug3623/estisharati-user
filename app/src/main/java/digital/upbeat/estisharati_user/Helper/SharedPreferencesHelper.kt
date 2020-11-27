@@ -48,7 +48,6 @@ class SharedPreferencesHelper(mContext: Context) {
         val gson = Gson()
         val json = gson.toJson(user)
         pref_editor.putString("DataUser", json).apply()
-
     }
 
     var countryCity: ArrayList<DataCountry>

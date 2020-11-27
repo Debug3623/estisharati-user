@@ -10,10 +10,11 @@ import digital.upbeat.estisharati_user.Adapter.ConsultantCommentsReplyAdapter
 import digital.upbeat.estisharati_user.Adapter.InstructorAdapter
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.UI.CourseDetails
 import kotlinx.android.synthetic.main.fragment_comments.*
 import kotlinx.android.synthetic.main.fragment_instructor.*
 
-class Instructor : Fragment() {
+class Instructor(val courseDetails: CourseDetails) : Fragment() {
     lateinit var helperMethods: HelperMethods
 
 
@@ -39,16 +40,11 @@ class Instructor : Fragment() {
     }
 
     fun InitializeRecyclerview() {
-        val arrayList: ArrayList<String> = arrayListOf()
-        arrayList.add("Marketing advice")
-        arrayList.add("Legal advice")
-        arrayList.add("Administration and business")
-
 
         indicator_recycler.setHasFixedSize(true)
         indicator_recycler.removeAllViews()
         indicator_recycler.layoutManager = LinearLayoutManager(requireContext())
-        indicator_recycler.adapter = InstructorAdapter(requireContext(), this@Instructor, arrayList)
+        indicator_recycler.adapter = InstructorAdapter(requireContext(), this@Instructor, courseDetails.responseCoursesDetails.consultants)
     }
 
 }

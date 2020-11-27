@@ -9,10 +9,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import digital.upbeat.estisharati_user.Adapter.CourseContentAdapter
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.UI.CourseDetails
 import kotlinx.android.synthetic.main.activity_course_details.*
 import kotlinx.android.synthetic.main.fragment_course_content.*
 
-class CourseContent : Fragment() {
+class CourseContent(val courseDetails: CourseDetails) : Fragment() {
     lateinit var helperMethods: HelperMethods
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -35,15 +36,10 @@ class CourseContent : Fragment() {
     }
 
     fun InitializeRecyclerview() {
-        val arrayList: ArrayList<String> = arrayListOf()
-        arrayList.add("Marketing advice")
-        arrayList.add("Legal advice")
-        arrayList.add("Administration and business")
-        arrayList.add("Finance and Accounting")
 
          course_content_recycler.setHasFixedSize(true)
         course_content_recycler.removeAllViews()
         course_content_recycler.layoutManager = LinearLayoutManager(requireContext())
-        course_content_recycler.adapter = CourseContentAdapter(requireContext(), this@CourseContent, arrayList)
+        course_content_recycler.adapter = CourseContentAdapter(requireContext(), this@CourseContent, courseDetails.responseCoursesDetails.course_resources)
     }
 }

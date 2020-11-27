@@ -9,11 +9,16 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
+import com.bumptech.glide.Glide
 import digital.upbeat.estisharati_user.DataClassHelper.DataBoarding
+import digital.upbeat.estisharati_user.DataClassHelper.Home.Slider
+import digital.upbeat.estisharati_user.Fragment.Home
 import digital.upbeat.estisharati_user.R
+import kotlinx.android.synthetic.main.activity_course_details.*
+import kotlinx.android.synthetic.main.home_slider_item.view.*
 import kotlin.collections.ArrayList
 
-class HomePagerAdapter(var context: Context, val boardingArrayList: ArrayList<DataBoarding>) : PagerAdapter() {
+class HomePagerAdapter(var context: Context, val home: Home, val sliderArrayList: ArrayList<Slider>) : PagerAdapter() {
     var layoutInflater: LayoutInflater
 
     init {
@@ -21,7 +26,7 @@ class HomePagerAdapter(var context: Context, val boardingArrayList: ArrayList<Da
     }
 
     override fun getCount(): Int {
-        return boardingArrayList.size
+        return sliderArrayList.size
     }
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {
@@ -30,7 +35,10 @@ class HomePagerAdapter(var context: Context, val boardingArrayList: ArrayList<Da
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val layoutView = layoutInflater.inflate(R.layout.home_slider_item, container, false) as View
-
+        Glide.with(context).load(sliderArrayList.get(position).image_path).apply(home.helperMethods.requestOption).into(layoutView.sliderImage)
+        layoutView.sliderTitle.text = sliderArrayList.get(position).title
+        layoutView.sliderDescription.text = sliderArrayList.get(position).description
+        layoutView.sliderDiscover.setOnClickListener { }
         container.addView(layoutView)
         return layoutView
     }

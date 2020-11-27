@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Estisharati User</string>
+    <string name="app_name">Estisharati</string>
 
 
     <string name="press_once_again_to_exit">Press once again to exit!</string>
@@ -19,4 +19,26 @@
     <!-- You will need to deploy your own token server for production release -->
     <!-- Leave this value empty if Security keys/Token is not enabled for your project -->
     <string name="agora_access_token"></string>
+
+
+    //************Login**************
+    <string name="register">Register</string>
+    <string name="email_address">Email Address</string>
+    <string name="password">Password</string>
+    <string name="remember_me">Remember me</string>
+    <string name="forgot_password">Forgot Password ?</string>
+    <string name="login_caps">LOGIN</string>
+    <string name="by_continuing_you_accept">By Continuing you accept</string>
+    <string name="terms_and_policy">terms and policy</string>
+    <string name="don_t_have_an_account">Don\'t have an account !</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="phone">Phone</string>
+    <string name="register_caps">REGISTER</string>
+    <string name="already_have_account">Already have account !</string>
+    <string name="cancel">CANCEL</string>
+    <string name="ok">OK</string>
+    <string name="aed">AED</string>
+    <string name="ability_to_download_course_videos">ability to download course videos</string>
+    <string name="you_can_not_download_course_videos">You can not download course videos</string>
 </resources>

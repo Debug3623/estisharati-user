@@ -1,7 +1,6 @@
 package digital.upbeat.estisharati_user.UI
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.method.HideReturnsTransformationMethod
@@ -9,12 +8,12 @@ import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FieldValue
+import com.google.gson.Gson
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_user.DataClassHelper.DataSubscription
 import digital.upbeat.estisharati_user.DataClassHelper.DataUser
-import digital.upbeat.estisharati_user.DataClassHelper.DataUserMetas
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
@@ -45,7 +44,6 @@ class LoginAndRegistration : AppCompatActivity() {
         helperMethods = HelperMethods(this@LoginAndRegistration)
         preferencesHelper = SharedPreferencesHelper(this@LoginAndRegistration)
         helperMethods.setStatusBarColor(this, R.color.white)
-
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
     }
 
@@ -107,17 +105,22 @@ class LoginAndRegistration : AppCompatActivity() {
 
         nav_forget_password.setOnClickListener { startActivity(Intent(this@LoginAndRegistration, ForgotPassword::class.java)) }
         terms_policy.setOnClickListener {
-            val intent = Intent(this@LoginAndRegistration, WebView::class.java)
-            intent.putExtra("action_bar_title", "Terms and policy")
-            intent.putExtra("url", "https://upbeat.digital/en/")
-            startActivity(intent)
-        }
+            if (helperMethods.isConnectingToInternet) {
+                val intent = Intent(this@LoginAndRegistration, Pages::class.java)
+                intent.putExtra("page", "terms-and-conditions")
+                startActivity(intent)
+            } else {
+                helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
+            }
+       }
         terms_policy1.setOnClickListener {
-            val intent = Intent(this@LoginAndRegistration, WebView::class.java)
-            intent.putExtra("action_bar_title", "Terms and policy")
-            intent.putExtra("url", "https://upbeat.digital/en/")
-            startActivity(intent)
-        }
+            if (helperMethods.isConnectingToInternet) {
+                val intent = Intent(this@LoginAndRegistration, Pages::class.java)
+                intent.putExtra("page", "terms-and-conditions")
+                startActivity(intent)
+            } else {
+                helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
+            } }
         btn_login.setOnClickListener {
             val remember = if (remember_me.isChecked) "on" else "off"
             if (loginValidation()) {
@@ -126,7 +129,7 @@ class LoginAndRegistration : AppCompatActivity() {
         }
         register.setOnClickListener {
             if (registrationValidation()) {
-                registrationApiCall(reg_fname.toText(), reg_lname.toText(), reg_email_address.toText(), codePicker.selectedCountryCodeWithPlus + " " + reg_phone.toText(), reg_password.toText())
+                registrationApiCall(reg_fname.toText(), reg_lname.toText(), reg_email_address.toText(), codePicker.selectedCountryCodeWithPlus + " " + reg_phone.toText(),codePicker.selectedCountryCodeWithPlus , reg_password.toText())
             }
         }
     }
@@ -174,46 +177,46 @@ class LoginAndRegistration : AppCompatActivity() {
                             val status = jsonObject.getString("status")
                             if (status.equals("200")) {
                                 val userString = jsonObject.getString("user")
-                                val userObject = JSONObject(userString)
-                                val id = userObject.getString("id")
-                                val fname = userObject.getString("fname")
-                                val lname = userObject.getString("lname")
-                                val email = userObject.getString("email")
-                                val phone = userObject.getString("phone")
-                                val image = userObject.getString("image")
-                                val member_since = userObject.getString("member_since")
-                                val user_metasStr = userObject.getString("user_metas")
-                                val userMetasObject = JSONObject(user_metasStr)
-                                val city = userMetasObject.getString("city")
-                                val phone_code = userMetasObject.getString("phone_code")
-                                val country = userMetasObject.getString("country")
-                                val fire_base_token = userMetasObject.getString("fire_base_token")
-                                val user_metas = DataUserMetas(city, phone_code, country, fire_base_token)
-                                val subscription_str = userObject.getString("subscription")
-                                val subscriptionObject = JSONObject(subscription_str)
-                                val courses = subscriptionObject.getString("courses")
-                                val consultations = subscriptionObject.getString("consultations")
-                                val current_package = subscriptionObject.getString("package")
-                                val subscription = DataSubscription(courses, consultations, current_package)
-                                val access_token = userObject.getString("access_token")
-                                val dataUser = DataUser(id, fname, lname, email, phone, image, member_since, user_metas, access_token, subscription)
+
+//                                val userObject = JSONObject(userString)
+//                                val id = userObject.getString("id")
+//                                val fname = userObject.getString("fname")
+//                                val lname = userObject.getString("lname")
+//                                val email = userObject.getString("email")
+//                                val phone = userObject.getString("phone")
+//                                val image = userObject.getString("image")
+//                                val member_since = userObject.getString("member_since")
+//                                val user_metasStr = userObject.getString("user_metas")
+//                                val userMetasObject = JSONObject(user_metasStr)
+//                                val city = userMetasObject.getString("city")
+//                                val phone_code = userMetasObject.getString("phone_code")
+//                                val country = userMetasObject.getString("country")
+//                                val fire_base_token = userMetasObject.getString("fire_base_token")
+//                                val user_metas = DataUserMetas(city, phone_code, country, fire_base_token)
+//                                val subscription_str = userObject.getString("subscription")
+//                                val subscriptionObject = JSONObject(subscription_str)
+//                                val courses = subscriptionObject.getString("courses")
+//                                val consultations = subscriptionObject.getString("consultations")
+//                                val current_package = subscriptionObject.getString("package")
+//                                val subscription = DataSubscription(courses, consultations, current_package)
+//                                val access_token = userObject.getString("access_token")
+//                                val expired_days = userObject.getString("expired_days")
+
+                                val dataUser = Gson().fromJson(userString, DataUser::class.java)
                                 val hashMap = hashMapOf<String, Any>()
-                                hashMap.put("user_id", id)
-                                hashMap.put("fname", fname)
-                                hashMap.put("lname", lname)
-                                hashMap.put("email", email)
-                                hashMap.put("phone", phone)
-                                hashMap.put("image", image)
-                                hashMap.put("fire_base_token", fire_base_token)
+                                hashMap.put("user_id", dataUser.id)
+                                hashMap.put("fname", dataUser.fname)
+                                hashMap.put("lname", dataUser.lname)
+                                hashMap.put("email", dataUser.email)
+                                hashMap.put("phone", dataUser.phone)
+                                hashMap.put("image", dataUser.image)
+                                hashMap.put("fire_base_token", dataUser.user_metas.fire_base_token)
                                 hashMap.put("user_type", "user")
                                 hashMap.put("online_status", true)
                                 hashMap.put("last_seen", FieldValue.serverTimestamp())
                                 hashMap.put("availability", true)
                                 hashMap.put("channel_unique_id", "")
-
-
-                                helperMethods.setUserDetailsToFirestore(id, hashMap)
-
+                                helperMethods.setUserDetailsToFirestore( dataUser.id, hashMap)
                                 preferencesHelper.isUserLogIn = true
                                 preferencesHelper.logInUser=dataUser
                                 startActivity(Intent(this@LoginAndRegistration, UserDrawer::class.java))
@@ -245,9 +248,9 @@ class LoginAndRegistration : AppCompatActivity() {
         })
     }
 
-    fun registrationApiCall(fname: String, lname: String, email: String, phone: String, passwrod: String) {
+    fun registrationApiCall(fname: String, lname: String, email: String, phone: String,phone_code:String, passwrod: String) {
         helperMethods.showProgressDialog("Please wait while registering...")
-        val responseBodyCall = retrofitInterface.REGISTER_API_CALL(fname, lname, email, phone, passwrod, "User")
+        val responseBodyCall = retrofitInterface.REGISTER_API_CALL(fname, lname, email, phone, phone_code,passwrod, "User")
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()

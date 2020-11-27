@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">Estisharati</string>
+
+
+    <string name="press_once_again_to_exit">Press once again to exit!</string>
+    <string name="internet_connection_failed">Internet Connection Failed</string>
+    <string name="please_check_your_internet_connection_and_try_again">Please check your internet connection and try again</string>
+    <string name="something_went_wrong">Something went wrong!</string>
+    <string name="your_network_connection_is_slow_please_try_again">Your network connection is slow, please try again.</string>
+    <string name="something_went_wrong_on_backend_server">Something went wrong on backend server!</string>
+    <string name="could_not_get_your_device_token_please_try_again">Could not get your device token please try again</string>
+
+    <!-- PLEASE KEEP THIS App ID IN SAFE PLACE -->
+    <!-- Get your own App ID at https://dashboard.agora.io/ -->
+    <!-- After you entered the App ID, remove <##> outside of Your App ID -->
+    <string name="agora_app_id">29c6b00fa7ba4e1eaa2c52d3ef791786</string>
+    <!-- Obtain a temp Access Token at https://dashboard.agora.io -->
+    <!-- You will need to deploy your own token server for production release -->
+    <!-- Leave this value empty if Security keys/Token is not enabled for your project -->
+    <string name="agora_access_token"></string>
+
+    //********Login*************
+    <string name="login">تسجيل الدخول</string>
+
+    <string name="register">تسجيل</string>
+    <string name="email_address">عنوان البريد الالكترونى</string>
+    <string name="password">كلمه السر</string>
+    <string name="remember_me">تذكرنى</string>
+    <string name="forgot_password">هل نسيت كلمة المرور ؟</string>
+    <string name="login_caps">تسجيل الدخول</string>
+    <string name="terms_and_policy">الشروط والسياسة</string>
+    <string name="don_t_have_an_account">ليس لديك حساب!</string>
+    <string name="first_name">الاسم الاول</string>
+    <string name="last_name">الكنية</string>
+    <string name="phone">هاتف</string>
+    <string name="register_caps">تسجيل</string>
+    <string name="by_continuing_you_accept">من خلال الاستمرار فإنك تقبل</string>
+    <string name="already_have_account">لديك حساب بالفعل!</string>
+    <string name="cancel">CANCEL</string>
+    <string name="ok">OK</string>
+    <string name="aed">AED</string>
+    <string name="ability_to_download_course_videos">ability to download course videos</string>
+    <string name="you_can_not_download_course_videos">You can not download course videos</string>
+</resources>

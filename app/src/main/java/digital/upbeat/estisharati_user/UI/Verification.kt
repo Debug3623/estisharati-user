@@ -7,6 +7,8 @@ import android.util.Log
 import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.firestore.FieldValue
+import com.google.gson.Gson
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
 import digital.upbeat.estisharati_user.DataClassHelper.DataSubscription
@@ -246,34 +248,50 @@ class Verification : AppCompatActivity() {
                             val status = jsonObject.getString("status")
                             if (status.equals("200")) {
                                 val userString = jsonObject.getString("user")
-                                val userObject = JSONObject(userString)
-                                val id = userObject.getString("id")
-                                val fname = userObject.getString("fname")
-                                val lname = userObject.getString("lname")
-                                val email = userObject.getString("email")
-                                val phone = userObject.getString("phone")
-                                val image = userObject.getString("image")
-                                val member_since = userObject.getString("member_since")
+//                                val userObject = JSONObject(userString)
+//                                val id = userObject.getString("id")
+//                                val fname = userObject.getString("fname")
+//                                val lname = userObject.getString("lname")
+//                                val email = userObject.getString("email")
+//                                val phone = userObject.getString("phone")
+//                                val image = userObject.getString("image")
+//                                val member_since = userObject.getString("member_since")
+//
+//                                val user_metasStr = userObject.getString("user_metas")
+//                                val userMetasObject = JSONObject(user_metasStr)
+//                                val city = userMetasObject.getString("city")
+//                                val phone_code = userMetasObject.getString("phone_code")
+//                                val country = userMetasObject.getString("country")
+//                                val fire_base_token = userMetasObject.getString("fire_base_token")
+//                                val user_metas = DataUserMetas(city, phone_code,country, fire_base_token)
+//                                val access_token = userObject.getString("access_token")
+//                                val expired_days = userObject.getString("expired_days")
+//
+//                                val subscription_str = userObject.getString("subscription")
+//                                val subscriptionObject = JSONObject(subscription_str)
+//                                val courses = subscriptionObject.getString("courses")
+//                                val consultations = subscriptionObject.getString("consultations")
+//                                val current_package = subscriptionObject.getString("package")
+//                                val subscription = DataSubscription(courses, consultations,current_package)
 
-                                val user_metasStr = userObject.getString("user_metas")
-                                val userMetasObject = JSONObject(user_metasStr)
-                                val city = userMetasObject.getString("city")
-                                val phone_code = userMetasObject.getString("phone_code")
-                                val country = userMetasObject.getString("country")
-                                val fire_base_token = userMetasObject.getString("fire_base_token")
-                                val user_metas = DataUserMetas(city, phone_code,country, fire_base_token)
-                                val access_token = userObject.getString("access_token")
-
-                                val subscription_str = userObject.getString("subscription")
-                                val subscriptionObject = JSONObject(subscription_str)
-                                val courses = subscriptionObject.getString("courses")
-                                val consultations = subscriptionObject.getString("consultations")
-                                val current_package = subscriptionObject.getString("package")
-                                val subscription = DataSubscription(courses, consultations,current_package)
-
-                                val dataUser = DataUser(id, fname, lname, email, phone, image, member_since, user_metas, access_token,subscription)
+                                val dataUser = Gson().fromJson(userString, DataUser::class.java)
                                 preferencesHelper.isUserLogIn = true
                                 preferencesHelper.logInUser=dataUser
+                                val hashMap = hashMapOf<String, Any>()
+                                hashMap.put("user_id", dataUser.id)
+                                hashMap.put("fname", dataUser.fname)
+                                hashMap.put("lname", dataUser.lname)
+                                hashMap.put("email", dataUser.email)
+                                hashMap.put("phone", dataUser.phone)
+                                hashMap.put("image", dataUser.image)
+                                hashMap.put("fire_base_token", dataUser.user_metas.fire_base_token)
+                                hashMap.put("user_type", "user")
+                                hashMap.put("online_status", true)
+                                hashMap.put("last_seen", FieldValue.serverTimestamp())
+                                hashMap.put("availability", true)
+                                hashMap.put("channel_unique_id", "")
+                                helperMethods.setUserDetailsToFirestore( dataUser.id, hashMap)
+
                                 val intent = Intent(this@Verification, OnBoarding::class.java)
                                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                 startActivity(intent)

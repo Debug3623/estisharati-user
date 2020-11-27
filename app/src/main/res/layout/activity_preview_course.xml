@@ -32,7 +32,7 @@
         </RelativeLayout>
 
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/course_tablayout"
+            android:id="@+id/courseTablayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="6dp"
@@ -44,7 +44,7 @@
             app:tabMode="fixed" />
 
         <androidx.viewpager.widget.ViewPager
-            android:id="@+id/course_viewpager"
+            android:id="@+id/courseViewpager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />

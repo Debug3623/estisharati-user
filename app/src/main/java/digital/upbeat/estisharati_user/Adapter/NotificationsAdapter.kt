@@ -8,10 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import digital.upbeat.estisharati_user.DataClassHelper.DataTextsAndColors
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.R
 import digital.upbeat.estisharati_user.UI.ConsultantDetails
 import digital.upbeat.estisharati_user.UI.LegalAdvice
+import digital.upbeat.estisharati_user.UI.NotificationDetails
 import digital.upbeat.estisharati_user.UI.Notifications
 import digital.upbeat.estisharati_user.ViewHolder.NotificationsViewHolder
 import digital.upbeat.estisharati_user.ViewHolder.OnlineCoursesViewHolder
@@ -33,9 +35,14 @@ class NotificationsAdapter(val context: Context, val notifications: Notification
     }
 
     override fun onBindViewHolder(holder: NotificationsViewHolder, position: Int) {
-        val spanned = TextUtils.concat(helperMethods.getColorString("Successfully subscribed in", ContextCompat.getColor(context, R.color.dark_gray))," "+ helperMethods.getColorString("Introduction to social media Course", ContextCompat.getColor(context, R.color.black)))
+        val textColorsArrayList = arrayListOf<DataTextsAndColors>()
 
-        holder.message.text = spanned
-        //        holder.message.text = helperMethods.getColorString("Successfully subscribed in", ContextCompat.getColor(context, R.color.dark_gray))
+        textColorsArrayList.add(DataTextsAndColors("Taliha Al-Jabar ", ContextCompat.getColor(context, R.color.black)))
+        textColorsArrayList.add(DataTextsAndColors("reply in ", ContextCompat.getColor(context, R.color.gray)))
+        textColorsArrayList.add(DataTextsAndColors("Introduction to social media Course", ContextCompat.getColor(context, R.color.black)))
+        holder.message.text = helperMethods.getColorStringFromArray(textColorsArrayList)
+        holder.notification_parant.setOnClickListener {
+            context.startActivity(Intent(context, NotificationDetails::class.java))
+        }
     }
 }

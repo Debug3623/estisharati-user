@@ -11,6 +11,7 @@
         android:layout_marginRight="25dp"
         android:elevation="4dp"
         android:background="@drawable/corner_redius_5dp_white"
+        android:id="@+id/parentLayout"
         android:layout_marginBottom="10dp"
         android:orientation="horizontal"
         android:padding="20dp">

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import digital.upbeat.estisharati_user.Adapter.ConsultationsAdapter
+import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.R
 import kotlinx.android.synthetic.main.fragment_consultations.*
@@ -34,24 +35,9 @@ class Consultations : Fragment() {
 
     fun clickEvents() {}
     fun InitializeRecyclerview() {
-        val arrayList: ArrayList<String> = arrayListOf()
-        arrayList.add("Marketing advice")
-        arrayList.add("Legal advice")
-        arrayList.add("Administration and business")
-        arrayList.add("Finance and Accounting")
-        arrayList.add("Health and Fitness")
-        arrayList.add("Lifestyle")
-        arrayList.add("Human Development")
-        arrayList.add("Marketing advice")
-        arrayList.add("Legal advice")
-        arrayList.add("Administration and business")
-        arrayList.add("Finance and Accounting")
-        arrayList.add("Health and Fitness")
-        arrayList.add("Lifestyle")
-        arrayList.add("Human Development")
         consultations_recycler.setHasFixedSize(true)
         consultations_recycler.removeAllViews()
         consultations_recycler.layoutManager = LinearLayoutManager(requireContext())
-        consultations_recycler.adapter = ConsultationsAdapter(requireContext(), this@Consultations, arrayList)
+        consultations_recycler.adapter = ConsultationsAdapter(requireContext(), this@Consultations, GlobalData.homeResponse.categories)
     }
 }

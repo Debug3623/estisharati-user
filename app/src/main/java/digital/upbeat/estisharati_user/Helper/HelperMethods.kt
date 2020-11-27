@@ -34,6 +34,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -43,24 +44,29 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.firestore.FirebaseFirestore
+import digital.upbeat.estisharati_user.DataClassHelper.DataTextsAndColors
+import digital.upbeat.estisharati_user.DataClassHelper.DataUserMessageFireStore
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.Utils.alertActionClickListner
+import kotlinx.android.synthetic.main.alert_popup.view.*
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern
+import kotlin.collections.ArrayList
 
 class HelperMethods(val context: Context) {
     val calendarInstance: Calendar
     var dialog: android.app.AlertDialog? = null
     val preferencesHelper: SharedPreferencesHelper
-    val firebaseFirestore:FirebaseFirestore
+    val firebaseFirestore: FirebaseFirestore
 
     init {
         preferencesHelper = SharedPreferencesHelper(context)
         calendarInstance = Calendar.getInstance()
-        firebaseFirestore= FirebaseFirestore.getInstance()
+        firebaseFirestore = FirebaseFirestore.getInstance()
     }
 
     fun ShowDatePickerDialog(date_picker_text: TextView) {
@@ -115,9 +121,16 @@ class HelperMethods(val context: Context) {
         datePickerDialog.show()
     }
 
-    fun hideSoftKeyboard(input: View) {
+    fun showKeyboard(mEtSearch: EditText) {
+        mEtSearch.requestFocus()
+        val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
+    }
+
+    fun hideSoftKeyboard(mEtSearch: EditText) {
+        mEtSearch.clearFocus()
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(input.windowToken, 0)
+        imm.hideSoftInputFromWindow(mEtSearch.windowToken, 0)
     }
 
     val profileRequestOption: RequestOptions
@@ -194,25 +207,33 @@ class HelperMethods(val context: Context) {
     }
 
     fun showToastMessage(message: String) {
-            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
     fun selfPermission(activity: Activity?) {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.RECORD_AUDIO), 123)
+            ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO), 123)
         }
     }
 
-    fun getColorString(text: String, color: Int): Spanned {
-        val bodyData = "<font color='$color'>$text</font>"
+    fun getColorStringFromArray(datas: ArrayList<DataTextsAndColors>): Spanned {
+        val stringBuilder = StringBuffer()
+        for (data in datas) {
+            stringBuilder.append("<font color='${data.color}'>${data.text}</font>")
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return Html.fromHtml(bodyData, Html.FROM_HTML_MODE_LEGACY)
+            return Html.fromHtml(stringBuilder.toString(), Html.FROM_HTML_MODE_LEGACY)
         } else {
-            return Html.fromHtml(bodyData)
+            return Html.fromHtml(stringBuilder.toString())
         }
     }
-
+fun getHtmlText(content: String): Spanned{
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        return Html.fromHtml(content, Html.FROM_HTML_MODE_LEGACY)
+    } else {
+        return Html.fromHtml(content)
+    }
+}
     fun ChangeProfilePhotoPopup(activity: Activity) {
         if (!isConnectingToInternet) {
             AlertPopup(context.getString(R.string.internet_connection_failed), context.getString(R.string.please_check_your_internet_connection_and_try_again))
@@ -305,47 +326,39 @@ class HelperMethods(val context: Context) {
         val pattern = Pattern.compile(PASSWORD_PATTERN)
         return pattern.matcher(password).matches()
     }
-    fun setUserDetailsToFirestore(user_id:String,hashMap: HashMap<String,Any>){
-        firebaseFirestore.collection("Users").document(user_id).set(hashMap).addOnSuccessListener {
 
-        }.addOnFailureListener {
+    fun setUserDetailsToFirestore(user_id: String, hashMap: HashMap<String, Any>) {
+        firebaseFirestore.collection("Users").document(user_id).set(hashMap).addOnSuccessListener {}.addOnFailureListener {
             it.localizedMessage?.let {
-                Log.d("firebaseFirestore",it)
-
+                Log.d("firebaseFirestore", it)
             }
         }
     }
 
-    fun updateUserDetailsToFirestore(user_id:String,hashMap: HashMap<String,Any>){
-        firebaseFirestore.collection("Users").document(user_id).update(hashMap).addOnSuccessListener {
-
-        }.addOnFailureListener {
+    fun updateUserDetailsToFirestore(user_id: String, hashMap: HashMap<String, Any>) {
+        firebaseFirestore.collection("Users").document(user_id).update(hashMap).addOnSuccessListener {}.addOnFailureListener {
             it.localizedMessage?.let {
-                Log.d("firebaseFirestore",it)
-
+                Log.d("firebaseFirestore", it)
             }
         }
     }
-    fun setCallsDetailsToFirestore(id:String,hashMap: HashMap<String,Any>){
-        firebaseFirestore.collection("Calls").document(id).set(hashMap).addOnSuccessListener {
 
-        }.addOnFailureListener {
+    fun setCallsDetailsToFirestore(id: String, hashMap: HashMap<String, Any>) {
+        firebaseFirestore.collection("Calls").document(id).set(hashMap).addOnSuccessListener {}.addOnFailureListener {
             it.localizedMessage?.let {
-                Log.d("firebaseFirestore",it)
-
+                Log.d("firebaseFirestore", it)
             }
         }
     }
-    fun updateCallsDetailsToFirestore(id:String,hashMap: HashMap<String,Any>){
-        firebaseFirestore.collection("Calls").document(id).update(hashMap).addOnSuccessListener {
 
-        }.addOnFailureListener {
+    fun updateCallsDetailsToFirestore(id: String, hashMap: HashMap<String, Any>) {
+        firebaseFirestore.collection("Calls").document(id).update(hashMap).addOnSuccessListener {}.addOnFailureListener {
             it.localizedMessage?.let {
-                Log.d("firebaseFirestore",it)
-
+                Log.d("firebaseFirestore", it)
             }
         }
     }
+
     fun isValidMobile(phone: String): Boolean {
         var check = false
         check = if (!Pattern.matches("[a-zA-Z]+", phone)) {
@@ -361,23 +374,25 @@ class HelperMethods(val context: Context) {
         }
         return check
     }
+
     fun getFormattedDate(date: Date?): String {
         val smsTime = Calendar.getInstance()
-        smsTime.timeInMillis = if(date!=null)date.time else Date().time
+        smsTime.timeInMillis = if (date != null) date.time else Date().time
         val now = Calendar.getInstance()
         val timeFormatString = "h:mm aa"
         val dateTimeFormatString = "E, MMMM d, h:mm aa"
         val HOURS = 60 * 60 * 60.toLong()
         return if (now[Calendar.DATE] === smsTime[Calendar.DATE]) {
-            "Today " + SimpleDateFormat(timeFormatString).format( smsTime.time)
+            "Today " + SimpleDateFormat(timeFormatString).format(smsTime.time)
         } else if (now[Calendar.DATE] - smsTime[Calendar.DATE] === 1) {
-            "Yesterday " + SimpleDateFormat(timeFormatString).format( smsTime.time)
+            "Yesterday " + SimpleDateFormat(timeFormatString).format(smsTime.time)
         } else if (now[Calendar.YEAR] === smsTime[Calendar.YEAR]) {
-            SimpleDateFormat(dateTimeFormatString).format( smsTime.time).toString()
+            SimpleDateFormat(dateTimeFormatString).format(smsTime.time).toString()
         } else {
-            SimpleDateFormat("MMMM dd yyyy, h:mm aa").format( smsTime.time).toString()
+            SimpleDateFormat("MMMM dd yyyy, h:mm aa").format(smsTime.time).toString()
         }
     }
+
     fun getFormattedTimeInMilis(timeInMilis: Long): String {
         val smsTime = Calendar.getInstance()
         smsTime.timeInMillis = timeInMilis
@@ -386,15 +401,16 @@ class HelperMethods(val context: Context) {
         val dateTimeFormatString = "EEEE, MMMM d, h:mm aa"
         val HOURS = 60 * 60 * 60.toLong()
         return if (now[Calendar.DATE] === smsTime[Calendar.DATE]) {
-            "Today " + SimpleDateFormat(timeFormatString).format( smsTime.time)
+            "Today " + SimpleDateFormat(timeFormatString).format(smsTime.time)
         } else if (now[Calendar.DATE] - smsTime[Calendar.DATE] === 1) {
-            "Yesterday " + SimpleDateFormat(timeFormatString).format( smsTime.time)
+            "Yesterday " + SimpleDateFormat(timeFormatString).format(smsTime.time)
         } else if (now[Calendar.YEAR] === smsTime[Calendar.YEAR]) {
-            SimpleDateFormat(dateTimeFormatString).format( smsTime.time).toString()
+            SimpleDateFormat(dateTimeFormatString).format(smsTime.time).toString()
         } else {
-            SimpleDateFormat("MMMM dd yyyy, h:mm aa").format( smsTime.time).toString()
+            SimpleDateFormat("MMMM dd yyyy, h:mm aa").format(smsTime.time).toString()
         }
     }
+
     //    fun isvalidMobileNumber(number: String): Boolean {
     //        return try {
     //            if (!number.trim().equals("", ignoreCase = true)) {
@@ -414,8 +430,8 @@ class HelperMethods(val context: Context) {
     val requestOption: RequestOptions
         get() {
             val requestOptions = RequestOptions()
-            requestOptions.placeholder(R.drawable.ic_logo)
-            requestOptions.error(R.drawable.ic_logo)
+            requestOptions.placeholder(R.drawable.ic_temp_profile)
+            requestOptions.error(R.drawable.ic_temp_profile)
             return requestOptions
         }
     val isConnectingToInternet: Boolean
@@ -442,6 +458,15 @@ class HelperMethods(val context: Context) {
         }
     }
 
+    fun containsUserIdForChat(userMessageFireStore: ArrayList<DataUserMessageFireStore>, useId: String): Boolean {
+        for (data in userMessageFireStore) {
+            if (data.dataUserFireStore.user_id.equals(useId)) {
+                return false
+            }
+        }
+        return true
+    }
+
     fun AlertPopup(Title: String, Message: String) {
         val LayoutView = LayoutInflater.from(context).inflate(R.layout.alert_popup, null)
         val aleatdialog = android.app.AlertDialog.Builder(context)
@@ -452,11 +477,50 @@ class HelperMethods(val context: Context) {
         dialog.show()
         val title = LayoutView.findViewById<TextView>(R.id.title)
         val message = LayoutView.findViewById<TextView>(R.id.message)
-        val action_ok = LayoutView.findViewById<TextView>(R.id.action_ok)
+        val actionOkBtn = LayoutView.findViewById<TextView>(R.id.actionOkBtn)
+        val confirmationLayout = LayoutView.findViewById<LinearLayout>(R.id.confirmationLayout)
         title.text = Title
         message.text = Message
         message.movementMethod = ScrollingMovementMethod()
-        action_ok.setOnClickListener { dialog.dismiss() }
+        confirmationLayout.visibility=View.GONE
+        actionOkBtn.visibility=View.VISIBLE
+        actionOkBtn.setOnClickListener { dialog.dismiss() }
+    }
+
+
+    fun showAlertDialog(context: Context, alertActionClickListner: alertActionClickListner, title: String, message: String, ifAlert: Boolean, okBtn: String, cancelBtn: String) {
+        val layoutView = LayoutInflater.from(context).inflate(R.layout.alert_popup, null)
+        val aleatdialog = AlertDialog.Builder(context)
+        aleatdialog.setView(layoutView)
+        aleatdialog.setCancelable(false)
+        val dialog = aleatdialog.create()
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+        layoutView.title.text = title
+        layoutView.message.text = message
+        layoutView.actionOkBtn.text = okBtn
+        layoutView.actionOk.text = okBtn
+        layoutView.actionCancel.text = cancelBtn
+        if (ifAlert) {
+            layoutView.confirmationLayout.visibility = View.GONE
+            layoutView.actionOkBtn.visibility = View.VISIBLE
+        } else {
+            layoutView.confirmationLayout.visibility = View.VISIBLE
+            layoutView.actionOkBtn.visibility = View.GONE
+        }
+
+        layoutView.actionOk.setOnClickListener {
+            dialog.dismiss()
+            alertActionClickListner.onActionOk()
+        }
+        layoutView.actionOkBtn.setOnClickListener {
+            dialog.dismiss()
+            alertActionClickListner.onActionOk()
+        }
+        layoutView.actionCancel.setOnClickListener {
+            dialog.dismiss()
+            alertActionClickListner.onActionCancel()
+        }
     }
 
     fun getImageUriFromBitmap(inImage: Bitmap): Uri {

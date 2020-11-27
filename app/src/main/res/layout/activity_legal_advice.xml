@@ -34,7 +34,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="40dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:singleLine="true"
+                android:id="@+id/actionBarTitle"
                 android:fontFamily="@font/almarai_regular"
                 android:text="Legal Advice"
                 android:textColor="@color/white"
@@ -96,6 +99,7 @@
                     android:src="@drawable/ic_search" />
 
                 <EditText
+                    android:id="@+id/searchConsultant"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"

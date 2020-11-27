@@ -15,11 +15,13 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/top_laft_right_corner_redius_15dp_orange"
             android:fontFamily="@font/almarai_bold"
+
             android:gravity="center"
             android:padding="20dp"
             android:text="Success"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="20sp" />
 
         <View
@@ -43,6 +45,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:layout_marginTop="20dp"
+
             android:orientation="horizontal"
             android:weightSum="2">
 
@@ -55,11 +59,11 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="20dp"
                 android:layout_weight="1"
-                android:background="@drawable/corner_redius_30dp_orange"
+                android:background="@drawable/corner_redius_15dp_orange"
                 android:elevation="3dp"
                 android:fontFamily="@font/almarai_regular"
                 android:gravity="center"
-                android:padding="15dp"
+                android:padding="13dp"
                 android:text="CANCEL"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
@@ -73,11 +77,11 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="20dp"
                 android:layout_weight="1"
-                android:background="@drawable/corner_redius_30dp_orange"
+                android:background="@drawable/corner_redius_15dp_orange"
                 android:elevation="3dp"
                 android:fontFamily="@font/almarai_regular"
                 android:gravity="center"
-                android:padding="15dp"
+                android:padding="13dp"
                 android:text="OK"
                 android:textColor="@color/white"
                 android:textSize="16sp" />

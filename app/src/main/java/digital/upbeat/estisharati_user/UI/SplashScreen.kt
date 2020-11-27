@@ -20,10 +20,13 @@ import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
+import digital.upbeat.estisharati_user.Utils.alertActionClickListner
 
 class SplashScreen : AppCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var preferencesHelper: SharedPreferencesHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
@@ -67,28 +70,16 @@ class SplashScreen : AppCompatActivity() {
                 checkSelfPermission()
             }
         } else {
-            val popup_view = LayoutInflater.from(this@SplashScreen).inflate(R.layout.confirmation_alert_popup, null)
-            val aleatdialog = AlertDialog.Builder(this@SplashScreen)
-            aleatdialog.setView(popup_view)
-            aleatdialog.setCancelable(false)
-            val dialog = aleatdialog.create()
-            dialog.show()
-            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            val title = popup_view.findViewById<TextView>(R.id.title)
-            val message = popup_view.findViewById<TextView>(R.id.message)
-            title.text = "No Internet Connection"
-            val action_cancel = popup_view.findViewById<TextView>(R.id.action_cancel)
-            val action_ok = popup_view.findViewById<TextView>(R.id.action_ok)
-            message.text = errorMsg
-            action_cancel.setOnClickListener {
-                dialog.dismiss()
-                finish()
-            }
+            helperMethods.showAlertDialog(this@SplashScreen, object : alertActionClickListner {
+                override fun onActionOk() {
+                    checkInternetConnection(getString(R.string.please_check_your_internet_connection_and_try_again))
+                }
 
-            action_ok.setOnClickListener {
-                dialog.dismiss()
-                checkInternetConnection(getString(R.string.please_check_your_internet_connection_and_try_again))
-            }
+                override fun onActionCancel() {
+                    finish()
+                }
+            }, "No Internet Connection", errorMsg, false, resources.getString(R.string.ok), resources.getString(R.string.cancel))
+
         }
     }
 

@@ -28,6 +28,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:elevation="3dp"
+                android:id="@+id/cmdUserImage"
                 android:src="@drawable/ic_temp_profile"
                 app:civ_border_color="@color/black"
                 app:civ_border_width="0.5dp" />
@@ -58,6 +59,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/almarai_regular"
                             android:singleLine="true"
+                            android:id="@+id/cmdUserName"
                             android:text="Taliha Al-Jaber"
                             android:textColor="@color/black"
                             android:textSize="13sp" />
@@ -68,6 +70,7 @@
                             android:layout_weight="1">
 
                             <RatingBar
+                                android:id="@+id/cmdUserRating"
                                 style="?android:attr/ratingBarStyleSmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -91,6 +94,7 @@
                         android:gravity="right|center_vertical">
 
                         <TextView
+                            android:id="@+id/cmdReplyCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/almarai_regular"
@@ -112,11 +116,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/almarai_regular"
-                    android:text="1 months ago"
+                    android:text="1 months ago000"
+                    android:id="@+id/cmdDateTime"
                     android:textColor="@color/dark_gray"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/cmdMessage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -181,17 +187,20 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:elevation="2dp"
+                            android:id="@+id/userImage"
                             android:src="@drawable/ic_temp_profile"
                             app:civ_border_color="@color/black"
                             app:civ_border_width="0.5dp" />
 
                         <EditText
+                            android:id="@+id/commentsReply"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
                             android:background="@drawable/corner_redius_30dp_gray1"
                             android:hint="write comments here..."
                             android:paddingLeft="15dp"
+                            android:singleLine="true"
                             android:paddingTop="9dp"
                             android:paddingRight="10dp"
                             android:paddingBottom="9dp"
@@ -208,6 +217,7 @@
                         android:background="@drawable/corner_redius_30dp_light_green1"
                         android:fontFamily="@font/almarai_regular"
                         android:gravity="center"
+                        android:id="@+id/submitReplay"
                         android:padding="8dp"
                         android:text="Reply"
                         android:textColor="@color/white"

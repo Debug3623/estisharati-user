@@ -2,16 +2,12 @@ package digital.upbeat.estisharati_user.UI
 
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.graphics.Typeface
-import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.RadioButton
-import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -25,6 +21,7 @@ import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.Utils.alertActionClickListner
 import kotlinx.android.synthetic.main.activity_user_drawer.*
 import kotlinx.android.synthetic.main.app_bar_user_drawer.*
 import kotlinx.android.synthetic.main.nav_side_manu.*
@@ -57,8 +54,7 @@ class UserDrawer : AppCompatActivity() {
         dataUser = preferencesHelper.logInUser
         val hashMap = hashMapOf<String, Any>("online_status" to true)
         helperMethods.updateUserDetailsToFirestore(dataUser.id, hashMap)
-
-        supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, Home()).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, Home(this@UserDrawer)).commit()
     }
 
     override fun onStart() {
@@ -91,11 +87,17 @@ class UserDrawer : AppCompatActivity() {
         }
     }
 
+    fun navConsultations() {
+        action_bar_logo.visibility = View.GONE
+        action_bar_title.visibility = View.VISIBLE
+        supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, Consultations()).commit()
+    }
+
     fun navPageClickEvents() {
         nav_home.setOnClickListener {
             action_bar_logo.visibility = View.VISIBLE
             action_bar_title.visibility = View.GONE
-            supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, Home()).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, Home(this@UserDrawer)).commit()
             drawer_layout.closeDrawer(GravityCompat.START, true)
         }
         nav_consultations.setOnClickListener {
@@ -113,8 +115,17 @@ class UserDrawer : AppCompatActivity() {
         nav_my_courses.setOnClickListener {
             startActivity(Intent(this@UserDrawer, MyCourses::class.java))
         }
+        nav_favorites.setOnClickListener {
+            startActivity(Intent(this@UserDrawer, Favorites::class.java))
+        }
         nav_about_app.setOnClickListener {
-            startActivity(Intent(this@UserDrawer, AboutUs::class.java))
+            if (helperMethods.isConnectingToInternet) {
+                val intent = Intent(this@UserDrawer, Pages::class.java)
+                intent.putExtra("page", "about-us")
+                startActivity(intent)
+            } else {
+                helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
+            }
         }
         nav_contect_us.setOnClickListener {
             startActivity(Intent(this@UserDrawer, ContactUs::class.java))
@@ -137,29 +148,19 @@ class UserDrawer : AppCompatActivity() {
     }
 
     fun LogOutPopup(titleStr: String, messageStr: String) {
-        val LayoutView = LayoutInflater.from(this@UserDrawer).inflate(R.layout.confirmation_alert_popup, null)
-        val aleatdialog = AlertDialog.Builder(this@UserDrawer)
-        aleatdialog.setView(LayoutView)
-        aleatdialog.setCancelable(false)
-        val dialog = aleatdialog.create()
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.show()
-        val title = LayoutView.findViewById<TextView>(R.id.title)
-        val message = LayoutView.findViewById<TextView>(R.id.message)
-        val action_ok = LayoutView.findViewById<TextView>(R.id.action_ok)
-        val action_cancel = LayoutView.findViewById<TextView>(R.id.action_cancel)
-        title.text = titleStr
-        message.text = messageStr
-        action_ok.setOnClickListener {
-            dialog.dismiss()
-            preferencesHelper.isUserLogIn = false
-            preferencesHelper.logInUser = DataUser()
-            val intent = Intent(this@UserDrawer, LoginAndRegistration::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
-            finish()
-        }
-        action_cancel.setOnClickListener { dialog.dismiss() }
+        helperMethods.showAlertDialog(this@UserDrawer, object : alertActionClickListner {
+            override fun onActionOk() {
+                preferencesHelper.isUserLogIn = false
+                preferencesHelper.logInUser = DataUser()
+                val intent = Intent(this@UserDrawer, LoginAndRegistration::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
+            }
+
+            override fun onActionCancel() {
+            }
+        }, titleStr, messageStr, false, resources.getString(R.string.ok), resources.getString(R.string.cancel))
     }
 
     fun radioButtonChange(ifEnglis: Boolean) {
@@ -187,24 +188,14 @@ class UserDrawer : AppCompatActivity() {
     }
 
     fun exitPopup(titleStr: String, messageStr: String) {
-        val LayoutView = LayoutInflater.from(this@UserDrawer).inflate(R.layout.confirmation_alert_popup, null)
-        val aleatdialog = AlertDialog.Builder(this@UserDrawer)
-        aleatdialog.setView(LayoutView)
-        aleatdialog.setCancelable(false)
-        val dialog = aleatdialog.create()
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.show()
-        val title = LayoutView.findViewById<TextView>(R.id.title)
-        val message = LayoutView.findViewById<TextView>(R.id.message)
-        val action_ok = LayoutView.findViewById<TextView>(R.id.action_ok)
-        val action_cancel = LayoutView.findViewById<TextView>(R.id.action_cancel)
-        title.text = titleStr
-        message.text = messageStr
-        action_ok.setOnClickListener {
-            dialog.dismiss()
-            finish()
-        }
-        action_cancel.setOnClickListener { dialog.dismiss() }
+        helperMethods.showAlertDialog(this@UserDrawer, object : alertActionClickListner {
+            override fun onActionOk() {
+                finish()
+            }
+
+            override fun onActionCancel() {
+            }
+        }, titleStr, messageStr, false, resources.getString(R.string.ok), resources.getString(R.string.cancel))
     }
 
     override fun onDestroy() {
@@ -216,10 +207,10 @@ class UserDrawer : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (mBackPressed + 2000 > System.currentTimeMillis()) {
-            exitPopup("Exit", "Are you sure?\nDo you want exit and offline the app.")
+            exitPopup("Exit", "Are you sure?\nDo you want exit the app and offline.")
             return
         } else {
-            helperMethods.showToastMessage("Please click back again to exit!")
+            Toast.makeText(this@UserDrawer, "Please click back again to exit!", Toast.LENGTH_SHORT).show()
         }
         mBackPressed = System.currentTimeMillis()
     }

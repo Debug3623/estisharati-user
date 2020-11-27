@@ -19,7 +19,6 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
-import com.google.android.material.tabs.TabLayout
 import digital.upbeat.estisharati_user.Adapter.TapViewPagerAdapter
 import digital.upbeat.estisharati_user.Fragment.*
 import digital.upbeat.estisharati_user.Helper.HelperMethods
@@ -52,7 +51,7 @@ class PreviewCourse : AppCompatActivity() {
         val bandwidthMeter = DefaultBandwidthMeter()
         val trackSelector = DefaultTrackSelector(AdaptiveTrackSelection.Factory(bandwidthMeter))
         simpleExoPlayer = ExoPlayerFactory.newSimpleInstance(this@PreviewCourse, trackSelector)
-        val uri = Uri.parse("https://www.radiantmediaplayer.com/media/bbb-360p.mp4")
+        val uri = Uri.parse("https://www.radiantmediaplayer.com/media/big-buck-bunny-360p.mp4")
         //        val uri = Uri.parse("https://assets.mixkit.co/videos/preview/mixkit-a-man-doing-jumping-tricks-at-the-beach-1222-large.mp4")
         val defaultHttpDataSource = DefaultHttpDataSourceFactory("player")
         val extractorFactory = DefaultExtractorsFactory()
@@ -114,10 +113,10 @@ class PreviewCourse : AppCompatActivity() {
         val tabTwo = layoutInflater.inflate(R.layout.tap_item, null) as View
         tabOne.tap_text.text = "Course content"
         tabTwo.tap_text.text = "Documents"
-        setUpViewPager(course_viewpager)
-        course_tablayout.setupWithViewPager(course_viewpager)
-        course_tablayout.getTabAt(0)?.setCustomView(tabOne)
-        course_tablayout.getTabAt(1)?.setCustomView(tabTwo)
+        setUpViewPager(courseViewpager)
+        courseTablayout.setupWithViewPager(courseViewpager)
+        courseTablayout.getTabAt(0)?.setCustomView(tabOne)
+        courseTablayout.getTabAt(1)?.setCustomView(tabTwo)
         //        val linearLayout = search_tabLayout.getChildAt(0) as LinearLayout
         //        linearLayout.showDividers = LinearLayout.SHOW_DIVIDER_MIDDLE
         //        val drawable = GradientDrawable()
@@ -178,10 +177,10 @@ class PreviewCourse : AppCompatActivity() {
             setRatingBasedCommend(rating_based_cmd, rating)
         }
         send.setOnClickListener {
-            if (comments.text.toString().equals("")) {
-                Toast.makeText(this@PreviewCourse, "Please feel free to leave your comments", Toast.LENGTH_LONG).show()
-                return@setOnClickListener
-            }
+//            if (comments.text.toString().equals("")) {
+//                Toast.makeText(this@PreviewCourse, "Please feel free to leave your comments", Toast.LENGTH_LONG).show()
+//                return@setOnClickListener
+//            }
             dialog.dismiss()
         }
     }

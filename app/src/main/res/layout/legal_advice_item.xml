@@ -10,7 +10,7 @@
         android:layout_height="wrap_content">
 
         <RelativeLayout
-            android:id="@+id/parent_layout"
+            android:id="@+id/parentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -41,6 +41,7 @@
                         android:weightSum="6">
 
                         <TextView
+                            android:id="@+id/consultantName"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
@@ -50,6 +51,7 @@
                             android:textSize="16sp" />
 
                         <TextView
+                            android:id="@+id/consultantPrice"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="2"
@@ -61,6 +63,7 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/consultantJobTitle"
                         android:layout_width="match_parent"
                         android:layout_marginTop="3dp"
                         android:layout_height="wrap_content"
@@ -77,6 +80,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/consultantRate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/almarai_regular"
@@ -116,9 +120,12 @@
                 app:cardCornerRadius="10dp">
 
                 <ImageView
+
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/ic_temp_profile" />
+                    android:scaleType="centerCrop"
+                    android:id="@+id/consultantImage"
+                    android:src="@drawable/ic_temp_profile" />
 
             </androidx.cardview.widget.CardView>
 

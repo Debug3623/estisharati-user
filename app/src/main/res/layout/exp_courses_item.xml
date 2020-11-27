@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parentLayout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/parent_layout"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:layout_width="230dp"
         android:layout_height="110dp"
-        android:layout_marginLeft="13dp"
-        android:elevation="3dp"
-        app:cardCornerRadius="10dp">
+        android:layout_marginStart="13dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="5dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="3dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -19,30 +21,39 @@
 
 
             <ImageView
+                android:id="@+id/courseImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/ic_temp2" />
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_temp2" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_margin="12dp"
-                android:fontFamily="@font/almarai_regular"
-                android:text="AUD 999"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:background="@drawable/gradient_gray_shape_bottom_left"
+                android:layout_height="match_parent">
 
+                <TextView
+                    android:id="@+id/coursePrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_margin="12dp"
+                    android:fontFamily="@font/almarai_regular"
+                    android:text="AUD 999"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+            </RelativeLayout>
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
     <TextView
+        android:id="@+id/courseName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:singleLine="true"
+        android:layout_marginStart="20dp"
         android:fontFamily="@font/almarai_regular"
+        android:singleLine="true"
         android:text="Conversation skill in English"
         android:textColor="@color/black_light"
         android:textSize="13sp" />

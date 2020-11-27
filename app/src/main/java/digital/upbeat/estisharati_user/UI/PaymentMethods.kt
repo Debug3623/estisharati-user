@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import digital.upbeat.estisharati_user.Adapter.PaymentMethodAdapter
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.Utils.alertActionClickListner
 import kotlinx.android.synthetic.main.activity_payment_methods.*
 
 class PaymentMethods : AppCompatActivity() {
@@ -64,22 +65,14 @@ class PaymentMethods : AppCompatActivity() {
     }
 
     fun cardAccountRemovePopup(messageStr: String) {
-        val LayoutView = LayoutInflater.from(this@PaymentMethods).inflate(R.layout.confirmation_alert_popup, null)
-        val aleatdialog = AlertDialog.Builder(this@PaymentMethods)
-        aleatdialog.setView(LayoutView)
-        aleatdialog.setCancelable(false)
-        val dialog = aleatdialog.create()
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.show()
-        val title = LayoutView.findViewById<TextView>(R.id.title)
-        val message = LayoutView.findViewById<TextView>(R.id.message)
-        val action_ok = LayoutView.findViewById<TextView>(R.id.action_ok)
-        val action_cancel = LayoutView.findViewById<TextView>(R.id.action_cancel)
-        title.text = "Remove"
-        message.text = messageStr
-        action_ok.setOnClickListener {
-            dialog.dismiss()
-        }
-        action_cancel.setOnClickListener { dialog.dismiss() }
+        helperMethods.showAlertDialog(this@PaymentMethods, object : alertActionClickListner {
+            override fun onActionOk() {
+            }
+
+            override fun onActionCancel() {
+            }
+        }, "Remove", messageStr, false, resources.getString(R.string.ok), resources.getString(R.string.cancel))
+
+
     }
 }

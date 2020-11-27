@@ -80,7 +80,8 @@
                     android:layout_alignParentRight="true"
                     android:background="@drawable/round_light_green_white_stroke"
                     android:gravity="center"
-                    android:text="2"
+                    android:text="0"
+                    android:id="@+id/notificationCount"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
             </RelativeLayout>

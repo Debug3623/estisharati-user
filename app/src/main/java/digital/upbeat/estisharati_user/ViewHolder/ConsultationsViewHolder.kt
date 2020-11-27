@@ -6,4 +6,5 @@ import kotlinx.android.synthetic.main.consultations_item.view.*
 
 class ConsultationsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val consul_name=itemView.consul_name
+    val parentLayout=itemView.parentLayout
 }

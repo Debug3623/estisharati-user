@@ -5,7 +5,8 @@
     <color name="colorAccent">#000000</color>
 
     <color name="orange">#ea7636</color>
-    91b146
+    <color name="orange_light">#ED8A54</color>
+
     <color name="green">#80a02e</color>
     <color name="light_green">#9fb761</color>
     <color name="light_green1">#91b146</color>
@@ -41,6 +42,8 @@
     <color name="gray1">#e6e6e6</color>
 
     <color name="gainsboro">#DCDCDC</color>
+
+    <color name="silver">#C0C0C0</color>
 
 
 </resources>

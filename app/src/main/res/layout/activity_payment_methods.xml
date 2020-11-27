@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/action_bar"
             android:layout_margin="20dp"
-            android:background="@drawable/corner_redius_5dp_black"
+            android:background="@drawable/corner_redius_30dp_black"
             android:elevation="3dp"
             android:fontFamily="@font/almarai_regular"
             android:gravity="center"

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -75,18 +75,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/orange"
-            android:orientation="horizontal"
-            android:paddingLeft="30dp"
             android:gravity="center_vertical"
-            android:paddingRight="30dp"
-            android:paddingBottom="15dp"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             android:weightSum="2">
 
 
             <Spinner
-                android:id="@+id/courses_spinner"
+                android:id="@+id/categories_spinner"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/white"
                 android:spinnerMode="dropdown" />
@@ -95,6 +95,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical|right"
                 android:orientation="horizontal">
@@ -102,27 +103,28 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-
                     android:adjustViewBounds="true"
                     android:src="@drawable/ic_sort" />
 
-                <TextView
-                    android:layout_width="wrap_content"
+
+                <Spinner
+                    android:id="@+id/filter_spinner"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:fontFamily="@font/almarai_regular"
-                    android:text="sort by"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
+                    android:backgroundTint="@color/white"
+                    android:spinnerMode="dropdown" />
 
 
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/onlineCoursesLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/online_courses_recycler"
@@ -133,6 +135,34 @@
                 tools:listitem="@layout/online_courses_item" />
         </LinearLayout>
 
+
     </LinearLayout>
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/emptyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_course_empty" />
+
+        <TextView
+            android:id="@+id/errorText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/almarai_bold"
+            android:gravity="center"
+            android:text="Please wait while fetching courses..."
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

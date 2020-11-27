@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import digital.upbeat.estisharati_user.DataClassHelper.DataUserMessageFireStore
 import digital.upbeat.estisharati_user.Fragment.Consultations
+import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.R
 import digital.upbeat.estisharati_user.UI.*
@@ -45,16 +46,16 @@ class RecentChatAdapter(val context: Context, val chatHome: ChatHome, val dataUs
                 count++
             }
         }
-        Glide.with(context).load(dataUserMessageFireStore.dataUserFireStore.image).apply(helperMethods.profileRequestOption).into(holder.profile_picture)
         if (0 < count) {
-            holder.unread_message_count.text=  if(count>50)  "50+" else count.toString()
+            holder.unread_message_count.text = if (count > 50) "50+" else count.toString()
 
             holder.unread_message_count.visibility = View.VISIBLE
-            holder.profile_picture.borderWidth = 10
+            holder.profile_picture.borderWidth = 8
         } else {
             holder.unread_message_count.visibility = View.GONE
             holder.profile_picture.borderWidth = 0
         }
+        Glide.with(context).load(dataUserMessageFireStore.dataUserFireStore.image).apply(helperMethods.profileRequestOption).into(holder.profile_picture)
 
         if (dataUserMessageFireStore.messagesArrayList.get(dataUserMessageFireStore.messagesArrayList.lastIndex).receiver_id.equals(chatHome.dataUser.id) && (dataUserMessageFireStore.messagesArrayList.get(dataUserMessageFireStore.messagesArrayList.lastIndex).message_status.equals("send") || dataUserMessageFireStore.messagesArrayList.get(dataUserMessageFireStore.messagesArrayList.lastIndex).message_status.equals("delivered"))) {
             if (dataUserMessageFireStore.messagesArrayList.get(dataUserMessageFireStore.messagesArrayList.lastIndex).message_type.equals("text")) {
@@ -84,15 +85,42 @@ class RecentChatAdapter(val context: Context, val chatHome: ChatHome, val dataUs
             }
         }
 
+        if (dataUserMessageFireStore.messagesArrayList.get(dataUserMessageFireStore.messagesArrayList.lastIndex).sender_id.equals(chatHome.dataUser.id)) {
+            holder.image_message_status.visibility = View.VISIBLE
+            when (dataUserMessageFireStore.messagesArrayList.get(dataUserMessageFireStore.messagesArrayList.lastIndex).message_status) {
+                "send" -> {
+                    holder.image_message_status.setImageResource(R.drawable.ic_sended)
+                }
+                "delivered" -> {
+                    holder.image_message_status.setImageResource(R.drawable.ic_delivered)
+                }
+                "seened" -> {
+                    holder.image_message_status.setImageResource(R.drawable.ic_seened)
+                }
+                else -> {
+                }
+            }
+        } else {
+            holder.image_message_status.visibility = View.GONE
+        }
+
+
         holder.last_message.text = dataUserMessageFireStore.messagesArrayList.get(dataUserMessageFireStore.messagesArrayList.lastIndex).message_content
         holder.user_name.text = "${dataUserMessageFireStore.dataUserFireStore.fname} ${dataUserMessageFireStore.dataUserFireStore.lname}"
         holder.last_message_time.text = helperMethods.getFormattedDate(dataUserMessageFireStore.messagesArrayList.get(dataUserMessageFireStore.messagesArrayList.lastIndex).send_time)
 
-
+        if (dataUserMessageFireStore.dataUserFireStore.user_type.equals("user")) {
+            holder.nectie.visibility = View.GONE
+        } else if (dataUserMessageFireStore.dataUserFireStore.user_type.equals("consultant")) {
+            holder.nectie.visibility = View.VISIBLE
+        }
         if (dataUserMessageFireStore.dataUserFireStore.online_status) holder.online_status.visibility = View.VISIBLE else holder.online_status.visibility = View.GONE
         holder.parent_layout.setOnClickListener {
             val intent = Intent(context, ChatPage::class.java)
             intent.putExtra("user_id", dataUserMessageFireStore.dataUserFireStore.user_id)
+            intent.putExtra("forward_type", GlobalData.forwardType)
+            intent.putExtra("forward_content", GlobalData.forwardContent)
+
             context.startActivity(intent)
         }
     }

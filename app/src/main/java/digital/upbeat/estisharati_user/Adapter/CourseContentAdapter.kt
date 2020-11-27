@@ -6,26 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import digital.upbeat.estisharati_user.Fragment.Consultations
+import digital.upbeat.estisharati_user.DataClassHelper.CourseDetails.CourseResource
 import digital.upbeat.estisharati_user.Fragment.CourseContent
 import digital.upbeat.estisharati_user.R
-import digital.upbeat.estisharati_user.UI.MyConsultations
-import digital.upbeat.estisharati_user.UI.MyCourses
-import digital.upbeat.estisharati_user.UI.OnlineCourses
 import digital.upbeat.estisharati_user.ViewHolder.CourseContentViewHolder
-import digital.upbeat.estisharati_user.ViewHolder.MyConsultationsViewHolder
-import digital.upbeat.estisharati_user.ViewHolder.MyCoursesViewHolder
-import digital.upbeat.estisharati_user.ViewHolder.OnlineCoursesViewHolder
-import kotlinx.android.synthetic.main.fragment_comments.*
 
-class CourseContentAdapter(val context: Context, val courseContent: CourseContent, val arrayListStr: ArrayList<String>) : RecyclerView.Adapter<CourseContentViewHolder>() {
+class CourseContentAdapter(val context: Context, val courseContent: CourseContent, val course_resources: ArrayList<CourseResource>) : RecyclerView.Adapter<CourseContentViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseContentViewHolder {
         val layoutView = LayoutInflater.from(context).inflate(R.layout.course_content_item, parent, false)
         return CourseContentViewHolder(layoutView)
     }
 
     override fun getItemCount(): Int {
-        return arrayListStr.size
+        return course_resources.size
     }
 
     override fun onBindViewHolder(holder: CourseContentViewHolder, position: Int) {
@@ -40,7 +33,7 @@ class CourseContentAdapter(val context: Context, val courseContent: CourseConten
                 holder.child_layout.visibility = View.VISIBLE
             }
         }
-        holder.main_text.setOnClickListener {
+        holder.chapter_title.setOnClickListener {
             if (holder.child_layout.visibility == View.VISIBLE) {
                 holder.child_layout.visibility = View.GONE
                 holder.expand_icon.setImageResource(R.drawable.ic_plus_round)
@@ -49,17 +42,10 @@ class CourseContentAdapter(val context: Context, val courseContent: CourseConten
                 holder.child_layout.visibility = View.VISIBLE
             }
         }
-
-        val arrayList: ArrayList<String> = arrayListOf()
-        arrayList.add("Marketing advice")
-        arrayList.add("Legal advice")
-        arrayList.add("Administration and business")
-
-
+        holder.chapter_title.text = course_resources.get(position).chapter_title
         holder.course_content_sub_recycler.setHasFixedSize(true)
         holder.course_content_sub_recycler.removeAllViews()
         holder.course_content_sub_recycler.layoutManager = LinearLayoutManager(context)
-        holder.course_content_sub_recycler.adapter = CourseContentSubAdapter(context, courseContent, arrayList)
-
+        holder.course_content_sub_recycler.adapter = CourseContentSubAdapter(context, courseContent, course_resources.get(position).lessons)
     }
 }

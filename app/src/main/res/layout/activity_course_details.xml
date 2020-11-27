@@ -21,6 +21,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
+                    android:id="@+id/courseBackgroundImage"
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
                     android:scaleType="centerCrop"
@@ -46,14 +47,45 @@
                     android:layout_marginRight="20dp"
                     android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/nav_back"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/ic_left_arrow_white" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/nav_back"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/ic_left_arrow_white" />
+
+                        <LinearLayout
+                            android:id="@+id/favoriteLayout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:gravity="end|center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/almarai_regular"
+                                android:text="Add To Favorite"
+                                android:textColor="@color/white"
+                                android:textSize="13sp" />
+
+                            <ImageView
+                                android:id="@+id/favoriteIcon"
+                                android:layout_width="18sp"
+                                android:layout_height="18sp"
+                                android:layout_marginStart="10dp"
+                                android:src="@drawable/ic_favorite" />
+                        </LinearLayout>
+
+                    </RelativeLayout>
 
                     <TextView
+                        android:id="@+id/courseName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
@@ -63,9 +95,11 @@
                         android:textSize="18sp" />
 
                     <TextView
+                        android:id="@+id/courseDescription"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
+                        android:maxLines="2"
                         android:fontFamily="@font/almarai_regular"
                         android:text="Learn about the tasks and functions of human tasks in the labor
  market and keep pace with development Modern society"
@@ -80,6 +114,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/courseRating"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/almarai_regular"
@@ -105,6 +140,7 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/courseHours"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/almarai_regular"
@@ -120,6 +156,7 @@
                                 android:background="@color/white" />
 
                             <TextView
+                                android:id="@+id/courseVideos"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/almarai_regular"
@@ -135,6 +172,7 @@
                                 android:background="@color/white" />
 
                             <TextView
+                                android:id="@+id/courseChapters"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/almarai_regular"
@@ -146,6 +184,7 @@
                         </LinearLayout>
 
                         <TextView
+                            android:id="@+id/coursePeriod"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -177,8 +216,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
+                            android:id="@+id/download_video"
                             android:fontFamily="@font/almarai_regular"
-                            android:text="ability to download course videos"
+                            android:text="@string/you_can_not_download_course_videos"
                             android:textColor="@color/white"
                             android:textSize="13sp" />
                     </LinearLayout>
@@ -189,11 +229,10 @@
                     android:layout_height="175dp"
                     android:layout_marginLeft="40dp"
                     android:layout_marginTop="20dp"
-
                     android:layout_marginRight="40dp">
 
                     <ImageView
-                        android:id="@+id/preview_course_img"
+                        android:id="@+id/previewCourse"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
@@ -225,6 +264,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/coursePrice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="40dp"
@@ -235,7 +275,7 @@
                         android:textSize="18sp" />
 
                     <Button
-                        android:id="@+id/btn_login"
+                        android:id="@+id/buyTheCourse"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
@@ -273,18 +313,19 @@
                             android:textSize="16sp" />
 
                         <TextView
+                            android:id="@+id/courseDescriptionFull"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:fontFamily="@font/almarai_regular"
+                            android:maxLines="2"
                             android:text="Learn about the tasks and functions of human tasks in the labor
  market and keep pace with development Modern society"
-                            android:maxLines="2"
                             android:textColor="@color/black"
                             android:textSize="13sp" />
 
                         <TextView
-                            android:id="@+id/show_more"
+                            android:id="@+id/showMore"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -296,7 +337,7 @@
                 </LinearLayout>
 
                 <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/course_tablayout"
+                    android:id="@+id/courseTablayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:elevation="6dp"
@@ -305,10 +346,10 @@
                     app:tabGravity="fill"
                     app:tabIndicatorColor="@color/orange"
                     app:tabIndicatorHeight="2dp"
-                    app:tabMode="auto" />
+                    app:tabMode="scrollable" />
 
                 <digital.upbeat.estisharati_user.Utils.WrapContentViewPager
-                    android:id="@+id/course_viewpager"
+                    android:id="@+id/courseViewpager"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior" />
