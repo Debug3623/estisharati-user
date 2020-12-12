@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/offersConsultantParentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="55dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/corner_redius_10dp_white"
+                android:elevation="4dp"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:orientation="vertical"
+                    android:padding="15dp">
+
+
+                        <TextView
+                            android:id="@+id/offersConsultantName"
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="5dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/almarai_regular"
+                            android:text="Majid al-Muhammadi"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+
+
+
+                    <TextView
+                        android:id="@+id/offersConsultantJobTitle"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="3dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/almarai_regular"
+                        android:text="Administrative Law Doctor"
+                        android:textColor="@color/dark_gray"
+                        android:textSize="13sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="5dp"
+                        android:weightSum="5">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.8"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/offersConsultantRate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/almarai_regular"
+                                android:text="4.5"
+                                android:textColor="@color/yellow"
+                                android:textSize="13sp" />
+
+                            <ImageView
+                                android:layout_width="13dp"
+                                android:layout_height="13dp"
+                                android:layout_marginLeft="5dp"
+                                android:adjustViewBounds="true"
+                                android:src="@drawable/ic_star_yellow" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical|start"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1.8">
+
+                            <ImageView
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:adjustViewBounds="true"
+                                android:src="@drawable/ic_end_date" />
+
+                            <TextView
+                                android:id="@+id/offersConsultantEndDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/almarai_regular"
+                                android:text="22/03/2020"
+                                android:layout_marginStart="3dp"
+                                android:textColor="@color/black"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2.4"
+                            android:gravity="end">
+
+                            <TextView
+                                android:id="@+id/offersOldConsultantPrice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/almarai_regular"
+                                android:layout_marginRight="10dp"
+                                android:text="1.700"
+                                android:textColor="@color/dark_gray"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/offersNewConsultantPrice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/almarai_regular"
+                                android:text="AUD 1.200"
+                                android:textColor="@color/green"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp">
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="10dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:id="@+id/offersConsultantImage"
+                    android:src="@drawable/ic_temp_profile" />
+
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/round_parrot_green"
+                android:elevation="2dp" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+</FrameLayout>

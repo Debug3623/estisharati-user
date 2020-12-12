@@ -5,5 +5,6 @@ data class Course(
     val image: String,
     val image_path: String,
     val name: String,
-    val price: Int
+    val price: String,
+    val offerprice: String?
 )

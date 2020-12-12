@@ -25,7 +25,11 @@ class FavoriteCoursesAdapter(val context: Context, val favorites: Favorites, val
     override fun onBindViewHolder(holder: FavoriteCoursesViewHolder, position: Int) {
         Glide.with(context).load(coursesArrayList.get(position).course.image_path).apply(favorites.helperMethods.profileRequestOption).into(holder.courseImage)
         holder.courseName.text = coursesArrayList.get(position).course.name
-        holder.coursePrice.text = context.getString(R.string.aed) + " " + coursesArrayList.get(position).course.price
+        if (coursesArrayList.get(position).course.offerprice.equals("0")) {
+            holder.coursePrice.text = context.getString(R.string.aed) + " " + coursesArrayList.get(position).course.price
+        } else {
+            holder.coursePrice.text = context.getString(R.string.aed) + " " + coursesArrayList.get(position).course.offerprice
+        }
         holder.courseRating.text = coursesArrayList.get(position).course.rate
         holder.coursePeriod.text = coursesArrayList.get(position).course.period
 

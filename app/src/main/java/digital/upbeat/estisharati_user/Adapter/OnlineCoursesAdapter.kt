@@ -32,7 +32,11 @@ class OnlineCoursesAdapter(val context: Context, val onlineCourses: OnlineCourse
         val dataOnlineCourses = onlineCoursesArrayList.get(position)
         Glide.with(context).load(dataOnlineCourses.image_path).apply(onlineCourses.helperMethods.requestOption).into(holder.courseImage)
         holder.courseName.text = dataOnlineCourses.name
-        holder.coursePrice.text = context.getString(R.string.aed) + " " + dataOnlineCourses.price
+        if (dataOnlineCourses.offerprice.equals("0")) {
+            holder.coursePrice.text = context.getString(R.string.aed) + " " + dataOnlineCourses.price
+        } else {
+            holder.coursePrice.text = context.getString(R.string.aed) + " " + dataOnlineCourses.offerprice
+        }
         holder.courseRating.text = dataOnlineCourses.rate
         holder.coursePeriod.text = dataOnlineCourses.period
         holder.parentLayout.setOnClickListener {

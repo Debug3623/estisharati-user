@@ -25,7 +25,11 @@ class ExpCoursesAdapter(val context: Context, val home: Home, val coursesArrayLi
 
     override fun onBindViewHolder(holder: ExpCoursesViewHolder, position: Int) {
         Glide.with(context).load(coursesArrayList.get(position).image_path).apply(home.helperMethods.requestOption).into(holder.courseImage)
-        holder.coursePrice.text = context.resources.getString(R.string.aed) + " " + coursesArrayList.get(position).price
+        if (coursesArrayList.get(position).offerprice.equals("0")) {
+            holder.coursePrice.text = context.resources.getString(R.string.aed) + " " + coursesArrayList.get(position).price
+        } else {
+            holder.coursePrice.text = context.resources.getString(R.string.aed) + " " + coursesArrayList.get(position).offerprice
+        }
         holder.courseName.text = coursesArrayList.get(position).name
         holder.parentLayout.setOnClickListener {
             val intent = Intent(context, CourseDetails::class.java)

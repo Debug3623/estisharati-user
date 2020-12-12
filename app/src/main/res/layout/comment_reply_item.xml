@@ -107,8 +107,7 @@
                             android:layout_height="13dp"
                             android:layout_marginLeft="10dp"
                             android:adjustViewBounds="true"
-                            android:background="@drawable/ic_reply_for_cmd"
-                            android:backgroundTint="@color/gray" />
+                            android:src="@drawable/ic_reply_for_cmd" />
                     </LinearLayout>
                 </LinearLayout>
 

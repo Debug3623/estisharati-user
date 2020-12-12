@@ -12,4 +12,7 @@ class PaymentMethodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView
     val card_delete = itemView.card_delete
     val paypal_edit = itemView.paypal_edit
     val paypal_delete = itemView.paypal_delete
+    val card_number = itemView.card_number
+    val card_expiry_date = itemView.expiry_date
+    val paypal_email = itemView.paypal_email
 }

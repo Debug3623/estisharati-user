@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
         <RelativeLayout
             android:id="@+id/parentLayout"
             android:layout_width="match_parent"
@@ -45,6 +46,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
+                            android:singleLine="true"
                             android:fontFamily="@font/almarai_regular"
                             android:text="Majid al-Muhammadi"
                             android:textColor="@color/black"
@@ -65,8 +67,9 @@
                     <TextView
                         android:id="@+id/consultantJobTitle"
                         android:layout_width="match_parent"
-                        android:layout_marginTop="3dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:maxLines="2"
                         android:fontFamily="@font/almarai_regular"
                         android:text="Administrative Law Doctor"
                         android:textColor="@color/dark_gray"
@@ -91,8 +94,8 @@
                         <ImageView
                             android:layout_width="13dp"
                             android:layout_height="13dp"
-                            android:adjustViewBounds="true"
                             android:layout_marginLeft="5dp"
+                            android:adjustViewBounds="true"
                             android:src="@drawable/ic_star_yellow" />
                     </LinearLayout>
 
@@ -103,7 +106,6 @@
 
 
         </RelativeLayout>
-
 
         <RelativeLayout
             android:layout_width="80dp"

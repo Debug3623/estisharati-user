@@ -1,6 +1,7 @@
 package digital.upbeat.estisharati_user.Utils
 
 import android.content.Intent
+import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -22,10 +23,10 @@ class FCMService : FirebaseMessagingService() {
         preferencesHelper = SharedPreferencesHelper(this)
         val title = remoteMessage.getData().get("title") as String
         val body = remoteMessage.getData().get("body") as String
-        val tag = remoteMessage.getData().get("tag") as String
+        val type = remoteMessage.getData().get("type") as String
         helperMethods.sendPushNotification(title, body)
 
-        if (tag.equals("incoming_voice_call") || tag.equals("incoming_video_call")) {
+        if (type.equals("incoming_voice_call") || type.equals("incoming_video_call")) {
             if (GlobalData.FcmToken.equals("")) {
                 if (preferencesHelper.isUserLogIn) {
                     val intent = Intent(this, SplashScreen::class.java)
@@ -34,6 +35,8 @@ class FCMService : FirebaseMessagingService() {
                 }
             }
         }
+
+        Log.d("FCM_message",title+"    "+body+"    "+type)
     }
 
     override fun onNewToken(newToken: String) {

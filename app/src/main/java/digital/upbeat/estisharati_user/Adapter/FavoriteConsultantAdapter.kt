@@ -27,12 +27,15 @@ class FavoriteConsultantAdapter(val context: Context, val favorites: Favorites, 
         holder.consultantName.text = consultantsArrayList.get(position).consultant.name
         holder.consultantJobTitle.text = consultantsArrayList.get(position).consultant.job_title
         holder.consultantRate.text = consultantsArrayList.get(position).consultant.rate
-        holder.consultantPrice.text = "${context.getString(R.string.aed)} ${consultantsArrayList.get(position).consultant.price}"
+        if (consultantsArrayList.get(position).consultant.offerprice.equals("0")) {
+            holder.consultantPrice.text = "${context.getString(R.string.aed)} ${consultantsArrayList.get(position).consultant.price}"
+        } else {
+            holder.consultantPrice.text = "${context.getString(R.string.aed)} ${consultantsArrayList.get(position).consultant.offerprice}"
+        }
         holder.parentLayout.setOnClickListener {
-            val intent=  Intent(context, ConsultantDetails::class.java)
-            intent.putExtra("consultant_id",consultantsArrayList.get(position).consultant.id)
+            val intent = Intent(context, ConsultantDetails::class.java)
+            intent.putExtra("consultant_id", consultantsArrayList.get(position).consultant.id)
             context.startActivity(intent)
-
         }
     }
 }

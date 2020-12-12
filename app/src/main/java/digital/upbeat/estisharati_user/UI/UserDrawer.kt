@@ -100,6 +100,9 @@ class UserDrawer : AppCompatActivity() {
             supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, Home(this@UserDrawer)).commit()
             drawer_layout.closeDrawer(GravityCompat.START, true)
         }
+        nav_offers.setOnClickListener {
+            startActivity(Intent(this@UserDrawer, Offers::class.java))
+        }
         nav_consultations.setOnClickListener {
             action_bar_logo.visibility = View.GONE
             action_bar_title.visibility = View.VISIBLE
@@ -126,6 +129,28 @@ class UserDrawer : AppCompatActivity() {
             } else {
                 helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
             }
+        }
+        nav_terms_condition.setOnClickListener {
+            if (helperMethods.isConnectingToInternet) {
+                val intent = Intent(this@UserDrawer, Pages::class.java)
+                intent.putExtra("page", "terms-and-conditions")
+                startActivity(intent)
+            } else {
+                helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
+            }
+        }
+        nav_refund.setOnClickListener {
+            if (helperMethods.isConnectingToInternet) {
+                val intent = Intent(this@UserDrawer, Pages::class.java)
+                intent.putExtra("page", "refund-policy")
+                startActivity(intent)
+            } else {
+                helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
+            }
+        }
+
+        nav_faq.setOnClickListener {
+            startActivity(Intent(this@UserDrawer, FAQ::class.java))
         }
         nav_contect_us.setOnClickListener {
             startActivity(Intent(this@UserDrawer, ContactUs::class.java))

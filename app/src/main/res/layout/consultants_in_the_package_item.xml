@@ -19,6 +19,7 @@
             android:layout_height="50dp">
 
             <digital.upbeat.estisharati_user.Utils.CircleImageView
+                android:id="@+id/consultantImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:elevation="3dp"
@@ -39,6 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="25dp"
+            android:id="@+id/consultantName"
             android:fontFamily="@font/almarai_regular"
             android:text="Abdin Al-Farraj"
             android:textColor="@color/black"

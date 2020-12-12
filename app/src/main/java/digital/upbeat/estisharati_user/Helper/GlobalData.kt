@@ -17,5 +17,6 @@ object GlobalData {
     var forwardContent = ""
 
     lateinit var homeResponse :HomeResponse
+    fun isThingInitialized() = ::homeResponse.isInitialized
 
 }

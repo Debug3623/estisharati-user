@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:fontFamily="@font/almarai_regular"
-                android:text="Contact us"
+                android:text="Consultantion Details"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -71,7 +71,7 @@
                         android:padding="15dp">
 
                         <TextView
-                            android:id="@+id/consul_name"
+                            android:id="@+id/consultantName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
@@ -82,7 +82,7 @@
                             android:textSize="17sp" />
 
                         <TextView
-                            android:id="@+id/consul_profession"
+                            android:id="@+id/consultantCategory"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
@@ -144,9 +144,11 @@
                     app:cardCornerRadius="10dp">
 
                     <ImageView
+                        android:id="@+id/consultantImage"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/ic_temp_profile" />
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_temp_profile" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -166,13 +168,17 @@
             android:layout_height="match_parent">
 
             <com.google.android.exoplayer2.ui.PlayerView
-                android:id="@+id/player"
+                android:id="@+id/exoPlayer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentBottom="true" />
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginBottom="0dp" />
         </RelativeLayout>
 
 

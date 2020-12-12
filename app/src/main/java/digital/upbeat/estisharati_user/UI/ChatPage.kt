@@ -447,11 +447,7 @@ class ChatPage : AppCompatActivity() {
                                 helperMethods.showToastMessage("push notificaiton not set")
                             }
 
-                            if (dataFcmBody.data.tag.equals("incoming_voice_call")) {
-                                startActivity(Intent(this@ChatPage, VoiceCall::class.java))
-                            } else {
-                                startActivity(Intent(this@ChatPage, VideoCall::class.java))
-                            }
+
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
                             e.printStackTrace()
@@ -464,6 +460,11 @@ class ChatPage : AppCompatActivity() {
                 } else {
                     helperMethods.showToastMessage(getString(R.string.something_went_wrong))
                     Log.d("body", "Not Successful")
+                }
+                if (dataFcmBody.data.tag.equals("incoming_voice_call")) {
+                    startActivity(Intent(this@ChatPage, VoiceCall::class.java))
+                } else {
+                    startActivity(Intent(this@ChatPage, VideoCall::class.java))
                 }
             }
 

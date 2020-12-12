@@ -99,8 +99,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
-                        android:maxLines="2"
                         android:fontFamily="@font/almarai_regular"
+                        android:maxLines="2"
                         android:text="Learn about the tasks and functions of human tasks in the labor
  market and keep pace with development Modern society"
                         android:textColor="@color/white"
@@ -213,10 +213,10 @@
                             android:src="@drawable/ic_course_mat" />
 
                         <TextView
+                            android:id="@+id/download_video"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
-                            android:id="@+id/download_video"
                             android:fontFamily="@font/almarai_regular"
                             android:text="@string/you_can_not_download_course_videos"
                             android:textColor="@color/white"
@@ -263,16 +263,58 @@
                     android:layout_marginTop="20dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/coursePrice"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="40dp"
                         android:layout_marginRight="40dp"
-                        android:fontFamily="@font/almarai_regular"
-                        android:text="AUD 1.599"
-                        android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/coursePrice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/almarai_regular"
+                            android:text="AUD 1.599"
+                            android:textColor="@color/black"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/courseOldPrice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:fontFamily="@font/almarai_regular"
+                            android:text="AUD 1.599"
+                            android:textColor="@color/gray"
+                            android:textSize="18sp" />
+                        <LinearLayout
+                            android:id="@+id/offersEndDateLayout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                          android:layout_marginStart="10dp"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:layout_marginRight="3dp"
+                                android:adjustViewBounds="true"
+                                android:src="@drawable/ic_end_date" />
+
+                            <TextView
+                                android:id="@+id/offersEndDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/almarai_regular"
+                                android:text="22/03/2020"
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
 
                     <Button
                         android:id="@+id/buyTheCourse"

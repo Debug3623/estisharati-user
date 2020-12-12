@@ -31,9 +31,8 @@
             android:layout_height="35dp"
             android:layout_centerInParent="true"
             android:adjustViewBounds="true"
-            android:visibility="visible"
             android:src="@drawable/ic_logo_white"
-            />
+            android:visibility="visible" />
 
         <TextView
             android:id="@+id/action_bar_title"
@@ -41,12 +40,12 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="35dp"
-            android:padding="4dp"
-            android:visibility="gone"
             android:fontFamily="@font/almarai_regular"
+            android:padding="4dp"
             android:text="Consultations"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -59,8 +58,7 @@
             <RelativeLayout
                 android:id="@+id/notification_layout"
                 android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp">
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/bell"
@@ -74,6 +72,7 @@
                     android:src="@drawable/ic_bell" />
 
                 <TextView
+                    android:id="@+id/notificationCount"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_alignParentTop="true"
@@ -81,16 +80,23 @@
                     android:background="@drawable/round_light_green_white_stroke"
                     android:gravity="center"
                     android:text="0"
-                    android:id="@+id/notificationCount"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
             </RelativeLayout>
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:adjustViewBounds="true"
-                android:src="@drawable/ic_search" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:paddingStart="20dp"
+                android:gravity="center_vertical"
+                android:id="@+id/searchLayout"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_search" />
+            </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
 

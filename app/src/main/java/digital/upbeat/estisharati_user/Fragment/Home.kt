@@ -27,13 +27,11 @@ import digital.upbeat.estisharati_user.DataClassHelper.DataUserFireStore
 import digital.upbeat.estisharati_user.DataClassHelper.Home.Category
 import digital.upbeat.estisharati_user.DataClassHelper.Home.HomeResponse
 import digital.upbeat.estisharati_user.Helper.GlobalData
+import digital.upbeat.estisharati_user.Helper.GlobalData.homeResponse
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
-import digital.upbeat.estisharati_user.UI.IncomingCall
-import digital.upbeat.estisharati_user.UI.LegalAdvice
-import digital.upbeat.estisharati_user.UI.OnlineCourses
-import digital.upbeat.estisharati_user.UI.UserDrawer
+import digital.upbeat.estisharati_user.UI.*
 import kotlinx.android.synthetic.main.app_bar_user_drawer.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import okhttp3.ResponseBody
@@ -78,11 +76,16 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initViews()
         clickEvents()
-
-        if (helperMethods.isConnectingToInternet) {
-            homeDetailsApiCall()
+        if (GlobalData.isThingInitialized()) {
+            ShowViewPager()
+            InitializeRecyclerview()
+            firestoreLisiner()
         } else {
-            helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
+            if (helperMethods.isConnectingToInternet) {
+                homeDetailsApiCall()
+            } else {
+                helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
+            }
         }
     }
 
@@ -96,9 +99,9 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
 
     fun clickEvents() {
         ask_for_advice.setOnClickListener {
-            val intent=Intent(requireContext(), LegalAdvice::class.java)
-            intent.putExtra("category_id","")
-            intent.putExtra("category_name","")
+            val intent = Intent(requireContext(), LegalAdvice::class.java)
+            intent.putExtra("category_id", "")
+            intent.putExtra("category_name", "")
             startActivity(intent)
         }
         exp_consultations_all.setOnClickListener {
@@ -106,6 +109,9 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
         }
         exp_courses_all.setOnClickListener {
             startActivity(Intent(requireContext(), OnlineCourses::class.java))
+        }
+        requireActivity().searchLayout.setOnClickListener {
+            startActivity(Intent(requireContext(), Search::class.java))
         }
     }
 
@@ -145,20 +151,16 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
         } else {
             categoriesArrayList1 = GlobalData.homeResponse.categories
         }
+
         exp_consultations_recycler.setHasFixedSize(true)
         exp_consultations_recycler.removeAllViews()
         exp_consultations_recycler.layoutManager = GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false)
         exp_consultations_recycler.adapter = ExpConsultationsAdapter(requireContext(), this, categoriesArrayList1)
 
-
-
         exp_consultations_recycler1.setHasFixedSize(true)
         exp_consultations_recycler1.removeAllViews()
         exp_consultations_recycler1.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         exp_consultations_recycler1.adapter = ExpConsultationsAdapter(requireContext(), this, categoriesArrayList2)
-
-
-
 
         exp_courses_recycler.setHasFixedSize(true)
         exp_courses_recycler.removeAllViews()
@@ -216,8 +218,8 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
         for (consultant in GlobalData.homeResponse.consultants) {
             consultantIdArrayList.add(consultant.id)
         }
-
-        onlineUserListener = firestore.collection("Users").whereIn("user_id", consultantIdArrayList).orderBy("fname", Query.Direction.ASCENDING).addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+//            .whereIn("user_id", consultantIdArrayList)
+        onlineUserListener = firestore.collection("Users").orderBy("fname", Query.Direction.ASCENDING).addSnapshotListener { querySnapshot, firebaseFirestoreException ->
             querySnapshot?.let {
                 onlineUserArraylist = arrayListOf<DataUserFireStore>()
                 for (data in querySnapshot) {

@@ -320,12 +320,7 @@ fun getHtmlText(content: String): Spanned{
         }
     }
 
-    fun isValidPassword(password: String?): Boolean? {
-        val specialCharacters = "-@%\\[\\}+'!/#$^?:;,\\(\"\\)~`.*=&\\{>\\]<_"
-        val PASSWORD_PATTERN = "((?=.*\\d)(?=.*[a-zA-Z])(?=.*[-@%\\[\\}+'!/#$^?:;,\\(\"\\)~`.*=&\\{>\\]<_]).{8,})"
-        val pattern = Pattern.compile(PASSWORD_PATTERN)
-        return pattern.matcher(password).matches()
-    }
+
 
     fun setUserDetailsToFirestore(user_id: String, hashMap: HashMap<String, Any>) {
         firebaseFirestore.collection("Users").document(user_id).set(hashMap).addOnSuccessListener {}.addOnFailureListener {
@@ -430,8 +425,9 @@ fun getHtmlText(content: String): Spanned{
     val requestOption: RequestOptions
         get() {
             val requestOptions = RequestOptions()
-            requestOptions.placeholder(R.drawable.ic_temp_profile)
-            requestOptions.error(R.drawable.ic_temp_profile)
+            requestOptions.placeholder(R.mipmap.ic_launcher)
+            requestOptions.error(R.mipmap.ic_launcher)
+            requestOptions.fallback(R.mipmap.ic_launcher)
             return requestOptions
         }
     val isConnectingToInternet: Boolean

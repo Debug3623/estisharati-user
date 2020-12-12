@@ -1,6 +1,7 @@
 package digital.upbeat.estisharati_user.ApiHelper
 
 import digital.upbeat.estisharati_user.DataClassHelper.DataFcmBody
+import digital.upbeat.estisharati_user.DataClassHelper.PaymentRequest.PaymentRequest
 import digital.upbeat.estisharati_user.DataClassHelper.data
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -70,6 +71,10 @@ interface RetrofitInterface {
     @POST("favourites/favourite-course")
     fun FAVOURITE_COURSE_API_CALL(@Header("Authorization") token: String, @Field("course_id") course_id: String): Call<ResponseBody>
 
+    @FormUrlEncoded
+    @POST("favourites/favourite-consultant")
+    fun FAVOURITE_CONSULTANT_API_CALL(@Header("Authorization") token: String, @Field("consultant_id") consultant_id: String): Call<ResponseBody>
+
     @GET("favourites")
     fun FAVOURITES_LIST_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
 
@@ -84,12 +89,48 @@ interface RetrofitInterface {
     fun HOME_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
 
     @GET("consultants")
-    fun ALL_CONSULTANTS_API_CALL(@Header("Authorization") token: String, @Query("category_id") category_id: String): Call<ResponseBody>
+    fun ALL_CONSULTANTS_API_CALL(@Header("Authorization") token: String, @Query("category_id") category_id: String, @Query("sortby") sortby: String): Call<ResponseBody>
 
     @GET("consultant/{consultant_id}")
     fun CONSULTANT_API_CALL(@Header("Authorization") token: String, @Path("consultant_id") consultant_id: String): Call<ResponseBody>
+
     @FormUrlEncoded
     @POST("consultant/comment")
     fun CONSULTANT_COMMENT_API_CALL(@Header("Authorization") token: String, @Field("consultant_id") consultant_id: String, @Field("parent_id") parent_id: String, @Field("comment") comment: String): Call<ResponseBody>
 
+    @GET("offers")
+    fun OFFERS_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
+
+    @GET("faqs")
+    fun FAQ_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
+
+    @GET("subscriptions")
+    fun SUBSCRIPTIONS_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("user/change_password")
+    fun CHANGE_PASSWORD_API_CALL(@Header("Authorization") token: String, @Field("old_password") old_password: String, @Field("password") password: String, @Field("password_confirmation") password_confirmation: String): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("contactus")
+    fun CONTACTUS_API_CALL(@Header("Authorization") token: String, @Field("name") name: String, @Field("phone") phone: String, @Field("email") email: String, @Field("message") message: String): Call<ResponseBody>
+
+    @GET("search")
+    fun SEARCH_API_CALL(@Header("Authorization") token: String, @Query("search") search: String): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("courses/comment")
+    fun MAIN_COURSES_COMMENT_API_CALL(@Header("Authorization") token: String, @Field("course_id") course_id: String, @Field("rate") rate: String, @Field("comment") comment: String): Call<ResponseBody>
+
+    @GET("notifications")
+    fun NOTIFICATION_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
+
+    @GET("user/my-wallet")
+    fun PAYMENTMETHOD_LIST_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
+
+    @GET("payment-methods")
+    fun PAYMENTMETHOD_TYPE_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
+
+    @POST("user/save-wallet")
+    fun ADD_PAYMENT_API_CALL(@Header("Authorization") token: String, @Body paymentRequest: PaymentRequest): Call<ResponseBody>
 }

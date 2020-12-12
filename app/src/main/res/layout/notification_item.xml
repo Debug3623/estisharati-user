@@ -12,10 +12,11 @@
         android:padding="20dp">
 
         <ImageView
+            android:id="@+id/notificationImg"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:adjustViewBounds="true"
-            android:src="@drawable/ic_courses_round" />
+            android:src="@mipmap/ic_launcher" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,18 +28,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
                 <TextView
-                    android:id="@+id/message"
+                    android:id="@+id/notification_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="50dp"
                     android:fontFamily="@font/almarai_regular"
-                    android:text="Successfully subscribed in Introduction to
-social media Course"
+                    android:text="Successfully"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
+                    <TextView
+                        android:id="@+id/notification_message"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginRight="50dp"
+                        android:fontFamily="@font/almarai_regular"
+                        android:text="Successfully subscribed in Introduction to
+social media Course"
+                        android:textColor="@color/black_light"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
                 <TextView
+                    android:id="@+id/notification_rply"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -50,6 +69,7 @@ social media Course"
                     android:paddingBottom="5dp"
                     android:text="reply"
                     android:textColor="@color/white"
+                    android:visibility="gone"
                     android:textSize="11sp" />
             </RelativeLayout>
 
@@ -67,6 +87,7 @@ social media Course"
                     android:background="@drawable/ic_clock" />
 
                 <TextView
+                    android:id="@+id/notification_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"

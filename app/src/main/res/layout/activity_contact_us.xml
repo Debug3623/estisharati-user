@@ -70,6 +70,7 @@
             android:orientation="vertical">
 
             <EditText
+                android:id="@+id/contactusName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
@@ -88,6 +89,7 @@
                 android:background="@color/gainsboro" />
 
             <EditText
+                android:id="@+id/contactusEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
@@ -106,6 +108,7 @@
                 android:background="@color/gainsboro" />
 
             <EditText
+                android:id="@+id/contactusPhone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
@@ -124,6 +127,7 @@
                 android:background="@color/gainsboro" />
 
             <EditText
+                android:id="@+id/contactusMsg"
                 android:layout_width="match_parent"
                 android:layout_height="170dp"
                 android:background="@color/transparent"
@@ -139,6 +143,7 @@
         </LinearLayout>
 
         <Button
+            android:id="@+id/contactusSend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
@@ -152,7 +157,6 @@
             android:padding="15dp"
             android:text="Send"
             android:textAllCaps="false"
-
             android:textColor="@color/white"
             android:textSize="18sp" />
     </LinearLayout>

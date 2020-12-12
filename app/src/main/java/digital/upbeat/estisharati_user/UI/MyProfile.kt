@@ -86,6 +86,9 @@ class MyProfile : AppCompatActivity() {
             } else {
                 change_password_layot.visibility = View.VISIBLE
                 change_password_arrow.setImageResource(R.drawable.ic_down_arrow_white)
+                scrollView.post {
+                    scrollView.fullScroll(View.FOCUS_DOWN)
+                }
             }
         }
         profile_picture_layout.setOnClickListener {
@@ -102,6 +105,55 @@ class MyProfile : AppCompatActivity() {
                 helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
             }
         }
+        savePassword.setOnClickListener {
+            if (validateUpdatePassword()) {
+                ChangePasswordApiCall(currentPassword.toText(), newPassword.toText(), confirmPassword.toText())
+            }
+        }
+    }
+
+    fun ChangePasswordApiCall(currentPassword: String, newPassword: String, confirmPassword: String) {
+        helperMethods.showProgressDialog("Please wait while loading...")
+        val responseBodyCall = retrofitInterface.CHANGE_PASSWORD_API_CALL("Bearer ${dataUserObject.access_token}", currentPassword, newPassword, confirmPassword)
+        responseBodyCall.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                helperMethods.dismissProgressDialog()
+                if (response.isSuccessful) {
+                    if (response.body() != null) {
+                        try {
+                            val jsonObject = JSONObject(response.body()!!.string())
+                            val status = jsonObject.getString("status")
+                            if (status.equals("200")) {
+                                val message = jsonObject.getString("message")
+                                helperMethods.showToastMessage(message)
+                                change_password_layot.visibility = View.GONE
+                                change_password_arrow.setImageResource(R.drawable.ic_up_arrow_white)
+
+                            } else {
+                                val message = jsonObject.getString("message")
+                                helperMethods.AlertPopup("Alert", message)
+                            }
+                        } catch (e: JSONException) {
+                            helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
+                            e.printStackTrace()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    } else {
+                        Log.d("body", "Body Empty")
+                    }
+                } else {
+                    helperMethods.showToastMessage(getString(R.string.something_went_wrong))
+                    Log.d("body", "Not Successful")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                helperMethods.dismissProgressDialog()
+                t.printStackTrace()
+                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+            }
+        })
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -394,27 +446,6 @@ class MyProfile : AppCompatActivity() {
                             val status = jsonObject.getString("status")
                             if (status.equals("200")) {
                                 val userString = jsonObject.getString("user")
-//                                val userObject = JSONObject(userString)
-//                                val id = userObject.getString("id")
-//                                val fname = userObject.getString("fname")
-//                                val lname = userObject.getString("lname")
-//                                val email = userObject.getString("email")
-//                                val phone = userObject.getString("phone")
-//                                val image = userObject.getString("image")
-//                                val member_since = userObject.getString("member_since")
-//                                val user_metasStr = userObject.getString("user_metas")
-//                                val userMetasObject = JSONObject(user_metasStr)
-//                                val city = userMetasObject.getString("city")
-//                                val phone_code = userMetasObject.getString("phone_code")
-//                                val country = userMetasObject.getString("country")
-//                                val fire_base_token = userMetasObject.getString("fire_base_token")
-//                                val user_metas = DataUserMetas(city, phone_code, country, fire_base_token)
-//                                val subscription_str = userObject.getString("subscription")
-//                                val subscriptionObject = JSONObject(subscription_str)
-//                                val courses = subscriptionObject.getString("courses")
-//                                val consultations = subscriptionObject.getString("consultations")
-//                                val current_package = subscriptionObject.getString("package")
-//                                val subscription = DataSubscription(courses, consultations, current_package)
                                 val dataUser = Gson().fromJson(userString, DataUser::class.java)
                                 preferencesHelper.logInUser = dataUser
                                 val message = jsonObject.getString("message")
@@ -423,18 +454,18 @@ class MyProfile : AppCompatActivity() {
                                 setUserDetils()
                                 val hashMap = hashMapOf<String, Any>()
                                 hashMap.put("user_id", dataUser.id)
-                                hashMap.put("fname",  dataUser.fname)
-                                hashMap.put("lname",  dataUser.lname)
-                                hashMap.put("email",  dataUser.email)
-                                hashMap.put("phone",  dataUser.phone)
-                                hashMap.put("image",  dataUser.image)
-                                hashMap.put("fire_base_token",  dataUser.user_metas.fire_base_token)
+                                hashMap.put("fname", dataUser.fname)
+                                hashMap.put("lname", dataUser.lname)
+                                hashMap.put("email", dataUser.email)
+                                hashMap.put("phone", dataUser.phone)
+                                hashMap.put("image", dataUser.image)
+                                hashMap.put("fire_base_token", dataUser.user_metas.fire_base_token)
                                 hashMap.put("user_type", "user")
                                 hashMap.put("online_status", true)
                                 hashMap.put("last_seen", FieldValue.serverTimestamp())
                                 hashMap.put("availability", true)
                                 hashMap.put("channel_unique_id", "")
-                                helperMethods.setUserDetailsToFirestore( dataUser.id, hashMap)
+                                helperMethods.setUserDetailsToFirestore(dataUser.id, hashMap)
                             } else {
                                 val message = jsonObject.getString("message")
                                 helperMethods.AlertPopup("Alert", message)
@@ -460,6 +491,34 @@ class MyProfile : AppCompatActivity() {
                 helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
+    }
+
+    fun validateUpdatePassword(): Boolean {
+        if (currentPassword.toText().equals("")) {
+            helperMethods.showToastMessage("Enter your current password !")
+            return false
+        }
+        if (newPassword.toText().equals("")) {
+            helperMethods.showToastMessage("Enter your new password !")
+            return false
+        }
+        if (!helperMethods.isValidPassword(newPassword.toText())) {
+            helperMethods.AlertPopup("Alert", "Password at least 8 characters including a lower-case letter, an upper–case letter, a number and one special character")
+            return false
+        }
+        if (confirmPassword.toText().equals("")) {
+            helperMethods.showToastMessage("Enter your confirm password !")
+            return false
+        }
+        if (!newPassword.toText().equals(confirmPassword.toText())) {
+            helperMethods.showToastMessage("New password and Confirm password not same !")
+            return false
+        }
+        if (!helperMethods.isConnectingToInternet) {
+            helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
+            return false
+        }
+        return true
     }
 
     fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)

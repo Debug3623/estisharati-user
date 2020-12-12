@@ -7,7 +7,8 @@ data class CourseX(
     val image_path: String,
     val name: String,
     val period: String,
-    val price: Int,
+    val price: String,
+    val offerprice: String?,
     val rate: String,
     val translations: List<Translation>,
     val video_path: String

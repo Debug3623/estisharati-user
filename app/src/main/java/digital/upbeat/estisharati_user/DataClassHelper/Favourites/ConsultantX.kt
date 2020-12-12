@@ -6,6 +6,7 @@ data class ConsultantX(
     val image_path: String,
     val name: String,
     val price: String,
+    val offerprice: String?,
     val job_title: String,
     val rate: String
 )
