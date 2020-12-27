@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:fontFamily="@font/almarai_regular"
-                android:text="Ask for advice now"
+                android:text="Packages Options"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -42,18 +42,30 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="40dp"
             android:fontFamily="@font/almarai_regular"
             android:gravity="center"
             android:text="Choose how to buy?"
             android:textColor="@color/black"
             android:textSize="23sp" />
 
+
+        <TextView
+            android:id="@+id/chooseName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:fontFamily="@font/almarai_bold"
+            android:gravity="center"
+            android:text="Sliver Packages"
+            android:textColor="@color/orange"
+            android:textSize="18sp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="30dp"
             android:layout_marginRight="15dp"
             android:gravity="center"
             android:orientation="horizontal"
@@ -62,7 +74,7 @@
             <LinearLayout
                 android:id="@+id/change_packages"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="130dp"
                 android:layout_margin="10dp"
                 android:layout_weight="4.5"
                 android:background="@drawable/corner_redius_15dp_white"
@@ -99,17 +111,17 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="130dp"
                     android:layout_margin="10dp"
                     android:background="@drawable/corner_redius_15dp_parrot_green"
                     android:elevation="3dp"
+                    android:gravity="center"
                     android:orientation="vertical"
-                    android:padding="20dp">
+                    android:padding="15dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:gravity="center_horizontal"
                         android:orientation="horizontal">
 
@@ -117,11 +129,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/almarai_regular"
-                            android:text="AUD"
+                            android:text="@string/aed"
                             android:textColor="@color/light_green"
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/choosePrice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
@@ -132,17 +145,28 @@
                             android:textStyle="bold" />
                     </LinearLayout>
 
+                    <TextView
+                        android:id="@+id/chooseDiscount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:fontFamily="@font/almarai_regular"
+                        android:gravity="center"
+                        android:text="-AED 20"
+                        android:textColor="@color/orange"
+                        android:textSize="14sp"
+                        android:visibility="visible" />
 
                     <TextView
+                        android:id="@+id/chooseType"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:layout_marginBottom="15dp"
                         android:fontFamily="@font/almarai_regular"
                         android:gravity="center"
                         android:text="One Time"
                         android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        android:textSize="15sp" />
                 </LinearLayout>
 
                 <ImageView
@@ -161,7 +185,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="45dp"
-            android:layout_marginTop="75dp"
+            android:layout_marginTop="60dp"
             android:layout_marginRight="45dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/corner_redius_30dp_light_green1"

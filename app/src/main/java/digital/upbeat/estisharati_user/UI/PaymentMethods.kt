@@ -16,6 +16,7 @@ import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
 import digital.upbeat.estisharati_user.DataClassHelper.DataUser
 import digital.upbeat.estisharati_user.DataClassHelper.FaqDetails.FAQResponse
+import digital.upbeat.estisharati_user.DataClassHelper.PaymentMethodList.Data
 import digital.upbeat.estisharati_user.DataClassHelper.PaymentMethodList.PMResponse
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
@@ -50,13 +51,11 @@ class PaymentMethods : AppCompatActivity() {
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
         sharedPreferencesHelper = SharedPreferencesHelper(this@PaymentMethods)
         dataUser = sharedPreferencesHelper.logInUser
-
-
     }
 
     override fun onStart() {
         if (helperMethods.isConnectingToInternet) {
-            PAYMENTMETHOD_LIST_API_CALL()
+            paymentMethodListApiCall()
         } else {
             helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
         }
@@ -84,9 +83,14 @@ class PaymentMethods : AppCompatActivity() {
         payment_method_recycler.adapter = PaymentMethodAdapter(this@PaymentMethods, this@PaymentMethods, pmResponse.data)
     }
 
-    fun cardAccountRemovePopup(messageStr: String) {
+    fun cardAccountRemovePopup(payment: Data,messageStr: String) {
         helperMethods.showAlertDialog(this@PaymentMethods, object : alertActionClickListner {
             override fun onActionOk() {
+                if (helperMethods.isConnectingToInternet) {
+                    deletePaymentMethodListApiCall(payment.id!!)
+                } else {
+                    helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
+                }
             }
 
             override fun onActionCancel() {
@@ -94,7 +98,48 @@ class PaymentMethods : AppCompatActivity() {
         }, "Remove", messageStr, false, resources.getString(R.string.ok), resources.getString(R.string.cancel))
     }
 
-    fun PAYMENTMETHOD_LIST_API_CALL() {
+    fun deletePaymentMethodListApiCall( paymentMethodId:String) {
+        helperMethods.showProgressDialog("Please wait while loading...")
+        val responseBodyCall = retrofitInterface.DELETE_PAYMENTMETHOD__API_CALL("Bearer ${dataUser.access_token}",paymentMethodId,paymentMethodId)
+        responseBodyCall.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                helperMethods.dismissProgressDialog()
+                if (response.isSuccessful) {
+                    if (response.body() != null) {
+                        try {
+                            val jsonObject = JSONObject(response.body()!!.string())
+                            val status = jsonObject.getString("status")
+                            if (status.equals("200")) {
+                                val message = jsonObject.getString("data")
+                                helperMethods.showToastMessage(message)
+                                paymentMethodListApiCall()
+                            } else {
+                                val message = jsonObject.getString("message")
+                                helperMethods.AlertPopup("Alert", message)
+                            }
+                        } catch (e: JSONException) {
+                            helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
+                            e.printStackTrace()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    } else {
+                        Log.d("body", "Body Empty")
+                    }
+                } else {
+                    helperMethods.showToastMessage(getString(R.string.something_went_wrong))
+                    Log.d("body", "Not Successful")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                helperMethods.dismissProgressDialog()
+                t.printStackTrace()
+                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+            }
+        })
+    }
+    fun paymentMethodListApiCall() {
         helperMethods.showProgressDialog("Please wait while loading...")
         val responseBodyCall = retrofitInterface.PAYMENTMETHOD_LIST_API_CALL("Bearer ${dataUser.access_token}")
         responseBodyCall.enqueue(object : Callback<ResponseBody> {

@@ -1,15 +1,35 @@
 package digital.upbeat.estisharati_user.DataClassHelper.Packages
 
 data class Data(
+    val amount: Int,
+    val audio_balance: Int,
+    val audio_subscribed: Int,
+    val consultant_id: Any,
     val consultants: ArrayList<Consultant>,
+    val coupon_code: Any,
+    val coupon_id: Any,
+    val course_id: Any,
     val courses: ArrayList<Course>,
+    val date_subscribed: String,
+    val discount: Int,
     val effective_date: String,
     val features: Features,
-    val id: Int,
+    val id: String,
+    val is_subscribed: Boolean,
+    val locale: String,
     val name: String,
+    val payment_method: Int,
+    val payment_reference_no: String,
     val period: String,
     val price: String,
     val status: Int,
+    val subscription_id: Int,
     val tag_id: Int,
-    val type: String
+    val type: String,
+    val user_id: Int,
+    val valid_to: String,
+    val video_balance: Int,
+    val video_subscribed: Int,
+    val written_balance: Int,
+    val written_subscribed: Int
 )

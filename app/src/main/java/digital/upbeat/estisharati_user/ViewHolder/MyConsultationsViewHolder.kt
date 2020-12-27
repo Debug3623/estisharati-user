@@ -5,8 +5,12 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.my_consultations_item.view.*
 
 class MyConsultationsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    val consul_name = itemView.consul_name
-    val consul_profession = itemView.consul_profession
-    val contact_image = itemView.contact_image
-    val contact_type = itemView.contact_type
+    val myConsultationsLayout = itemView.myConsultationsLayout
+    val consultantName = itemView.consultantName
+    val consultantCategory = itemView.consultantCategory
+    val consultantImage = itemView.consultantImage
+    val chatOption = itemView.chatOption
+    val voiceOption = itemView.voiceOption
+    val videoOption = itemView.videoOption
+    val rateNow = itemView.rateNow
 }

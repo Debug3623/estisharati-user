@@ -12,22 +12,23 @@
         android:padding="15dp">
 
         <TextView
+            android:id="@+id/chapterTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:fontFamily="@font/almarai_regular"
+            android:fontFamily="@font/almarai_bold"
             android:text="Introduction to the course"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/course_content_sub_recycler"
+            android:id="@+id/courseLessonRecycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"
             tools:itemCount="2"
-            tools:listitem="@layout/preview_course_content_sub_item" />
+            tools:listitem="@layout/course_lesson_item" />
 
 
     </LinearLayout>

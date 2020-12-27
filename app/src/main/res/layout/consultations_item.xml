@@ -17,7 +17,7 @@
         android:padding="20dp">
 
         <TextView
-            android:id="@+id/consul_name"
+            android:id="@+id/consultantName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/almarai_regular"

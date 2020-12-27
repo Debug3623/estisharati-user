@@ -37,9 +37,9 @@ class CourseContent(val courseDetails: CourseDetails) : Fragment() {
 
     fun InitializeRecyclerview() {
 
-         course_content_recycler.setHasFixedSize(true)
-        course_content_recycler.removeAllViews()
-        course_content_recycler.layoutManager = LinearLayoutManager(requireContext())
-        course_content_recycler.adapter = CourseContentAdapter(requireContext(), this@CourseContent, courseDetails.responseCoursesDetails.course_resources)
+         courseVideoRecycler.setHasFixedSize(true)
+        courseVideoRecycler.removeAllViews()
+        courseVideoRecycler.layoutManager = LinearLayoutManager(requireContext())
+        courseVideoRecycler.adapter = CourseContentAdapter(requireContext(), this@CourseContent, courseDetails.responseCoursesDetails.course_resources)
     }
 }

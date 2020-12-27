@@ -56,12 +56,11 @@
 
         </RelativeLayout>
 
-        <ImageView
+        <com.ortiz.touchview.TouchImageView
             android:id="@+id/pv_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_temp3" />
+            />
+
     </LinearLayout>
 </LinearLayout>

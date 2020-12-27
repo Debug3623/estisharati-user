@@ -1,5 +1,6 @@
 package digital.upbeat.estisharati_user.UI
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -55,6 +56,7 @@ class Favorites : AppCompatActivity() {
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
         sharedPreferencesHelper = SharedPreferencesHelper(this@Favorites)
         dataUser = sharedPreferencesHelper.logInUser
+        notificationCount.text = GlobalData.homeResponse.notification_count
     }
 
     fun clickEvents() {
@@ -63,6 +65,9 @@ class Favorites : AppCompatActivity() {
         favoriteCoursesRecycler.visibility = View.GONE
         consultantsTab.setTextColor(ContextCompat.getColor(this@Favorites, R.color.white))
         coursesTab.setTextColor(ContextCompat.getColor(this@Favorites, R.color.transparent_white))
+        notificationLayout.setOnClickListener {
+            startActivity(Intent(this@Favorites, Notifications::class.java))
+        }
         consultantsTab.setOnClickListener {
             currentTab = "consultant"
             setTabConsultant()

@@ -1,7 +1,6 @@
 package digital.upbeat.estisharati_user.UI
 
-import android.content.Context
-import android.content.res.Configuration
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -32,7 +31,6 @@ import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
-import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_chat_home.*
 import java.util.*
 
@@ -63,6 +61,7 @@ class ChatHome : AppCompatActivity() {
         preferencesHelper = SharedPreferencesHelper(this@ChatHome)
         firestore = FirebaseFirestore.getInstance()
         dataUser = preferencesHelper.logInUser
+        notificationCount.text = GlobalData.homeResponse.notification_count
     }
 
     fun clickEvents() {
@@ -76,6 +75,9 @@ class ChatHome : AppCompatActivity() {
         }
         search_user_icon.setOnClickListener {
             searchUserPopup()
+        }
+        notificationLayout.setOnClickListener {
+            startActivity(Intent(this@ChatHome, Notifications::class.java))
         }
     }
 

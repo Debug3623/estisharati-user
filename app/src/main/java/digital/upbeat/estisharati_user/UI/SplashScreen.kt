@@ -1,46 +1,37 @@
 package digital.upbeat.estisharati_user.UI
 
 import android.Manifest
-import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
-import android.view.LayoutInflater
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.installations.FirebaseInstallations
+import com.google.firebase.messaging.FirebaseMessaging
 import digital.upbeat.estisharati_user.CommonApiHelper.SendDeviceTokenHelper
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
-import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import digital.upbeat.estisharati_user.Utils.alertActionClickListner
 
 class SplashScreen : AppCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var preferencesHelper: SharedPreferencesHelper
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
-        FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener(OnCompleteListener {
-            if (!it.isSuccessful) {
-                Log.d("FirebaseInstanceId   ", "FirebaseInstanceId failed", it.exception)
-                return@OnCompleteListener
+       
+        FirebaseMessaging.getInstance().token.addOnCompleteListener {
+            if (it.isComplete) {
+                GlobalData.FcmToken = it.result.toString()
+                Log.e("FirebaseInstanceId", GlobalData.FcmToken)
             }
-            it.result?.let {
-                GlobalData.FcmToken = it.token
-            }
-            Log.e("FirebaseInstanceId", it.result!!.token)
-        })
-
+        }
         initViews()
         startCountDownTimer()
     }
@@ -49,6 +40,10 @@ class SplashScreen : AppCompatActivity() {
         helperMethods = HelperMethods(this@SplashScreen)
         preferencesHelper = SharedPreferencesHelper(this@SplashScreen)
         helperMethods.setStatusBarColor(this, R.color.white)
+        if (preferencesHelper.isUserLogIn) {
+            val hashMap = hashMapOf<String, Any>("availability" to true, "channel_unique_id" to "")
+            helperMethods.updateUserDetailsToFirestore(preferencesHelper.logInUser.id, hashMap)
+        }
     }
 
     fun startCountDownTimer() {
@@ -79,7 +74,6 @@ class SplashScreen : AppCompatActivity() {
                     finish()
                 }
             }, "No Internet Connection", errorMsg, false, resources.getString(R.string.ok), resources.getString(R.string.cancel))
-
         }
     }
 

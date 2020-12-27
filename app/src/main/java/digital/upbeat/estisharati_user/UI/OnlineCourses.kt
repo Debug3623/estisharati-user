@@ -1,5 +1,6 @@
 package digital.upbeat.estisharati_user.UI
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -56,10 +57,15 @@ class OnlineCourses : AppCompatActivity() {
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
         sharedPreferencesHelper = SharedPreferencesHelper(this@OnlineCourses)
         dataUser = sharedPreferencesHelper.logInUser
+        notificationCount.text = GlobalData.homeResponse.notification_count
+
     }
 
     fun clickEvents() {
         nav_back.setOnClickListener { finish() }
+        notificationLayout.setOnClickListener {
+            startActivity(Intent(this@OnlineCourses, Notifications::class.java))
+        }
     }
 
     fun initializeRecyclerview() {

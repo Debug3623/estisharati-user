@@ -1,10 +1,17 @@
 package digital.upbeat.estisharati_user.UI
 
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
+import android.widget.EditText
+import android.widget.RatingBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -14,7 +21,9 @@ import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
 import digital.upbeat.estisharati_user.DataClassHelper.ConsultantComments.commentsResponse
 import digital.upbeat.estisharati_user.DataClassHelper.ConsultantDetails.ConsultantDetailsResponse
+import digital.upbeat.estisharati_user.DataClassHelper.CourseComments.CommentsResponse
 import digital.upbeat.estisharati_user.DataClassHelper.DataUser
+import digital.upbeat.estisharati_user.DataClassHelper.PackagesOptions.PackagesOptions
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
@@ -58,15 +67,26 @@ class ConsultantDetails : AppCompatActivity() {
         nav_back.setOnClickListener { finish() }
 
         req_consultation_now.setOnClickListener {
-            startActivity(Intent(this@ConsultantDetails, Packages::class.java))
+//            if (consultantDetailsResponse.is_subscribed) {
+//                helperMethods.showToastMessage("you already bought")
+//            } else {
+                val price = if (consultantDetailsResponse.offerprice.equals("0")) {
+                    consultantDetailsResponse.consultant_cost
+                } else {
+                    consultantDetailsResponse.offerprice
+                }
+                GlobalData.packagesOptions = PackagesOptions(consultantDetailsResponse.id, consultantDetailsResponse.name, "consultation", price, "", "", "")
+                startActivity(Intent(this@ConsultantDetails, PackagesSelection::class.java))
+//            }
         }
         favoriteLayout.setOnClickListener {
             if (helperMethods.isConnectingToInternet) {
-                addRemoveFavouriteConsultantApiCall(consultantDetailsResponse.id.toString())
+                addRemoveFavouriteConsultantApiCall(consultantDetailsResponse.id)
             } else {
                 helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
             }
         }
+
     }
 
     fun setConsultantDetails() {
@@ -95,6 +115,8 @@ class ConsultantDetails : AppCompatActivity() {
         } else {
             favoriteIcon.setImageResource(R.drawable.ic_un_favorite)
         }
+//        req_consultation_now.text = if (consultantDetailsResponse.is_subscribed) resources.getString(R.string.call_consultation)
+//        else resources.getString(R.string.request_consultation_now)
     }
 
     fun InitializeRecyclerview() {
@@ -102,7 +124,14 @@ class ConsultantDetails : AppCompatActivity() {
         consultant_comments_reply_recycler.removeAllViews()
         consultant_comments_reply_recycler.layoutManager = LinearLayoutManager(this@ConsultantDetails)
         consultant_comments_reply_recycler.adapter = ConsultantCommentsReplyAdapter(this@ConsultantDetails, null, this@ConsultantDetails, arrayListOf(), consultantDetailsResponse.comments)
+        if (consultantDetailsResponse.comments.size > 0) {
+            commentsHeader.visibility=View.VISIBLE
+        } else {
+            commentsHeader.visibility=View.GONE
+
+        }
     }
+
 
     fun consultantDetailsApiCall(consultant_id: String) {
         helperMethods.showProgressDialog("Please wait while loading...")

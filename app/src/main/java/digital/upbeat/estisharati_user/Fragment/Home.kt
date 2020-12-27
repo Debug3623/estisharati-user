@@ -27,13 +27,13 @@ import digital.upbeat.estisharati_user.DataClassHelper.DataUserFireStore
 import digital.upbeat.estisharati_user.DataClassHelper.Home.Category
 import digital.upbeat.estisharati_user.DataClassHelper.Home.HomeResponse
 import digital.upbeat.estisharati_user.Helper.GlobalData
-import digital.upbeat.estisharati_user.Helper.GlobalData.homeResponse
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
 import digital.upbeat.estisharati_user.UI.*
 import kotlinx.android.synthetic.main.app_bar_user_drawer.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.nav_side_manu.*
 import okhttp3.ResponseBody
 import org.json.JSONException
 import org.json.JSONObject
@@ -110,9 +110,7 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
         exp_courses_all.setOnClickListener {
             startActivity(Intent(requireContext(), OnlineCourses::class.java))
         }
-        requireActivity().searchLayout.setOnClickListener {
-            startActivity(Intent(requireContext(), Search::class.java))
-        }
+
     }
 
     private fun ShowViewPager() {
@@ -218,7 +216,7 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
         for (consultant in GlobalData.homeResponse.consultants) {
             consultantIdArrayList.add(consultant.id)
         }
-//            .whereIn("user_id", consultantIdArrayList)
+        //            .whereIn("user_id", consultantIdArrayList)
         onlineUserListener = firestore.collection("Users").orderBy("fname", Query.Direction.ASCENDING).addSnapshotListener { querySnapshot, firebaseFirestoreException ->
             querySnapshot?.let {
                 onlineUserArraylist = arrayListOf<DataUserFireStore>()

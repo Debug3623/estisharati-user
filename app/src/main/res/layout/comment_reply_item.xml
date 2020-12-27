@@ -197,7 +197,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
                             android:background="@drawable/corner_redius_30dp_gray1"
-                            android:hint="write comments here..."
+                            android:hint="Write comments here..."
                             android:paddingLeft="15dp"
                             android:singleLine="true"
                             android:paddingTop="9dp"

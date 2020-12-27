@@ -47,7 +47,8 @@ class PaymentMethodAdapter(val context: Context, val paymentMethods: PaymentMeth
             context.startActivity(intent)
         }
         holder.card_delete.setOnClickListener {
-            paymentMethods.cardAccountRemovePopup("Are you sure?\nDo you want to remove the card ends in 5967")
+            val cardNumber = paymentMethodsArrayList.get(position).details?.cardno
+            paymentMethods.cardAccountRemovePopup(paymentMethodsArrayList.get(position), "Are you sure?\nDo you want to remove the card ends in " + cardNumber?.subSequence((cardNumber.length - 4), cardNumber.length))
         }
         holder.paypal_edit.setOnClickListener {
             val intent = Intent(context, AddPaymentMethod::class.java)
@@ -58,7 +59,7 @@ class PaymentMethodAdapter(val context: Context, val paymentMethods: PaymentMeth
             context.startActivity(intent)
         }
         holder.paypal_delete.setOnClickListener {
-            paymentMethods.cardAccountRemovePopup("Are you sure?\nDo you want to remove the paypal account Margap_ali@gmail.com")
+            paymentMethods.cardAccountRemovePopup(paymentMethodsArrayList.get(position), "Are you sure?\nDo you want to remove the paypal account " + paymentMethodsArrayList.get(position).details?.email)
         }
     }
 }

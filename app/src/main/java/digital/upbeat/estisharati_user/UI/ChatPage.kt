@@ -426,10 +426,9 @@ class ChatPage : AppCompatActivity() {
         val body = Gson().toJson(dataFcmBody.data)
         helperMethods.showProgressDialog("Please wait while preparing to call...")
         val responseBodyCall = retrofitInterface.NOTIFY_API_CALL("Bearer ${dataUser.access_token}", dataFcmBody.data.receiver_id, dataFcmBody.data.title, dataFcmBody.data.message, body)
-        responseBodyCall.enqueue(object : Callback<okhttp3.ResponseBody> {
-            override fun onResponse(call: Call<okhttp3.ResponseBody>, response: retrofit2.Response<okhttp3.ResponseBody>) {
+        responseBodyCall.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()
-
                 if (response.isSuccessful) {
                     if (response.body() != null) {
                         try {
@@ -446,8 +445,6 @@ class ChatPage : AppCompatActivity() {
                                 Log.d("push_notification", jsonObject.toString())
                                 helperMethods.showToastMessage("push notificaiton not set")
                             }
-
-
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
                             e.printStackTrace()
@@ -468,7 +465,7 @@ class ChatPage : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<okhttp3.ResponseBody>, t: Throwable) {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
                 if (dataFcmBody.data.tag.equals("incoming_voice_call")) {

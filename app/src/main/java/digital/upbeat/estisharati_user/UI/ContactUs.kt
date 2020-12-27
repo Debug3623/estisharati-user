@@ -55,7 +55,7 @@ class ContactUs : AppCompatActivity() {
     fun setUserDetails() {
     contactusName.text=(dataUserObject.fname+" "+dataUserObject.lname).toEditable()
     contactusEmail.text=dataUserObject.email.toEditable()
-    contactusEmail.text=dataUserObject.phone.toEditable()
+    contactusPhone.text=dataUserObject.phone.toEditable()
 
     }
 

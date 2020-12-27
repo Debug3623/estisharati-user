@@ -43,12 +43,11 @@ class FCMService : FirebaseMessagingService() {
         super.onNewToken(newToken)
         helperMethods = HelperMethods(this)
         preferencesHelper = SharedPreferencesHelper(this)
+        GlobalData.FcmToken = newToken
         if (preferencesHelper.isUserLogIn) {
             val hashMap = hashMapOf<String, Any>("fire_base_token" to newToken)
-            GlobalData.FcmToken = newToken
             FirebaseFirestore.getInstance().collection("Users").document(preferencesHelper.logInUser.id).update(hashMap)
             SendDeviceTokenHelper(this, null, false).SendDeviceTokenFirebase()
-
         }
     }
 }

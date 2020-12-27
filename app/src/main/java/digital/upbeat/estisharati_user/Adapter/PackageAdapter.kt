@@ -8,19 +8,24 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import digital.upbeat.estisharati_user.DataClassHelper.Packages.Data
+import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.R
 import digital.upbeat.estisharati_user.UI.*
 import digital.upbeat.estisharati_user.ViewHolder.PackageViewHolder
-import kotlinx.android.synthetic.main.activity_packages.*
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class PackageAdapter(val context: Context, val packages: Packages, val packagesArrayList: ArrayList<Data>) : RecyclerView.Adapter<PackageViewHolder>() {
+class PackageAdapter(val context: Context, val packages: Packages?, val myPackages: MyPackages?, val packagesArrayList: ArrayList<Data>) : RecyclerView.Adapter<PackageViewHolder>() {
+    lateinit var helperMethods: HelperMethods
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PackageViewHolder {
         val layoutView = LayoutInflater.from(context).inflate(R.layout.package_item, parent, false)
         return PackageViewHolder(layoutView)
+    }
+
+    init {
+        helperMethods = HelperMethods(context)
     }
 
     override fun getItemCount(): Int {
@@ -30,13 +35,13 @@ class PackageAdapter(val context: Context, val packages: Packages, val packagesA
     override fun onBindViewHolder(holder: PackageViewHolder, position: Int) {
         val packagesItems = packagesArrayList.get(position)
         holder.showExisitingCourses.setOnClickListener {
-            val intent=Intent(context, ExistingCourses::class.java)
-            intent.putExtra("courses",packagesItems.courses)
+            val intent = Intent(context, ExistingCourses::class.java)
+            intent.putExtra("courses", packagesItems.courses)
             context.startActivity(intent)
         }
         holder.showConsultantsInThePackage.setOnClickListener {
-            val intent=Intent(context, ConsultantsInThePackage::class.java)
-            intent.putExtra("consultants",packagesItems.consultants)
+            val intent = Intent(context, ConsultantsInThePackage::class.java)
+            intent.putExtra("consultants", packagesItems.consultants)
             context.startActivity(intent)
         }
         holder.packageName.text = packagesItems.name
@@ -70,23 +75,23 @@ class PackageAdapter(val context: Context, val packages: Packages, val packagesA
         for (consultantIndex in packagesItems.consultants.indices) {
             if (consultantIndex == 0) {
                 holder.consultantImage1.visibility = View.VISIBLE
-                Glide.with(context).load(packagesItems.consultants.get(consultantIndex).image_path).apply(packages.helperMethods.requestOption).into(holder.consultantImage1)
+                Glide.with(context).load(packagesItems.consultants.get(consultantIndex).image_path).apply(helperMethods.requestOption).into(holder.consultantImage1)
             }
             if (consultantIndex == 1) {
                 holder.consultantImage2.visibility = View.VISIBLE
-                Glide.with(context).load(packagesItems.consultants.get(consultantIndex).image_path).apply(packages.helperMethods.requestOption).into(holder.consultantImage2)
+                Glide.with(context).load(packagesItems.consultants.get(consultantIndex).image_path).apply(helperMethods.requestOption).into(holder.consultantImage2)
             }
             if (consultantIndex == 2) {
                 holder.consultantImage3.visibility = View.VISIBLE
-                Glide.with(context).load(packagesItems.consultants.get(consultantIndex).image_path).apply(packages.helperMethods.requestOption).into(holder.consultantImage3)
+                Glide.with(context).load(packagesItems.consultants.get(consultantIndex).image_path).apply(helperMethods.requestOption).into(holder.consultantImage3)
             }
             if (consultantIndex == 3) {
                 holder.consultantImage4.visibility = View.VISIBLE
-                Glide.with(context).load(packagesItems.consultants.get(consultantIndex).image_path).apply(packages.helperMethods.requestOption).into(holder.consultantImage4)
+                Glide.with(context).load(packagesItems.consultants.get(consultantIndex).image_path).apply(helperMethods.requestOption).into(holder.consultantImage4)
             }
             if (consultantIndex == 4) {
                 holder.consultantImage5.visibility = View.VISIBLE
-                Glide.with(context).load(packagesItems.consultants.get(consultantIndex).image_path).apply(packages.helperMethods.requestOption).into(holder.consultantImage5)
+                Glide.with(context).load(packagesItems.consultants.get(consultantIndex).image_path).apply(helperMethods.requestOption).into(holder.consultantImage5)
             }
         }
     }

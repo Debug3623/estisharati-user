@@ -4,9 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.recyclerview.widget.LinearLayoutManager
+import android.view.View
 import com.google.gson.Gson
-import digital.upbeat.estisharati_user.Adapter.MyCoursesAdapter
 import digital.upbeat.estisharati_user.Adapter.PackageAdapter
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
@@ -14,8 +13,8 @@ import digital.upbeat.estisharati_user.CarouselHelper.CarouselLayoutManager
 import digital.upbeat.estisharati_user.CarouselHelper.CarouselZoomPostLayoutListener
 import digital.upbeat.estisharati_user.CarouselHelper.CenterScrollListener
 import digital.upbeat.estisharati_user.DataClassHelper.DataUser
-import digital.upbeat.estisharati_user.DataClassHelper.FaqDetails.FAQResponse
 import digital.upbeat.estisharati_user.DataClassHelper.Packages.PackagesResponse
+import digital.upbeat.estisharati_user.DataClassHelper.PackagesOptions.PackagesOptions
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
@@ -35,6 +34,8 @@ class Packages : AppCompatActivity() {
     lateinit var dataUser: DataUser
     lateinit var sharedPreferencesHelper: SharedPreferencesHelper
     lateinit var packagesResponse: PackagesResponse
+    var viaFrom = ""
+    val layoutManager = CarouselLayoutManager(CarouselLayoutManager.VERTICAL, false)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_packages)
@@ -45,6 +46,7 @@ class Packages : AppCompatActivity() {
         } else {
             helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
         }
+        viaFrom = intent.getStringExtra("viaFrom")
     }
 
     fun initViews() {
@@ -57,18 +59,37 @@ class Packages : AppCompatActivity() {
     fun clickEvents() {
         nav_back.setOnClickListener { finish() }
         choose_the_package.setOnClickListener {
-            startActivity(Intent(this@Packages, PackagesSelection::class.java))
+            if (packagesResponse.data.get(layoutManager.centerItemPosition).is_subscribed) {
+                helperMethods.showToastMessage("You already have this package !")
+            } else {
+                val packages = packagesResponse.data.get(layoutManager.centerItemPosition)
+                GlobalData.packagesOptions = PackagesOptions(packages.id, packages.name, "subscription", packages.price, "", "", "")
+                if (viaFrom.equals("Home")) {
+                    startActivity(Intent(this@Packages, PackagesSelection::class.java))
+                } else {
+                    finish()
+                }
+            }
         }
     }
 
     fun InitializeRecyclerview() {
-        val layoutManager = CarouselLayoutManager(CarouselLayoutManager.VERTICAL, false)
         layoutManager.setPostLayoutListener(CarouselZoomPostLayoutListener())
         package_recycler.addOnScrollListener(CenterScrollListener())
         package_recycler.setHasFixedSize(true)
         package_recycler.removeAllViews()
         package_recycler.layoutManager = layoutManager
-        package_recycler.adapter = PackageAdapter(this@Packages, this@Packages, packagesResponse.data)
+        package_recycler.adapter = PackageAdapter(this@Packages, this@Packages, null, packagesResponse.data)
+        if (packagesResponse.data.size > 0) {
+            emptyLayout.visibility = View.GONE
+            package_recycler.visibility = View.VISIBLE
+            choose_the_package.visibility = View.VISIBLE
+        } else {
+            errorText.text = "There is no packages available !"
+            emptyLayout.visibility = View.VISIBLE
+            package_recycler.visibility = View.GONE
+            choose_the_package.visibility = View.GONE
+        }
     }
 
     fun SUBSCRIPTIONS_API_CALL() {

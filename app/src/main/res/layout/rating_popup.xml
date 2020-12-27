@@ -11,8 +11,18 @@
         android:elevation="6dp"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="25dp">
+        android:padding="20dp">
 
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/almarai_bold"
+            android:gravity="center"
+            android:text="How was your experience?"
+            android:textColor="@color/orange"
+            android:textSize="16sp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,7 +36,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:fontFamily="@font/almarai_regular"
             android:gravity="center"
             android:text="Your opinion will help improve the level of service"
@@ -54,7 +64,6 @@
             android:id="@+id/rating_based_cmd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:fontFamily="@font/almarai_regular"
             android:text="very good"
             android:textColor="@color/black"
@@ -83,9 +92,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:layout_marginRight="5dp"
-            android:layout_marginBottom="15dp"
             android:background="@drawable/corner_redius_5dp_light_green"
             android:elevation="3dp"
             android:fontFamily="@font/almarai_bold"
@@ -96,5 +104,16 @@
             android:textColor="@color/white"
             android:textSize="16sp" />
 
+        <TextView
+
+            android:id="@+id/mayBeLater"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/almarai_light"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="May Be Later"
+            android:textColor="@color/black_light"
+            android:textSize="15sp" />
     </LinearLayout>
 </LinearLayout>

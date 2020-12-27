@@ -1,8 +1,14 @@
 package digital.upbeat.estisharati_user.UI
 
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.view.View
+import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.R
 import kotlinx.android.synthetic.main.activity_photo_viewer.*
@@ -27,13 +33,25 @@ class PhotoViewer : AppCompatActivity() {
     }
 
     fun getDataFronIntent() {
-        intent.extras?.let {
-            val name = it.getString("name")
-            val image_url = it.getString("image_url")
-            val send_time = it.getString("send_time")
+
+            val name = intent.getStringExtra("name")
+            val image_url =intent.getStringExtra("image_url")
+            val send_time = intent.getStringExtra("send_time")
             pv_name.text = name
-            pv_send_time.text =send_time
-            Glide.with(this@PhotoViewer).load(image_url).apply(helperMethods.requestOption).into(pv_image)
-        }
+            pv_send_time.text = send_time
+            if (send_time.equals("")) {
+                pv_send_time.visibility = View.GONE
+            } else {
+                pv_send_time.visibility = View.VISIBLE
+            }
+            pv_image.scaleType = ImageView.ScaleType.FIT_CENTER
+            pv_image.isZoomEnabled = true
+            Glide.with(this@PhotoViewer).asBitmap().apply(helperMethods.requestOption).load(image_url).into(object : CustomTarget<Bitmap?>() {
+                override fun onLoadCleared(placeholder: Drawable?) {}
+                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap?>?) {
+                    pv_image.setImageBitmap(resource)
+                }
+            })
+
     }
 }

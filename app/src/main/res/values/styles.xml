@@ -18,7 +18,7 @@
         <item name="fillColor">#411e25</item>
         <item name="strokeColor">#ececec</item>
         <item name="strokeWidth">0dp</item>
-        <item name="radius">4dp</item>
+        <item name="radius">5dp</item>
         <item name="centered">true</item>
     </style>
 

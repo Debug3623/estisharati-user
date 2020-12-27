@@ -50,7 +50,7 @@ class NotificationsAdapter(val context: Context, val notifications: Notification
                 context.startActivity(intent)
             } else if (notificationsArrayList.get(position).details.type.equals("consultant")) {
                 val intent = Intent(context, ConsultantDetails::class.java)
-                intent.putExtra("consultant_id", notificationsArrayList.get(position).details.id)
+                intent.putExtra("consultant_id", notificationsArrayList.get(position).details.consultant_id)
                 context.startActivity(intent)
             } else {
 

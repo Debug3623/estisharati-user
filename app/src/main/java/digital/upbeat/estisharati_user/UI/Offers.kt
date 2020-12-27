@@ -1,5 +1,6 @@
 package digital.upbeat.estisharati_user.UI
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -17,9 +18,7 @@ import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
-import kotlinx.android.synthetic.main.activity_favorites.*
 import kotlinx.android.synthetic.main.activity_offers.*
-import kotlinx.android.synthetic.main.activity_offers.nav_back
 import okhttp3.ResponseBody
 import org.json.JSONException
 import org.json.JSONObject
@@ -29,14 +28,12 @@ import retrofit2.Response
 import java.io.IOException
 
 class Offers : AppCompatActivity() {
-
     lateinit var helperMethods: HelperMethods
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var dataUser: DataUser
     lateinit var sharedPreferencesHelper: SharedPreferencesHelper
     var currentTab = "consultant"
     var offersresponse: OffersResponse = OffersResponse(arrayListOf(), arrayListOf())
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_offers)
@@ -44,8 +41,9 @@ class Offers : AppCompatActivity() {
         initViews()
         clickEvents()
     }
+
     private fun clickEvents() {
-       nav_back.setOnClickListener { finish() }
+        nav_back.setOnClickListener { finish() }
         offersConsultants.setTextColor(ContextCompat.getColor(this@Offers, R.color.white))
         offersCourses.setTextColor(ContextCompat.getColor(this@Offers, R.color.transparent_white))
 
@@ -58,6 +56,9 @@ class Offers : AppCompatActivity() {
             currentTab = "courses"
             initializeOffersConsultantRecyclerview()
         }
+        notificationLayout.setOnClickListener {
+            startActivity(Intent(this@Offers, Notifications::class.java))
+        }
     }
 
     private fun initViews() {
@@ -66,14 +67,13 @@ class Offers : AppCompatActivity() {
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
         sharedPreferencesHelper = SharedPreferencesHelper(this@Offers)
         dataUser = sharedPreferencesHelper.logInUser
-
+        notificationCount.text = GlobalData.homeResponse.notification_count
         if (helperMethods.isConnectingToInternet) {
             OffersListApiCall()
         } else {
             helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
         }
     }
-
 
     fun setTabConsultant() {
         if (currentTab.equals("consultant")) {
@@ -89,9 +89,9 @@ class Offers : AppCompatActivity() {
             offersCourses.setTextColor(ContextCompat.getColor(this@Offers, R.color.transparent_white))
         }
     }
-    fun setTabCourse(){
-        if (currentTab.equals("courses")){
 
+    fun setTabCourse() {
+        if (currentTab.equals("courses")) {
             if (offersresponse.courses.size > 0) {
                 offersRecycler.visibility = View.VISIBLE
                 offersEmptyLayout.visibility = View.GONE
@@ -112,8 +112,7 @@ class Offers : AppCompatActivity() {
         if (currentTab.equals("consultant")) {
             offersRecycler.adapter = OffersConsultantsAdapter(this@Offers, this@Offers, offersresponse.consultants)
             setTabConsultant()
-        }
-        else if (currentTab.equals("courses")) {
+        } else if (currentTab.equals("courses")) {
             offersRecycler.adapter = OffersCoursesAdapter(this@Offers, this@Offers, offersresponse.courses)
             setTabCourse()
         }

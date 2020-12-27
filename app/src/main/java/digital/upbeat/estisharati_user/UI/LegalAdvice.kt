@@ -1,7 +1,6 @@
 package digital.upbeat.estisharati_user.UI
 
-import android.opengl.Visibility
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,6 +9,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,8 +25,6 @@ import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
 import kotlinx.android.synthetic.main.activity_legal_advice.*
-import kotlinx.android.synthetic.main.activity_legal_advice.nav_back
-import kotlinx.android.synthetic.main.activity_online_courses.*
 import okhttp3.ResponseBody
 import org.json.JSONException
 import retrofit2.Call
@@ -42,14 +40,14 @@ class LegalAdvice : AppCompatActivity() {
     lateinit var consultantsResponse: ConsultantResponse
     var consultantsArrayList: ArrayList<Data> = arrayListOf()
     var sortingOptionsArraylist: ArrayList<String> = arrayListOf()
-    var category_id=""
+    var category_id = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_legal_advice)
 
         initViews()
         clickEvents()
-        category_id=intent.getStringExtra("category_id")
+        category_id = intent.getStringExtra("category_id")
         if (helperMethods.isConnectingToInternet) {
             allConsultantsApiCall(category_id, "Default")
         } else {
@@ -65,10 +63,14 @@ class LegalAdvice : AppCompatActivity() {
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
         sharedPreferencesHelper = SharedPreferencesHelper(this@LegalAdvice)
         dataUser = sharedPreferencesHelper.logInUser
+        notificationCount.text=GlobalData.homeResponse.notification_count
     }
 
     fun clickEvents() {
         nav_back.setOnClickListener { finish() }
+        notificationLayout.setOnClickListener {
+            startActivity(Intent(this@LegalAdvice,Notifications::class.java))
+        }
         searchConsultant.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
@@ -77,7 +79,9 @@ class LegalAdvice : AppCompatActivity() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                InitializeRecyclerview()
+                if (::consultantsResponse.isInitialized) {
+                    InitializeRecyclerview()
+                }
             }
         })
     }

@@ -5,7 +5,7 @@ data class Comment(
     val consultant_id: String,
     val course_id: Int,
     val created_at: String,
-    val id: Int,
+    val id: String,
     val parent_id: Any,
     val replies: ArrayList<Reply>,
     val review: String,

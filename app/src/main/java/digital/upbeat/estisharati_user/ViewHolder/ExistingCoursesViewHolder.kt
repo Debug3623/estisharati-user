@@ -9,4 +9,5 @@ val courseImage=itemView.courseImage
 val courseName=itemView.courseName
 val courseRating=itemView.courseRating
 val coursePrice=itemView.coursePrice
+val courseLayout=itemView.courseLayout
 }

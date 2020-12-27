@@ -1,12 +1,14 @@
 package digital.upbeat.estisharati_user.Adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import digital.upbeat.estisharati_user.DataClassHelper.Packages.Consultant
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.UI.ConsultantDetails
 import digital.upbeat.estisharati_user.UI.ConsultantsInThePackage
 import digital.upbeat.estisharati_user.ViewHolder.ConsultantsInThePackageViewHolder
 
@@ -23,5 +25,10 @@ class ConsultantsInThePackageAdapter(val context: Context, val consultantsInTheP
     override fun onBindViewHolder(holder: ConsultantsInThePackageViewHolder, position: Int) {
         Glide.with(context).load(consultantsArrayList.get(position).image_path).apply(consultantsInThePackage.helperMethods.requestOption).into(holder.consultantImage)
         holder.consultantName.text = consultantsArrayList.get(position).name
+        holder.consultantLayout.setOnClickListener {
+            val intent = Intent(context, ConsultantDetails::class.java)
+            intent.putExtra("consultant_id", consultantsArrayList.get(position).id)
+            context.startActivity(intent)
+        }
     }
 }

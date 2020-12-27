@@ -149,9 +149,10 @@ class HelperMethods(val context: Context) {
         }
         val popup_view = LayoutInflater.from(context).inflate(R.layout.custom_progress_dialog, null)
         val aleatdialog = android.app.AlertDialog.Builder(context)
-        val progress_text = popup_view.findViewById<View>(R.id.progress_text) as TextView
-        if (!msg.trim { it <= ' ' }.equals("", ignoreCase = true)) {
+        val progress_text = popup_view.findViewById<TextView>(R.id.progress_text)
+        if (!msg.equals("")) {
             progress_text.text = msg
+            progress_text.visibility = View.VISIBLE
         } else {
             progress_text.visibility = View.GONE
         }
@@ -227,13 +228,15 @@ class HelperMethods(val context: Context) {
             return Html.fromHtml(stringBuilder.toString())
         }
     }
-fun getHtmlText(content: String): Spanned{
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        return Html.fromHtml(content, Html.FROM_HTML_MODE_LEGACY)
-    } else {
-        return Html.fromHtml(content)
+
+    fun getHtmlText(content: String): Spanned {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return Html.fromHtml(content, Html.FROM_HTML_MODE_LEGACY)
+        } else {
+            return Html.fromHtml(content)
+        }
     }
-}
+
     fun ChangeProfilePhotoPopup(activity: Activity) {
         if (!isConnectingToInternet) {
             AlertPopup(context.getString(R.string.internet_connection_failed), context.getString(R.string.please_check_your_internet_connection_and_try_again))
@@ -319,8 +322,6 @@ fun getHtmlText(content: String): Spanned{
             false
         }
     }
-
-
 
     fun setUserDetailsToFirestore(user_id: String, hashMap: HashMap<String, Any>) {
         firebaseFirestore.collection("Users").document(user_id).set(hashMap).addOnSuccessListener {}.addOnFailureListener {
@@ -476,13 +477,12 @@ fun getHtmlText(content: String): Spanned{
         val actionOkBtn = LayoutView.findViewById<TextView>(R.id.actionOkBtn)
         val confirmationLayout = LayoutView.findViewById<LinearLayout>(R.id.confirmationLayout)
         title.text = Title
-        message.text = Message
+        message.text = getHtmlText(Message)
         message.movementMethod = ScrollingMovementMethod()
-        confirmationLayout.visibility=View.GONE
-        actionOkBtn.visibility=View.VISIBLE
+        confirmationLayout.visibility = View.GONE
+        actionOkBtn.visibility = View.VISIBLE
         actionOkBtn.setOnClickListener { dialog.dismiss() }
     }
-
 
     fun showAlertDialog(context: Context, alertActionClickListner: alertActionClickListner, title: String, message: String, ifAlert: Boolean, okBtn: String, cancelBtn: String) {
         val layoutView = LayoutInflater.from(context).inflate(R.layout.alert_popup, null)

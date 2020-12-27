@@ -41,4 +41,8 @@
     <string name="aed">AED</string>
     <string name="ability_to_download_course_videos">ability to download course videos</string>
     <string name="you_can_not_download_course_videos">You can not download course videos</string>
+    <string name="buy_now">BUY NOW</string>
+    <string name="start_course">START COURSE</string>
+    <string name="request_consultation_now">Request Consultation Now</string>
+    <string name="call_consultation">Call Consultation</string>
 </resources>

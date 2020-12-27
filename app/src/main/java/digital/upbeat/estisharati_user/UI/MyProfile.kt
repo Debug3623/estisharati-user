@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
+import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -69,7 +70,7 @@ class MyProfile : AppCompatActivity() {
         phone.text = dataUserObject.phone
         courses_count.text = dataUserObject.subscription.courses
         consultations_count.text = dataUserObject.subscription.consultations
-        current_package.text = dataUserObject.subscription.current_package
+        current_package.text = dataUserObject.subscription.package_count
         email_address.text = dataUserObject.email
         Glide.with(this@MyProfile).load(dataUserObject.image).apply(helperMethods.profileRequestOption).into(profile_picture)
     }
@@ -78,7 +79,6 @@ class MyProfile : AppCompatActivity() {
         nav_back.setOnClickListener { finish() }
         change_password_layot.visibility = View.GONE
         change_password_arrow.setImageResource(R.drawable.ic_up_arrow_white)
-
         password_btn.setOnClickListener {
             if (change_password_layot.visibility == View.VISIBLE) {
                 change_password_layot.visibility = View.GONE
@@ -110,6 +110,20 @@ class MyProfile : AppCompatActivity() {
                 ChangePasswordApiCall(currentPassword.toText(), newPassword.toText(), confirmPassword.toText())
             }
         }
+        upgradePackage.setOnClickListener {
+            val intent = Intent(this@MyProfile, Packages::class.java)
+            intent.putExtra("viaFrom", "Home")
+            startActivity(intent)
+        }
+        navMyCourse.setOnClickListener {
+            startActivity(Intent(this@MyProfile, MyCourses::class.java))
+        }
+        navMyConsultations.setOnClickListener {
+            startActivity(Intent(this@MyProfile, MyConsultations::class.java))
+        }
+        navPackages.setOnClickListener {
+            startActivity(Intent(this@MyProfile, MyPackages::class.java))
+        }
     }
 
     fun ChangePasswordApiCall(currentPassword: String, newPassword: String, confirmPassword: String) {
@@ -128,7 +142,6 @@ class MyProfile : AppCompatActivity() {
                                 helperMethods.showToastMessage(message)
                                 change_password_layot.visibility = View.GONE
                                 change_password_arrow.setImageResource(R.drawable.ic_up_arrow_white)
-
                             } else {
                                 val message = jsonObject.getString("message")
                                 helperMethods.AlertPopup("Alert", message)
@@ -255,25 +268,9 @@ class MyProfile : AppCompatActivity() {
         val dialog = aleatdialog.create()
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
-        //        val ud_fname = LayoutView.findViewById<EditText>(R.id.ud_fname)
-        //        val ud_lname = LayoutView.findViewById<EditText>(R.id.ud_lname)
-        //        val ud_email_address = LayoutView.findViewById<EditText>(R.id.ud_email_address)
-        //        val ud_phone_codePicker = LayoutView.findViewById<CountryCodePicker>(R.id.ud_phone_codePicker)
-        //        val ud_phone = LayoutView.findViewById<EditText>(R.id.ud_phone)
-        //        val ud_country = LayoutView.findViewById<EditText>(R.id.ud_country)
-        //        val ud_city = LayoutView.findViewById<EditText>(R.id.ud_city)
-        //        val ud_contect_codePicker = LayoutView.findViewById<CountryCodePicker>(R.id.ud_contect_codePicker)
-        //        val ud_contect = LayoutView.findViewById<EditText>(R.id.ud_contect)
-        //        val cancel = LayoutView.findViewById<TextView>(R.id.cancel)
-        //        val update = LayoutView.findViewById<TextView>(R.id.update)
         LayoutView.ud_fname.text = dataUserObject.fname.toEditable()
         LayoutView.ud_lname.text = dataUserObject.lname.toEditable()
         LayoutView.ud_email_address.text = dataUserObject.email.toEditable()
-        //        val phone = dataUserObject.phone.replace(dataUserObject.user_metas.phone_code, "")
-        //        LayoutView.ud_phone_codePicker.setCountryForPhoneCode(dataUserObject.user_metas.phone_code.toInt())
-        //        LayoutView.ud_phone.text = phone.toEditable()
-        //        LayoutView.ud_phone_codePicker.isEnabled = false
-        //        LayoutView.ud_phone.isEnabled = false
         /*******Spinner start***********/
         var countryIndex = 0
         var cityIndex = 0
@@ -294,10 +291,12 @@ class MyProfile : AppCompatActivity() {
         v2.typeface = typeface
         v2.setTextColor(ContextCompat.getColor(this@MyProfile, R.color.black))
         LayoutView.ud_country_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                (view as TextView).textSize = 15f
-                view.typeface = typeface
-                view.setTextColor(ContextCompat.getColor(this@MyProfile, R.color.black))
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                view?.let {
+                    (view as TextView).textSize = 15f
+                    view.typeface = typeface
+                    view.setTextColor(ContextCompat.getColor(this@MyProfile, R.color.black))
+                }
                 val cityArrString = arrayListOf<String>()
                 for (city in countryArrayList.get(position).cities) {
                     cityArrString.add(city.city_name)
@@ -326,10 +325,12 @@ class MyProfile : AppCompatActivity() {
         v3.typeface = typeface
         v3.setTextColor(ContextCompat.getColor(this@MyProfile, R.color.black))
         LayoutView.ud_city_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                (view as TextView).textSize = 15f
-                view.typeface = typeface
-                view.setTextColor(ContextCompat.getColor(this@MyProfile, R.color.black))
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                view?.let {
+                    (view as TextView).textSize = 15f
+                    view.typeface = typeface
+                    view.setTextColor(ContextCompat.getColor(this@MyProfile, R.color.black))
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {

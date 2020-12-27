@@ -42,6 +42,7 @@
                 android:textSize="18sp" />
 
             <RelativeLayout
+                android:id="@+id/notificationLayout"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -59,13 +60,14 @@
                     android:src="@drawable/ic_bell" />
 
                 <TextView
+                    android:id="@+id/notificationCount"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
                     android:background="@drawable/round_light_green_white_stroke"
                     android:gravity="center"
-                    android:text="2"
+                    android:text="0"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
             </RelativeLayout>
@@ -144,7 +146,7 @@
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/ic_end_date" />
+            android:src="@drawable/ic_hourglass" />
 
         <TextView
             android:id="@+id/offer_errorText"

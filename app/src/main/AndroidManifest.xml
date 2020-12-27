@@ -20,10 +20,12 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".UI.Search"></activity>
+        <activity android:name=".UI.MyPackages"></activity>
+        <activity android:name=".UI.Search" />
         <activity android:name=".UI.FAQ" />
         <activity android:name=".UI.Offers" />
         <activity android:name=".UI.Favorites" />
+        <activity android:name=".UI.WebView" />
         <activity
             android:name=".UI.NotificationDetails"
             android:screenOrientation="portrait" />
@@ -67,7 +69,7 @@
             android:name=".UI.Packages"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.PreviewCourse"
+            android:name=".UI.CourseResource"
             android:screenOrientation="portrait" />
         <activity
             android:name=".UI.ConsultationDetailsVideo"

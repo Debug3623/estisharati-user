@@ -6,11 +6,11 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Course(
     val description: String,
-    val id: Int,
+    val id: String,
     val image: String,
     val image_path: String,
     val name: String,
     val price: Int,
     val rate: String,
     val video_path: String
-) : Parcelable
+): Parcelable

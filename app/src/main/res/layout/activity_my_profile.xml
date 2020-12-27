@@ -136,6 +136,7 @@
                         android:weightSum="5">
 
                         <LinearLayout
+                            android:id="@+id/navMyCourse"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1.5"
@@ -175,6 +176,7 @@
                             android:background="@color/gainsboro" />
 
                         <LinearLayout
+                            android:id="@+id/navMyConsultations"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
@@ -214,6 +216,7 @@
                             android:background="@color/gainsboro" />
 
                         <LinearLayout
+                            android:id="@+id/navPackages"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1.5"
@@ -253,6 +256,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:layout_margin="5dp"
+                        android:id="@+id/upgradePackage"
                         android:background="@drawable/corner_redius_30dp_light_green1"
                         android:elevation="3dp"
                         android:paddingLeft="15dp"

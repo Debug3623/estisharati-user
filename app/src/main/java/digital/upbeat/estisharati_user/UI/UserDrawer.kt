@@ -82,8 +82,11 @@ class UserDrawer : AppCompatActivity() {
         menu.setOnClickListener {
             drawer_layout.openDrawer(GravityCompat.START, true)
         }
-        notification_layout.setOnClickListener {
+        notificationLayout.setOnClickListener {
             startActivity(Intent(this@UserDrawer, Notifications::class.java))
+        }
+        searchLayout.setOnClickListener {
+            startActivity(Intent(this@UserDrawer, Search::class.java))
         }
     }
 
@@ -118,6 +121,9 @@ class UserDrawer : AppCompatActivity() {
         nav_my_courses.setOnClickListener {
             startActivity(Intent(this@UserDrawer, MyCourses::class.java))
         }
+        nav_my_packages.setOnClickListener {
+            startActivity(Intent(this@UserDrawer, MyPackages::class.java))
+        }
         nav_favorites.setOnClickListener {
             startActivity(Intent(this@UserDrawer, Favorites::class.java))
         }
@@ -148,6 +154,13 @@ class UserDrawer : AppCompatActivity() {
                 helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
             }
         }
+        nav_chat_home.setOnClickListener {
+            if (helperMethods.isConnectingToInternet) {
+                startActivity(Intent(this@UserDrawer, ChatHome::class.java))
+            } else {
+                helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
+            }
+        }
 
         nav_faq.setOnClickListener {
             startActivity(Intent(this@UserDrawer, FAQ::class.java))
@@ -164,12 +177,17 @@ class UserDrawer : AppCompatActivity() {
         nav_logout.setOnClickListener {
             LogOutPopup("LogOut", "Are you sure?\n" + "Do you want to logout !")
         }
+        upgradePackage.setOnClickListener {
+            val intent = Intent(this@UserDrawer, Packages::class.java)
+            intent.putExtra("viaFrom", "Home")
+            startActivity(intent)
+        }
     }
 
     fun setUserDetails() {
         user_name.text = "${dataUser.fname} ${dataUser.lname}"
         Glide.with(this@UserDrawer).load(dataUser.image).apply(helperMethods.profileRequestOption).into(user_image)
-        package_name.text = "${dataUser.subscription.current_package} Package"
+        package_name.text = "${dataUser.subscription.package_count} Package"
     }
 
     fun LogOutPopup(titleStr: String, messageStr: String) {

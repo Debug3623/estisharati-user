@@ -5,14 +5,10 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import digital.upbeat.estisharati_user.DataClassHelper.Packages.Consultant
 import digital.upbeat.estisharati_user.R
-import digital.upbeat.estisharati_user.UI.ConsultantsInThePackage
 import digital.upbeat.estisharati_user.UI.CourseDetails
 import digital.upbeat.estisharati_user.UI.LegalAdvice
 import digital.upbeat.estisharati_user.UI.Search
-import digital.upbeat.estisharati_user.ViewHolder.ConsultantsInThePackageViewHolder
 import digital.upbeat.estisharati_user.ViewHolder.SearchViewHolder
 
 class SearchAdapter(val context: Context, val search: Search, val dataSearchArrayList: ArrayList<Search.DataSearch>) : RecyclerView.Adapter<SearchViewHolder>() {

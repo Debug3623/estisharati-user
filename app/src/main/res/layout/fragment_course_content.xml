@@ -12,7 +12,7 @@
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/course_content_recycler"
+            android:id="@+id/courseVideoRecycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"

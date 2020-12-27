@@ -4,13 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/ach_white_dark"
+    android:background="@color/white"
     tools:context=".UI.ConsultantDetails">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -385,7 +384,7 @@ from Oxford University Department of Law"
         android:fontFamily="@font/almarai_regular"
         android:gravity="center"
         android:padding="15dp"
-        android:text="Request Consultation Now"
+        android:text="@string/request_consultation_now"
         android:textColor="@color/white"
         android:textSize="18sp" />
 </RelativeLayout>

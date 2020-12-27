@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.PreviewCourseContent">
+    tools:context=".Fragment.CourseVideos">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,11 +11,11 @@
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/course_content_recycler"
+            android:id="@+id/courseVideoRecycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"
             tools:itemCount="4"
-            tools:listitem="@layout/preview_course_content_item" />
+            tools:listitem="@layout/course_chapter_item" />
     </LinearLayout>
 </FrameLayout>

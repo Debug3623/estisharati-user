@@ -122,6 +122,10 @@ interface RetrofitInterface {
     @POST("courses/comment")
     fun MAIN_COURSES_COMMENT_API_CALL(@Header("Authorization") token: String, @Field("course_id") course_id: String, @Field("rate") rate: String, @Field("comment") comment: String): Call<ResponseBody>
 
+    @FormUrlEncoded
+    @POST("consultant/comment")
+    fun MAIN_CONSULTANT_COMMENT_API_CALL(@Header("Authorization") token: String, @Field("consultant_id") consultant_id: String, @Field("rate") rate: String, @Field("comment") comment: String): Call<ResponseBody>
+
     @GET("notifications")
     fun NOTIFICATION_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
 
@@ -133,4 +137,33 @@ interface RetrofitInterface {
 
     @POST("user/save-wallet")
     fun ADD_PAYMENT_API_CALL(@Header("Authorization") token: String, @Body paymentRequest: PaymentRequest): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("user/my-wallet/{payment_method_id}")
+    fun DELETE_PAYMENTMETHOD__API_CALL(@Header("Authorization") token: String, @Path("payment_method_id") payment_method_id: String, @Field("payment_method_id") id: String): Call<ResponseBody>
+
+    @GET("getcoupon")
+    fun COUPON_API_CALL(@Header("Authorization") token: String, @Query("id") id: String, @Query("type") type: String, @Query("code") code: String): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("user_subscription")
+    fun USER_SUBSCRIPTION_API_CALL(@Header("Authorization") token: String, @Field("type") type: String, @Field("subscription_id") subscription_id: String, @Field("course_id") course_id: String, @Field("consultant_id") consultant_id: String,@Field("amount") amount: String, @Field("payment_method") payment_method: String, @Field("payment_reference_no") payment_reference_no: String, @Field("coupon_id") coupon_id: String, @Field("coupon_code") coupon_code: String, @Field("discount") discount: String): Call<ResponseBody>
+
+
+    @GET("my-consultants")
+    fun MY_CONSULTANTS_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
+
+    @GET("my-courses")
+    fun MY_COURSES_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
+
+    @GET("start-course/{course_id}")
+    fun START_COURSE_API_CALL(@Header("Authorization") token: String,@Path("course_id")course_id:String): Call<ResponseBody>
+
+    @GET("mypackages")
+    fun MYPACKAGES_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("lesson-completed")
+    fun LESSON_COMPLETED_API_CALL(@Header("Authorization") token: String, @Field("course_id") course_id: String, @Field("resource_id") resource_id: String, @Field("lesson_id") lesson_id: String): Call<ResponseBody>
+
 }

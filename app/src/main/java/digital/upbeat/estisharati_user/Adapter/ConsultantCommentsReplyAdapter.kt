@@ -65,7 +65,7 @@ class ConsultantCommentsReplyAdapter(val context: Context, val comments: Comment
                 if (comments != null) {
                     comments.courseCommentApiCall(courseCommentsArrayList.get(position).course_id, courseCommentsArrayList.get(position).id, holder.commentsReply.text.toString())
                 } else if (consultantDetails != null) {
-                    consultantDetails.consultantCommentApiCall(consultantCommentsArrayList.get(position).consultant_id, courseCommentsArrayList.get(position).id, holder.commentsReply.text.toString())
+                    consultantDetails.consultantCommentApiCall(consultantCommentsArrayList.get(position).consultant_id, consultantCommentsArrayList.get(position).id, holder.commentsReply.text.toString())
                 }
             } else {
                 Toast.makeText(context, "please enter your reply !", Toast.LENGTH_LONG).show()

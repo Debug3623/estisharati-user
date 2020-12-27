@@ -1,6 +1,7 @@
 package digital.upbeat.estisharati_user.Adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +10,7 @@ import com.bumptech.glide.Glide
 import digital.upbeat.estisharati_user.DataClassHelper.Packages.Course
 import digital.upbeat.estisharati_user.Fragment.Consultations
 import digital.upbeat.estisharati_user.R
-import digital.upbeat.estisharati_user.UI.ExistingCourses
-import digital.upbeat.estisharati_user.UI.MyConsultations
-import digital.upbeat.estisharati_user.UI.MyCourses
-import digital.upbeat.estisharati_user.UI.OnlineCourses
+import digital.upbeat.estisharati_user.UI.*
 import digital.upbeat.estisharati_user.ViewHolder.ExistingCoursesViewHolder
 import digital.upbeat.estisharati_user.ViewHolder.MyConsultationsViewHolder
 import digital.upbeat.estisharati_user.ViewHolder.MyCoursesViewHolder
@@ -33,5 +31,10 @@ class ExistingCoursesAdapter(val context: Context, val existingCourses: Existing
         holder.courseName.text = coursesArrayList.get(position).name
         holder.courseRating.text = coursesArrayList.get(position).rate
         holder.coursePrice.text = context.getString(R.string.aed) + " " + coursesArrayList.get(position).price
+        holder.courseLayout.setOnClickListener {
+            val intent = Intent(context, CourseDetails::class.java)
+            intent.putExtra("courseId", coursesArrayList.get(position).id)
+            context.startActivity(intent)
+        }
     }
 }

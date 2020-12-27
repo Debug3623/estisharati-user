@@ -110,6 +110,7 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/upgradePackage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
@@ -229,6 +230,36 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="70dp"
                     android:background="@color/gainsboro" />
+                <LinearLayout
+                    android:id="@+id/nav_online_courses"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="13dp">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/ic_courses" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:fontFamily="@font/almarai_regular"
+                        android:text="Online Courses"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="70dp"
+                    android:background="@color/gainsboro" />
 
                 <LinearLayout
                     android:id="@+id/nav_my_consultations"
@@ -263,7 +294,7 @@
 
 
                 <LinearLayout
-                    android:id="@+id/nav_online_courses"
+                    android:id="@+id/nav_my_packages"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -272,16 +303,16 @@
 
                     <ImageView
                         android:layout_width="18dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="18dp"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/ic_courses" />
+                        android:src="@drawable/ic_education" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Online courses"
+                        android:text="My Packages"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -292,6 +323,8 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="70dp"
                     android:background="@color/gainsboro" />
+
+
 
 
                 <LinearLayout
@@ -313,7 +346,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="My courses"
+                        android:text="My Courses"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -442,6 +475,36 @@
                         android:layout_marginLeft="20dp"
                         android:fontFamily="@font/almarai_regular"
                         android:text="Refund Policy"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="70dp"
+                    android:background="@color/gainsboro" />
+       <LinearLayout
+                    android:id="@+id/nav_chat_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="13dp">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/ic_nav_chat" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:fontFamily="@font/almarai_regular"
+                        android:text="Chat Home"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>

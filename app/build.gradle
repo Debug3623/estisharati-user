@@ -16,9 +16,18 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    signingConfigs {
+        release {
+            storeFile file("C:\\Users\\Lenovo\\Desktop\\Azar\\work_space\\Estisharati\\EstisharatiUser\\EstisharatiUserKey\\keyStore.jks")
+            storePassword "estisharatiUser@upbeat"
+            keyAlias "estisharatiUser"
+            keyPassword "estisharatiUser@upbeat"
+        }
+    }
     buildTypes {
         release {
+            signingConfig signingConfigs.release
+
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -83,11 +92,11 @@ dependencies {
 
     //Firebase
     implementation 'com.google.firebase:firebase-analytics:18.0.0'
-    implementation 'com.google.firebase:firebase-messaging:21.0.0'
-    implementation 'com.google.firebase:firebase-firestore-ktx:22.0.0'
+    implementation 'com.google.firebase:firebase-messaging:21.0.1'
+    implementation 'com.google.firebase:firebase-firestore-ktx:22.0.1'
 
     //Agora
-    implementation 'io.agora.rtc:full-sdk:3.0.1.1'
+    implementation 'io.agora.rtc:full-sdk:3.2.1'
 
     // Country Picker
     implementation 'com.hbb20:ccp:2.4.0'
@@ -95,6 +104,11 @@ dependencies {
     //Shimmer
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
+    //lottie
+    implementation 'com.airbnb.android:lottie:3.5.0'
+
+     //TouchImageView
+    implementation 'com.github.MikeOrtiz:TouchImageView:3.0.1'
 
 }
 apply plugin: 'com.google.gms.google-services'

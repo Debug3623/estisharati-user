@@ -56,7 +56,7 @@
             android:orientation="horizontal">
 
             <RelativeLayout
-                android:id="@+id/notification_layout"
+                android:id="@+id/notificationLayout"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content">
 

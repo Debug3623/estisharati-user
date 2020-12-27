@@ -75,14 +75,15 @@
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/chooseName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_margin="15dp"
                     android:fontFamily="@font/almarai_regular"
                     android:gravity="center"
                     android:text="Silver package"
                     android:textColor="@color/orange"
-                    android:textSize="23sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
 
             <Button

@@ -9,10 +9,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RatingBar
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
@@ -23,9 +19,9 @@ import com.google.gson.Gson
 import digital.upbeat.estisharati_user.Adapter.TapViewPagerAdapter
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_user.DataClassHelper.CourseComments.CommentsResponse
 import digital.upbeat.estisharati_user.DataClassHelper.CourseDetails.ResponseCourseDetails
 import digital.upbeat.estisharati_user.DataClassHelper.DataUser
+import digital.upbeat.estisharati_user.DataClassHelper.PackagesOptions.PackagesOptions
 import digital.upbeat.estisharati_user.Fragment.Comments
 import digital.upbeat.estisharati_user.Fragment.CourseContent
 import digital.upbeat.estisharati_user.Fragment.Instructor
@@ -78,72 +74,29 @@ class CourseDetails : AppCompatActivity() {
         previewCourse.setOnClickListener {
             showCoursePreviewPopup()
         }
+
+
         buyTheCourse.setOnClickListener {
-            startActivity(Intent(this@CourseDetails, Packages::class.java))
+            if (responseCoursesDetails.is_subscribed) {
+                val intent = Intent(this@CourseDetails, CourseResource::class.java)
+                intent.putExtra("courseId", responseCoursesDetails.id)
+                startActivity(intent)
+            } else {
+                val price = if (responseCoursesDetails.offerprice.equals("0")) {
+                    responseCoursesDetails.price
+                } else {
+                    responseCoursesDetails.offerprice
+                }
+                GlobalData.packagesOptions = PackagesOptions(responseCoursesDetails.id, responseCoursesDetails.name, "course", price, "", "", "")
+
+                startActivity(Intent(this@CourseDetails, PackagesSelection::class.java))
+            }
         }
         favoriteLayout.setOnClickListener {
             if (helperMethods.isConnectingToInternet) {
-                addRemoveFavouriteCourseApiCall(responseCoursesDetails.id.toString())
+                addRemoveFavouriteCourseApiCall(responseCoursesDetails.id)
             } else {
                 helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
-            }
-        }
-        coursePeriod.setOnClickListener {
-            showRatingPopup()
-        }
-    }
-
-    fun showRatingPopup() {
-        val LayoutView = LayoutInflater.from(this@CourseDetails).inflate(R.layout.rating_popup, null)
-        val aleatdialog = android.app.AlertDialog.Builder(this@CourseDetails)
-        aleatdialog.setView(LayoutView)
-        aleatdialog.setCancelable(false)
-        val dialog = aleatdialog.create()
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.show()
-        val rating_bar = LayoutView.findViewById(R.id.rating_bar) as RatingBar
-        val rating_based_cmd = LayoutView.findViewById(R.id.rating_based_cmd) as TextView
-        val comments = LayoutView.findViewById(R.id.comments) as EditText
-        val send = LayoutView.findViewById(R.id.send) as Button
-        setRatingBasedCommend(rating_based_cmd, rating_bar.rating)
-
-        rating_bar.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
-            setRatingBasedCommend(rating_based_cmd, rating)
-        }
-        send.setOnClickListener {
-            if (comments.text.toString().equals("")) {
-                helperMethods.showToastMessage("Please feel free to leave your comments")
-                return@setOnClickListener
-            }
-            if (!helperMethods.isConnectingToInternet) {
-                helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
-                return@setOnClickListener
-            }
-            dialog.dismiss()
-
-            courseCommentApiCall(responseCoursesDetails.id, rating_bar.rating.toInt().toString(), comments.text.toString())
-        }
-    }
-
-    fun setRatingBasedCommend(rating_based_cmd: TextView, rating: Float) {
-        when (Math.round(rating)) {
-            0 -> {
-                rating_based_cmd.text = "Very bad"
-            }
-            1 -> {
-                rating_based_cmd.text = "Bad"
-            }
-            2 -> {
-                rating_based_cmd.text = "Average"
-            }
-            3 -> {
-                rating_based_cmd.text = "Good"
-            }
-            4 -> {
-                rating_based_cmd.text = "Very good"
-            }
-            5 -> {
-                rating_based_cmd.text = "Very impressive"
             }
         }
     }
@@ -155,7 +108,7 @@ class CourseDetails : AppCompatActivity() {
             favoriteIcon.setImageResource(R.drawable.ic_un_favorite)
         }
         courseName.text = responseCoursesDetails.name
-        courseDescription.text = responseCoursesDetails.description
+        courseDescription.text = helperMethods.getHtmlText(responseCoursesDetails.description)
         courseRating.text = responseCoursesDetails.rate
         courseHours.text = "Hours ${responseCoursesDetails.course_duration}"
         courseVideos.text = "Videos ${responseCoursesDetails.videos_count}"
@@ -175,11 +128,14 @@ class CourseDetails : AppCompatActivity() {
             courseOldPrice.visibility = View.VISIBLE
             offersEndDateLayout.visibility = View.VISIBLE
         }
-        courseDescriptionFull.text = responseCoursesDetails.description
+        courseDescriptionFull.text = helperMethods.getHtmlText(responseCoursesDetails.description)
         if (responseCoursesDetails.downloadable) {
             download_video.setText(R.string.ability_to_download_course_videos)
         } else {
             download_video.setText(R.string.you_can_not_download_course_videos)
+        }
+        buyTheCourse.text = if (responseCoursesDetails.is_subscribed) resources.getString(R.string.start_course) else {
+            resources.getString(R.string.buy_now)
         }
     }
 
@@ -297,49 +253,6 @@ class CourseDetails : AppCompatActivity() {
                                     favoriteIcon.setImageResource(R.drawable.ic_un_favorite)
                                 }
                             } else {
-                                helperMethods.AlertPopup("Alert", message)
-                            }
-                        } catch (e: JSONException) {
-                            helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
-                            e.printStackTrace()
-                        } catch (e: IOException) {
-                            e.printStackTrace()
-                        }
-                    } else {
-                        Log.d("body", "Body Empty")
-                    }
-                } else {
-                    helperMethods.showToastMessage(getString(R.string.something_went_wrong))
-                    Log.d("body", "Not Successful")
-                }
-            }
-
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                helperMethods.dismissProgressDialog()
-                t.printStackTrace()
-                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
-            }
-        })
-    }
-
-    fun courseCommentApiCall(courseId: String, rate: String, comment: String) {
-        helperMethods.showProgressDialog("Please wait while loading...")
-        val responseBodyCall = retrofitInterface.MAIN_COURSES_COMMENT_API_CALL("Bearer ${dataUser.access_token}", courseId, rate, comment)
-        responseBodyCall.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                helperMethods.dismissProgressDialog()
-
-                if (response.isSuccessful) {
-                    if (response.body() != null) {
-                        try {
-                            val commentsResponse: CommentsResponse = Gson().fromJson(response.body()!!.string(), CommentsResponse::class.java)
-
-                            if (commentsResponse.status.equals("200")) {
-                                responseCoursesDetails.comments = commentsResponse.data
-                                helperMethods.showToastMessage("Your rating and comments submitted successfully !")
-                                tapInitialize()
-                            } else {
-                                val message = JSONObject(response.body()!!.string()).getString("message")
                                 helperMethods.AlertPopup("Alert", message)
                             }
                         } catch (e: JSONException) {
