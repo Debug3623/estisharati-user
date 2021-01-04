@@ -63,13 +63,15 @@ class LegalAdvice : AppCompatActivity() {
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
         sharedPreferencesHelper = SharedPreferencesHelper(this@LegalAdvice)
         dataUser = sharedPreferencesHelper.logInUser
-        notificationCount.text=GlobalData.homeResponse.notification_count
+        if (GlobalData.isThingInitialized()) {
+            notificationCount.text = GlobalData.homeResponse.notification_count
+        }
     }
 
     fun clickEvents() {
         nav_back.setOnClickListener { finish() }
         notificationLayout.setOnClickListener {
-            startActivity(Intent(this@LegalAdvice,Notifications::class.java))
+            startActivity(Intent(this@LegalAdvice, Notifications::class.java))
         }
         searchConsultant.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {

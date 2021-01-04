@@ -142,9 +142,9 @@ class HelperMethods(val context: Context) {
         }
 
     fun showProgressDialog(msg: String) {
-        if (dialog != null) {
-            if (dialog!!.isShowing) {
-                dialog!!.dismiss()
+        dialog?.let {
+            if (it.isShowing) {
+                it.dismiss()
             }
         }
         val popup_view = LayoutInflater.from(context).inflate(R.layout.custom_progress_dialog, null)
@@ -165,9 +165,9 @@ class HelperMethods(val context: Context) {
 
     fun dismissProgressDialog() {
         try {
-            if (dialog != null) {
-                if (dialog!!.isShowing) {
-                    dialog!!.dismiss()
+            dialog?.let {
+                if (it.isShowing) {
+                    it.dismiss()
                 }
             }
         } catch (e: Exception) {
@@ -300,7 +300,7 @@ class HelperMethods(val context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val audioAttributes = AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).setUsage(AudioAttributes.USAGE_NOTIFICATION).build()
             val importance = NotificationManager.IMPORTANCE_HIGH
-            val mChannel = NotificationChannel(CHANNEL_ID, "Ride Home", importance)
+            val mChannel = NotificationChannel(CHANNEL_ID, "Estisharati", importance)
             mChannel.description = "Estisharati Notification Settings"
             mChannel.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION), audioAttributes)
             mChannel.enableLights(true)
@@ -386,6 +386,25 @@ class HelperMethods(val context: Context) {
             SimpleDateFormat(dateTimeFormatString).format(smsTime.time).toString()
         } else {
             SimpleDateFormat("MMMM dd yyyy, h:mm aa").format(smsTime.time).toString()
+        }
+    }
+
+    fun getFormattedDateShort(date: Date?): String {
+        val smsTime = Calendar.getInstance()
+        smsTime.timeInMillis = if (date != null) date.time else Date().time
+        val now = Calendar.getInstance()
+        val timeFormatString = "h:mm aa"
+        val yesterdayTimeFormatString = "E"
+        val dateTimeFormatString = "MMM dd"
+        val HOURS = 60 * 60 * 60.toLong()
+        return if (now[Calendar.DATE] === smsTime[Calendar.DATE]) {
+            SimpleDateFormat(timeFormatString).format(smsTime.time)
+        } else if (now[Calendar.DATE] - smsTime[Calendar.DATE] === 1) {
+            SimpleDateFormat(yesterdayTimeFormatString).format(smsTime.time)
+        } else if (now[Calendar.YEAR] === smsTime[Calendar.YEAR]) {
+            SimpleDateFormat(dateTimeFormatString).format(smsTime.time).toString()
+        } else {
+            SimpleDateFormat("MMM yyyy").format(smsTime.time).toString()
         }
     }
 

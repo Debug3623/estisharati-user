@@ -31,19 +31,19 @@ class MyCoursesAdapter(val context: Context, val myCourses: MyCourses, var myCou
         holder.courses_name.text = mycourseItem.name
         Glide.with(context).load(mycourseItem.image_path).apply(myCourses.helperMethods.requestOption).into(holder.courseImage)
         holder.complete.text = "complete  ${mycourseItem.complete}%"
-        if (mycourseItem.complete > 0) {
-            holder.start_course.visibility = View.GONE
-            holder.add_review_layout.visibility = View.VISIBLE
-        } else {
+        if (mycourseItem.complete.equals("0")) {
             holder.start_course.visibility = View.VISIBLE
             holder.add_review_layout.visibility = View.GONE
+        } else {
+            holder.start_course.visibility = View.GONE
+            holder.add_review_layout.visibility = View.VISIBLE
         }
         holder.reviewCourse.setOnClickListener {
             myCourses.showRatingPopup(mycourseItem)
         }
         holder.myCourseLayout.setOnClickListener {
-            val intent= Intent(context,CourseResource::class.java)
-            intent.putExtra("courseId",mycourseItem.id)
+            val intent = Intent(context, CourseResource::class.java)
+            intent.putExtra("courseId", mycourseItem.id)
             context.startActivity(intent)
         }
     }

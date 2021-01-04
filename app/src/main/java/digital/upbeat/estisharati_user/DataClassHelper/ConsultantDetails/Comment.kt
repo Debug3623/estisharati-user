@@ -9,6 +9,6 @@ data class Comment(
     val parent_id: Any,
     val replies: ArrayList<Reply>,
     val review: String,
-    val user: UserX,
+    val user: User,
     val user_id: Int
 )

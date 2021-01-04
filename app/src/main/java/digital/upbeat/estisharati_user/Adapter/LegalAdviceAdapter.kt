@@ -37,6 +37,7 @@ class LegalAdviceAdapter(val context: Context, val legalAdvice: LegalAdvice, var
         holder.parentLayout.setOnClickListener {
             val intent = Intent(context, ConsultantDetails::class.java)
             intent.putExtra("consultant_id", consultantsArrayList.get(position).user.id)
+            intent.putExtra("category_id", legalAdvice.category_id)
             context.startActivity(intent)
         }
     }

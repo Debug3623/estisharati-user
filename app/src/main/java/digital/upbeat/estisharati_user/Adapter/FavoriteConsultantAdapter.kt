@@ -35,6 +35,7 @@ class FavoriteConsultantAdapter(val context: Context, val favorites: Favorites, 
         holder.parentLayout.setOnClickListener {
             val intent = Intent(context, ConsultantDetails::class.java)
             intent.putExtra("consultant_id", consultantsArrayList.get(position).consultant.id)
+            intent.putExtra("category_id", "")
             context.startActivity(intent)
         }
     }

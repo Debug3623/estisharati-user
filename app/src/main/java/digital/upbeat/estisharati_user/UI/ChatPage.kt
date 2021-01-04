@@ -425,7 +425,7 @@ class ChatPage : AppCompatActivity() {
     fun sendPushNotification(dataFcmBody: DataFcmBody) {
         val body = Gson().toJson(dataFcmBody.data)
         helperMethods.showProgressDialog("Please wait while preparing to call...")
-        val responseBodyCall = retrofitInterface.NOTIFY_API_CALL("Bearer ${dataUser.access_token}", dataFcmBody.data.receiver_id, dataFcmBody.data.title, dataFcmBody.data.message, body)
+        val responseBodyCall = retrofitInterface.NOTIFY_API_CALL("Bearer ${dataUser.access_token}", dataFcmBody.data.receiver_id, dataFcmBody.data.title, dataFcmBody.data.body, body)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()
@@ -458,7 +458,7 @@ class ChatPage : AppCompatActivity() {
                     helperMethods.showToastMessage(getString(R.string.something_went_wrong))
                     Log.d("body", "Not Successful")
                 }
-                if (dataFcmBody.data.tag.equals("incoming_voice_call")) {
+                if (dataFcmBody.data.type.equals("incoming_voice_call")) {
                     startActivity(Intent(this@ChatPage, VoiceCall::class.java))
                 } else {
                     startActivity(Intent(this@ChatPage, VideoCall::class.java))
@@ -468,7 +468,7 @@ class ChatPage : AppCompatActivity() {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
-                if (dataFcmBody.data.tag.equals("incoming_voice_call")) {
+                if (dataFcmBody.data.type.equals("incoming_voice_call")) {
                     startActivity(Intent(this@ChatPage, VoiceCall::class.java))
                 } else {
                     startActivity(Intent(this@ChatPage, VideoCall::class.java))

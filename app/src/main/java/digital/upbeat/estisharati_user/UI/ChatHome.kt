@@ -61,8 +61,9 @@ class ChatHome : AppCompatActivity() {
         preferencesHelper = SharedPreferencesHelper(this@ChatHome)
         firestore = FirebaseFirestore.getInstance()
         dataUser = preferencesHelper.logInUser
+       if (GlobalData.isThingInitialized()){
         notificationCount.text = GlobalData.homeResponse.notification_count
-    }
+    }}
 
     fun clickEvents() {
         nav_back.setOnClickListener { finish() }

@@ -14,6 +14,8 @@ class PackageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val voiceHourse = itemView.voiceHourse
     val writtenLayout = itemView.writtenLayout
     val writtenHourse = itemView.writtenHourse
+    val courseLayout = itemView.courseLayout
+    val consultantLayout = itemView.consultantLayout
     val showExisitingCourses = itemView.showExisitingCourses
     val showConsultantsInThePackage = itemView.showConsultantsInThePackage
     val consultantImage1 = itemView.consultantImage1
@@ -21,5 +23,4 @@ class PackageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val consultantImage3 = itemView.consultantImage3
     val consultantImage4 = itemView.consultantImage4
     val consultantImage5 = itemView.consultantImage5
-
 }

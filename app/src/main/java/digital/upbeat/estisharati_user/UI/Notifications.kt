@@ -77,7 +77,9 @@ class Notifications : AppCompatActivity() {
                             notificationResponse = Gson().fromJson(response.body()!!.string(), NotificationResponse::class.java)
                             if (notificationResponse.status.equals("200")) {
                                 InitializeRecyclerview()
-                                GlobalData.homeResponse.notification_count = notificationResponse.data.size.toString()
+                                if (GlobalData.isThingInitialized()) {
+                                    GlobalData.homeResponse.notification_count = notificationResponse.data.size.toString()
+                                }
                             } else {
                                 val jsonObject = JSONObject(response.body()!!.string())
                                 val message = jsonObject.getString("message")

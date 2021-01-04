@@ -56,14 +56,13 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="40dp"
                         android:layout_height="wrap_content"
-                        android:ems="2"
                         android:fontFamily="@font/almarai_bold"
-                        android:text="55%"
+                        android:text="100%"
                         android:id="@+id/star5Percent"
                         android:textColor="@color/black"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
 
                     <RatingBar
                         style="?android:attr/ratingBarStyleSmall"
@@ -123,12 +122,11 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="40dp"
                         android:layout_height="wrap_content"
-                        android:ems="2"
                         android:id="@+id/star4Percent"
                         android:fontFamily="@font/almarai_bold"
-                        android:text="30%"
+                        android:text="50%"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
@@ -190,9 +188,8 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="40dp"
                         android:layout_height="wrap_content"
-                        android:ems="2"
                         android:id="@+id/star3Percent"
                         android:fontFamily="@font/almarai_bold"
                         android:text="10%"
@@ -257,9 +254,8 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="40dp"
                         android:layout_height="wrap_content"
-                        android:ems="2"
                         android:id="@+id/star2Percent"
                         android:fontFamily="@font/almarai_bold"
                         android:text="5%"
@@ -324,9 +320,8 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="40dp"
                         android:layout_height="wrap_content"
-                        android:ems="2"
                         android:id="@+id/star1Percent"
                         android:fontFamily="@font/almarai_bold"
                         android:text="0%"

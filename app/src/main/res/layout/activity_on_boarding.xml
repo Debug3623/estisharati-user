@@ -30,10 +30,11 @@
 
             <digital.upbeat.estisharati_user.Utils.CirclePageIndicator
                 android:id="@+id/indicator"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:theme="@style/StyledIndicators_sell_items"
                 app:fillColor="@color/orange"
+                app:centered="true"
                 app:pageColor="@color/green" />
 
             <TextView

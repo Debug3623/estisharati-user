@@ -198,6 +198,7 @@
                     </LinearLayout>
                 </ScrollView>
             </com.facebook.shimmer.ShimmerFrameLayout>
+
         </LinearLayout>
     </LinearLayout>
 

@@ -19,6 +19,7 @@ import kotlin.collections.ArrayList
 
 class PackageAdapter(val context: Context, val packages: Packages?, val myPackages: MyPackages?, val packagesArrayList: ArrayList<Data>) : RecyclerView.Adapter<PackageViewHolder>() {
     lateinit var helperMethods: HelperMethods
+    var purchased = false
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PackageViewHolder {
         val layoutView = LayoutInflater.from(context).inflate(R.layout.package_item, parent, false)
         return PackageViewHolder(layoutView)
@@ -33,6 +34,11 @@ class PackageAdapter(val context: Context, val packages: Packages?, val myPackag
     }
 
     override fun onBindViewHolder(holder: PackageViewHolder, position: Int) {
+        if (packages != null) {
+            purchased = false
+        } else if (myPackages != null) {
+            purchased = true
+        }
         val packagesItems = packagesArrayList.get(position)
         holder.showExisitingCourses.setOnClickListener {
             val intent = Intent(context, ExistingCourses::class.java)
@@ -65,6 +71,17 @@ class PackageAdapter(val context: Context, val packages: Packages?, val myPackag
             holder.writtenLayout.visibility = View.VISIBLE
             holder.writtenHourse.text = "Written Chat " + formatToMinute(packagesItems.features.written.time)
         }
+        if (packagesItems.courses.size > 0) {
+            holder.courseLayout.visibility = View.VISIBLE
+        } else {
+            holder.courseLayout.visibility = View.GONE
+        }
+        if (packagesItems.consultants.size > 0) {
+            holder.consultantLayout.visibility = View.VISIBLE
+        } else {
+            holder.consultantLayout.visibility = View.GONE
+        }
+
 
         holder.consultantImage1.visibility = View.GONE
         holder.consultantImage2.visibility = View.GONE

@@ -87,7 +87,10 @@ class CourseDetails : AppCompatActivity() {
                 } else {
                     responseCoursesDetails.offerprice
                 }
-                GlobalData.packagesOptions = PackagesOptions(responseCoursesDetails.id, responseCoursesDetails.name, "course", price, "", "", "")
+
+                val vatAmount: Float = price.toFloat() / 100.0f * 5
+                val priceIncludedVat=vatAmount+price.toFloat()
+                GlobalData.packagesOptions = PackagesOptions(responseCoursesDetails.id, responseCoursesDetails.name, "course","",price,vatAmount.toString(), priceIncludedVat.toString(), "", "", "")
 
                 startActivity(Intent(this@CourseDetails, PackagesSelection::class.java))
             }

@@ -18,5 +18,6 @@ data class ConsultantDetailsResponse(
     val qualification: String,
     val qualification_brief: String,
     val rate: String,
-    var favourite: Boolean
-)
+    var favourite: Boolean,
+    val categories: ArrayList<Categories>
+    )

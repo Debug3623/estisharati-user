@@ -44,11 +44,6 @@ class MyCourses : AppCompatActivity() {
         setContentView(R.layout.activity_my_courses)
         initViews()
         clickEvents()
-        if (helperMethods.isConnectingToInternet) {
-            myCoursesApiCall()
-        } else {
-            helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
-        }
     }
 
     fun initViews() {
@@ -62,6 +57,15 @@ class MyCourses : AppCompatActivity() {
         nav_back.setOnClickListener { finish() }
     }
 
+    override fun onStart() {
+        super.onStart()
+        if (helperMethods.isConnectingToInternet) {
+            myCoursesApiCall()
+        } else {
+            helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
+        }
+    }
+
     fun InitializeRecyclerview() {
         my_courses_recycler.setHasFixedSize(true)
         my_courses_recycler.removeAllViews()
@@ -72,7 +76,7 @@ class MyCourses : AppCompatActivity() {
             emptyLayout.visibility = View.GONE
             my_courses_recycler.visibility = View.VISIBLE
         } else {
-            errorText.text="You did not purchase any course till now !"
+            errorText.text = "You did not purchase any course till now !"
             emptyLayout.visibility = View.VISIBLE
             my_courses_recycler.visibility = View.GONE
         }
@@ -91,7 +95,7 @@ class MyCourses : AppCompatActivity() {
                             val myCourseResponse: MyCourseResponse = Gson().fromJson(response.body()!!.string(), MyCourseResponse::class.java)
                             if (myCourseResponse.status.equals("200")) {
                                 myCoursesArrayList = myCourseResponse.data
-                                InitializeRecyclerview()
+                              InitializeRecyclerview()
                             } else {
                                 val message = JSONObject(response.body()!!.string()).getString("message")
                                 helperMethods.AlertPopup("Alert", message)

@@ -32,28 +32,35 @@ class NotificationsAdapter(val context: Context, val notifications: Notification
 
     override fun onBindViewHolder(holder: NotificationsViewHolder, position: Int) {
         holder.title.text = notificationsArrayList.get(position).title
-        holder.message.text = notificationsArrayList.get(position).body
+        holder.message.text = notifications.helperMethods.getHtmlText(notificationsArrayList.get(position).body)
         holder.date.text = notificationsArrayList.get(position).created_at
-
-        if (notificationsArrayList.get(position).details.type.equals("course")) {
-            holder.notificationImg.setImageResource(R.drawable.ic_courses_round)
-        } else if (notificationsArrayList.get(position).details.type.equals("consultant")) {
-            holder.notificationImg.setImageResource(R.drawable.ic_consultant_round)
+        if (notificationsArrayList.get(position).details != null) {
+            notificationsArrayList.get(position).details?.let {
+                if (it.type.equals("course")) {
+                    holder.notificationImg.setImageResource(R.drawable.ic_courses_round)
+                } else if (it.type.equals("consultant")) {
+                    holder.notificationImg.setImageResource(R.drawable.ic_consultant_round)
+                } else {
+                    holder.notificationImg.setImageResource(R.mipmap.ic_launcher)
+                }
+            }
         } else {
             holder.notificationImg.setImageResource(R.mipmap.ic_launcher)
         }
 
         holder.notification_parant.setOnClickListener {
-            if (notificationsArrayList.get(position).details.type.equals("course")) {
-                val intent = Intent(context, CourseDetails::class.java)
-                intent.putExtra("courseId", notificationsArrayList.get(position).details.course_id)
-                context.startActivity(intent)
-            } else if (notificationsArrayList.get(position).details.type.equals("consultant")) {
-                val intent = Intent(context, ConsultantDetails::class.java)
-                intent.putExtra("consultant_id", notificationsArrayList.get(position).details.consultant_id)
-                context.startActivity(intent)
-            } else {
-
+            notificationsArrayList.get(position).details?.let {
+                if (it.type.equals("course")) {
+                    val intent = Intent(context, CourseDetails::class.java)
+                    intent.putExtra("courseId", it.course_id)
+                    context.startActivity(intent)
+                } else if (it.type.equals("consultant")) {
+                    val intent = Intent(context, ConsultantDetails::class.java)
+                    intent.putExtra("consultant_id", it.consultant_id)
+                    intent.putExtra("category_id", "")
+                    context.startActivity(intent)
+                } else {
+                }
             }
         }
     }

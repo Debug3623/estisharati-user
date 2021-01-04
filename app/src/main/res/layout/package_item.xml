@@ -135,6 +135,7 @@
                     android:textColor="@color/black_light"
                     android:textSize="15sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/writtenLayout"
                 android:layout_width="match_parent"
@@ -161,6 +162,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/courseLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -205,100 +207,106 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/ic_tick_pack_green" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/almarai_regular"
-                    android:layout_marginLeft="20dp"
-                    android:text="Consultants in the  package"
-                    android:textColor="@color/black"
-                    android:textSize="15sp" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
+                android:id="@+id/consultantLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <digital.upbeat.estisharati_user.Utils.CircleImageView
-                    android:id="@+id/consultantImage1"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginRight="-25dp"
-                    android:src="@drawable/ic_temp_profile"
-                    app:civ_border_color="@color/white"
-                    app:civ_border_width="0.5dp" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                <digital.upbeat.estisharati_user.Utils.CircleImageView
-                    android:id="@+id/consultantImage2"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginRight="-25dp"
-                    android:src="@drawable/ic_temp_profile"
-                    app:civ_border_color="@color/white"
-                    app:civ_border_width="0.5dp" />
-
-                <digital.upbeat.estisharati_user.Utils.CircleImageView
-                    android:id="@+id/consultantImage3"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginRight="-25dp"
-                    android:src="@drawable/ic_temp_profile"
-                    app:civ_border_color="@color/white"
-
-                    app:civ_border_width="0.5dp" />
-
-                <digital.upbeat.estisharati_user.Utils.CircleImageView
-                    android:id="@+id/consultantImage4"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginRight="-25dp"
-                    android:src="@drawable/ic_temp_profile"
-                    app:civ_border_color="@color/white"
-                    app:civ_border_width="0.5dp" />
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/ic_tick_pack_green" />
 
 
-                <digital.upbeat.estisharati_user.Utils.CircleImageView
-                    android:id="@+id/consultantImage5"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginRight="-25dp"
-                    android:src="@drawable/ic_temp_profile"
-                    app:civ_border_color="@color/white"
-                    app:civ_border_width="0.5dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:fontFamily="@font/almarai_regular"
+                        android:text="Consultants in the  package"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
 
 
-                <TextView
-                    android:id="@+id/showConsultantsInThePackage"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:background="@drawable/round_light_green1"
-                    android:fontFamily="@font/almarai_regular"
-                    android:gravity="center"
-                    android:text="ALL"
-                    android:elevation="2dp"
-                    android:layout_marginRight="-25dp"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <digital.upbeat.estisharati_user.Utils.CircleImageView
+                        android:id="@+id/consultantImage1"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginRight="-25dp"
+                        android:src="@drawable/ic_temp_profile"
+                        app:civ_border_color="@color/white"
+                        app:civ_border_width="0.5dp" />
+
+                    <digital.upbeat.estisharati_user.Utils.CircleImageView
+                        android:id="@+id/consultantImage2"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginRight="-25dp"
+                        android:src="@drawable/ic_temp_profile"
+                        app:civ_border_color="@color/white"
+                        app:civ_border_width="0.5dp" />
+
+                    <digital.upbeat.estisharati_user.Utils.CircleImageView
+                        android:id="@+id/consultantImage3"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginRight="-25dp"
+                        android:src="@drawable/ic_temp_profile"
+                        app:civ_border_color="@color/white"
+
+                        app:civ_border_width="0.5dp" />
+
+                    <digital.upbeat.estisharati_user.Utils.CircleImageView
+                        android:id="@+id/consultantImage4"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginRight="-25dp"
+                        android:src="@drawable/ic_temp_profile"
+                        app:civ_border_color="@color/white"
+                        app:civ_border_width="0.5dp" />
+
+
+                    <digital.upbeat.estisharati_user.Utils.CircleImageView
+                        android:id="@+id/consultantImage5"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginRight="-25dp"
+                        android:src="@drawable/ic_temp_profile"
+                        app:civ_border_color="@color/white"
+                        app:civ_border_width="0.5dp" />
+
+
+                    <TextView
+                        android:id="@+id/showConsultantsInThePackage"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginRight="-25dp"
+                        android:background="@drawable/round_light_green1"
+                        android:elevation="2dp"
+                        android:fontFamily="@font/almarai_regular"
+                        android:gravity="center"
+                        android:text="ALL"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+                </LinearLayout>
             </LinearLayout>
-
 
         </LinearLayout>
 

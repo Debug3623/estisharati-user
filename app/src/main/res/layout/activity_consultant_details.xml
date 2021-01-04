@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/backgroud_image"
+                    android:id="@+id/backgroudImage"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:scaleType="centerCrop"
@@ -200,16 +200,18 @@
                             android:text="AUD 1.599"
                             android:textColor="@color/green"
                             android:textSize="14sp" />
+
                         <TextView
                             android:id="@+id/consultantOldPrice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
                             android:layout_below="@id/consultantPrice"
+                            android:layout_marginTop="5dp"
                             android:fontFamily="@font/almarai_regular"
                             android:text="AUD 1.599"
                             android:textColor="@color/gray"
                             android:textSize="14sp" />
+
                         <LinearLayout
                             android:id="@+id/offersEndDateLayout"
                             android:layout_width="wrap_content"
@@ -297,35 +299,62 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Sufyan Al-Nasr"
                         android:gravity="center"
+                        android:text="Sufyan Al-Nasr"
                         android:textColor="@color/black"
                         android:textSize="19sp" />
 
                     <TextView
                         android:id="@+id/consultantJobTitle"
                         android:layout_width="match_parent"
-                        android:gravity="center"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/almarai_regular"
+                        android:gravity="center"
                         android:text="Administrative Law Doctor"
                         android:textColor="@color/black_light"
                         android:textSize="14sp" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/consultantQualification"
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginRight="25dp"
-                    android:layout_marginBottom="25dp"
-                    android:fontFamily="@font/almarai_regular"
-                    android:text="He holds a PhD in Legal Affairs and Criminal Research
-from Oxford University Department of Law"
-                    android:textColor="@color/black_light1"
-                    android:textSize="14sp" />
+                    android:layout_margin="20dp"
+                    android:background="@drawable/corner_redius_10dp_white"
+                    android:elevation="4dp"
+                    android:orientation="vertical"
+                    android:padding="15dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/almarai_regular"
+                        android:text="Consultation description"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/consultantQualification"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/almarai_regular"
+                        android:maxLines="2"
+                        android:text="Learn about the tasks and functions of human tasks in the labor
+ market and keep pace with development Modern society"
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/showMore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/almarai_regular"
+                        android:text="Show more"
+                        android:textColor="@color/orange"
+                        android:textSize="13sp" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

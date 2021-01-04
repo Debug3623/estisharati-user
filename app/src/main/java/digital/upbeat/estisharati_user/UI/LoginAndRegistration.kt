@@ -244,9 +244,10 @@ class LoginAndRegistration : AppCompatActivity() {
                                 val intent = Intent(this@LoginAndRegistration, Verification::class.java)
                                 intent.putExtra("come_from", "Registration")
                                 intent.putExtra("phone", phone)
+                                intent.putExtra("email", email)
                                 intent.putExtra("password", passwrod)
                                 intent.putExtra("verified", "")
-                                startActivityForResult(intent, 123)
+                                startActivity(intent)
                             } else {
                                 val message = jsonObject.getString("message")
                                 val verified = jsonObject.optBoolean("verified", true)
@@ -254,10 +255,11 @@ class LoginAndRegistration : AppCompatActivity() {
                                     val intent = Intent(this@LoginAndRegistration, Verification::class.java)
                                     intent.putExtra("come_from", "Registration")
                                     intent.putExtra("phone", phone)
+                                    intent.putExtra("email", email)
                                     intent.putExtra("password", passwrod)
                                     intent.putExtra("verified", verified.toString())
 
-                                    startActivityForResult(intent, 123)
+                                    startActivity(intent)
                                 }
                                 helperMethods.showToastMessage(message)
                             }

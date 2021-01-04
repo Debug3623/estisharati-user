@@ -59,16 +59,14 @@ class Packages : AppCompatActivity() {
     fun clickEvents() {
         nav_back.setOnClickListener { finish() }
         choose_the_package.setOnClickListener {
-            if (packagesResponse.data.get(layoutManager.centerItemPosition).is_subscribed) {
-                helperMethods.showToastMessage("You already have this package !")
+            val packages = packagesResponse.data.get(layoutManager.centerItemPosition)
+            val vatAmount: Float = packages.price.toFloat() / 100.0f * 5
+            val priceIncludedVat = vatAmount + packages.price.toFloat()
+            GlobalData.packagesOptions = PackagesOptions(packages.id, packages.name, "subscription","",  packages.price, vatAmount.toString(), priceIncludedVat.toString(), "", "", "")
+            if (viaFrom.equals("Home")) {
+                startActivity(Intent(this@Packages, PackagesSelection::class.java))
             } else {
-                val packages = packagesResponse.data.get(layoutManager.centerItemPosition)
-                GlobalData.packagesOptions = PackagesOptions(packages.id, packages.name, "subscription", packages.price, "", "", "")
-                if (viaFrom.equals("Home")) {
-                    startActivity(Intent(this@Packages, PackagesSelection::class.java))
-                } else {
-                    finish()
-                }
+                finish()
             }
         }
     }

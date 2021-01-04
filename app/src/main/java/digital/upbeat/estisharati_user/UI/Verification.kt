@@ -35,6 +35,7 @@ class Verification : AppCompatActivity() {
     lateinit var preferencesHelper: SharedPreferencesHelper
     var come_from = ""
     var phone = ""
+    var email = ""
     var password = ""
     var verified = ""
     var resendTimer: CountDownTimer? = null
@@ -53,6 +54,7 @@ class Verification : AppCompatActivity() {
         if (intent.extras != null) {
             come_from = intent.getStringExtra("come_from")!!
             phone = intent.getStringExtra("phone")!!
+            email = intent.getStringExtra("email")!!
             if (come_from.equals("Registration")) {
                 password = intent.getStringExtra("password")!!
                 verified = intent.getStringExtra("verified")!!
@@ -206,7 +208,7 @@ class Verification : AppCompatActivity() {
                             if (status.equals("200")) {
                                 val message = jsonObject.getString("message")
                                 helperMethods.showToastMessage(message)
-                                logInApiCall(phone,password)
+                                logInApiCall(email,password)
                             } else {
                                 val message = jsonObject.getString("message")
                                 helperMethods.AlertPopup("Alert", message)
@@ -248,31 +250,6 @@ class Verification : AppCompatActivity() {
                             val status = jsonObject.getString("status")
                             if (status.equals("200")) {
                                 val userString = jsonObject.getString("user")
-//                                val userObject = JSONObject(userString)
-//                                val id = userObject.getString("id")
-//                                val fname = userObject.getString("fname")
-//                                val lname = userObject.getString("lname")
-//                                val email = userObject.getString("email")
-//                                val phone = userObject.getString("phone")
-//                                val image = userObject.getString("image")
-//                                val member_since = userObject.getString("member_since")
-//
-//                                val user_metasStr = userObject.getString("user_metas")
-//                                val userMetasObject = JSONObject(user_metasStr)
-//                                val city = userMetasObject.getString("city")
-//                                val phone_code = userMetasObject.getString("phone_code")
-//                                val country = userMetasObject.getString("country")
-//                                val fire_base_token = userMetasObject.getString("fire_base_token")
-//                                val user_metas = DataUserMetas(city, phone_code,country, fire_base_token)
-//                                val access_token = userObject.getString("access_token")
-//                                val expired_days = userObject.getString("expired_days")
-//
-//                                val subscription_str = userObject.getString("subscription")
-//                                val subscriptionObject = JSONObject(subscription_str)
-//                                val courses = subscriptionObject.getString("courses")
-//                                val consultations = subscriptionObject.getString("consultations")
-//                                val current_package = subscriptionObject.getString("package")
-//                                val subscription = DataSubscription(courses, consultations,current_package)
 
                                 val dataUser = Gson().fromJson(userString, DataUser::class.java)
                                 preferencesHelper.isUserLogIn = true

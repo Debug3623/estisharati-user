@@ -70,7 +70,7 @@ class MyPackages : AppCompatActivity() {
             emptyLayout.visibility = View.GONE
             myPackageRecycler.visibility = View.VISIBLE
         } else {
-            errorText.text="You did not purchase any packages till now !"
+            errorText.text = "You did not purchase any packages till now !"
             emptyLayout.visibility = View.VISIBLE
             myPackageRecycler.visibility = View.GONE
         }
@@ -87,7 +87,7 @@ class MyPackages : AppCompatActivity() {
                         try {
                             packagesResponse = Gson().fromJson(response.body()!!.string(), PackagesResponse::class.java)
                             if (packagesResponse.status.equals("200")) {
-                                InitializeRecyclerview()
+                             InitializeRecyclerview()
                             } else {
                                 val jsonObject = JSONObject(response.body()!!.string())
                                 val message = jsonObject.getString("message")

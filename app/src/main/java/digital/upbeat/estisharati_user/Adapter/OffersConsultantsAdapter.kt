@@ -31,10 +31,11 @@ class OffersConsultantsAdapter(val context: Context, val offers: Offers, val con
         holder.offersConsultantJobTitle.text = consultantsArrayList.get(position).consultant.job_title
         holder.offersConsultantEndDate.text = consultantsArrayList.get(position).enddate
         holder.offersOldConsultantPrice.text = consultantsArrayList.get(position).consultant.price
-        holder.offersOldConsultantPrice.setPaintFlags( holder.offersOldConsultantPrice.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
+        holder.offersOldConsultantPrice.setPaintFlags(holder.offersOldConsultantPrice.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
         holder.offersConsultantParentLayout.setOnClickListener {
             val intent = Intent(context, ConsultantDetails::class.java)
             intent.putExtra("consultant_id", consultantsArrayList.get(position).consultant.id)
+            intent.putExtra("category_id", "")
             context.startActivity(intent)
         }
     }

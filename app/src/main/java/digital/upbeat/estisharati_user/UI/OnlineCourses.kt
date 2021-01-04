@@ -3,6 +3,7 @@ package digital.upbeat.estisharati_user.UI
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -11,6 +12,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import digital.upbeat.estisharati_user.Adapter.OnlineCoursesAdapter
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
@@ -40,13 +42,19 @@ class OnlineCourses : AppCompatActivity() {
     var onlineCoursesArrayList: ArrayList<DataOnlineCourses> = arrayListOf()
     var categoriesArrayList: ArrayList<DataCategories> = arrayListOf()
     var sortingOptionsArraylist: ArrayList<String> = arrayListOf()
+    var layoutManager: LinearLayoutManager? = null
+    var onlineCoursesAdapter: OnlineCoursesAdapter? = null
+    var viewState: Parcelable? = null
+    var loading = false
+    var pageCount = 1
+    var totalRecords = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_online_courses)
         initViews()
         clickEvents()
         if (helperMethods.isConnectingToInternet) {
-            onlineCoursesApiCall("", "")
+            onlineCoursesApiCall("", "", pageCount.toString())
         } else {
             helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
         }
@@ -57,8 +65,9 @@ class OnlineCourses : AppCompatActivity() {
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
         sharedPreferencesHelper = SharedPreferencesHelper(this@OnlineCourses)
         dataUser = sharedPreferencesHelper.logInUser
-        notificationCount.text = GlobalData.homeResponse.notification_count
-
+        if (GlobalData.isThingInitialized()) {
+            notificationCount.text = GlobalData.homeResponse.notification_count
+        }
     }
 
     fun clickEvents() {
@@ -66,21 +75,55 @@ class OnlineCourses : AppCompatActivity() {
         notificationLayout.setOnClickListener {
             startActivity(Intent(this@OnlineCourses, Notifications::class.java))
         }
+
+        online_courses_recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    val visibleItemCount = layoutManager!!.getChildCount()
+                    val totalItemCount = layoutManager!!.getItemCount()
+                    val pastVisiblesItems = layoutManager!!.findFirstVisibleItemPosition()
+                    if (loading) {
+                        if (visibleItemCount + pastVisiblesItems >= totalItemCount) {
+                            if (totalItemCount != totalRecords) {
+                                if (pageCount > 1) {
+                                    circleProgress.visibility = View.VISIBLE
+                                }
+                                loading = false
+                                pageCount++
+                                onlineCoursesApiCall(categoriesArrayList.get(categories_spinner.selectedItemPosition).id, sortingOptionsArraylist.get(filter_spinner.selectedItemPosition), pageCount.toString())
+                            } else {
+                                loading = false
+                            }
+                        }
+                    }
+                }
+            }
+        })
     }
 
     fun initializeRecyclerview() {
+        onlineCoursesAdapter?.let {
+            online_courses_recycler.layoutManager?.let {
+                viewState = it.onSaveInstanceState()
+            }
+        }
         online_courses_recycler.setHasFixedSize(true)
         online_courses_recycler.removeAllViews()
-        online_courses_recycler.layoutManager = LinearLayoutManager(this@OnlineCourses)
-        online_courses_recycler.adapter = OnlineCoursesAdapter(this@OnlineCourses, this@OnlineCourses, onlineCoursesArrayList)
-
+        layoutManager = LinearLayoutManager(this@OnlineCourses)
+        online_courses_recycler.layoutManager = layoutManager
+        onlineCoursesAdapter = OnlineCoursesAdapter(this@OnlineCourses, this@OnlineCourses, onlineCoursesArrayList)
+        online_courses_recycler.adapter = onlineCoursesAdapter
+        viewState?.let {
+            online_courses_recycler.layoutManager?.onRestoreInstanceState(viewState)
+        }
         if (onlineCoursesArrayList.size > 0) {
             onlineCoursesLayout.visibility = View.VISIBLE
             emptyLayout.visibility = View.GONE
         } else {
             emptyLayout.visibility = View.VISIBLE
             onlineCoursesLayout.visibility = View.GONE
-            errorText.text="There is no online courses found !"
+            errorText.text = "There is no online courses found !"
         }
     }
 
@@ -100,10 +143,12 @@ class OnlineCourses : AppCompatActivity() {
         v2.setTextColor(ContextCompat.getColor(this@OnlineCourses, R.color.white))
         categories_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                onlineCoursesArrayList.clear()
+                pageCount = 1
                 (view as TextView).textSize = 13f
                 view.typeface = typeface
                 view.setTextColor(ContextCompat.getColor(this@OnlineCourses, R.color.white))
-                onlineCoursesApiCall(categoriesArrayList.get(categories_spinner.selectedItemPosition).id, sortingOptionsArraylist.get(filter_spinner.selectedItemPosition))
+                onlineCoursesApiCall(categoriesArrayList.get(categories_spinner.selectedItemPosition).id, sortingOptionsArraylist.get(filter_spinner.selectedItemPosition), pageCount.toString())
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -123,10 +168,12 @@ class OnlineCourses : AppCompatActivity() {
         v2.setTextColor(ContextCompat.getColor(this@OnlineCourses, R.color.white))
         filter_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                onlineCoursesArrayList.clear()
+                pageCount = 1
                 (view as TextView).textSize = 13f
                 view.typeface = typeface
                 view.setTextColor(ContextCompat.getColor(this@OnlineCourses, R.color.white))
-                onlineCoursesApiCall(categoriesArrayList.get(categories_spinner.selectedItemPosition).id, sortingOptionsArraylist.get(filter_spinner.selectedItemPosition))
+                onlineCoursesApiCall(categoriesArrayList.get(categories_spinner.selectedItemPosition).id, sortingOptionsArraylist.get(filter_spinner.selectedItemPosition), pageCount.toString())
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -134,12 +181,17 @@ class OnlineCourses : AppCompatActivity() {
         }
     }
 
-    fun onlineCoursesApiCall(category_id: String, sortby: String) {
-        helperMethods.showProgressDialog("Please wait while loading...")
-        val responseBodyCall = retrofitInterface.COURSES_API_CALL("Bearer ${dataUser.access_token}", category_id, sortby)
+    fun onlineCoursesApiCall(category_id: String, sortby: String, page: String) {
+        Log.d("pageCount", page);
+        if (pageCount == 1) {
+            helperMethods.showProgressDialog("Please wait while loading...")
+        }
+        val responseBodyCall = retrofitInterface.COURSES_API_CALL("Bearer ${dataUser.access_token}", category_id, sortby, page)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()
+                loading = true
+                circleProgress.visibility = View.GONE
 
                 if (response.isSuccessful) {
                     if (response.body() != null) {
@@ -149,7 +201,9 @@ class OnlineCourses : AppCompatActivity() {
                             if (status.equals("200")) {
                                 val dataString = jsonObject.getString("data")
                                 val onlineCoursesResponse = Gson().fromJson(dataString, OnlineCoursesResponse::class.java)
-                                onlineCoursesArrayList = onlineCoursesResponse.courses
+                                totalRecords = onlineCoursesResponse.total_records
+                                onlineCoursesArrayList.addAll(onlineCoursesResponse.courses)
+
                                 if (categoriesArrayList.isEmpty()) {
                                     categoriesArrayList = onlineCoursesResponse.categories
                                     initializeCategorySpinner()
@@ -180,6 +234,8 @@ class OnlineCourses : AppCompatActivity() {
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
+                loading = true
+                circleProgress.visibility = View.GONE
                 t.printStackTrace()
                 helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
             }

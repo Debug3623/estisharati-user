@@ -67,7 +67,9 @@ class Offers : AppCompatActivity() {
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
         sharedPreferencesHelper = SharedPreferencesHelper(this@Offers)
         dataUser = sharedPreferencesHelper.logInUser
-        notificationCount.text = GlobalData.homeResponse.notification_count
+        if (GlobalData.isThingInitialized()) {
+            notificationCount.text = GlobalData.homeResponse.notification_count
+        }
         if (helperMethods.isConnectingToInternet) {
             OffersListApiCall()
         } else {

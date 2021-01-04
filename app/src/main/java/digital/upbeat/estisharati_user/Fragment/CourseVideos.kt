@@ -15,6 +15,8 @@ import digital.upbeat.estisharati_user.R
 import digital.upbeat.estisharati_user.UI.CourseResource
 import kotlinx.android.synthetic.main.activity_chat_page.*
 import kotlinx.android.synthetic.main.fragment_course_content.*
+import kotlinx.android.synthetic.main.fragment_course_content.courseVideoRecycler
+import kotlinx.android.synthetic.main.fragment_course_videos.*
 
 class CourseVideos(val courseResource: CourseResource) : Fragment() {
     private var courseChapterAdapter: CourseChapterAdapter? = null
@@ -54,6 +56,14 @@ class CourseVideos(val courseResource: CourseResource) : Fragment() {
         courseVideoRecycler.adapter = courseChapterAdapter
         recyclerViewState?.let {
             courseVideoRecycler.layoutManager?.onRestoreInstanceState(recyclerViewState)
+        }
+
+        if (courseResource.startCourseResponse.data.videos.size > 0) {
+            courseVideoRecycler.visibility = View.VISIBLE
+            emptyLayout.visibility = View.GONE
+        } else {
+            courseVideoRecycler.visibility = View.GONE
+            emptyLayout.visibility = View.VISIBLE
         }
     }
 }

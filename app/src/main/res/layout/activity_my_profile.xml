@@ -233,11 +233,11 @@
                                 android:id="@+id/current_package"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="13dp"
+                                android:layout_marginTop="10dp"
                                 android:fontFamily="@font/almarai_regular"
-                                android:text="Basic"
+                                android:text="3"
                                 android:textColor="@color/black"
-                                android:textSize="16sp" />
+                                android:textSize="20sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"

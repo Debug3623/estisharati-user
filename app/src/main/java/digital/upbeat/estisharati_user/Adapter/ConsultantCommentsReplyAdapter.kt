@@ -46,6 +46,7 @@ class ConsultantCommentsReplyAdapter(val context: Context, val comments: Comment
             holder.cmdReplyCount.text = courseCommentsArrayList.get(position).replies.size.toString() + " " + "Reply"
             holder.cmdMessage.text = courseCommentsArrayList.get(position).comment
             holder.consultant_comments_reply_sub_recycler.adapter = ConsultantCommentsReplySubAdapter(context, comments, consultantDetails, courseCommentsArrayList.get(position).replies, arrayListOf())
+            holder.cmdMessage.setOnClickListener { comments.helperMethods.AlertPopup(courseCommentsArrayList.get(position).user.name, courseCommentsArrayList.get(position).comment) }
         } else if (consultantDetails != null) {
             Glide.with(context).load(SharedPreferencesHelper(context).logInUser.image).apply(HelperMethods(context).profileRequestOption).into(holder.userImage)
             Glide.with(context).load(consultantCommentsArrayList.get(position).user.image_path).apply(HelperMethods(context).profileRequestOption).into(holder.cmdUserImage)
@@ -55,6 +56,8 @@ class ConsultantCommentsReplyAdapter(val context: Context, val comments: Comment
             holder.cmdReplyCount.text = consultantCommentsArrayList.get(position).replies.size.toString() + " " + "Reply"
             holder.cmdMessage.text = consultantCommentsArrayList.get(position).comment
             holder.consultant_comments_reply_sub_recycler.adapter = ConsultantCommentsReplySubAdapter(context, comments, consultantDetails, arrayListOf(), consultantCommentsArrayList.get(position).replies)
+            holder.cmdMessage.setOnClickListener { consultantDetails.helperMethods.AlertPopup(consultantCommentsArrayList.get(position).user.name, consultantCommentsArrayList.get(position).comment) }
+
         }
 
 

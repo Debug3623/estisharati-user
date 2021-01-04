@@ -57,12 +57,14 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
     var incomingCallListener: ListenerRegistration? = null
     var runnable: Runnable = object : Runnable {
         override fun run() {
-            if (count == homePagerAdapter!!.count - 1) {
-                count = 0
-            } else {
-                count++
+            homePagerAdapter?.let {
+                if (count == it.count - 1) {
+                    count = 0
+                } else {
+                    count++
+                }
+                viewpager.setCurrentItem(count, true)
             }
-            viewpager.setCurrentItem(count, true)
             handler.postDelayed(this, delay.toLong())
         }
     }
@@ -110,7 +112,6 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
         exp_courses_all.setOnClickListener {
             startActivity(Intent(requireContext(), OnlineCourses::class.java))
         }
-
     }
 
     private fun ShowViewPager() {

@@ -35,9 +35,21 @@ class Consultations : Fragment() {
 
     fun clickEvents() {}
     fun InitializeRecyclerview() {
-        consultations_recycler.setHasFixedSize(true)
-        consultations_recycler.removeAllViews()
-        consultations_recycler.layoutManager = LinearLayoutManager(requireContext())
-        consultations_recycler.adapter = ConsultationsAdapter(requireContext(), this@Consultations, GlobalData.homeResponse.categories)
+        if (GlobalData.isThingInitialized()) {
+            consultations_recycler.setHasFixedSize(true)
+            consultations_recycler.removeAllViews()
+            consultations_recycler.layoutManager = LinearLayoutManager(requireContext())
+            consultations_recycler.adapter = ConsultationsAdapter(requireContext(), this@Consultations, GlobalData.homeResponse.categories)
+            if (GlobalData.homeResponse.categories.size > 0) {
+                consultations_recycler.visibility = View.VISIBLE
+                emptyLayout.visibility = View.GONE
+            } else {
+                consultations_recycler.visibility = View.GONE
+                emptyLayout.visibility = View.VISIBLE
+            }
+        } else {
+            consultations_recycler.visibility = View.GONE
+            emptyLayout.visibility = View.VISIBLE
+        }
     }
 }

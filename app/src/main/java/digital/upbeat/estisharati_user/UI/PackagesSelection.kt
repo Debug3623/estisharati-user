@@ -13,7 +13,8 @@ import com.google.gson.Gson
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
 import digital.upbeat.estisharati_user.DataClassHelper.DataUser
-import digital.upbeat.estisharati_user.DataClassHelper.PaymentType.PTResponse
+import digital.upbeat.estisharati_user.DataClassHelper.MyCourse.MyCourseResponse
+import digital.upbeat.estisharati_user.DataClassHelper.Subscription.SubscriptionResponse
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
@@ -29,6 +30,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
+import java.util.*
 
 class PackagesSelection : AppCompatActivity() {
     lateinit var helperMethods: HelperMethods
@@ -51,9 +53,11 @@ class PackagesSelection : AppCompatActivity() {
 
     fun clickEvents() {
         nav_back.setOnClickListener { finish() }
-        change_packages.setOnClickListener {   val intent = Intent(this@PackagesSelection, Packages::class.java)
+        change_packages.setOnClickListener {
+            val intent = Intent(this@PackagesSelection, Packages::class.java)
             intent.putExtra("viaFrom", "packagesSelection")
-            startActivity(intent) }
+            startActivity(intent)
+        }
         proceed.setOnClickListener {
             if (helperMethods.isConnectingToInternet) {
                 subscriptionApiCall()
@@ -73,8 +77,10 @@ class PackagesSelection : AppCompatActivity() {
 
     fun setChoosenDetails() {
         chooseName.text = GlobalData.packagesOptions.name
-        choosePrice.text = GlobalData.packagesOptions.price
+        choosePrice.text = GlobalData.packagesOptions.transaction_amount
+        originalPrice.text = resources.getString(R.string.aed) + " " + GlobalData.packagesOptions.originalPrice
         chooseDiscount.text = "- " + resources.getString(R.string.aed) + " " + GlobalData.packagesOptions.discount
+        vatAmount.text = "${resources.getString(R.string.aed)} ${GlobalData.packagesOptions.vat_amount}  (VAT 5%)"
         if (GlobalData.packagesOptions.discount.equals("")) {
             chooseDiscount.visibility = View.GONE
         } else {
@@ -88,7 +94,7 @@ class PackagesSelection : AppCompatActivity() {
                 "Consultation"
             }
             "subscription" -> {
-                "Packages"
+                "Package"
             }
             else -> ""
         }
@@ -134,10 +140,15 @@ class PackagesSelection : AppCompatActivity() {
                             if (status.equals("200")) {
                                 val data = jsonObject.getString("data")
                                 val dataObject = JSONObject(data)
+                                val vatAmount: Float = dataObject.getString("offerprice").toFloat() / 100.0f * 5
+                                val priceIncludedVat = vatAmount + dataObject.getString("offerprice").toFloat()
+
+
                                 GlobalData.packagesOptions.coupon_id = dataObject.getString("coupon_id")
                                 GlobalData.packagesOptions.coupon_code = code
-                                GlobalData.packagesOptions.price = dataObject.getString("offerprice")
                                 GlobalData.packagesOptions.discount = dataObject.getString("discount")
+                                GlobalData.packagesOptions.transaction_amount = priceIncludedVat.toString()
+                                GlobalData.packagesOptions.vat_amount = vatAmount.toString()
                                 helperMethods.showToastMessage("Coupon added successfully !")
                                 setChoosenDetails()
                             } else {
@@ -186,7 +197,7 @@ class PackagesSelection : AppCompatActivity() {
             else -> {
             }
         }
-        val responseBodyCall = retrofitInterface.USER_SUBSCRIPTION_API_CALL("Bearer ${dataUser.access_token}", GlobalData.packagesOptions.type, subscription_id, course_id, consultant_id, GlobalData.packagesOptions.price, "1", "1234_123123_1234", GlobalData.packagesOptions.coupon_id, GlobalData.packagesOptions.coupon_code, GlobalData.packagesOptions.discount)
+        val responseBodyCall = retrofitInterface.USER_SUBSCRIPTION_API_CALL("Bearer ${dataUser.access_token}", GlobalData.packagesOptions.type, GlobalData.packagesOptions.category_id, subscription_id, course_id, consultant_id, GlobalData.packagesOptions.transaction_amount, GlobalData.packagesOptions.vat_amount,"1", UUID.randomUUID().toString(), GlobalData.packagesOptions.coupon_id, GlobalData.packagesOptions.coupon_code, GlobalData.packagesOptions.discount)
 
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -194,14 +205,17 @@ class PackagesSelection : AppCompatActivity() {
                 if (response.isSuccessful) {
                     if (response.body() != null) {
                         try {
-                            val jsonObject = JSONObject(response.body()!!.string())
-                            val status = jsonObject.getString("status")
-                            val message = jsonObject.getString("message")
-                            if (status.equals("200")) {
-                                helperMethods.showToastMessage(message)
+                            val subscriptionResponse: SubscriptionResponse = Gson().fromJson(response.body()!!.string(), SubscriptionResponse::class.java)
+
+                            if (subscriptionResponse.status.equals("200")) {
+                                helperMethods.showToastMessage(subscriptionResponse.message)
+                                dataUser.subscription.consultations = subscriptionResponse.data.consultations
+                                dataUser.subscription.courses = subscriptionResponse.data.courses
+                                dataUser.subscription.package_count = subscriptionResponse.data.package_count
+                                sharedPreferencesHelper.logInUser = dataUser
                                 startActivity(Intent(this@PackagesSelection, ThanksPage::class.java))
                             } else {
-                                helperMethods.AlertPopup("Alert", message)
+                                helperMethods.AlertPopup("Alert", subscriptionResponse.message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))

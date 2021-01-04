@@ -20,12 +20,28 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".UI.MyPackages"></activity>
-        <activity android:name=".UI.Search" />
-        <activity android:name=".UI.FAQ" />
-        <activity android:name=".UI.Offers" />
-        <activity android:name=".UI.Favorites" />
-        <activity android:name=".UI.WebView" />
+        <activity
+            android:theme="@style/AppTheme.FullScreenAppTheme"
+            android:name=".UI.VideoFullScreen"
+            android:screenOrientation="landscape"/>
+        <activity
+            android:name=".UI.MyPackages"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.Search"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.FAQ"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.Offers"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.Favorites"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.WebView"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UI.NotificationDetails"
             android:screenOrientation="portrait" />

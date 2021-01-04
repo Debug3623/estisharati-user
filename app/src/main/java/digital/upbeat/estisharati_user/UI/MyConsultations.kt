@@ -111,7 +111,7 @@ class MyConsultations : AppCompatActivity() {
             }
             dialog.dismiss()
 
-            mainCommentApiCall(ConsultationItem.consultant_id, rating_bar.rating.toInt().toString(), comments.text.toString())
+            mainCommentApiCall(ConsultationItem.consultant_id, ConsultationItem.category_id, rating_bar.rating.toInt().toString(), comments.text.toString())
         }
     }
 
@@ -138,9 +138,9 @@ class MyConsultations : AppCompatActivity() {
         }
     }
 
-    fun mainCommentApiCall(consultantId: String, rate: String, comment: String) {
+    fun mainCommentApiCall(consultantId: String, category_id: String, rate: String, comment: String) {
         helperMethods.showProgressDialog("Please wait while loading...")
-        val responseBodyCall = retrofitInterface.MAIN_CONSULTANT_COMMENT_API_CALL("Bearer ${dataUser.access_token}", consultantId, rate, comment)
+        val responseBodyCall = retrofitInterface.MAIN_CONSULTANT_COMMENT_API_CALL("Bearer ${dataUser.access_token}", consultantId, category_id, rate, comment)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()

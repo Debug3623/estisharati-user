@@ -1,7 +1,9 @@
 package digital.upbeat.estisharati_user.Helper
 
+import com.google.android.exoplayer2.MediaItem
 import digital.upbeat.estisharati_user.DataClassHelper.Home.HomeResponse
 import digital.upbeat.estisharati_user.DataClassHelper.PackagesOptions.PackagesOptions
+import digital.upbeat.estisharati_user.DataClassHelper.StartCourse.Lesson
 import org.intellij.lang.annotations.Language
 
 object GlobalData {
@@ -15,5 +17,10 @@ object GlobalData {
     var forwardContent = ""
     lateinit var homeResponse: HomeResponse
     fun isThingInitialized() = ::homeResponse.isInitialized
-    var packagesOptions = PackagesOptions("", "","", "", "", "", "")
+    var packagesOptions = PackagesOptions("", "", "", "", "", "", "", "", "", "")
+    var FullScreen = false
+    val mediaItemArrayList: ArrayList<MediaItem> = arrayListOf()
+    val lessonArrayList: ArrayList<Lesson> = arrayListOf()
+    var lessonsPlayingPosition = 0
+    var lessonsPlayingDuration: Long = 0
 }

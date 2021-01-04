@@ -6,19 +6,39 @@
     android:background="@color/white"
     tools:context=".Fragment.Consultations">
 
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/consultations_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:scrollbars="none"
+        tools:itemCount="0"
+        tools:listitem="@layout/consultations_item" />
+
     <LinearLayout
+        android:id="@+id/emptyLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/consultations_recycler"
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_seminar" />
+
+        <TextView
+            android:id="@+id/errorText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:scrollbars="none"
-            tools:itemCount="10"
-            tools:listitem="@layout/consultations_item" />
+            android:fontFamily="@font/almarai_bold"
+            android:gravity="center"
+            android:text="There is no consultation available !"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
     </LinearLayout>
 

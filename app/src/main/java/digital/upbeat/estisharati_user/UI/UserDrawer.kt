@@ -187,7 +187,7 @@ class UserDrawer : AppCompatActivity() {
     fun setUserDetails() {
         user_name.text = "${dataUser.fname} ${dataUser.lname}"
         Glide.with(this@UserDrawer).load(dataUser.image).apply(helperMethods.profileRequestOption).into(user_image)
-        package_name.text = "${dataUser.subscription.package_count} Package"
+        package_name.text = "${dataUser.subscription.package_count}   Package"
     }
 
     fun LogOutPopup(titleStr: String, messageStr: String) {

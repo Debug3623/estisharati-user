@@ -107,7 +107,7 @@ class RecentChatAdapter(val context: Context, val chatHome: ChatHome, val dataUs
 
         holder.last_message.text = dataUserMessageFireStore.messagesArrayList.get(dataUserMessageFireStore.messagesArrayList.lastIndex).message_content
         holder.user_name.text = "${dataUserMessageFireStore.dataUserFireStore.fname} ${dataUserMessageFireStore.dataUserFireStore.lname}"
-        holder.last_message_time.text = helperMethods.getFormattedDate(dataUserMessageFireStore.messagesArrayList.get(dataUserMessageFireStore.messagesArrayList.lastIndex).send_time)
+        holder.last_message_time.text = helperMethods.getFormattedDateShort(dataUserMessageFireStore.messagesArrayList.get(dataUserMessageFireStore.messagesArrayList.lastIndex).send_time)
 
         if (dataUserMessageFireStore.dataUserFireStore.user_type.equals("user")) {
             holder.nectie.visibility = View.GONE

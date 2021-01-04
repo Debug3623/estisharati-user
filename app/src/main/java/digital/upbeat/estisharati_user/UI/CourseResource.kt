@@ -1,7 +1,9 @@
 package digital.upbeat.estisharati_user.UI
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.*
@@ -37,18 +39,30 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 
-class CourseResource : AppCompatActivity() {
+class CourseResource() : AppCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var preferencesHelper: SharedPreferencesHelper
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var dataUser: DataUser
-    lateinit var simpleExoPlayer: SimpleExoPlayer
     lateinit var startCourseResponse: StartCourseResponse
-    var lessonsPlayingPosition = 0
-    lateinit var lessonsPlaying: ImageView
-    val mediaItemArrayList: ArrayList<MediaItem> = arrayListOf();
-    val lessonArrayList: ArrayList<Lesson> = arrayListOf();
+    lateinit var simpleExoPlayer: SimpleExoPlayer
     lateinit var courseVideo: CourseVideos
+    var handler: Handler = Handler()
+    var runnable: Runnable = object : Runnable {
+        override fun run() {
+            GlobalData.lessonsPlayingDuration = simpleExoPlayer.currentPosition
+            val percentage = (GlobalData.lessonsPlayingDuration * 100) / simpleExoPlayer.duration
+            Log.d("playerChange", "    " + GlobalData.lessonsPlayingDuration + "    " + percentage)
+            if (percentage > 75) {
+                if (!GlobalData.lessonArrayList.get(GlobalData.lessonsPlayingPosition).watched) {
+                    GlobalData.lessonArrayList.get(GlobalData.lessonsPlayingPosition).watched = true
+                    lessonCompletedApiCall(GlobalData.lessonArrayList.get(GlobalData.lessonsPlayingPosition).course_id, GlobalData.lessonArrayList.get(GlobalData.lessonsPlayingPosition).chapter_id, GlobalData.lessonArrayList.get(GlobalData.lessonsPlayingPosition).id)
+                }
+            }
+            handler.postDelayed(this, 1000)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_course_resource)
@@ -71,35 +85,31 @@ class CourseResource : AppCompatActivity() {
 
     fun clickEvents() {
         nav_back.setOnClickListener { finish() }
+        fullScreen.setOnClickListener {
+            GlobalData.FullScreen = true
+            startActivity(Intent(this@CourseResource, VideoFullScreen::class.java))
+        }
     }
 
     fun setUpPlayer() {
         for (videoIndex in startCourseResponse.data.videos.indices) {
             for (index in startCourseResponse.data.videos.get(videoIndex).lessons.indices) {
                 val mediaItem: MediaItem = MediaItem.fromUri(Uri.parse(startCourseResponse.data.videos.get(videoIndex).lessons.get(index).lesson_file))
-                mediaItemArrayList.add(mediaItem)
-                lessonArrayList.add(startCourseResponse.data.videos.get(videoIndex).lessons.get(index))
-                startCourseResponse.data.videos.get(videoIndex).lessons.get(index).position = mediaItemArrayList.lastIndex
+                GlobalData.mediaItemArrayList.add(mediaItem)
+                GlobalData.lessonArrayList.add(startCourseResponse.data.videos.get(videoIndex).lessons.get(index))
+                startCourseResponse.data.videos.get(videoIndex).lessons.get(index).position = GlobalData.mediaItemArrayList.lastIndex
             }
         }
-        if (!lessonArrayList.get(0).watched) {
-            lessonArrayList.get(0).watched = true
-            lessonCompletedApiCall(lessonArrayList.get(0).course_id, lessonArrayList.get(0).chapter_id, lessonArrayList.get(0).id)
-        }
+
         exoPlayer.setPlayer(simpleExoPlayer)
-        simpleExoPlayer.setMediaItems(mediaItemArrayList)
+        simpleExoPlayer.setMediaItems(GlobalData.mediaItemArrayList)
         simpleExoPlayer.prepare()
         simpleExoPlayer.play()
-        simpleExoPlayer.currentWindowIndex
         simpleExoPlayer.addListener(object : Player.EventListener {
             override fun onTimelineChanged(timeline: Timeline, manifest: Any?, reason: Int) {}
             override fun onTracksChanged(trackGroups: TrackGroupArray, trackSelections: TrackSelectionArray) {
-                lessonsPlayingPosition = simpleExoPlayer.currentWindowIndex
+                GlobalData.lessonsPlayingPosition = simpleExoPlayer.currentWindowIndex
                 courseVideo.InitializeRecyclerview()
-                if (!lessonArrayList.get(lessonsPlayingPosition).watched) {
-                    lessonArrayList.get(lessonsPlayingPosition).watched = true
-                    lessonCompletedApiCall(lessonArrayList.get(lessonsPlayingPosition).course_id, lessonArrayList.get(lessonsPlayingPosition).chapter_id, lessonArrayList.get(lessonsPlayingPosition).id)
-                }
             }
 
             override fun onLoadingChanged(isLoading: Boolean) {}
@@ -120,7 +130,11 @@ class CourseResource : AppCompatActivity() {
 
             override fun onRepeatModeChanged(repeatMode: Int) {}
             override fun onShuffleModeEnabledChanged(shuffleModeEnabled: Boolean) {}
-            override fun onPlayerError(error: ExoPlaybackException) {}
+            override fun onPlayerError(error: ExoPlaybackException) {
+                error.printStackTrace()
+                helperMethods.showToastMessage("Oops. This mobile not capable for playing this video !")
+            }
+
             override fun onPositionDiscontinuity(reason: Int) {}
             override fun onPlaybackParametersChanged(playbackParameters: PlaybackParameters) {}
             override fun onSeekProcessed() {
@@ -130,16 +144,14 @@ class CourseResource : AppCompatActivity() {
 
     fun changePlayerPosition(position: Int) {
         simpleExoPlayer.seekTo(position, C.TIME_UNSET)
-        if (!lessonArrayList.get(position).watched) {
-            lessonArrayList.get(position).watched = true
-            lessonCompletedApiCall(lessonArrayList.get(position).course_id, lessonArrayList.get(position).chapter_id, lessonArrayList.get(position).id)
-        }
     }
 
     fun tapInitialize() {
         if (startCourseResponse.data.videos.size > 0) {
+            GlobalData.lessonsPlayingPosition = 0
+            GlobalData.mediaItemArrayList.clear()
+            GlobalData.lessonArrayList.clear()
             setUpPlayer()
-            lessonsPlayingPosition = 0
         }
         val tabOne = layoutInflater.inflate(R.layout.tap_item, null) as View
         val tabTwo = layoutInflater.inflate(R.layout.tap_item, null) as View
@@ -161,10 +173,19 @@ class CourseResource : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        if (GlobalData.FullScreen) {
+            GlobalData.FullScreen = false
+            simpleExoPlayer.seekTo(GlobalData.lessonsPlayingPosition, GlobalData.lessonsPlayingDuration)
+            simpleExoPlayer.prepare()
+            simpleExoPlayer.play()
+        }
+        handler.postDelayed(runnable, 1000)
     }
 
     override fun onStop() {
         simpleExoPlayer.stop()
+        handler.removeCallbacks(runnable)
+
         super.onStop()
     }
 
@@ -175,11 +196,11 @@ class CourseResource : AppCompatActivity() {
     }
 
     fun lessonCompletedApiCall(course_id: String, resource_id: String, lesson_id: String) {
-        helperMethods.showProgressDialog("Please wait while loading...")
+//        helperMethods.showProgressDialog("Please wait while loading...")
         val responseBodyCall = retrofitInterface.LESSON_COMPLETED_API_CALL("Bearer ${dataUser.access_token}", course_id, resource_id, lesson_id)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                helperMethods.dismissProgressDialog()
+//                helperMethods.dismissProgressDialog()
                 if (response.isSuccessful) {
                     if (response.body() != null) {
                         try {
@@ -208,7 +229,7 @@ class CourseResource : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                helperMethods.dismissProgressDialog()
+//                helperMethods.dismissProgressDialog()
                 t.printStackTrace()
                 helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
             }

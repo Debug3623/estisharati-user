@@ -56,7 +56,9 @@ class Favorites : AppCompatActivity() {
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
         sharedPreferencesHelper = SharedPreferencesHelper(this@Favorites)
         dataUser = sharedPreferencesHelper.logInUser
-        notificationCount.text = GlobalData.homeResponse.notification_count
+        if (GlobalData.isThingInitialized()) {
+            notificationCount.text = GlobalData.homeResponse.notification_count
+        }
     }
 
     fun clickEvents() {

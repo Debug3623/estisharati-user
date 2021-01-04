@@ -62,7 +62,7 @@ interface RetrofitInterface {
     fun upload_chatting_image_API_CALL(@Header("Authorization") token: String, @Part profile_picture: MultipartBody.Part): Call<ResponseBody>
 
     @GET("courses")
-    fun COURSES_API_CALL(@Header("Authorization") token: String, @Query("category_id") category_id: String, @Query("sortby") sortby: String): Call<ResponseBody>
+    fun COURSES_API_CALL(@Header("Authorization") token: String, @Query("category_id") category_id: String, @Query("sortby") sortby: String, @Query("page") page: String): Call<ResponseBody>
 
     @GET("courses/{courseId}")
     fun COURSES_DETAILS_API_CALL(@Header("Authorization") token: String, @Path("courseId") courseId: String): Call<ResponseBody>
@@ -124,7 +124,7 @@ interface RetrofitInterface {
 
     @FormUrlEncoded
     @POST("consultant/comment")
-    fun MAIN_CONSULTANT_COMMENT_API_CALL(@Header("Authorization") token: String, @Field("consultant_id") consultant_id: String, @Field("rate") rate: String, @Field("comment") comment: String): Call<ResponseBody>
+    fun MAIN_CONSULTANT_COMMENT_API_CALL(@Header("Authorization") token: String, @Field("consultant_id") consultant_id: String, @Field("category_id") category_id: String, @Field("rate") rate: String, @Field("comment") comment: String): Call<ResponseBody>
 
     @GET("notifications")
     fun NOTIFICATION_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
@@ -147,7 +147,7 @@ interface RetrofitInterface {
 
     @FormUrlEncoded
     @POST("user_subscription")
-    fun USER_SUBSCRIPTION_API_CALL(@Header("Authorization") token: String, @Field("type") type: String, @Field("subscription_id") subscription_id: String, @Field("course_id") course_id: String, @Field("consultant_id") consultant_id: String,@Field("amount") amount: String, @Field("payment_method") payment_method: String, @Field("payment_reference_no") payment_reference_no: String, @Field("coupon_id") coupon_id: String, @Field("coupon_code") coupon_code: String, @Field("discount") discount: String): Call<ResponseBody>
+    fun USER_SUBSCRIPTION_API_CALL(@Header("Authorization") token: String, @Field("type") type: String, @Field("category_id") category_id  : String, @Field("subscription_id") subscription_id: String, @Field("course_id") course_id: String, @Field("consultant_id") consultant_id: String,@Field("amount") amount: String, @Field("vat") vat: String, @Field("payment_method") payment_method: String, @Field("payment_reference_no") payment_reference_no: String, @Field("coupon_id") coupon_id: String, @Field("coupon_code") coupon_code: String, @Field("discount") discount: String): Call<ResponseBody>
 
 
     @GET("my-consultants")

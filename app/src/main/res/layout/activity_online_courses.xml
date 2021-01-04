@@ -120,22 +120,38 @@
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/onlineCoursesLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible">
 
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/online_courses_recycler"
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbars="none"
-                tools:itemCount="10"
-                tools:listitem="@layout/online_courses_item" />
-        </LinearLayout>
+                android:layout_above="@id/circleProgress">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/online_courses_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none"
+                    tools:itemCount="0"
+                    tools:listitem="@layout/online_courses_item" />
+            </ScrollView>
+
+            <ProgressBar
+                android:id="@+id/circleProgress"
+                style="?android:attr/spinnerItemStyle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:indeterminate="false"
+                android:indeterminateDrawable="@drawable/custom_progress_color"
+                android:visibility="gone" />
+        </RelativeLayout>
 
 
     </LinearLayout>

@@ -63,6 +63,7 @@ class ConsultationDetailsVideo : AppCompatActivity() {
         consultantImage.setOnClickListener {
             val intent = Intent(this@ConsultationDetailsVideo, ConsultantDetails::class.java)
             intent.putExtra("consultant_id", myConsultation.consultant_id)
+            intent.putExtra("category_id", "")
             startActivity(intent)
         }
     }
@@ -91,7 +92,7 @@ class ConsultationDetailsVideo : AppCompatActivity() {
 
     fun setUpPlayer() {
         simpleExoPlayer = SimpleExoPlayer.Builder(this@ConsultationDetailsVideo).build()
-        val uri = Uri.parse("https://assets.mixkit.co/videos/preview/mixkit-a-man-doing-jumping-tricks-at-the-beach-1222-large.mp4")
+        val uri = Uri.parse(myConsultation.preview_video)
         val mediaItem: MediaItem = MediaItem.fromUri(uri)
         exoPlayer.setPlayer(simpleExoPlayer)
         simpleExoPlayer.setMediaItem(mediaItem)
@@ -104,106 +105,4 @@ class ConsultationDetailsVideo : AppCompatActivity() {
         simpleExoPlayer.release()
         super.onStop()
     }
-
-
-    fun showRatingPopup(consultantId: String) {
-        val LayoutView = LayoutInflater.from(this@ConsultationDetailsVideo).inflate(R.layout.rating_popup, null)
-        val aleatdialog = android.app.AlertDialog.Builder(this@ConsultationDetailsVideo)
-        aleatdialog.setView(LayoutView)
-        aleatdialog.setCancelable(false)
-        val dialog = aleatdialog.create()
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.show()
-        val rating_bar = LayoutView.findViewById(R.id.rating_bar) as RatingBar
-        val rating_based_cmd = LayoutView.findViewById(R.id.rating_based_cmd) as TextView
-        val comments = LayoutView.findViewById(R.id.comments) as EditText
-        val send = LayoutView.findViewById(R.id.send) as Button
-        val mayBeLater = LayoutView.findViewById(R.id.mayBeLater) as TextView
-        setRatingBasedCommend(rating_based_cmd, rating_bar.rating)
-
-        rating_bar.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
-            setRatingBasedCommend(rating_based_cmd, rating)
-        }
-        mayBeLater.setOnClickListener {
-            dialog.dismiss()
-        }
-        send.setOnClickListener {
-            if (comments.text.toString().equals("")) {
-                helperMethods.showToastMessage("Please feel free to leave your comments")
-                return@setOnClickListener
-            }
-            if (!helperMethods.isConnectingToInternet) {
-                helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
-                return@setOnClickListener
-            }
-            dialog.dismiss()
-
-            mainCommentApiCall(consultantId, rating_bar.rating.toInt().toString(), comments.text.toString())
-        }
-    }
-
-    fun setRatingBasedCommend(rating_based_cmd: TextView, rating: Float) {
-        when (Math.round(rating)) {
-            0 -> {
-                rating_based_cmd.text = "Very bad"
-            }
-            1 -> {
-                rating_based_cmd.text = "Bad"
-            }
-            2 -> {
-                rating_based_cmd.text = "Average"
-            }
-            3 -> {
-                rating_based_cmd.text = "Good"
-            }
-            4 -> {
-                rating_based_cmd.text = "Very good"
-            }
-            5 -> {
-                rating_based_cmd.text = "Very impressive"
-            }
-        }
-    }
-
-    fun mainCommentApiCall(consultantId: String, rate: String, comment: String) {
-        helperMethods.showProgressDialog("Please wait while loading...")
-        val responseBodyCall = retrofitInterface.MAIN_CONSULTANT_COMMENT_API_CALL("Bearer ${dataUser.access_token}", consultantId, rate, comment)
-        responseBodyCall.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                helperMethods.dismissProgressDialog()
-
-                if (response.isSuccessful) {
-                    if (response.body() != null) {
-                        try {
-                            val commentsResponse: commentsResponse = Gson().fromJson(response.body()!!.string(), commentsResponse::class.java)
-                            if (commentsResponse.status.equals("200")) {
-                                helperMethods.showToastMessage("Your rating and comments submitted successfully !")
-                            } else {
-                                val message = JSONObject(response.body()!!.string()).getString("message")
-                                helperMethods.AlertPopup("Alert", message)
-                            }
-                        } catch (e: JSONException) {
-                            helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
-                            e.printStackTrace()
-                        } catch (e: IOException) {
-                            e.printStackTrace()
-                        }
-                    } else {
-                        Log.d("body", "Body Empty")
-                    }
-                } else {
-                    helperMethods.showToastMessage(getString(R.string.something_went_wrong))
-                    Log.d("body", "Not Successful")
-                }
-            }
-
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                helperMethods.dismissProgressDialog()
-                t.printStackTrace()
-                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
-            }
-        })
-    }
-
-
 }

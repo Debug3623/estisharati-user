@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import digital.upbeat.estisharati_user.DataClassHelper.StartCourse.Lesson
 import digital.upbeat.estisharati_user.Fragment.CourseDocuments
 import digital.upbeat.estisharati_user.Fragment.CourseVideos
+import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.R
 import digital.upbeat.estisharati_user.UI.PhotoViewer
 import digital.upbeat.estisharati_user.UI.WebView
@@ -41,11 +42,9 @@ class CourseLessonAdapter(val context: Context, val courseVideos: CourseVideos?,
             } else {
                 holder.lessonsTitle.setTextColor(ContextCompat.getColorStateList(context, R.color.black_light))
             }
-            if (courseVideos.courseResource.lessonsPlayingPosition==lessons.get(position).position) {
-                courseVideos.courseResource.lessonsPlaying = holder.lessonsPlaying
+            if (GlobalData.lessonsPlayingPosition == lessons.get(position).position) {
                 holder.lessonsPlaying.visibility = View.VISIBLE
                 holder.lessonsTitle.setTextColor(ContextCompat.getColorStateList(context, R.color.orange))
-                lessons.get(position).watched = true
             } else {
                 holder.lessonsPlaying.visibility = View.GONE
             }
@@ -62,12 +61,6 @@ class CourseLessonAdapter(val context: Context, val courseVideos: CourseVideos?,
         holder.lessonsLayout.setOnClickListener {
             if (courseVideos != null) {
                 courseVideos.courseResource.changePlayerPosition(lessons.get(position).position)
-                courseVideos.courseResource.lessonsPlaying.visibility = View.GONE
-                holder.lessonsPlaying.visibility = View.VISIBLE
-                courseVideos.courseResource.lessonsPlayingPosition = lessons.get(position).position
-                courseVideos.courseResource.lessonsPlaying = holder.lessonsPlaying
-                holder.lessonsTitle.setTextColor(ContextCompat.getColorStateList(context, R.color.orange))
-                lessons.get(position).watched = true
             } else if (courseDocuments != null) {
                 val fileType = lessons.get(position).type.split("/")
                 if (fileType.get(0).equals("image")) {

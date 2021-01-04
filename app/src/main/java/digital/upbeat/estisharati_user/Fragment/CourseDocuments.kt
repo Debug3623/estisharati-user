@@ -35,10 +35,16 @@ class CourseDocuments(val courseResource: CourseResource) : Fragment() {
     }
 
     fun InitializeRecyclerview() {
-
         courseDocumentRecycler.setHasFixedSize(true)
         courseDocumentRecycler.removeAllViews()
         courseDocumentRecycler.layoutManager = LinearLayoutManager(requireContext())
-        courseDocumentRecycler.adapter = CourseChapterAdapter(requireContext(), null,this@CourseDocuments, arrayListOf(), courseResource.startCourseResponse.data.documents)
+        courseDocumentRecycler.adapter = CourseChapterAdapter(requireContext(), null, this@CourseDocuments, arrayListOf(), courseResource.startCourseResponse.data.documents)
+        if (courseResource.startCourseResponse.data.documents.size > 0) {
+            courseDocumentRecycler.visibility = View.VISIBLE
+            emptyLayout.visibility = View.GONE
+        } else {
+            courseDocumentRecycler.visibility = View.GONE
+            emptyLayout.visibility = View.VISIBLE
+        }
     }
 }
