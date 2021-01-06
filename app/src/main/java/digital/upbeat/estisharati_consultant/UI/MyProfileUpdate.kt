@@ -14,13 +14,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.bumptech.glide.Glide
+import com.google.firebase.firestore.FieldValue
+import com.google.gson.Gson
+import digital.upbeat.estisharati_consultant.DataClassHelper.DataCountry
+import digital.upbeat.estisharati_consultant.DataClassHelper.DataSubscription
 import digital.upbeat.estisharati_consultant.Helper.HelperMethods
 import digital.upbeat.estisharati_consultant.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_consultant.R
-import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
-import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_user.DataClassHelper.DataUser
-import digital.upbeat.estisharati_user.Helper.GlobalData
+import digital.upbeat.estisharati_consultant.ApiHelper.RetrofitApiClient
+import digital.upbeat.estisharati_consultant.ApiHelper.RetrofitInterface
+import digital.upbeat.estisharati_consultant.DataClassHelper.DataUser
+import digital.upbeat.estisharati_consultant.DataClassHelper.DataUserMetas
+import digital.upbeat.estisharati_consultant.Helper.GlobalData
 import kotlinx.android.synthetic.main.activity_my_profile_update.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -39,6 +44,7 @@ class MyProfileUpdate : AppCompatActivity() {
     lateinit var preferencesHelper: SharedPreferencesHelper
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var dataUserObject: DataUser
+    var countryArrayList = arrayListOf<DataCountry>()
     var uploadType = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,13 +63,15 @@ class MyProfileUpdate : AppCompatActivity() {
 
     fun setUserDetils() {
         dataUserObject = preferencesHelper.logInConsultant
-        val countryArrayList = preferencesHelper.countryCity
+        countryArrayList = preferencesHelper.countryCity
         Glide.with(this@MyProfileUpdate).load(dataUserObject.image).apply(helperMethods.profileRequestOption).into(profile_picture)
 
         ud_fname.text = dataUserObject.fname.toEditable()
         ud_lname.text = dataUserObject.lname.toEditable()
         val phone = dataUserObject.phone.replace(dataUserObject.user_metas.phone_code, "")
-        ud_phone_codePicker.setCountryForPhoneCode(dataUserObject.user_metas.phone_code.toInt())
+        if (!dataUserObject.user_metas.phone_code.equals("")) {
+            ud_phone_codePicker.setCountryForPhoneCode(dataUserObject.user_metas.phone_code.toInt())
+        }
         ud_phone.text = phone.toEditable()
         ud_email_address.text = dataUserObject.email.toEditable()
         ud_qualification_brief.text = dataUserObject.user_metas.qualification_brief.toEditable()
@@ -78,6 +86,7 @@ class MyProfileUpdate : AppCompatActivity() {
                 countryIndex = index
             }
         }
+        ud_country_spinner.onItemSelectedListener = null
         val typeface = ResourcesCompat.getFont(this@MyProfileUpdate, R.font.almarai_regular)
         val countryAdapter = ArrayAdapter(this@MyProfileUpdate, R.layout.support_simple_spinner_dropdown_item, countryArrString)
         countryAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
@@ -144,13 +153,54 @@ class MyProfileUpdate : AppCompatActivity() {
             helperMethods.ChangeProfilePhotoPopup(this@MyProfileUpdate)
         }
         add_qualification.setOnClickListener {
-//            TODO("Document update not working")
-                        if (ContextCompat.checkSelfPermission(this@MyProfileUpdate, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this@MyProfileUpdate, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this@MyProfileUpdate, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                            requestQualification()
-                        } else {
-                            helperMethods.selfPermission(this@MyProfileUpdate)
-                        }
+            if (ContextCompat.checkSelfPermission(this@MyProfileUpdate, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this@MyProfileUpdate, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this@MyProfileUpdate, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                requestQualification()
+            } else {
+                helperMethods.selfPermission(this@MyProfileUpdate)
+            }
         }
+        btn_update.setOnClickListener {
+            if (updateValidation()) {
+                profileUpdateApiCall(ud_fname.toText(), ud_lname.toText(), ud_phone_codePicker.selectedCountryCodeWithPlus + "" + ud_phone.toText(), ud_phone_codePicker.selectedCountryCodeWithPlus, ud_email_address.toText(), ud_qualification_brief.toText(), countryArrayList.get(ud_country_spinner.selectedItemPosition).country_id, countryArrayList.get(ud_country_spinner.selectedItemPosition).cities.get(ud_city_spinner.selectedItemPosition).city_id)
+            }
+        }
+    }
+
+    fun updateValidation(): Boolean {
+        if (ud_fname.toText().equals("")) {
+            helperMethods.showToastMessage("Enter first name")
+            return false
+        }
+        if (ud_lname.toText().equals("")) {
+            helperMethods.showToastMessage("Enter last name")
+            return false
+        }
+        if (ud_phone.toText().equals("")) {
+            helperMethods.showToastMessage("Enter phone number")
+            return false
+        }
+        if (!helperMethods.isValidMobile(ud_phone_codePicker.selectedCountryCodeWithPlus + "" + ud_phone.toText())) {
+            helperMethods.showToastMessage("Enter vaid phone number")
+            return false
+        }
+        if (ud_email_address.toText().equals("")) {
+            helperMethods.showToastMessage("Enter email address")
+            return false
+        }
+        if (!helperMethods.isvalidEmail(ud_email_address.toText())) {
+            helperMethods.showToastMessage("Enter valid email address")
+            return false
+        }
+        if (ud_qualification_brief.toText().equals("")) {
+            helperMethods.showToastMessage("Enter qualification")
+            return false
+        }
+
+        if (!helperMethods.isConnectingToInternet) {
+            helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
+            return false
+        }
+        return true
     }
 
     fun requestQualification() {
@@ -205,6 +255,67 @@ class MyProfileUpdate : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    fun profileUpdateApiCall(fNmae: String, lName: String, phone_str: String, phone_code_str: String, email_str: String, qualification_brief_str: String, countryID: String, cityID: String) {
+        helperMethods.showProgressDialog("Profile is updating...")
+        val responseBodyCall = retrofitInterface.PROFILE_UPDATE_API_CALL("Bearer ${dataUserObject.access_token}", fNmae, lName, phone_str, phone_code_str, email_str, qualification_brief_str, countryID, cityID)
+        responseBodyCall.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                helperMethods.dismissProgressDialog()
+
+                if (response.isSuccessful) {
+                    if (response.body() != null) {
+                        try {
+                            val jsonObject = JSONObject(response.body()!!.string())
+                            val status = jsonObject.getString("status")
+                            if (status.equals("200")) {
+                                val userString = jsonObject.getString("user")
+                                val dataUser = Gson().fromJson(userString, DataUser::class.java)
+                                val hashMap = hashMapOf<String, Any>()
+                                hashMap.put("user_id", dataUser.id)
+                                hashMap.put("fname", dataUser.fname)
+                                hashMap.put("lname", dataUser.lname)
+                                hashMap.put("email", dataUser.email)
+                                hashMap.put("phone", dataUser.phone)
+                                hashMap.put("image", dataUser.image)
+                                hashMap.put("fire_base_token", dataUser.user_metas.fire_base_token)
+                                hashMap.put("user_type", "consultant")
+                                hashMap.put("online_status", true)
+                                hashMap.put("last_seen", FieldValue.serverTimestamp())
+                                hashMap.put("availability", true)
+                                hashMap.put("channel_unique_id", "")
+                                helperMethods.setUserDetailsToFirestore(dataUser.id, hashMap)
+                                preferencesHelper.logInConsultant = dataUser
+                                val message = jsonObject.getString("message")
+                                helperMethods.showToastMessage(message)
+                                GlobalData.profileUpdate = true
+                                setUserDetils()
+                            } else {
+                                val message = jsonObject.getString("message")
+                                helperMethods.AlertPopup("Alert", message)
+                            }
+                        } catch (e: JSONException) {
+                            helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
+                            e.printStackTrace()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    } else {
+                        Log.d("body", "Body Empty")
+                    }
+                } else {
+                    helperMethods.showToastMessage(getString(R.string.something_went_wrong))
+                    Log.d("body", "Not Successful")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                helperMethods.dismissProgressDialog()
+                t.printStackTrace()
+                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+            }
+        })
     }
 
     fun profilePictureUpdateApiCall(filePath: String) {
@@ -282,8 +393,7 @@ class MyProfileUpdate : AppCompatActivity() {
                                 val userObject = JSONObject(userString)
                                 val user_metasStr = userObject.getString("user_metas")
                                 val userMetasObject = JSONObject(user_metasStr)
-                                //                                val qualification = userMetasObject.getString("qualification")
-                                val qualification = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+                                val qualification = userMetasObject.getString("qualification")
                                 val dataUser = dataUserObject
                                 dataUser.user_metas.qualification = qualification
                                 preferencesHelper.logInConsultant = dataUser

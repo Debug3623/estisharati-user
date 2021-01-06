@@ -15,5 +15,7 @@ class SubscribersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) 
     val last_image_layout=itemView.last_image_layout
     val last_image=itemView.last_image
     val last_image_name=itemView.last_image_name
+    val image_message_status=itemView.image_message_status
+    val nectie=itemView.nectie
 
 }

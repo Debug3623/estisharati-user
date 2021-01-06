@@ -67,6 +67,7 @@
                             android:backgroundTint="@color/white" />
 
                         <TextView
+                            android:id="@+id/jobTitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
@@ -209,6 +210,38 @@
                         android:layout_marginLeft="20dp"
                         android:fontFamily="@font/almarai_regular"
                         android:text="Help"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="70dp"
+                    android:background="@color/gainsboro" />
+
+
+                <LinearLayout
+                    android:id="@+id/nav_terms_condition"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="13dp">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/ic_connection" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:fontFamily="@font/almarai_regular"
+                        android:text="Terms and Condition"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>

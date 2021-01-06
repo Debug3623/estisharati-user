@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
@@ -18,20 +18,51 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:requestLegacyExternalStorage="true"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".UI.MyProfileUpdate"/>
-        <activity android:name=".UI.MyProfile" />
-        <activity android:name=".UI.NotificationDetails" />
-        <activity android:name=".UI.Notifications" />
-        <activity android:name=".UI.ChatPage" />
-        <activity android:name=".UI.Help" />
-        <activity android:name=".UI.AboutUs" />
-        <activity android:name=".UI.ConsultantDrawer" />
-        <activity android:name=".UI.ForgotPassword" />
-        <activity android:name=".UI.WebView" />
-        <activity android:name=".UI.Login" />
+        <activity
+            android:name=".UI.Pages"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.VideoCall"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.VoiceCall"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.IncomingCall"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.ChatPage"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.PhotoViewer"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.MyProfileUpdate"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.MyProfile"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.NotificationDetails"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.Notifications"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.Help"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.ConsultantDrawer"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.ForgotPassword"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.Login"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UI.SplashScreen"
             android:screenOrientation="portrait">
@@ -41,6 +72,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_logo" />

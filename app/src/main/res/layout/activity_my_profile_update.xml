@@ -472,7 +472,7 @@
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/btn_login"
+                    android:id="@+id/btn_update"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="40dp"
@@ -484,7 +484,7 @@
                     android:fontFamily="@font/almarai_bold"
                     android:gravity="center"
                     android:padding="13dp"
-                    android:text="Save"
+                    android:text="Update"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="18sp" />

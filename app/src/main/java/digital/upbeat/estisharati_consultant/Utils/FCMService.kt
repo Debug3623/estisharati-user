@@ -7,8 +7,8 @@ import com.google.firebase.messaging.RemoteMessage
 import digital.upbeat.estisharati_consultant.Helper.HelperMethods
 import digital.upbeat.estisharati_consultant.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_consultant.UI.SplashScreen
-import digital.upbeat.estisharati_user.CommonApiHelper.SendDeviceTokenHelper
-import digital.upbeat.estisharati_user.Helper.GlobalData
+import digital.upbeat.estisharati_consultant.CommonApiHelper.SendDeviceTokenHelper
+import digital.upbeat.estisharati_consultant.Helper.GlobalData
 
 class FCMService : FirebaseMessagingService() {
     lateinit var helperMethods: HelperMethods
@@ -22,10 +22,10 @@ class FCMService : FirebaseMessagingService() {
         preferencesHelper = SharedPreferencesHelper(this)
         val title = remoteMessage.getData().get("title") as String
         val body = remoteMessage.getData().get("body") as String
-        val tag = remoteMessage.getData().get("tag") as String
+        val type = remoteMessage.getData().get("type") as String
         helperMethods.sendPushNotification(title, body)
 
-        if (tag.equals("incoming_voice_call") || tag.equals("incoming_video_call")) {
+        if (type.equals("incoming_voice_call") || type.equals("incoming_video_call")) {
             if (GlobalData.FcmToken.equals("")) {
                 if (preferencesHelper.isConsultantLogIn) {
                     val intent = Intent(this, SplashScreen::class.java)

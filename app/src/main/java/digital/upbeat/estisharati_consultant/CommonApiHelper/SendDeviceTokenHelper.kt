@@ -1,15 +1,15 @@
-package digital.upbeat.estisharati_user.CommonApiHelper
+package digital.upbeat.estisharati_consultant.CommonApiHelper
 
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import digital.upbeat.estisharati_consultant.ApiHelper.RetrofitApiClient
+import digital.upbeat.estisharati_consultant.ApiHelper.RetrofitInterface
+import digital.upbeat.estisharati_consultant.Helper.GlobalData
 import digital.upbeat.estisharati_consultant.Helper.HelperMethods
 import digital.upbeat.estisharati_consultant.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_consultant.R
 import digital.upbeat.estisharati_consultant.UI.SplashScreen
-import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
-import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_user.Helper.GlobalData
 import okhttp3.ResponseBody
 import org.json.JSONException
 import org.json.JSONObject

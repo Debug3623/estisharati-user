@@ -13,10 +13,10 @@ import digital.upbeat.estisharati_consultant.DataClassHelper.DataCountry
 import digital.upbeat.estisharati_consultant.Helper.HelperMethods
 import digital.upbeat.estisharati_consultant.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_consultant.R
-import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
-import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_user.DataClassHelper.*
-import digital.upbeat.estisharati_user.Helper.GlobalData
+import digital.upbeat.estisharati_consultant.ApiHelper.RetrofitApiClient
+import digital.upbeat.estisharati_consultant.ApiHelper.RetrofitInterface
+import digital.upbeat.estisharati_consultant.DataClassHelper.*
+import digital.upbeat.estisharati_consultant.Helper.GlobalData
 import kotlinx.android.synthetic.main.activity_my_profile.*
 import okhttp3.ResponseBody
 import org.json.JSONArray
@@ -44,21 +44,22 @@ class MyProfile : AppCompatActivity() {
     fun initViews() {
         helperMethods = HelperMethods(this@MyProfile)
         preferencesHelper = SharedPreferencesHelper(this@MyProfile)
-        retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
+        retrofitInterface =
+            RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
     }
 
     fun setUserDetils() {
         dataUserObject = preferencesHelper.logInConsultant
         user_name.text = dataUserObject.fname + " " + dataUserObject.lname
+        jobTitle.text = dataUserObject.user_metas.job_title
         phone.text = dataUserObject.phone
         courses_count.text = dataUserObject.subscription.courses
         consultations_count.text = dataUserObject.subscription.consultations
         email_address.text = dataUserObject.email
         Glide.with(this@MyProfile).load(dataUserObject.image).apply(helperMethods.profileRequestOption).into(profile_picture)
-        qualification_name.text = helperMethods.getFileNameFromURL(dataUserObject.user_metas.qualification)
-
+        qualification_name.text =
+            helperMethods.getFileNameFromURL(dataUserObject.user_metas.qualification)
     }
-
 
     fun clickEvents() {
         nav_back.setOnClickListener { finish() }
@@ -72,6 +73,9 @@ class MyProfile : AppCompatActivity() {
             } else {
                 change_password_layot.visibility = View.VISIBLE
                 change_password_arrow.setImageResource(R.drawable.ic_down_arrow_white)
+                scrollView.post {
+                    scrollView.fullScroll(View.FOCUS_DOWN)
+                }
             }
         }
         profile_picture_layout.setOnClickListener {
@@ -85,127 +89,91 @@ class MyProfile : AppCompatActivity() {
                 helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
             }
         }
-        edit_profile.setOnClickListener {
-
+        edit_profile.setOnClickListener {}
+        savePassword.setOnClickListener {
+            if (validateUpdatePassword()) {
+                ChangePasswordApiCall(currentPassword.toText(), newPassword.toText(), confirmPassword.toText())
+            }
         }
     }
 
-//    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        if (ContextCompat.checkSelfPermission(this@MyProfile, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this@MyProfile, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this@MyProfile, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-//            helperMethods.ChangeProfilePhotoPopup(this@MyProfile)
-//        }
-//    }
+    fun ChangePasswordApiCall(currentPassword: String, newPassword: String, confirmPassword: String) {
+        helperMethods.showProgressDialog("Please wait while loading...")
+        val responseBodyCall =
+            retrofitInterface.CHANGE_PASSWORD_API_CALL("Bearer ${dataUserObject.access_token}", currentPassword, newPassword, confirmPassword)
+        responseBodyCall.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                helperMethods.dismissProgressDialog()
+                if (response.isSuccessful) {
+                    if (response.body() != null) {
+                        try {
+                            val jsonObject = JSONObject(response.body()!!.string())
+                            val status = jsonObject.getString("status")
+                            if (status.equals("200")) {
+                                val message = jsonObject.getString("message")
+                                helperMethods.showToastMessage(message)
+                                change_password_layot.visibility = View.GONE
+                                change_password_arrow.setImageResource(R.drawable.ic_up_arrow_white)
+                            } else {
+                                val message = jsonObject.getString("message")
+                                helperMethods.AlertPopup("Alert", message)
+                            }
+                        } catch (e: JSONException) {
+                            helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
+                            e.printStackTrace()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    } else {
+                        Log.d("body", "Body Empty")
+                    }
+                } else {
+                    helperMethods.showToastMessage(getString(R.string.something_went_wrong))
+                    Log.d("body", "Not Successful")
+                }
+            }
 
-//    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == GlobalData.PICK_IMAGE_GALLERY) {
-//            if (resultCode == Activity.RESULT_OK && data != null) {
-//                val img_uri = data.data
-//                val filePath = helperMethods.getFilePath(img_uri!!)
-//                if (filePath == null) {
-//                    Toast.makeText(this@MyProfile, "Could not get image", Toast.LENGTH_LONG).show()
-//                    return
-//                }
-//                profilePictureUpdateApiCall(filePath)
-//            }
-//        } else if (requestCode == GlobalData.PICK_IMAGE_CAMERA) {
-//            if (resultCode == Activity.RESULT_OK && data != null) {
-//                val yourSelectedImage = data.extras!!.get("data") as Bitmap
-//                val img_uri = helperMethods.getImageUriFromBitmap(yourSelectedImage)
-//                val filePath = helperMethods.getFilePath(img_uri)
-//                if (filePath == null) {
-//                    Toast.makeText(this@MyProfile, "Could not get image", Toast.LENGTH_LONG).show()
-//                    return
-//                }
-//                profilePictureUpdateApiCall(filePath)
-//            }
-//        }
-//    }
-//
-//    fun profilePictureUpdateApiCall(filePath: String) {
-//        val file = File(filePath)
-//        val requestBody = RequestBody.create(MediaType.parse("*/*"), file)
-//        val imageFile = MultipartBody.Part.createFormData("image", file.getName(), requestBody)
-//
-//        helperMethods.showProgressDialog("Profile picture is updating...")
-//        val responseBodyCall = retrofitInterface.PROFILE_PICTURE_UPDATE_API_CALL("Bearer ${dataUserObject.access_token}", imageFile)
-//        responseBodyCall.enqueue(object : Callback<ResponseBody> {
-//            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-//                helperMethods.dismissProgressDialog()
-//
-//                if (response.isSuccessful) {
-//                    if (response.body() != null) {
-//                        try {
-//                            val jsonObject = JSONObject(response.body()!!.string())
-//                            val status = jsonObject.getString("status")
-//                            if (status.equals("200")) {
-//                                val userString = jsonObject.getString("user")
-//                                val userObject = JSONObject(userString)
-//                                val id = userObject.getString("id")
-//                                val fname = userObject.getString("fname")
-//                                val lname = userObject.getString("lname")
-//                                val email = userObject.getString("email")
-//                                val phone = userObject.getString("phone")
-//                                val image = userObject.getString("image")
-//                                val member_since = userObject.getString("member_since")
-//                                val user_metasStr = userObject.getString("user_metas")
-//                                val userMetasObject = JSONObject(user_metasStr)
-//                                val job_title = userMetasObject.getString("job_title")
-//                                val city = userMetasObject.getString("city")
-//                                val phone_code = userMetasObject.getString("phone_code")
-//                                val consultant_cost = userMetasObject.getString("consultant_cost")
-//                                val qualification = userMetasObject.getString("qualification")
-//                                val qualification_brief = userMetasObject.getString("qualification_brief")
-//                                val fire_base_token = userMetasObject.getString("fire_base_token")
-//                                val country = userMetasObject.getString("country")
-//                                val user_metas = DataUserMetas(job_title, city, phone_code, consultant_cost, qualification, qualification_brief, fire_base_token, country)
-//                                val subscription_str = userObject.getString("subscription")
-//                                val subscriptionObject = JSONObject(subscription_str)
-//                                val courses = subscriptionObject.getString("courses")
-//                                val consultations = subscriptionObject.getString("consultations")
-//                                val current_package = subscriptionObject.getString("package")
-//                                val subscription = DataSubscription(courses, consultations, current_package)
-//                                val dataUser = DataUser(id, fname, lname, email, phone, image, member_since, dataUserObject.access_token, dataUserObject.expired_days, user_metas, subscription)
-//
-//                                preferencesHelper.logInConsultant = dataUser
-//                                val message = jsonObject.getString("message")
-//                                helperMethods.showToastMessage(message)
-//                                GlobalData.profileUpdate = true
-//                                setUserDetils()
-//                                val hashMap = hashMapOf<String, Any>()
-//                                hashMap.put("image", image)
-//                                //                                helperMethods.updateUserDetailsToFirestore(id, hashMap)
-//                            } else {
-//                                val message = jsonObject.getString("message")
-//                                helperMethods.AlertPopup("Alert", message)
-//                            }
-//                        } catch (e: JSONException) {
-//                            helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
-//                            e.printStackTrace()
-//                        } catch (e: IOException) {
-//                            e.printStackTrace()
-//                        }
-//                    } else {
-//                        Log.d("body", "Body Empty")
-//                    }
-//                } else {
-//                    helperMethods.showToastMessage(getString(R.string.something_went_wrong))
-//                    Log.d("body", "Not Successful")
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-//                helperMethods.dismissProgressDialog()
-//                t.printStackTrace()
-//                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
-//            }
-//        })
-//    }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                helperMethods.dismissProgressDialog()
+                t.printStackTrace()
+                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+            }
+        })
+    }
+
+    fun validateUpdatePassword(): Boolean {
+        if (currentPassword.toText().equals("")) {
+            helperMethods.showToastMessage("Enter your current password !")
+            return false
+        }
+        if (newPassword.toText().equals("")) {
+            helperMethods.showToastMessage("Enter your new password !")
+            return false
+        }
+        if (!helperMethods.isValidPassword(newPassword.toText())) {
+            helperMethods.AlertPopup("Alert", "Password at least 8 characters including a lower-case letter, an upper–case letter, a number and one special character")
+            return false
+        }
+        if (confirmPassword.toText().equals("")) {
+            helperMethods.showToastMessage("Enter your confirm password !")
+            return false
+        }
+        if (!newPassword.toText().equals(confirmPassword.toText())) {
+            helperMethods.showToastMessage("New password and Confirm password not same !")
+            return false
+        }
+        if (!helperMethods.isConnectingToInternet) {
+            helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
+            return false
+        }
+        return true
+    }
+
 
     fun countryCityApiCall() {
         helperMethods.showProgressDialog("Please wait while Loading...")
-        val responseBodyCall = retrofitInterface.GEOGRAPHIES_API_CALL("Bearer ${dataUserObject.access_token}")
+        val responseBodyCall =
+            retrofitInterface.GEOGRAPHIES_API_CALL("Bearer ${dataUserObject.access_token}")
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()
@@ -236,7 +204,6 @@ class MyProfile : AppCompatActivity() {
                                 }
                                 preferencesHelper.countryCity = countryArrayList
                                 startActivity(Intent(this@MyProfile, MyProfileUpdate::class.java))
-
                             } else {
                                 val message = jsonObject.getString("message")
                                 helperMethods.AlertPopup("Alert", message)
@@ -263,6 +230,7 @@ class MyProfile : AppCompatActivity() {
             }
         })
     }
+
     //    fun profileEditPopup() {
     //
     //        var countryIndex = 0

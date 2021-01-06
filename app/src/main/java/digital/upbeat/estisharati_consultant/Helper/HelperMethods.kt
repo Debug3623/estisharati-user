@@ -28,10 +28,12 @@ import android.provider.MediaStore
 import android.text.Html
 import android.text.Spanned
 import android.util.Log
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -41,8 +43,9 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.firestore.FirebaseFirestore
+import digital.upbeat.estisharati_consultant.DataClassHelper.DataTextsAndColors
+import digital.upbeat.estisharati_consultant.DataClassHelper.DataUserMessageFireStore
 import digital.upbeat.estisharati_consultant.R
-import digital.upbeat.estisharati_user.Helper.GlobalData
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.net.MalformedURLException
@@ -51,6 +54,7 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern
+import kotlin.collections.ArrayList
 
 class HelperMethods(var context: Context) {
     var calendarInstance: Calendar? = null
@@ -72,7 +76,11 @@ class HelperMethods(var context: Context) {
             date_picker_text.text = targetFormat.format(newDate.time)
         }, calendarInstance!![Calendar.YEAR], calendarInstance!![Calendar.MONTH], calendarInstance!![Calendar.DAY_OF_MONTH]).show()
     }
-
+    fun showKeyboard(mEtSearch: EditText) {
+        mEtSearch.requestFocus()
+        val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
+    }
     fun ShowTimePickerDialog(time_picker_text: TextView) {
         val mcurrentTime = Calendar.getInstance()
         val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
@@ -94,6 +102,13 @@ class HelperMethods(var context: Context) {
         return pattern.matcher(password).matches()
     }
 
+    fun getHtmlText(content: String): Spanned {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return Html.fromHtml(content, Html.FROM_HTML_MODE_LEGACY)
+        } else {
+            return Html.fromHtml(content)
+        }
+    }
     fun ShowDateTimePicker(datetime: TextView) {
         val currentDate = Calendar.getInstance()
         val dateTime = Calendar.getInstance()
@@ -173,7 +188,29 @@ class HelperMethods(var context: Context) {
             }
         }
     }
-
+    fun containsUserIdForChat(userMessageFireStore: ArrayList<DataUserMessageFireStore>, useId: String): Boolean {
+        for (data in userMessageFireStore) {
+            if (data.dataUserFireStore.user_id.equals(useId)) {
+                return false
+            }
+        }
+        return true
+    }
+    fun setStatusBarColorLightIcon(activity: Activity, StatusBarColor: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val window = activity.window
+            val view = window.decorView
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_OVERSCAN)
+            window.statusBarColor = ContextCompat.getColor(activity, StatusBarColor)
+            //            window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                var flags = view.systemUiVisibility
+                flags = flags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                view.systemUiVisibility = flags
+            }
+        }
+    }
     fun selfPermission(activity: Activity?) {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO), 123)
@@ -251,12 +288,52 @@ class HelperMethods(var context: Context) {
         context.startActivity(i)
     }
 
-    fun getColorString(text: String, color: Int): Spanned {
-        val bodyData = "<font color='$color'>$text</font>"
+
+
+    fun getColorStringFromArray(datas: ArrayList<DataTextsAndColors>): Spanned {
+        val stringBuilder = StringBuffer()
+        for(data in datas) {
+            stringBuilder.append("<font color='${data.color}'>${data.text}</font>")
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return Html.fromHtml(bodyData, Html.FROM_HTML_MODE_LEGACY)
+            return Html.fromHtml(stringBuilder.toString(), Html.FROM_HTML_MODE_LEGACY)
         } else {
-            return Html.fromHtml(bodyData)
+            return Html.fromHtml(stringBuilder.toString())
+        }
+    }
+    fun getFormattedDate(date: Date?): String {
+        val smsTime = Calendar.getInstance()
+        smsTime.timeInMillis = if(date!=null)date.time else Date().time
+        val now = Calendar.getInstance()
+        val timeFormatString = "h:mm aa"
+        val dateTimeFormatString = "E, MMMM d, h:mm aa"
+        val HOURS = 60 * 60 * 60.toLong()
+        return if (now[Calendar.DATE] === smsTime[Calendar.DATE]) {
+            "Today " + SimpleDateFormat(timeFormatString).format( smsTime.time)
+        } else if (now[Calendar.DATE] - smsTime[Calendar.DATE] === 1) {
+            "Yesterday " + SimpleDateFormat(timeFormatString).format( smsTime.time)
+        } else if (now[Calendar.YEAR] === smsTime[Calendar.YEAR]) {
+            SimpleDateFormat(dateTimeFormatString).format( smsTime.time).toString()
+        } else {
+            SimpleDateFormat("MMMM dd yyyy, h:mm aa").format( smsTime.time).toString()
+        }
+    }
+    fun getFormattedDateShort(date: Date?): String {
+        val smsTime = Calendar.getInstance()
+        smsTime.timeInMillis = if (date != null) date.time else Date().time
+        val now = Calendar.getInstance()
+        val timeFormatString = "h:mm aa"
+        val yesterdayTimeFormatString = "E"
+        val dateTimeFormatString = "MMM dd"
+        val HOURS = 60 * 60 * 60.toLong()
+        return if (now[Calendar.DATE] === smsTime[Calendar.DATE]) {
+            SimpleDateFormat(timeFormatString, Locale.US).format(smsTime.time)
+        } else if (now[Calendar.DATE] - smsTime[Calendar.DATE] === 1) {
+            SimpleDateFormat(yesterdayTimeFormatString, Locale.US).format(smsTime.time)
+        } else if (now[Calendar.YEAR] === smsTime[Calendar.YEAR]) {
+            SimpleDateFormat(dateTimeFormatString, Locale.US).format(smsTime.time).toString()
+        } else {
+            SimpleDateFormat("MMM yyyy", Locale.US).format(smsTime.time).toString()
         }
     }
 
@@ -306,21 +383,20 @@ class HelperMethods(var context: Context) {
         }
     }
 
-    fun isvalidMobileNumber(number: String): Boolean {
-        return try {
-            if (!number.trim().equals("", ignoreCase = true)) {
-                if (number.trim().length >= 10 && number.toLong() > 0) {
-                    true
-                } else {
-                    false
-                }
-            } else {
+    fun isValidMobile(phone: String): Boolean {
+        var check = false
+        check = if (!Pattern.matches("[a-zA-Z]+", phone)) {
+            if (phone.length < 9 || phone.length > 13) {
+                // if(phone.length() != 10) {
                 false
+                // txtPhone.setError("Not Valid Number");
+            } else {
+                Patterns.PHONE.matcher(phone).matches()
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
+        } else {
             false
         }
+        return check
     }
 
     val requestOption: RequestOptions

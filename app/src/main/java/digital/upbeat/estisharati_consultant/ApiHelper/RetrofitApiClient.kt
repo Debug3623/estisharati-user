@@ -1,4 +1,4 @@
-package digital.upbeat.estisharati_user.ApiHelper
+package digital.upbeat.estisharati_consultant.ApiHelper
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

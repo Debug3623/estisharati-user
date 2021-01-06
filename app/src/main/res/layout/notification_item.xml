@@ -5,79 +5,107 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/notifications_parent"
+        android:id="@+id/notification_parant"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="20dp">
 
         <ImageView
+            android:id="@+id/notificationImg"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_margin="3dp"
             android:adjustViewBounds="true"
-            android:src="@drawable/ic_courses_round" />
+            android:elevation="3dp"
+            android:src="@mipmap/ic_launcher" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="50dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/message"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/almarai_regular"
-                    android:text="Successfully subscribed in Introduction to
-social media Course"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
+                android:layout_height="wrap_content">
 
                 <LinearLayout
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:adjustViewBounds="true"
-                        android:background="@drawable/ic_clock" />
+                    android:layout_marginEnd="30dp"
+                    android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/notification_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:fontFamily="@font/almarai_regular"
-                        android:text="6 may     03:30 PM"
-                        android:textColor="@color/dark_gray"
-                        android:textSize="12sp" />
-                </LinearLayout>
-            </LinearLayout>
+                        android:fontFamily="@font/almarai_bold"
+                        android:text="Successfully"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true">
+                    <TextView
+                        android:id="@+id/notification_message"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:fontFamily="@font/almarai_regular"
+                        android:text="Successfully subscribed in Introduction to
+social media Course"
+                        android:textColor="@color/black_light"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/notification_rply"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/corner_redius_30dp_light_green1"
+                    android:elevation="3dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="5dp"
+                    android:text="reply"
+                    android:textColor="@color/white"
+                    android:textSize="11sp"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:adjustViewBounds="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
                     android:src="@drawable/ic_right_arrow_black" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/ic_clock" />
+
+                <TextView
+                    android:id="@+id/notification_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/almarai_regular"
+                    android:text="6 may     03:30 PM"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="12sp" />
             </LinearLayout>
-        </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 
     <View

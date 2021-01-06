@@ -1,3 +1,3 @@
-package digital.upbeat.estisharati_user.DataClassHelper
+package digital.upbeat.estisharati_consultant.DataClassHelper
 
 data class DataUserMessageFireStore(val dataUserFireStore: DataUserFireStore,val messagesArrayList: ArrayList<DataMessageFireStore>)

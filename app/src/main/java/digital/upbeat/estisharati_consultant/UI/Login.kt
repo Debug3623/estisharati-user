@@ -9,15 +9,16 @@ import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.widget.EditText
 import com.google.firebase.firestore.FieldValue
+import com.google.gson.Gson
+import digital.upbeat.estisharati_consultant.ApiHelper.RetrofitApiClient
+import digital.upbeat.estisharati_consultant.ApiHelper.RetrofitInterface
 import digital.upbeat.estisharati_consultant.DataClassHelper.DataSubscription
+import digital.upbeat.estisharati_consultant.DataClassHelper.DataUser
+import digital.upbeat.estisharati_consultant.DataClassHelper.DataUserMetas
+import digital.upbeat.estisharati_consultant.Helper.GlobalData
 import digital.upbeat.estisharati_consultant.Helper.HelperMethods
 import digital.upbeat.estisharati_consultant.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_consultant.R
-import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
-import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_user.DataClassHelper.DataUser
-import digital.upbeat.estisharati_user.DataClassHelper.DataUserMetas
-import digital.upbeat.estisharati_user.Helper.GlobalData
 import kotlinx.android.synthetic.main.activity_login.*
 import okhttp3.ResponseBody
 import org.json.JSONException
@@ -67,13 +68,16 @@ class Login : AppCompatActivity() {
             }
         }
         nav_forget_password.setOnClickListener {
-            startActivity(Intent(this@Login, ForgotPassword::class.java))
+//            startActivity(Intent(this@Login, ForgotPassword::class.java))
         }
         terms_policy.setOnClickListener {
-            val intent = Intent(this@Login, WebView::class.java)
-            intent.putExtra("action_bar_title", "Terms and policy")
-            intent.putExtra("url", "https://upbeat.digital/en/")
-            startActivity(intent)
+            if (helperMethods.isConnectingToInternet) {
+                val intent = Intent(this@Login, Pages::class.java)
+                intent.putExtra("page", "terms-and-conditions")
+                startActivity(intent)
+            } else {
+                helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
+            }
         }
 
         btn_login.setOnClickListener {
@@ -110,7 +114,7 @@ class Login : AppCompatActivity() {
 
     fun logInApiCall(userIdStr: String, password: String, remember: String) {
         helperMethods.showProgressDialog("Please wait while login in...")
-        val responseBodyCall = retrofitInterface.LOGIN_API_CALL(userIdStr, password, remember, GlobalData.FcmToken)
+        val responseBodyCall = retrofitInterface.LOGIN_API_CALL(userIdStr, password, remember, GlobalData.FcmToken,"Consultant")
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()
@@ -122,49 +126,49 @@ class Login : AppCompatActivity() {
                             val status = jsonObject.getString("status")
                             if (status.equals("200")) {
                                 val userString = jsonObject.getString("user")
-                                val userObject = JSONObject(userString)
-                                val id = userObject.getString("id")
-                                val fname = userObject.getString("fname")
-                                val lname = userObject.getString("lname")
-                                val email = userObject.getString("email")
-                                val phone = userObject.getString("phone")
-                                val image = userObject.getString("image")
-                                val member_since = userObject.getString("member_since")
-                                val access_token = userObject.getString("access_token")
-                                val expired_days = userObject.getString("expired_days")
-                                val user_metasStr = userObject.getString("user_metas")
-                                val userMetasObject = JSONObject(user_metasStr)
-                                val job_title = userMetasObject.getString("job_title")
-                                val city = userMetasObject.getString("city")
-                                val phone_code = if (userMetasObject.getString("phone_code").equals("")) "+20" else userMetasObject.getString("phone_code")
-                                val consultant_cost = userMetasObject.getString("consultant_cost")
-                                //                                val qualification = userMetasObject.getString("qualification")
-                                val qualification = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
-                                val qualification_brief = userMetasObject.getString("qualification_brief")
-                                val fire_base_token = userMetasObject.getString("fire_base_token")
-                                val country = userMetasObject.getString("country")
-                                val user_metas = DataUserMetas(job_title, city, phone_code, consultant_cost, qualification, qualification_brief, fire_base_token, country)
-                                val subscription_str = userObject.getString("subscription")
-                                val subscriptionObject = JSONObject(subscription_str)
-                                val courses = subscriptionObject.getString("courses")
-                                val consultations = subscriptionObject.getString("consultations")
-                                val current_package = subscriptionObject.getString("package")
-                                val subscription = DataSubscription(courses, consultations, current_package)
-                                val dataUser = DataUser(id, fname, lname, email, phone, image, member_since, access_token, expired_days, user_metas, subscription)
+                                //                                val userObject = JSONObject(userString)
+                                //                                val id = userObject.getString("id")
+                                //                                val fname = userObject.getString("fname")
+                                //                                val lname = userObject.getString("lname")
+                                //                                val email = userObject.getString("email")
+                                //                                val phone = userObject.getString("phone")
+                                //                                val image = userObject.getString("image")
+                                //                                val member_since = userObject.getString("member_since")
+                                //                                val access_token = userObject.getString("access_token")
+                                //                                val expired_days = userObject.getString("expired_days")
+                                //                                val user_metasStr = userObject.getString("user_metas")
+                                //                                val userMetasObject = JSONObject(user_metasStr)
+                                //                                val job_title = userMetasObject.getString("job_title")
+                                //                                val city = userMetasObject.getString("city")
+                                //                                val phone_code = if (userMetasObject.getString("phone_code").equals("")) "+20" else userMetasObject.getString("phone_code")
+                                //                                val consultant_cost = userMetasObject.getString("consultant_cost")
+                                //                                //                                val qualification = userMetasObject.getString("qualification")
+                                //                                val qualification = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+                                //                                val qualification_brief = userMetasObject.getString("qualification_brief")
+                                //                                val fire_base_token = userMetasObject.getString("fire_base_token")
+                                //                                val country = userMetasObject.getString("country")
+                                //                                val user_metas = DataUserMetas(job_title, city, phone_code, consultant_cost, qualification, qualification_brief, fire_base_token, country)
+                                //                                val subscription_str = userObject.getString("subscription")
+                                //                                val subscriptionObject = JSONObject(subscription_str)
+                                //                                val courses = subscriptionObject.getString("courses")
+                                //                                val consultations = subscriptionObject.getString("consultations")
+                                //                                val current_package = subscriptionObject.getString("package")
+                                //                                val subscription = DataSubscription(courses, consultations, current_package)
+                                val dataUser = Gson().fromJson(userString, DataUser::class.java)
                                 val hashMap = hashMapOf<String, Any>()
-                                hashMap.put("user_id", id)
-                                hashMap.put("fname", fname)
-                                hashMap.put("lname", lname)
-                                hashMap.put("email", email)
-                                hashMap.put("phone", phone)
-                                hashMap.put("image", image)
-                                hashMap.put("fire_base_token", fire_base_token)
+                                hashMap.put("user_id", dataUser.id)
+                                hashMap.put("fname", dataUser.fname)
+                                hashMap.put("lname", dataUser.lname)
+                                hashMap.put("email", dataUser.email)
+                                hashMap.put("phone", dataUser.phone)
+                                hashMap.put("image", dataUser.image)
+                                hashMap.put("fire_base_token", dataUser.user_metas.fire_base_token)
                                 hashMap.put("user_type", "consultant")
                                 hashMap.put("online_status", true)
                                 hashMap.put("last_seen", FieldValue.serverTimestamp())
                                 hashMap.put("availability", true)
                                 hashMap.put("channel_unique_id", "")
-                                helperMethods.setUserDetailsToFirestore(id, hashMap)
+                                helperMethods.setUserDetailsToFirestore(dataUser.id, hashMap)
                                 preferencesHelper.isConsultantLogIn = true
                                 preferencesHelper.logInConsultant = dataUser
                                 startActivity(Intent(this@Login, ConsultantDrawer::class.java))

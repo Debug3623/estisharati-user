@@ -15,11 +15,12 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.messaging.FirebaseMessaging
 import digital.upbeat.estisharati_consultant.Helper.HelperMethods
 import digital.upbeat.estisharati_consultant.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_consultant.R
-import digital.upbeat.estisharati_user.CommonApiHelper.SendDeviceTokenHelper
-import digital.upbeat.estisharati_user.Helper.GlobalData
+import digital.upbeat.estisharati_consultant.CommonApiHelper.SendDeviceTokenHelper
+import digital.upbeat.estisharati_consultant.Helper.GlobalData
 
 class SplashScreen : AppCompatActivity() {
     lateinit var helperMethods: HelperMethods
@@ -28,16 +29,12 @@ class SplashScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
 
-        FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener(OnCompleteListener {
-            if (!it.isSuccessful) {
-                Log.d("FirebaseInstanceId   ", "FirebaseInstanceId failed", it.exception)
-                return@OnCompleteListener
+        FirebaseMessaging.getInstance().token.addOnCompleteListener {
+            if (it.isComplete) {
+                GlobalData.FcmToken = it.result.toString()
+                Log.e("FirebaseInstanceId", GlobalData.FcmToken)
             }
-            it.result?.let {
-                GlobalData.FcmToken = it.token
-            }
-            Log.e("FirebaseInstanceId", it.result!!.token)
-        })
+        }
         initViews()
         startCountDownTimer()
     }
@@ -46,6 +43,10 @@ class SplashScreen : AppCompatActivity() {
         helperMethods = HelperMethods(this@SplashScreen)
         preferencesHelper = SharedPreferencesHelper(this@SplashScreen)
         helperMethods.setStatusBarColor(this, R.color.white)
+        if (preferencesHelper.isConsultantLogIn) {
+            val hashMap = hashMapOf<String, Any>("availability" to true, "channel_unique_id" to "")
+            helperMethods.updateUserDetailsToFirestore(preferencesHelper.logInConsultant.id, hashMap)
+        }
     }
 
     fun startCountDownTimer() {

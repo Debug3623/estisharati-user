@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.text.Editable
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import digital.upbeat.estisharati_consultant.ApiHelper.RetrofitApiClient
+import digital.upbeat.estisharati_consultant.ApiHelper.RetrofitInterface
+import digital.upbeat.estisharati_consultant.Helper.GlobalData
 import digital.upbeat.estisharati_consultant.Helper.HelperMethods
 import digital.upbeat.estisharati_consultant.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_consultant.R
-import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
-import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_user.Helper.GlobalData
 import kotlinx.android.synthetic.main.activity_forgot_password.*
 
 class ForgotPassword : AppCompatActivity() {

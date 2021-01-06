@@ -32,6 +32,11 @@
                     android:src="@drawable/ic_temp_profile"
                     app:civ_border_color="@color/parrot_green"
                     app:civ_border_width="1dp" />
+                <ImageView
+                    android:id="@+id/nectie"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/ic_necktie" />
 
                 <TextView
                     android:id="@+id/unread_message_count"
@@ -50,6 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:gravity="center"
                 android:weightSum="10">
 
                 <LinearLayout
@@ -73,44 +79,61 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:orientation="vertical">
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/image_message_status"
+                            android:layout_width="13dp"
+                            android:layout_height="13dp"
+                            android:visibility="gone"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/ic_delivered" />
 
                         <LinearLayout
-                            android:id="@+id/last_image_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            android:visibility="gone">
+                            android:layout_marginLeft="5dp"
+                            android:orientation="vertical">
 
-                            <ImageView
-                                android:id="@+id/last_image"
-                                android:layout_width="15dp"
-                                android:layout_height="15dp"
-                                android:adjustViewBounds="true"
-                                android:src="@drawable/ic_photo_darkgray" />
-
-                            <TextView
-                                android:id="@+id/last_image_name"
+                            <LinearLayout
+                                android:id="@+id/last_image_layout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:visibility="gone">
+
+                                <ImageView
+                                    android:id="@+id/last_image"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:adjustViewBounds="true"
+                                    android:src="@drawable/ic_photo_darkgray" />
+
+                                <TextView
+                                    android:id="@+id/last_image_name"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:fontFamily="@font/almarai_light"
+                                    android:singleLine="true"
+                                    android:text="Photo"
+                                    android:textColor="@color/dark_gray"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/last_message"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
                                 android:fontFamily="@font/almarai_light"
                                 android:singleLine="true"
-                                android:text="Photo"
+                                android:text="good thanks to"
                                 android:textColor="@color/dark_gray"
-                                android:textSize="12sp" />
+                                android:textSize="12sp"
+                                android:visibility="visible" />
                         </LinearLayout>
-
-                        <TextView
-                            android:id="@+id/last_message"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/almarai_light"
-                            android:singleLine="true"
-                            android:text="good thanks to Allah"
-                            android:textColor="@color/dark_gray"
-                            android:textSize="12sp" />
                     </LinearLayout>
 
 
@@ -118,7 +141,7 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="3"
                     android:gravity="right"

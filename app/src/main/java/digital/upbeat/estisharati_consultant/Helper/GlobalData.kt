@@ -1,4 +1,4 @@
-package digital.upbeat.estisharati_user.Helper
+package digital.upbeat.estisharati_consultant.Helper
 
 object GlobalData {
     const val PICK_IMAGE_GALLERY = 1
@@ -16,4 +16,7 @@ object GlobalData {
     const val PDF = "application/pdf"
     const val CSV = "application/csv"
     const val XLS = "application/vnd.ms-excel"
+
+    var forwardType = ""
+    var forwardContent = ""
 }

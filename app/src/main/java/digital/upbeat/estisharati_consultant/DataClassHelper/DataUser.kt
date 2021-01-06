@@ -1,4 +1,4 @@
-package digital.upbeat.estisharati_user.DataClassHelper
+package digital.upbeat.estisharati_consultant.DataClassHelper
 
 import digital.upbeat.estisharati_consultant.DataClassHelper.DataSubscription
 import org.codehaus.jackson.annotate.JsonIgnoreProperties

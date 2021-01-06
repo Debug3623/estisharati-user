@@ -10,4 +10,16 @@
     <string name="something_went_wrong_on_backend_server">Something went wrong on backend server!</string>
     <string name="could_not_get_your_device_token_please_try_again">Could not get your device token please try again</string>
 
+
+    <!-- PLEASE KEEP THIS App ID IN SAFE PLACE -->
+    <!-- Get your own App ID at https://dashboard.agora.io/ -->
+    <!-- After you entered the App ID, remove <##> outside of Your App ID -->
+    <string name="agora_app_id">29c6b00fa7ba4e1eaa2c52d3ef791786</string>
+    <!-- Obtain a temp Access Token at https://dashboard.agora.io -->
+    <!-- You will need to deploy your own token server for production release -->
+    <!-- Leave this value empty if Security keys/Token is not enabled for your project -->
+    <string name="agora_access_token"></string>
+    <string name="there_is_no_notification_available">There is no notification available !</string>
+    <string name="please_wait_while_loading">Please wait while loading...</string>
+
 </resources>

@@ -27,6 +27,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
+        android:id="@+id/scrollView"
         android:layout_height="match_parent"
         android:scrollbars="none">
 
@@ -92,7 +93,7 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/profession"
+                        android:id="@+id/jobTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/almarai_regular"
@@ -428,11 +429,13 @@
                     android:visibility="gone">
 
                     <EditText
+                        android:id="@+id/currentPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/transparent"
                         android:fontFamily="@font/almarai_regular"
                         android:hint="Current Password"
+                        android:inputType="textPassword"
                         android:imeOptions="actionNext"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black_light"
@@ -445,12 +448,14 @@
                         android:background="@color/gainsboro" />
 
                     <EditText
+                        android:id="@+id/newPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:background="@color/transparent"
                         android:fontFamily="@font/almarai_regular"
                         android:hint="New Password"
+                        android:inputType="textPassword"
                         android:imeOptions="actionNext"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black_light"
@@ -463,9 +468,11 @@
                         android:background="@color/gainsboro" />
 
                     <EditText
+                        android:id="@+id/confirmPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
+                        android:inputType="textVisiblePassword"
                         android:background="@color/transparent"
                         android:fontFamily="@font/almarai_regular"
                         android:hint="Confirm Passoword"
@@ -488,6 +495,7 @@
                         android:layout_margin="5dp"
                         android:background="@drawable/corner_redius_30dp_light_green1"
                         android:elevation="3dp"
+                        android:id="@+id/savePassword"
                         android:paddingLeft="30dp"
                         android:paddingTop="7dp"
                         android:paddingRight="30dp"

@@ -11,13 +11,85 @@
         android:background="@color/white"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:id="@+id/forward_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white_pink"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/almarai_bold"
+                    android:text="Message ready to forwarding"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:id="@+id/forward_cancel"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/ic_x_mark"
+                    android:backgroundTint="@color/black" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gainsboro" />
+        </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/subscribers_recycler"
+            android:id="@+id/subscribers_recent_chat_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none"
+            android:visibility="gone"
             tools:itemCount="5"
             tools:listitem="@layout/subscribers_recent_chat_item" />
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ScrollView
+
+                android:layout_width="match_parent"
+                android:scrollbars="none"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <include layout="@layout/chat_placeholder_item" />
+
+                    <include layout="@layout/chat_placeholder_item" />
+
+                    <include layout="@layout/chat_placeholder_item" />
+
+                    <include layout="@layout/chat_placeholder_item" />
+
+                    <include layout="@layout/chat_placeholder_item" />
+
+                    <include layout="@layout/chat_placeholder_item" />
+
+                    <include layout="@layout/chat_placeholder_item" />
+
+                    <include layout="@layout/chat_placeholder_item" />
+                </LinearLayout>
+            </ScrollView>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
     </LinearLayout>
 
 </FrameLayout>
