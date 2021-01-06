@@ -43,7 +43,7 @@ class ConsultantCommentsReplyAdapter(val context: Context, val comments: Comment
             holder.cmdUserName.text = courseCommentsArrayList.get(position).user.name
             holder.cmdDateTime.text = courseCommentsArrayList.get(position).created_at
             holder.cmdUserRating.rating = courseCommentsArrayList.get(position).review.toFloat()
-            holder.cmdReplyCount.text = courseCommentsArrayList.get(position).replies.size.toString() + " " + "Reply"
+            holder.cmdReplyCount.text = courseCommentsArrayList.get(position).replies.size.toString() + " " + context.getString(R.string.reply)
             holder.cmdMessage.text = courseCommentsArrayList.get(position).comment
             holder.consultant_comments_reply_sub_recycler.adapter = ConsultantCommentsReplySubAdapter(context, comments, consultantDetails, courseCommentsArrayList.get(position).replies, arrayListOf())
             holder.cmdMessage.setOnClickListener { comments.helperMethods.AlertPopup(courseCommentsArrayList.get(position).user.name, courseCommentsArrayList.get(position).comment) }
@@ -53,7 +53,7 @@ class ConsultantCommentsReplyAdapter(val context: Context, val comments: Comment
             holder.cmdUserName.text = consultantCommentsArrayList.get(position).user.name
             holder.cmdDateTime.text = consultantCommentsArrayList.get(position).created_at
             holder.cmdUserRating.rating = consultantCommentsArrayList.get(position).review.toFloat()
-            holder.cmdReplyCount.text = consultantCommentsArrayList.get(position).replies.size.toString() + " " + "Reply"
+            holder.cmdReplyCount.text = consultantCommentsArrayList.get(position).replies.size.toString() + " " + context.getString(R.string.reply)
             holder.cmdMessage.text = consultantCommentsArrayList.get(position).comment
             holder.consultant_comments_reply_sub_recycler.adapter = ConsultantCommentsReplySubAdapter(context, comments, consultantDetails, arrayListOf(), consultantCommentsArrayList.get(position).replies)
             holder.cmdMessage.setOnClickListener { consultantDetails.helperMethods.AlertPopup(consultantCommentsArrayList.get(position).user.name, consultantCommentsArrayList.get(position).comment) }
@@ -71,7 +71,7 @@ class ConsultantCommentsReplyAdapter(val context: Context, val comments: Comment
                     consultantDetails.consultantCommentApiCall(consultantCommentsArrayList.get(position).consultant_id, consultantCommentsArrayList.get(position).id, holder.commentsReply.text.toString())
                 }
             } else {
-                Toast.makeText(context, "please enter your reply !", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, context.getString(R.string.please_enter_your_reply), Toast.LENGTH_LONG).show()
             }
         }
 

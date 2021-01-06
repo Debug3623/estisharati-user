@@ -15,6 +15,7 @@ import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_video_full_screen.*
 import okhttp3.ResponseBody
 import org.json.JSONException
@@ -24,7 +25,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 
-class VideoFullScreen : AppCompatActivity() {
+class VideoFullScreen : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var preferencesHelper: SharedPreferencesHelper
     lateinit var retrofitInterface: RetrofitInterface
@@ -103,7 +104,7 @@ class VideoFullScreen : AppCompatActivity() {
             override fun onShuffleModeEnabledChanged(shuffleModeEnabled: Boolean) {}
             override fun onPlayerError(error: ExoPlaybackException) {
                 error.printStackTrace()
-                helperMethods.showToastMessage("Oops. This mobile not capable for playing this video !")
+                helperMethods.showToastMessage(getString(R.string.this_mobile_not_capable_for_playing_this_video))
             }
 
             override fun onPositionDiscontinuity(reason: Int) {}
@@ -129,7 +130,7 @@ class VideoFullScreen : AppCompatActivity() {
                                 helperMethods.showToastMessage(message)
                             } else {
                                 val message = jsonObject.getString("message")
-                                helperMethods.AlertPopup("Alert", message)
+                                helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -149,7 +150,7 @@ class VideoFullScreen : AppCompatActivity() {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
 //                helperMethods.dismissProgressDialog()
                 t.printStackTrace()
-                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
     }

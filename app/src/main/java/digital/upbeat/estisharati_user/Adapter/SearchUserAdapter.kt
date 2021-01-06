@@ -42,7 +42,7 @@ class SearchUserAdapter(val context: Context, val chatHome: ChatHome, val dataus
         } else {
             holder.last_seen_time.visibility = View.VISIBLE
             holder.online_status.visibility = View.GONE
-            holder.last_seen_time.text = "Last seen\n" + helperMethods.getFormattedDate(dataUserFireStore.last_seen)
+            holder.last_seen_time.text = helperMethods.getFormattedDateShort(dataUserFireStore.last_seen)
         }
         if (dataUserFireStore.user_type.equals("user")) {
             holder.nectie.visibility = View.GONE

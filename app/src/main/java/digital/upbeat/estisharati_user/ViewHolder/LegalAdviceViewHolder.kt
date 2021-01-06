@@ -11,4 +11,5 @@ class LegalAdviceViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) 
     val consultantJobTitle=itemView.consultantJobTitle
     val consultantPrice=itemView.consultantPrice
     val consultantRate=itemView.consultantRate
+    val online_status=itemView.online_status
 }

@@ -50,7 +50,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Verification code"
+                        android:text="@string/verification_code"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -62,7 +62,7 @@
                     android:layout_marginBottom="30dp"
                     android:fontFamily="@font/almarai_light"
                     android:gravity="center"
-                    android:text="Please type the code that\n have been sented from your phone"
+                    android:text="@string/please_type_the_code_that_n_have_been_sented_from_your_phone"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -164,7 +164,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/almarai_regular"
-                            android:text="No sent code ?"
+                            android:text="@string/no_sent_code"
                             android:textColor="@color/dark_gray"
                             android:textSize="16sp" />
 
@@ -179,7 +179,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/almarai_regular"
-                                android:text="Retry"
+                                android:text="@string/retry"
                                 android:textColor="@color/orange"
                                 android:textSize="16sp" />
 

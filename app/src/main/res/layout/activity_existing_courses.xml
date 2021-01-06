@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/almarai_regular"
-                android:text="Existing courses"
+                android:text="@string/existing_courses"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
         </RelativeLayout>

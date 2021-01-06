@@ -8,14 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
-import digital.upbeat.estisharati_user.Adapter.ChatAdapter
 import digital.upbeat.estisharati_user.Adapter.CourseChapterAdapter
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.R
 import digital.upbeat.estisharati_user.UI.CourseResource
-import kotlinx.android.synthetic.main.activity_chat_page.*
-import kotlinx.android.synthetic.main.fragment_course_content.*
-import kotlinx.android.synthetic.main.fragment_course_content.courseVideoRecycler
 import kotlinx.android.synthetic.main.fragment_course_videos.*
 
 class CourseVideos(val courseResource: CourseResource) : Fragment() {

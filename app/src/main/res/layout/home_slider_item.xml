@@ -68,7 +68,7 @@
                     android:paddingTop="5dp"
                     android:paddingRight="20dp"
                     android:paddingBottom="5dp"
-                    android:text="Discover"
+                    android:text="@string/discover"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
 

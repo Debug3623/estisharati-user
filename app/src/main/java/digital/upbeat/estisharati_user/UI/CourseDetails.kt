@@ -29,6 +29,7 @@ import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_course_details.*
 import kotlinx.android.synthetic.main.preview_courses_popup.view.*
 import kotlinx.android.synthetic.main.tap_item.view.*
@@ -40,7 +41,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 
-class CourseDetails : AppCompatActivity() {
+class CourseDetails : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var sharedPreferencesHelper: SharedPreferencesHelper
@@ -69,7 +70,7 @@ class CourseDetails : AppCompatActivity() {
     fun clickEvents() {
         nav_back.setOnClickListener { finish() }
         showMore.setOnClickListener {
-            helperMethods.AlertPopup("Course description", responseCoursesDetails.description)
+            helperMethods.AlertPopup(getString(R.string.course_description), responseCoursesDetails.description)
         }
         previewCourse.setOnClickListener {
             showCoursePreviewPopup()
@@ -87,10 +88,9 @@ class CourseDetails : AppCompatActivity() {
                 } else {
                     responseCoursesDetails.offerprice
                 }
-
                 val vatAmount: Float = price.toFloat() / 100.0f * 5
-                val priceIncludedVat=vatAmount+price.toFloat()
-                GlobalData.packagesOptions = PackagesOptions(responseCoursesDetails.id, responseCoursesDetails.name, "course","",price,vatAmount.toString(), priceIncludedVat.toString(), "", "", "")
+                val priceIncludedVat = vatAmount + price.toFloat()
+                GlobalData.packagesOptions = PackagesOptions(responseCoursesDetails.id, responseCoursesDetails.name, "course", "", price, vatAmount.toString(), priceIncludedVat.toString(), "", "", "")
 
                 startActivity(Intent(this@CourseDetails, PackagesSelection::class.java))
             }
@@ -113,19 +113,19 @@ class CourseDetails : AppCompatActivity() {
         courseName.text = responseCoursesDetails.name
         courseDescription.text = helperMethods.getHtmlText(responseCoursesDetails.description)
         courseRating.text = responseCoursesDetails.rate
-        courseHours.text = "Hours ${responseCoursesDetails.course_duration}"
-        courseVideos.text = "Videos ${responseCoursesDetails.videos_count}"
-        courseChapters.text = "Chapters ${responseCoursesDetails.chapters_count}"
+        courseHours.text = getString(R.string.hours) + " " + responseCoursesDetails.course_duration
+        courseVideos.text = getString(R.string.videos) + " " + responseCoursesDetails.videos_count
+        courseChapters.text = getString(R.string.chapters) + " " + responseCoursesDetails.chapters_count
         coursePeriod.text = responseCoursesDetails.period
         Glide.with(this@CourseDetails).load(responseCoursesDetails.image_path).apply(helperMethods.requestOption).into(courseBackgroundImage)
         Glide.with(this@CourseDetails).load(responseCoursesDetails.image_path).apply(helperMethods.requestOption).into(previewCourse)
         if (responseCoursesDetails.offerprice.equals("0")) {
-            coursePrice.text = "AED ${responseCoursesDetails.price}"
+            coursePrice.text = "${getString(R.string.aed)} ${responseCoursesDetails.price}"
             courseOldPrice.visibility = View.GONE
             offersEndDateLayout.visibility = View.GONE
         } else {
-            coursePrice.text = "AED ${responseCoursesDetails.offerprice}"
-            courseOldPrice.text = "AED ${responseCoursesDetails.price}"
+            coursePrice.text = "${getString(R.string.aed)} ${responseCoursesDetails.offerprice}"
+            courseOldPrice.text = "${getString(R.string.aed)} ${responseCoursesDetails.price}"
             offersEndDate.text = responseCoursesDetails.offer_end
             courseOldPrice.setPaintFlags(courseOldPrice.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
             courseOldPrice.visibility = View.VISIBLE
@@ -169,9 +169,9 @@ class CourseDetails : AppCompatActivity() {
         val tabOne = layoutInflater.inflate(R.layout.tap_item, null) as View
         val tabTwo = layoutInflater.inflate(R.layout.tap_item, null) as View
         val tabThree = layoutInflater.inflate(R.layout.tap_item, null) as View
-        tabOne.tap_text.text = "Course content"
-        tabTwo.tap_text.text = "Instructor"
-        tabThree.tap_text.text = "Comments"
+        tabOne.tap_text.text = getString(R.string.course_content)
+        tabTwo.tap_text.text = getString(R.string.instructor)
+        tabThree.tap_text.text = getString(R.string.comments)
         setUpViewPager(courseViewpager)
         courseTablayout.setupWithViewPager(courseViewpager)
         courseTablayout.getTabAt(0)?.setCustomView(tabOne)
@@ -188,7 +188,7 @@ class CourseDetails : AppCompatActivity() {
     }
 
     fun onlineCoursesApiCall(courseId: String) {
-        helperMethods.showProgressDialog("Please wait while loading...")
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
         val responseBodyCall = retrofitInterface.COURSES_DETAILS_API_CALL("Bearer ${dataUser.access_token}", courseId)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -206,7 +206,7 @@ class CourseDetails : AppCompatActivity() {
                                 setCourseDetails()
                             } else {
                                 val message = jsonObject.getString("message")
-                                helperMethods.AlertPopup("Alert", message)
+                                helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -226,13 +226,13 @@ class CourseDetails : AppCompatActivity() {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
-                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
     }
 
     fun addRemoveFavouriteCourseApiCall(courseId: String) {
-        helperMethods.showProgressDialog("Please wait while loading...")
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
         val responseBodyCall = retrofitInterface.FAVOURITE_COURSE_API_CALL("Bearer ${dataUser.access_token}", courseId)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -256,7 +256,7 @@ class CourseDetails : AppCompatActivity() {
                                     favoriteIcon.setImageResource(R.drawable.ic_un_favorite)
                                 }
                             } else {
-                                helperMethods.AlertPopup("Alert", message)
+                                helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -276,7 +276,7 @@ class CourseDetails : AppCompatActivity() {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
-                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
     }

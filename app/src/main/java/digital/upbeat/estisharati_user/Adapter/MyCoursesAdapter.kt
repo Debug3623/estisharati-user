@@ -30,7 +30,7 @@ class MyCoursesAdapter(val context: Context, val myCourses: MyCourses, var myCou
         val mycourseItem = myCoursesArrayList.get(position)
         holder.courses_name.text = mycourseItem.name
         Glide.with(context).load(mycourseItem.image_path).apply(myCourses.helperMethods.requestOption).into(holder.courseImage)
-        holder.complete.text = "complete  ${mycourseItem.complete}%"
+        holder.complete.text = "${context.getString(R.string.complete)}  ${mycourseItem.complete}%"
         if (mycourseItem.complete.equals("0")) {
             holder.start_course.visibility = View.VISIBLE
             holder.add_review_layout.visibility = View.GONE

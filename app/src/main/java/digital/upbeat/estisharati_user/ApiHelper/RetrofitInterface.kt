@@ -12,10 +12,10 @@ import retrofit2.http.*
 interface RetrofitInterface {
     @FormUrlEncoded
     @POST("user/login")
-    fun LOGIN_API_CALL(@Field("user_id") user_id: String, @Field("password") password: String, @Field("remember") remember: String, @Field("fire_base_token") fire_base_token: String): Call<ResponseBody>
+    fun LOGIN_API_CALL(@Field("user_id") user_id: String, @Field("password") password: String, @Field("remember") remember: String, @Field("fire_base_token") fire_base_token: String, @Field("user_type") user_type: String): Call<ResponseBody>
 
     @FormUrlEncoded
-    @POST("user/test_register")
+    @POST("user/register")
     fun REGISTER_API_CALL(@Field("fname") fname: String, @Field("lname") lname: String, @Field("email") email: String, @Field("phone") phone: String, @Field("phone_code") phone_code: String, @Field("password") password: String, @Field("user_type") user_type: String): Call<ResponseBody>
 
     @FormUrlEncoded
@@ -23,11 +23,11 @@ interface RetrofitInterface {
     fun VERIFY_PHONE_API_CALL(@Field("phone") phone: String, @Field("code") code: String): Call<ResponseBody>
 
     @FormUrlEncoded
-    @POST("user/test_resend_code")
+    @POST("user/resend_code")
     fun RESEND_CODE_API_CALL(@Field("phone") phone: String): Call<ResponseBody>
 
     @FormUrlEncoded
-    @POST("user/test_reset_password")
+    @POST("user/reset_password")
     fun RESET_PASSWORD_API_CALL(@Field("phone") phone: String): Call<ResponseBody>
 
     @GET("geographies")
@@ -86,7 +86,7 @@ interface RetrofitInterface {
     fun PAGES_API_CALL(@Header("Authorization") token: String, @Path("pages") pages: String): Call<ResponseBody>
 
     @GET("user/home")
-    fun HOME_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
+    fun HOME_API_CALL(@Header("Authorization") token: String,@Query("fire_base_token") fire_base_token: String): Call<ResponseBody>
 
     @GET("consultants")
     fun ALL_CONSULTANTS_API_CALL(@Header("Authorization") token: String, @Query("category_id") category_id: String, @Query("sortby") sortby: String): Call<ResponseBody>
@@ -159,11 +159,19 @@ interface RetrofitInterface {
     @GET("start-course/{course_id}")
     fun START_COURSE_API_CALL(@Header("Authorization") token: String,@Path("course_id")course_id:String): Call<ResponseBody>
 
+
     @GET("mypackages")
     fun MYPACKAGES_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
 
     @FormUrlEncoded
     @POST("lesson-completed")
     fun LESSON_COMPLETED_API_CALL(@Header("Authorization") token: String, @Field("course_id") course_id: String, @Field("resource_id") resource_id: String, @Field("lesson_id") lesson_id: String): Call<ResponseBody>
+
+    @GET("get-consultation-seconds/{consultant_id}")
+    fun GET_CONSULTATION_SECONDS_API_CALL(@Header("Authorization") token: String,@Path("consultant_id")course_id:String): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("update-consultation-seconds")
+    fun UPDATE_CONSULTATION_SECONDS_API_CALL(@Header("Authorization") token: String, @Field("consultant_id") consultant_id: String, @Field("video_balance") video_balance: String, @Field("audio_balance") audio_balance: String, @Field("chat_minutes") chat_minutes: String): Call<ResponseBody>
 
 }

@@ -92,7 +92,7 @@ class Comments(val courseDetails: CourseDetails) : Fragment() {
     }
 
     fun courseCommentApiCall(courseId: String, parent_id: String, comment: String) {
-        helperMethods.showProgressDialog("Please wait while loading...")
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
         val responseBodyCall = retrofitInterface.COURSES_COMMENT_API_CALL("Bearer ${dataUser.access_token}", courseId, parent_id, comment)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -106,10 +106,10 @@ class Comments(val courseDetails: CourseDetails) : Fragment() {
                             if (commentsResponse.status.equals("200")) {
                                 courseDetails.responseCoursesDetails.comments = commentsResponse.data
                                 InitializeRecyclerview()
-                                helperMethods.showToastMessage("Replied successfully !")
+                                helperMethods.showToastMessage(getString(R.string.replied_successfully))
                             } else {
                                 val message = JSONObject(response.body()!!.string()).getString("message")
-                                helperMethods.AlertPopup("Alert", message)
+                                helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -129,7 +129,7 @@ class Comments(val courseDetails: CourseDetails) : Fragment() {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
-                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
     }

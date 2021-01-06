@@ -127,7 +127,7 @@ class MyProfile : AppCompatActivity() {
     }
 
     fun ChangePasswordApiCall(currentPassword: String, newPassword: String, confirmPassword: String) {
-        helperMethods.showProgressDialog("Please wait while loading...")
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
         val responseBodyCall = retrofitInterface.CHANGE_PASSWORD_API_CALL("Bearer ${dataUserObject.access_token}", currentPassword, newPassword, confirmPassword)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -144,7 +144,7 @@ class MyProfile : AppCompatActivity() {
                                 change_password_arrow.setImageResource(R.drawable.ic_up_arrow_white)
                             } else {
                                 val message = jsonObject.getString("message")
-                                helperMethods.AlertPopup("Alert", message)
+                                helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -164,7 +164,7 @@ class MyProfile : AppCompatActivity() {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
-                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
     }
@@ -183,7 +183,7 @@ class MyProfile : AppCompatActivity() {
                 val img_uri = data.data
                 val filePath = helperMethods.getFilePath(img_uri!!)
                 if (filePath == null) {
-                    Toast.makeText(this@MyProfile, "Could not get image", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@MyProfile, getString(R.string.could_not_get_image), Toast.LENGTH_LONG).show()
                     return
                 }
                 profilePictureUpdateApiCall(filePath)
@@ -194,7 +194,7 @@ class MyProfile : AppCompatActivity() {
                 val img_uri = helperMethods.getImageUriFromBitmap(yourSelectedImage)
                 val filePath = helperMethods.getFilePath(img_uri)
                 if (filePath == null) {
-                    Toast.makeText(this@MyProfile, "Could not get image", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@MyProfile, getString(R.string.could_not_get_image), Toast.LENGTH_LONG).show()
                     return
                 }
                 profilePictureUpdateApiCall(filePath)
@@ -207,7 +207,7 @@ class MyProfile : AppCompatActivity() {
         val requestBody = RequestBody.create(MediaType.parse("*/*"), file)
         val imageFile = MultipartBody.Part.createFormData("image", file.getName(), requestBody)
 
-        helperMethods.showProgressDialog("Profile picture is updating...")
+        helperMethods.showProgressDialog(getString(R.string.profile_picture_is_updating))
         val responseBodyCall = retrofitInterface.PROFILE_PICTURE_UPDATE_API_CALL("Bearer ${dataUserObject.access_token}", imageFile)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -234,7 +234,7 @@ class MyProfile : AppCompatActivity() {
                                 helperMethods.updateUserDetailsToFirestore(dataUser.id, hashMap)
                             } else {
                                 val message = jsonObject.getString("message")
-                                helperMethods.AlertPopup("Alert", message)
+                                helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -254,7 +254,7 @@ class MyProfile : AppCompatActivity() {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
-                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
     }
@@ -350,19 +350,19 @@ class MyProfile : AppCompatActivity() {
 
     fun updateProfileValidation(): Boolean {
         if (LayoutView.ud_fname.toText().equals("")) {
-            helperMethods.showToastMessage("Enter first name")
+            helperMethods.showToastMessage(getString(R.string.enter_first_name))
             return false
         }
         if (LayoutView.ud_lname.toText().equals("")) {
-            helperMethods.showToastMessage("Enter last name")
+            helperMethods.showToastMessage(getString(R.string.enter_last_name))
             return false
         }
         if (LayoutView.ud_email_address.toText().equals("")) {
-            helperMethods.showToastMessage("Enter email address")
+            helperMethods.showToastMessage(getString(R.string.enter_email_address))
             return false
         }
         if (!helperMethods.isvalidEmail(LayoutView.ud_email_address.toText())) {
-            helperMethods.showToastMessage("Enter valid email address")
+            helperMethods.showToastMessage(getString(R.string.enter_valid_email_address))
             return false
         }
 
@@ -374,7 +374,7 @@ class MyProfile : AppCompatActivity() {
     }
 
     fun countryCityApiCall() {
-        helperMethods.showProgressDialog("Please wait while Loading...")
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
         val responseBodyCall = retrofitInterface.GEOGRAPHIES_API_CALL("Bearer ${dataUserObject.access_token}")
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -408,7 +408,7 @@ class MyProfile : AppCompatActivity() {
                                 profileEditPopup()
                             } else {
                                 val message = jsonObject.getString("message")
-                                helperMethods.AlertPopup("Alert", message)
+                                helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -428,13 +428,13 @@ class MyProfile : AppCompatActivity() {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
-                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
     }
 
     fun profileUpdateApiCall(fNmae: String, lName: String, emailAddress: String, countryID: String, cityID: String) {
-        helperMethods.showProgressDialog("Profile is updating...")
+        helperMethods.showProgressDialog(getString(R.string.profile_is_updating))
         val responseBodyCall = retrofitInterface.PROFILE_UPDATE_API_CALL("Bearer ${dataUserObject.access_token}", fNmae, lName, emailAddress, countryID, cityID)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -469,7 +469,7 @@ class MyProfile : AppCompatActivity() {
                                 helperMethods.setUserDetailsToFirestore(dataUser.id, hashMap)
                             } else {
                                 val message = jsonObject.getString("message")
-                                helperMethods.AlertPopup("Alert", message)
+                                helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -489,30 +489,30 @@ class MyProfile : AppCompatActivity() {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
-                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
     }
 
     fun validateUpdatePassword(): Boolean {
         if (currentPassword.toText().equals("")) {
-            helperMethods.showToastMessage("Enter your current password !")
+            helperMethods.showToastMessage(getString(R.string.enter_your_current_password))
             return false
         }
         if (newPassword.toText().equals("")) {
-            helperMethods.showToastMessage("Enter your new password !")
+            helperMethods.showToastMessage(getString(R.string.enter_your_new_password))
             return false
         }
         if (!helperMethods.isValidPassword(newPassword.toText())) {
-            helperMethods.AlertPopup("Alert", "Password at least 8 characters including a lower-case letter, an upper–case letter, a number and one special character")
+            helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.password_at_least_8_characters_including_a_lower_case_letteran_uppercase_lettera_number_and_one_special_character))
             return false
         }
         if (confirmPassword.toText().equals("")) {
-            helperMethods.showToastMessage("Enter your confirm password !")
+            helperMethods.showToastMessage(getString(R.string.enter_your_confirm_password))
             return false
         }
         if (!newPassword.toText().equals(confirmPassword.toText())) {
-            helperMethods.showToastMessage("New password and Confirm password not same !")
+            helperMethods.showToastMessage(getString(R.string.new_password_and_confirm_password_not_same))
             return false
         }
         if (!helperMethods.isConnectingToInternet) {

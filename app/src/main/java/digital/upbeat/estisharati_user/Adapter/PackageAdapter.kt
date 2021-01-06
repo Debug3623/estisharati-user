@@ -34,12 +34,15 @@ class PackageAdapter(val context: Context, val packages: Packages?, val myPackag
     }
 
     override fun onBindViewHolder(holder: PackageViewHolder, position: Int) {
+        val packagesItems = packagesArrayList.get(position)
+
         if (packages != null) {
             purchased = false
+            holder.packagePrice.text = packagesItems.price
         } else if (myPackages != null) {
             purchased = true
+            holder.packagePrice.text = packagesItems.amount
         }
-        val packagesItems = packagesArrayList.get(position)
         holder.showExisitingCourses.setOnClickListener {
             val intent = Intent(context, ExistingCourses::class.java)
             intent.putExtra("courses", packagesItems.courses)
@@ -51,25 +54,24 @@ class PackageAdapter(val context: Context, val packages: Packages?, val myPackag
             context.startActivity(intent)
         }
         holder.packageName.text = packagesItems.name
-        holder.packagePrice.text = packagesItems.price
         holder.packagePeriod.text = packagesItems.period
         if (packagesItems.features.video.time.equals("0")) {
             holder.videoLayout.visibility = View.GONE
         } else {
             holder.videoLayout.visibility = View.VISIBLE
-            holder.videoHourse.text = "Video Call " + formatToMinute(packagesItems.features.video.time)
+            holder.videoHourse.text = context.getString(R.string.video_call) + " " + formatToMinute(packagesItems.features.video.time)
         }
         if (packagesItems.features.audio.time.equals("0")) {
             holder.voiceLayout.visibility = View.GONE
         } else {
             holder.voiceLayout.visibility = View.VISIBLE
-            holder.voiceHourse.text = "Voice Call " + formatToMinute(packagesItems.features.audio.time)
+            holder.voiceHourse.text = context.getString(R.string.voice_call) + " " + formatToMinute(packagesItems.features.audio.time)
         }
         if (packagesItems.features.written.time.equals("0")) {
             holder.writtenLayout.visibility = View.GONE
         } else {
             holder.writtenLayout.visibility = View.VISIBLE
-            holder.writtenHourse.text = "Written Chat " + formatToMinute(packagesItems.features.written.time)
+            holder.writtenHourse.text = context.getString(R.string.written_chat) + " " + formatToMinute(packagesItems.features.written.time)
         }
         if (packagesItems.courses.size > 0) {
             holder.courseLayout.visibility = View.VISIBLE

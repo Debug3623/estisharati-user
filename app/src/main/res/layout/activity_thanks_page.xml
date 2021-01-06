@@ -37,7 +37,7 @@
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/almarai_regular"
                     android:gravity="center"
-                    android:text="THANKS"
+                    android:text="@string/thanks"
                     android:textColor="@color/white"
                     android:textSize="26sp" />
 
@@ -47,7 +47,7 @@
                     android:layout_marginTop="20dp"
                     android:fontFamily="@font/almarai_regular"
                     android:gravity="center"
-                    android:text="Subscription successful"
+                    android:text="@string/subscription_successful"
                     android:textColor="@color/white"
                     android:textSize="23sp" />
             </LinearLayout>
@@ -70,7 +70,7 @@
                     android:layout_marginTop="100dp"
                     android:fontFamily="@font/almarai_regular"
                     android:gravity="center"
-                    android:text="You are now subscribed to"
+                    android:text="@string/you_are_now_subscribed_to"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
@@ -97,7 +97,7 @@
                 android:fontFamily="@font/almarai_bold"
                 android:gravity="center"
                 android:padding="13dp"
-                android:text="Go To Home Page"
+                android:text="@string/go_to_home_page"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="16sp" />

@@ -25,6 +25,7 @@ import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_online_courses.*
 import okhttp3.ResponseBody
 import org.json.JSONException
@@ -34,7 +35,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 
-class OnlineCourses : AppCompatActivity() {
+class OnlineCourses : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var dataUser: DataUser
@@ -123,7 +124,7 @@ class OnlineCourses : AppCompatActivity() {
         } else {
             emptyLayout.visibility = View.VISIBLE
             onlineCoursesLayout.visibility = View.GONE
-            errorText.text = "There is no online courses found !"
+            errorText.text = getString(R.string.there_is_no_online_courses_found)
         }
     }
 
@@ -184,7 +185,7 @@ class OnlineCourses : AppCompatActivity() {
     fun onlineCoursesApiCall(category_id: String, sortby: String, page: String) {
         Log.d("pageCount", page);
         if (pageCount == 1) {
-            helperMethods.showProgressDialog("Please wait while loading...")
+            helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
         }
         val responseBodyCall = retrofitInterface.COURSES_API_CALL("Bearer ${dataUser.access_token}", category_id, sortby, page)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
@@ -215,7 +216,7 @@ class OnlineCourses : AppCompatActivity() {
                                 initializeRecyclerview()
                             } else {
                                 val message = jsonObject.getString("message")
-                                helperMethods.AlertPopup("Alert", message)
+                                helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -237,7 +238,7 @@ class OnlineCourses : AppCompatActivity() {
                 loading = true
                 circleProgress.visibility = View.GONE
                 t.printStackTrace()
-                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
     }

@@ -1,40 +1,23 @@
 package digital.upbeat.estisharati_user.UI
 
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RatingBar
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.*
-import com.google.gson.Gson
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_user.DataClassHelper.ConsultantComments.commentsResponse
 import digital.upbeat.estisharati_user.DataClassHelper.DataUser
 import digital.upbeat.estisharati_user.DataClassHelper.MyConsultation.Data
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_consultation_details_video.*
-import okhttp3.ResponseBody
-import org.json.JSONException
-import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.io.IOException
 
-class ConsultationDetailsVideo : AppCompatActivity() {
+class ConsultationDetailsVideo : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var simpleExoPlayer: SimpleExoPlayer
     lateinit var myConsultation: Data
@@ -64,6 +47,13 @@ class ConsultationDetailsVideo : AppCompatActivity() {
             val intent = Intent(this@ConsultationDetailsVideo, ConsultantDetails::class.java)
             intent.putExtra("consultant_id", myConsultation.consultant_id)
             intent.putExtra("category_id", "")
+            startActivity(intent)
+        }
+        chatPage.setOnClickListener {
+            val intent = Intent(this@ConsultationDetailsVideo, ChatPage::class.java)
+            intent.putExtra("user_id", myConsultation.consultant_id)
+            intent.putExtra("forward_type", GlobalData.forwardType)
+            intent.putExtra("forward_content", GlobalData.forwardContent)
             startActivity(intent)
         }
     }
@@ -102,7 +92,6 @@ class ConsultationDetailsVideo : AppCompatActivity() {
 
     override fun onStop() {
         simpleExoPlayer.stop()
-        simpleExoPlayer.release()
         super.onStop()
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Paint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -32,6 +33,8 @@ class OffersConsultantsAdapter(val context: Context, val offers: Offers, val con
         holder.offersConsultantEndDate.text = consultantsArrayList.get(position).enddate
         holder.offersOldConsultantPrice.text = consultantsArrayList.get(position).consultant.price
         holder.offersOldConsultantPrice.setPaintFlags(holder.offersOldConsultantPrice.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
+        if (offers.helperMethods.findConsultantIsOnline(consultantsArrayList.get(position).consultant_id)) holder.onlineStatus.visibility = View.VISIBLE else holder.onlineStatus.visibility = View.GONE
+
         holder.offersConsultantParentLayout.setOnClickListener {
             val intent = Intent(context, ConsultantDetails::class.java)
             intent.putExtra("consultant_id", consultantsArrayList.get(position).consultant.id)

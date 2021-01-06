@@ -24,6 +24,7 @@ import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_legal_advice.*
 import okhttp3.ResponseBody
 import org.json.JSONException
@@ -32,7 +33,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 
-class LegalAdvice : AppCompatActivity() {
+class LegalAdvice : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var sharedPreferencesHelper: SharedPreferencesHelper
@@ -109,7 +110,7 @@ class LegalAdvice : AppCompatActivity() {
         } else {
             legal_advice_recycler.visibility = View.GONE
             legalEmptyLayout.visibility = View.VISIBLE
-            legal_errorText.text = "There is no legal advice available !"
+            legal_errorText.text = getString(R.string.there_is_no_legal_advice_available)
         }
 
         legal_advice_recycler.setHasFixedSize(true)
@@ -142,7 +143,7 @@ class LegalAdvice : AppCompatActivity() {
     }
 
     fun allConsultantsApiCall(category_id: String, sortby: String) {
-        helperMethods.showProgressDialog("Please wait while loading...")
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
         val responseBodyCall = retrofitInterface.ALL_CONSULTANTS_API_CALL("Bearer ${dataUser.access_token}", category_id, sortby)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -176,7 +177,7 @@ class LegalAdvice : AppCompatActivity() {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
-                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
     }

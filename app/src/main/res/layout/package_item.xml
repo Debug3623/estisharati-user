@@ -180,7 +180,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:fontFamily="@font/almarai_regular"
-                    android:text="Existing courses"
+                    android:text="@string/existing_courses"
                     android:textColor="@color/black_light"
                     android:textSize="15sp" />
 
@@ -195,7 +195,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="show"
+                        android:text="@string/show"
                         android:textColor="@color/red"
                         android:textSize="13sp" />
 
@@ -231,7 +231,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Consultants in the  package"
+                        android:text="@string/consultants_in_the_package"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
 
@@ -302,7 +302,7 @@
                         android:elevation="2dp"
                         android:fontFamily="@font/almarai_regular"
                         android:gravity="center"
-                        android:text="ALL"
+                        android:text="@string/all"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
                 </LinearLayout>

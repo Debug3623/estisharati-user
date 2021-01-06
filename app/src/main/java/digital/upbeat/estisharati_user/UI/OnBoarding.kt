@@ -10,10 +10,11 @@ import digital.upbeat.estisharati_user.Adapter.OnBoardingPagerAdapter
 import digital.upbeat.estisharati_user.DataClassHelper.DataBoarding
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import digital.upbeat.estisharati_user.Utils.CirclePageIndicator
 import kotlinx.android.synthetic.main.activity_on_boarding.*
 
-class OnBoarding : AppCompatActivity() {
+class OnBoarding : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     var adapter: OnBoardingPagerAdapter? = null
     var count = 0
@@ -55,9 +56,9 @@ class OnBoarding : AppCompatActivity() {
 
     private fun ShowViewPager() {
         val boardingArrayList: ArrayList<DataBoarding> = arrayListOf()
-        boardingArrayList.add(DataBoarding(R.drawable.ic_onboard_1, "Online Cources", "Browse Now hundreds of e-courses\nIn all fields .. learn now"))
-        boardingArrayList.add(DataBoarding(R.drawable.ic_onboard_2, "Chat", "Chat and speak with members and\nconsultants Freely through audio and video"))
-        boardingArrayList.add(DataBoarding(R.drawable.ic_onboard_3, "Ask for advice", "We have consultants in all fields\nWe are here to help you .. start now"))
+        boardingArrayList.add(DataBoarding(R.drawable.ic_onboard_1, getString(R.string.online_cources), getString(R.string.browse_now_hundreds_of_e_courses_in_all_fields_learn_now)))
+        boardingArrayList.add(DataBoarding(R.drawable.ic_onboard_2, getString(R.string.chat), getString(R.string.chat_and_speak_with_members_andconsultants_freely_through_audio_and_video)))
+        boardingArrayList.add(DataBoarding(R.drawable.ic_onboard_3, getString(R.string.ask_for_advice), getString(R.string.we_have_consultants_in_all_fields_we_are_here_to_help_you_start_now)))
         adapter = OnBoardingPagerAdapter(this@OnBoarding, boardingArrayList)
         val rotateimage = AnimationUtils.loadAnimation(this, R.anim.slide_in)
         viewpager.adapter = adapter

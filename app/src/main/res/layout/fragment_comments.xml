@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
-                android:text="Average ratings"
+                android:text="@string/average_ratings"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
         </LinearLayout>
@@ -388,7 +388,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/almarai_regular"
-                android:text="Comments"
+                android:text="@string/comments"
                 android:textColor="@color/black"
                 android:textSize="13sp" />
 
@@ -398,7 +398,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/almarai_regular"
                 android:gravity="right"
-                android:text="Comment &amp; Rate"
+                android:text="@string/comment_amp_rate"
                 android:textColor="@color/green"
                 android:textSize="13sp" />
         </LinearLayout>

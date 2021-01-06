@@ -37,7 +37,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="40dp"
                 android:fontFamily="@font/almarai_regular"
-                android:text="Chat"
+                android:text="@string/chat"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
@@ -76,7 +76,7 @@
                     android:layout_alignParentRight="true"
                     android:background="@drawable/round_light_green_white_stroke"
                     android:gravity="center"
-                    android:text="2"
+                    android:text="0"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
             </RelativeLayout>
@@ -99,7 +99,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/almarai_bold"
-                    android:text="Message ready to forwarding"
+                    android:text="@string/message_ready_to_forwarding"
                     android:textSize="15sp" />
 
                 <ImageView
@@ -131,7 +131,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/almarai_regular"
-                android:text="Online consultations"
+                android:text="@string/all_consultant"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
@@ -167,10 +167,10 @@
             <com.facebook.shimmer.ShimmerFrameLayout
                 android:id="@+id/shimmer_view_container"
                 android:layout_width="match_parent"
+                android:visibility="visible"
                 android:layout_height="wrap_content">
 
                 <ScrollView
-
                     android:layout_width="match_parent"
                     android:scrollbars="none"
                     android:layout_height="wrap_content">
@@ -198,6 +198,32 @@
                     </LinearLayout>
                 </ScrollView>
             </com.facebook.shimmer.ShimmerFrameLayout>
+            <LinearLayout
+                android:id="@+id/emptyLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="100dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/ic_speech_bubble" />
+
+                <TextView
+                    android:id="@+id/errorText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/almarai_bold"
+                    android:gravity="center"
+                    android:text="@string/there_is_no_recent_chat_available"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>

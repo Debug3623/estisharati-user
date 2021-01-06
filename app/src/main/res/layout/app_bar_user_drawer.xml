@@ -42,7 +42,7 @@
             android:layout_marginLeft="35dp"
             android:fontFamily="@font/almarai_regular"
             android:padding="4dp"
-            android:text="Consultations"
+            android:text="@string/consultations"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:visibility="gone" />

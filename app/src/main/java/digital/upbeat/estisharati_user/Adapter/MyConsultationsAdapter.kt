@@ -29,6 +29,7 @@ class MyConsultationsAdapter(val context: Context, val myConsultations: MyConsul
         myConsultationArrayList.get(position).video = true
         myConsultationArrayList.get(position).chat = true
 
+        if (myConsultations.helperMethods.findConsultantIsOnline(myConsultationArrayList.get(position).consultant_id)) holder.online_status.visibility = View.VISIBLE else holder.online_status.visibility = View.GONE
 
         holder.consultantName.text = myConsultationArrayList.get(position).name
         holder.consultantCategory.text = myConsultationArrayList.get(position).category_name

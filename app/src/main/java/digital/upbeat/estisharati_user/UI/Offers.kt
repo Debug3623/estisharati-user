@@ -18,6 +18,7 @@ import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_offers.*
 import okhttp3.ResponseBody
 import org.json.JSONException
@@ -27,7 +28,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 
-class Offers : AppCompatActivity() {
+class Offers : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var dataUser: DataUser
@@ -85,7 +86,7 @@ class Offers : AppCompatActivity() {
             } else {
                 offersRecycler.visibility = View.GONE
                 offersEmptyLayout.visibility = View.VISIBLE
-                offer_errorText.text = "There is no offer consultant available !"
+                offer_errorText.text = getString(R.string.there_is_no_offer_consultant_available)
             }
             offersConsultants.setTextColor(ContextCompat.getColor(this@Offers, R.color.white))
             offersCourses.setTextColor(ContextCompat.getColor(this@Offers, R.color.transparent_white))
@@ -100,7 +101,7 @@ class Offers : AppCompatActivity() {
             } else {
                 offersRecycler.visibility = View.GONE
                 offersEmptyLayout.visibility = View.VISIBLE
-                offer_errorText.text = "There is no offer courses available !"
+                offer_errorText.text = getString(R.string.there_is_no_offer_courses_available)
             }
             offersCourses.setTextColor(ContextCompat.getColor(this@Offers, R.color.white))
             offersConsultants.setTextColor(ContextCompat.getColor(this@Offers, R.color.transparent_white))
@@ -121,7 +122,7 @@ class Offers : AppCompatActivity() {
     }
 
     fun OffersListApiCall() {
-        helperMethods.showProgressDialog("Please wait while loading...")
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
         val responseBodyCall = retrofitInterface.OFFERS_API_CALL("Bearer ${dataUser.access_token}")
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -137,7 +138,7 @@ class Offers : AppCompatActivity() {
                                 initializeOffersConsultantRecyclerview()
                             } else {
                                 val message = jsonObject.getString("message")
-                                helperMethods.AlertPopup("Alert", message)
+                                helperMethods.AlertPopup(getString(R.string.alert), message)
                                 initializeOffersConsultantRecyclerview()
                             }
                         } catch (e: JSONException) {
@@ -158,7 +159,7 @@ class Offers : AppCompatActivity() {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
-                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
     }

@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:fontFamily="@font/almarai_regular"
-                android:text="My Consultations"
+                android:text="@string/my_consultations"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -71,7 +71,7 @@
             android:layout_margin="10dp"
             android:fontFamily="@font/almarai_bold"
             android:gravity="center"
-            android:text="Please wait while fetching consultant..."
+            android:text="@string/please_wait_while_fetching_consultant"
             android:textColor="@color/black"
             android:textSize="16sp" />
 

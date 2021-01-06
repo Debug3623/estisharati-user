@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:fontFamily="@font/almarai_regular"
-                    android:text="My Profile"
+                    android:text="@string/my_profile"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -113,7 +113,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/almarai_regular"
-                            android:text="Edit profile"
+                            android:text="@string/edit_profile"
                             android:textColor="@color/white"
                             android:textSize="14sp" />
 
@@ -154,7 +154,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
-                                android:text="3"
+                                android:text="0"
                                 android:textColor="@color/black"
                                 android:textSize="20sp" />
 
@@ -163,7 +163,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:fontFamily="@font/almarai_regular"
-                                android:text="My Courses"
+                                android:text="@string/my_courses"
                                 android:textColor="@color/black_light"
                                 android:textSize="13sp" />
                         </LinearLayout>
@@ -194,7 +194,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
-                                android:text="5"
+                                android:text="0"
                                 android:textColor="@color/black"
                                 android:textSize="20sp" />
 
@@ -203,7 +203,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:fontFamily="@font/almarai_regular"
-                                android:text="My Consultations"
+                                android:text="@string/my_consultations"
                                 android:textColor="@color/black_light"
                                 android:textSize="13sp" />
                         </LinearLayout>
@@ -235,7 +235,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:fontFamily="@font/almarai_regular"
-                                android:text="3"
+                                android:text="0"
                                 android:textColor="@color/black"
                                 android:textSize="20sp" />
 
@@ -244,7 +244,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="14dp"
                                 android:fontFamily="@font/almarai_regular"
-                                android:text="Package"
+                                android:text="@string/package_"
                                 android:textColor="@color/black_light"
                                 android:textSize="13sp" />
                         </LinearLayout>
@@ -263,7 +263,7 @@
                         android:paddingTop="5dp"
                         android:paddingRight="15dp"
                         android:paddingBottom="5dp"
-                        android:text="Upgrade"
+                        android:text="@string/upgrade"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -420,7 +420,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
                                 android:fontFamily="@font/almarai_regular"
-                                android:text="Change"
+                                android:text="@string/change"
                                 android:textColor="@color/white"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -447,7 +447,7 @@
                         android:layout_height="wrap_content"
                         android:background="@color/transparent"
                         android:fontFamily="@font/almarai_regular"
-                        android:hint="Current Password"
+                        android:hint="@string/current_password"
                         android:inputType="textPassword"
                         android:imeOptions="actionNext"
                         android:singleLine="true"
@@ -468,7 +468,7 @@
                         android:layout_marginTop="20dp"
                         android:background="@color/transparent"
                         android:fontFamily="@font/almarai_regular"
-                        android:hint="New Password"
+                        android:hint="@string/new_password"
                         android:singleLine="true"
                         android:inputType="textPassword"
                         android:imeOptions="actionNext"
@@ -489,7 +489,7 @@
                         android:layout_marginTop="20dp"
                         android:background="@color/transparent"
                         android:fontFamily="@font/almarai_regular"
-                        android:hint="Confirm Passoword"
+                        android:hint="@string/confirm_passoword"
                         android:imeOptions="actionDone"
                         android:inputType="textVisiblePassword"
                         android:singleLine="true"
@@ -516,7 +516,7 @@
                         android:id="@+id/savePassword"
                         android:paddingRight="30dp"
                         android:paddingBottom="7dp"
-                        android:text="Save"
+                        android:text="@string/save"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
                 </LinearLayout>

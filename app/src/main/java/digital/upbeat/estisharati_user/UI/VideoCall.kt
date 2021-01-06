@@ -12,17 +12,20 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.FrameLayout
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
+import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
 import digital.upbeat.estisharati_user.DataClassHelper.DataCallsFireStore
 import digital.upbeat.estisharati_user.DataClassHelper.DataUser
 import digital.upbeat.estisharati_user.DataClassHelper.DataUserFireStore
+import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import digital.upbeat.estisharati_user.Utils.CustomTouchListener
 import io.agora.rtc.IRtcEngineEventHandler
 import io.agora.rtc.RtcEngine
@@ -36,19 +39,25 @@ import kotlinx.android.synthetic.main.activity_video_call.calling_status
 import kotlinx.android.synthetic.main.activity_video_call.circle_progress
 import kotlinx.android.synthetic.main.activity_video_call.end_call
 import kotlinx.android.synthetic.main.activity_video_call.timer
+import okhttp3.ResponseBody
+import org.json.JSONException
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.io.IOException
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class VideoCall : AppCompatActivity() {
+class VideoCall : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
+    lateinit var retrofitInterface: RetrofitInterface
     lateinit var preferencesHelper: SharedPreferencesHelper
     lateinit var mRtcEngine: RtcEngine
     var countDownTimer: CountDownTimer? = null
     var showAction: CountDownTimer? = null
     var ringingDuration: CountDownTimer? = null
-
     var callConnectedTimeMilles = ""
-
     //    var channelUniqueId = ""
     //    var callerId = ""
     //    var callerName = ""
@@ -60,6 +69,8 @@ class VideoCall : AppCompatActivity() {
     lateinit var dataOtherUserFireStore: DataUserFireStore
     lateinit var dataCallsFireStore: DataCallsFireStore
     lateinit var firestoreRegistrar: ListenerRegistration
+    var video_balance = 0
+    var alertPopupNotShow = true
     val iRtcEngineEventHandler = object : IRtcEngineEventHandler() {
         override fun onUserJoined(uid: Int, p1: Int) {
             runOnUiThread {
@@ -67,13 +78,13 @@ class VideoCall : AppCompatActivity() {
                 if (countDownTimer != null) {
                     countDownTimer?.cancel()
                 }
-                if(ringingDuration!=null){
+                if (ringingDuration != null) {
                     ringingDuration?.cancel()
                 }
                 callCountDownTimer()
-                calling_status.text = "Connected"
+                calling_status.text = getString(R.string.connected)
                 circle_progress.visibility = View.GONE
-                helperMethods.showToastMessage("${dataOtherUserFireStore.fname} join the conversation")
+                helperMethods.showToastMessage(dataOtherUserFireStore.fname + " " + getString(R.string.join_the_conversation))
                 frontAction()
                 stopRigntone()
             }
@@ -86,7 +97,7 @@ class VideoCall : AppCompatActivity() {
         override fun onUserMuteAudio(uid: Int, muted: Boolean) {
             runOnUiThread {
                 if (muted) {
-                    voice_muted_status.text = "${dataOtherUserFireStore.fname} muted this call"
+                    voice_muted_status.text = dataOtherUserFireStore.fname + " " + getString(R.string.muted_this_call)
                     voice_muted_layout.visibility = View.VISIBLE
                 } else {
                     voice_muted_layout.visibility = View.GONE
@@ -101,7 +112,7 @@ class VideoCall : AppCompatActivity() {
         override fun onUserMuteVideo(uid: Int, muted: Boolean) {
             runOnUiThread {
                 if (muted) {
-                    video_muted_status.text = "${dataOtherUserFireStore.fname} video paused this call"
+                    video_muted_status.text = dataOtherUserFireStore.fname + " " + getString(R.string.video_paused_this_call)
                     video_muted_layout.visibility = View.VISIBLE
                 } else {
                     video_muted_layout.visibility = View.GONE
@@ -127,8 +138,11 @@ class VideoCall : AppCompatActivity() {
     }
 
     fun initViews() {
+        video_balance = intent.getIntExtra("video_balance", video_balance)
         helperMethods = HelperMethods(this@VideoCall)
         preferencesHelper = SharedPreferencesHelper(this@VideoCall)
+        retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
 
@@ -148,7 +162,7 @@ class VideoCall : AppCompatActivity() {
             dataUserFireStore = it.toObject(DataUserFireStore::class.java)!!
             firestore.collection("Calls").document(dataUserFireStore.channel_unique_id).get().addOnSuccessListener {
                 dataCallsFireStore = it.toObject(DataCallsFireStore::class.java)!!
-                val contact_person_id=if(dataCallsFireStore.caller_id.equals(dataUserFireStore.user_id))dataCallsFireStore.receiver_id else dataCallsFireStore.caller_id
+                val contact_person_id = if (dataCallsFireStore.caller_id.equals(dataUserFireStore.user_id)) dataCallsFireStore.receiver_id else dataCallsFireStore.caller_id
                 firestore.collection("Users").document(contact_person_id).get().addOnSuccessListener {
                     dataOtherUserFireStore = it.toObject(DataUserFireStore::class.java)!!
                     setDetails()
@@ -187,11 +201,11 @@ class VideoCall : AppCompatActivity() {
         if (dataCallsFireStore.caller_id.equals(dataUserFireStore.user_id)) {
             playRigntone()
             callRingingDuration()
-        }else{
-            calling_status.text="Connecting..."
+        } else {
+            calling_status.text = getString(R.string.connecting)
         }
         val hashMap = hashMapOf<String, Any>("availability" to true, "channel_unique_id" to "")
-        firestoreRegistrar=  firestore.collection("Calls").document(dataUserFireStore.channel_unique_id).addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
+        firestoreRegistrar = firestore.collection("Calls").document(dataUserFireStore.channel_unique_id).addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
             documentSnapshot?.let {
                 dataCallsFireStore = documentSnapshot.toObject(DataCallsFireStore::class.java)!!
                 when (dataCallsFireStore.call_status) {
@@ -201,14 +215,14 @@ class VideoCall : AppCompatActivity() {
                         firestoreRegistrar.remove()
                         helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
                         helperMethods.updateUserDetailsToFirestore(dataOtherUserFireStore.user_id, hashMap)
-                        helperMethods.showToastMessage("reject")
+                        helperMethods.showToastMessage(getString(R.string.your_call_was_not_accepted))
                         finish()
                     }
                     "cancel" -> {
                         firestoreRegistrar.remove()
                         helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
                         helperMethods.updateUserDetailsToFirestore(dataOtherUserFireStore.user_id, hashMap)
-                        helperMethods.showToastMessage("cancel")
+                        helperMethods.showToastMessage(getString(R.string.your_call_was_cancelled))
 
                         finish()
                     }
@@ -216,7 +230,7 @@ class VideoCall : AppCompatActivity() {
                         firestoreRegistrar.remove()
                         helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
                         helperMethods.updateUserDetailsToFirestore(dataOtherUserFireStore.user_id, hashMap)
-                        helperMethods.showToastMessage("end_call")
+                        helperMethods.showToastMessage(getString(R.string.your_call_was_ended))
 
                         finish()
                     }
@@ -224,7 +238,7 @@ class VideoCall : AppCompatActivity() {
                         firestoreRegistrar.remove()
                         helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
                         helperMethods.updateUserDetailsToFirestore(dataOtherUserFireStore.user_id, hashMap)
-                        helperMethods.showToastMessage("not_responding")
+                        helperMethods.showToastMessage(getString(R.string.there_is_no_response_your_call))
                         finish()
                     }
                     else -> {
@@ -278,12 +292,11 @@ class VideoCall : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        leaveChannel()
         stopRigntone()
         if (countDownTimer != null) {
             countDownTimer?.cancel()
         }
-        if(ringingDuration!=null){
+        if (ringingDuration != null) {
             ringingDuration?.cancel()
         }
         super.onDestroy()
@@ -325,25 +338,25 @@ class VideoCall : AppCompatActivity() {
             finish()
         }
     }
+
     fun callRingingDuration() {
         var hashMap = hashMapOf<String, Any>()
-        val ringingCount=dataCallsFireStore.ringing_duration.toLong()
-        ringingDuration= object :CountDownTimer(1000 * ringingCount,1000){
+        val ringingCount = dataCallsFireStore.ringing_duration.toLong()
+        ringingDuration = object : CountDownTimer(1000 * ringingCount, 1000) {
             override fun onFinish() {
                 hashMap = hashMapOf("call_status" to "not_responding")
                 helperMethods.updateCallsDetailsToFirestore(dataCallsFireStore.channel_unique_id, hashMap)
-
             }
+
             override fun onTick(millisUntilFinished: Long) {
                 val time_seconds = millisUntilFinished / 1000
                 hashMap = hashMapOf("ringing_duration" to time_seconds.toString())
                 helperMethods.updateCallsDetailsToFirestore(dataCallsFireStore.channel_unique_id, hashMap)
-
             }
         }.start()
     }
+
     fun callCountDownTimer() {
-        //15 mins
         countDownTimer = object : CountDownTimer(1000 * 30 * 30, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 val diffInMs: Long = Date().time - callConnectedTimeMilles.toLong()
@@ -355,12 +368,74 @@ class VideoCall : AppCompatActivity() {
 
                 Log.d("serviceTimer", "TIME : " + String.format("%02d", hours) + ":" + String.format("%02d", minutes) + ":" + String.format("%02d", seconds))
                 timer.text = String.format("%02d", hours) + ":" + String.format("%02d", minutes) + ":" + String.format("%02d", seconds)
+                val percentage =video_balance * 0.10
+                val balanceSec = video_balance - diffInSec
+                Log.d("secLeft", "" + percentage + " " + balanceSec)
+                if (0 > balanceSec) {
+                    leaveChannel()
+                    helperMethods.showToastMessage(getString(R.string.there_is_no_more_balance_to_continue_this_call))
+                }
+                if (alertPopupNotShow) {
+                    if (percentage > balanceSec) {
+                        alertPopupNotShow = false
+                        helperMethods.AlertPopup(getString(R.string.alert), "There are only " + balanceSec + " sec left for the conversation to end")
+                    }
+                }
             }
 
             override fun onFinish() {
                 callCountDownTimer()
             }
         }.start()
+    }
+
+    fun UpdateConsultationSecondsApiCall(consultant_id: String, video_balance: String) {
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
+        val responseBodyCall = retrofitInterface.UPDATE_CONSULTATION_SECONDS_API_CALL("Bearer ${dataUser.access_token}", consultant_id, video_balance, "0", "0")
+        responseBodyCall.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                helperMethods.dismissProgressDialog()
+                var hashMap = hashMapOf<String, Any>()
+                hashMap = hashMapOf("call_status" to "end_call")
+                helperMethods.updateCallsDetailsToFirestore(dataCallsFireStore.channel_unique_id, hashMap)
+
+                if (response.isSuccessful) {
+                    if (response.body() != null) {
+                        try {
+                            val jsonObject = JSONObject(response.body()!!.string())
+                            val status = jsonObject.getString("status")
+                            if (status.equals("200")) {
+                                val dataString = jsonObject.getString("data")
+                                val dataObject = JSONObject(dataString)
+                            } else {
+                                val message = jsonObject.getString("message")
+                                helperMethods.AlertPopup(getString(R.string.alert), message)
+                            }
+                        } catch (e: JSONException) {
+                            helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
+                            e.printStackTrace()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    } else {
+                        Log.d("body", "Body Empty")
+                    }
+                } else {
+                    helperMethods.showToastMessage(getString(R.string.something_went_wrong))
+                    Log.d("body", "Not Successful")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                var hashMap = hashMapOf<String, Any>()
+                hashMap = hashMapOf("call_status" to "end_call")
+                helperMethods.updateCallsDetailsToFirestore(dataCallsFireStore.channel_unique_id, hashMap)
+
+                helperMethods.dismissProgressDialog()
+                t.printStackTrace()
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
+            }
+        })
     }
 
     private fun initializeAgoraEngine() {
@@ -383,7 +458,6 @@ class VideoCall : AppCompatActivity() {
         // https://docs.agora.io/en/Video/API%20Reference/java/classio_1_1agora_1_1rtc_1_1_rtc_engine.html#af5f4de754e2c1f493096641c5c5c1d8f
         mRtcEngine.setVideoEncoderConfiguration(VideoEncoderConfiguration(VideoEncoderConfiguration.VD_640x360, VideoEncoderConfiguration.FRAME_RATE.FRAME_RATE_FPS_15, VideoEncoderConfiguration.STANDARD_BITRATE, VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT))
         mRtcEngine.setBeautyEffectOptions(true, BeautyOptions(BeautyOptions.LIGHTENING_CONTRAST_NORMAL, 0.5f, 0.5f, 0.5f))
-
     }
 
     private fun setupLocalVideo() {
@@ -439,13 +513,16 @@ class VideoCall : AppCompatActivity() {
     }
 
     private fun leaveChannel() {
-        var hashMap= hashMapOf<String, Any>()
+        var hashMap = hashMapOf<String, Any>()
         if (callConnectedTimeMilles.equals("")) {
-             hashMap = hashMapOf("call_status" to "cancel")
+            hashMap = hashMapOf("call_status" to "cancel")
+            helperMethods.updateCallsDetailsToFirestore(dataCallsFireStore.channel_unique_id, hashMap)
         } else {
-             hashMap = hashMapOf("call_status" to "end_call")
+            val diffInMs: Long = Date().time - callConnectedTimeMilles.toLong()
+            val diffInSec: Long = TimeUnit.MILLISECONDS.toSeconds(diffInMs)
+            Log.d("diffInSec", diffInSec.toString())
+            UpdateConsultationSecondsApiCall(dataOtherUserFireStore.user_id, diffInSec.toString())
         }
-        helperMethods.updateCallsDetailsToFirestore(dataCallsFireStore.channel_unique_id, hashMap)
 
         mRtcEngine.leaveChannel()
         RtcEngine.destroy()

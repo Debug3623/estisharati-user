@@ -68,7 +68,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Explore consultations"
+                        android:text="@string/explore_consultations"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
@@ -84,7 +84,7 @@
                         android:paddingTop="5dp"
                         android:paddingRight="15dp"
                         android:paddingBottom="5dp"
-                        android:text="ALL"
+                        android:text="@string/all"
                         android:textColor="@color/dark_gray"
                         android:textSize="12sp" />
 
@@ -132,7 +132,7 @@
                         android:layout_marginLeft="15dp"
                         android:fontFamily="@font/almarai_regular"
                         android:gravity="center_vertical"
-                        android:text="ASK FOR ADVICE NOW"
+                        android:text="@string/ask_for_advice_now"
                         android:textColor="@color/white"
                         android:textSize="18sp" />
 
@@ -147,7 +147,7 @@
                         android:paddingTop="5dp"
                         android:paddingRight="15dp"
                         android:paddingBottom="5dp"
-                        android:text="Ask"
+                        android:text="@string/ask"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -172,7 +172,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Explore Courses"
+                        android:text="@string/explore_courses"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
@@ -188,7 +188,7 @@
                         android:paddingTop="5dp"
                         android:paddingRight="15dp"
                         android:paddingBottom="5dp"
-                        android:text="ALL"
+                        android:text="@string/all"
                         android:textColor="@color/dark_gray"
                         android:textSize="12sp" />
 
@@ -220,7 +220,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/almarai_regular"
-                    android:text="Online Now"
+                    android:text="@string/online_now"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 

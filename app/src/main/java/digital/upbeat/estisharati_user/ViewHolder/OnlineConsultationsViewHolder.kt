@@ -8,5 +8,6 @@ class OnlineConsultationsViewHolder(itemView: View) : RecyclerView.ViewHolder(it
  val consultants_layout=itemView.consultants_layout
  val profile_picture=itemView.profile_picture
  val online_status=itemView.online_status
+ val nectie=itemView.nectie
  val name=itemView.name
 }

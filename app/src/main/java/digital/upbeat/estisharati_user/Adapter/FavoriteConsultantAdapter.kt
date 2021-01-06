@@ -3,6 +3,7 @@ package digital.upbeat.estisharati_user.Adapter
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -32,6 +33,8 @@ class FavoriteConsultantAdapter(val context: Context, val favorites: Favorites, 
         } else {
             holder.consultantPrice.text = "${context.getString(R.string.aed)} ${consultantsArrayList.get(position).consultant.offerprice}"
         }
+        if (favorites.helperMethods.findConsultantIsOnline(consultantsArrayList.get(position).consultant_id)) holder.onlineStatus.visibility = View.VISIBLE else holder.onlineStatus.visibility = View.GONE
+
         holder.parentLayout.setOnClickListener {
             val intent = Intent(context, ConsultantDetails::class.java)
             intent.putExtra("consultant_id", consultantsArrayList.get(position).consultant.id)

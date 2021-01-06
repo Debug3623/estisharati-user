@@ -20,7 +20,7 @@
             android:layout_marginTop="10dp"
             android:fontFamily="@font/almarai_bold"
             android:gravity="center"
-            android:text="How was your experience?"
+            android:text="@string/how_was_your_experience"
             android:textColor="@color/orange"
             android:textSize="16sp" />
         <TextView
@@ -29,7 +29,7 @@
             android:layout_marginTop="10dp"
             android:fontFamily="@font/almarai_bold"
             android:gravity="center"
-            android:text="How was your experience?"
+            android:text="@string/how_was_your_experience"
             android:textColor="@color/black"
             android:textSize="23sp" />
 
@@ -39,7 +39,7 @@
             android:layout_marginTop="5dp"
             android:fontFamily="@font/almarai_regular"
             android:gravity="center"
-            android:text="Your opinion will help improve the level of service"
+            android:text="@string/your_opinion_will_help_improve_the_level_of_service"
             android:textColor="@color/dark_gray"
             android:textSize="13sp" />
 
@@ -78,7 +78,7 @@
             android:layout_marginRight="5dp"
             android:background="@drawable/corner_redius_15dp_ach_light_white_sroke_dark_gray"
             android:gravity="top"
-            android:hint="Type your comment here..."
+            android:hint="@string/type_your_comment_here"
             android:inputType="textMultiLine"
             android:minLines="2"
             android:padding="20dp"
@@ -99,7 +99,7 @@
             android:fontFamily="@font/almarai_bold"
             android:gravity="center"
             android:padding="13dp"
-            android:text="SEND"
+            android:text="@string/send_"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="16sp" />
@@ -112,7 +112,7 @@
             android:fontFamily="@font/almarai_light"
             android:gravity="center"
             android:padding="10dp"
-            android:text="May Be Later"
+            android:text="@string/may_be_later"
             android:textColor="@color/black_light"
             android:textSize="15sp" />
     </LinearLayout>

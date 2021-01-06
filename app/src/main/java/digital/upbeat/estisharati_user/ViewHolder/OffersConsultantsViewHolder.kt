@@ -13,5 +13,6 @@ class OffersConsultantsViewHolder(itemView: View) : RecyclerView.ViewHolder(item
     val offersNewConsultantPrice = itemView.offersNewConsultantPrice
     val offersConsultantImage = itemView.offersConsultantImage
     val offersConsultantParentLayout = itemView.offersConsultantParentLayout
+    val onlineStatus = itemView.onlineStatus
 
 }

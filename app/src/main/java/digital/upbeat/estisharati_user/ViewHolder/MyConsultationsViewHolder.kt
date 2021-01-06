@@ -13,4 +13,5 @@ class MyConsultationsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVi
     val voiceOption = itemView.voiceOption
     val videoOption = itemView.videoOption
     val rateNow = itemView.rateNow
+    val online_status = itemView.online_status
 }

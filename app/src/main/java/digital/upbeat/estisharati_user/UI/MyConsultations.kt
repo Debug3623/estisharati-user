@@ -24,6 +24,7 @@ import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_my_consultations.*
 import okhttp3.ResponseBody
 import org.json.JSONException
@@ -33,7 +34,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 
-class MyConsultations : AppCompatActivity() {
+class MyConsultations : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var preferencesHelper: SharedPreferencesHelper
     lateinit var retrofitInterface: RetrofitInterface
@@ -72,7 +73,7 @@ class MyConsultations : AppCompatActivity() {
             emptyLayout.visibility = View.GONE
             myConsultationsRecycler.visibility = View.VISIBLE
         } else {
-            errorText.text = "You did not purchase any consultation till now !"
+            errorText.text = getString(R.string.you_did_not_purchase_any_consultation_till_now)
             emptyLayout.visibility = View.VISIBLE
             myConsultationsRecycler.visibility = View.GONE
         }
@@ -102,7 +103,7 @@ class MyConsultations : AppCompatActivity() {
         }
         send.setOnClickListener {
             if (comments.text.toString().equals("")) {
-                helperMethods.showToastMessage("Please feel free to leave your comments")
+                helperMethods.showToastMessage(getString(R.string.please_feel_free_to_leave_your_comments))
                 return@setOnClickListener
             }
             if (!helperMethods.isConnectingToInternet) {
@@ -118,28 +119,28 @@ class MyConsultations : AppCompatActivity() {
     fun setRatingBasedCommend(rating_based_cmd: TextView, rating: Float) {
         when (Math.round(rating)) {
             0 -> {
-                rating_based_cmd.text = "Very bad"
+                rating_based_cmd.text = getString(R.string.very_bad)
             }
             1 -> {
-                rating_based_cmd.text = "Bad"
+                rating_based_cmd.text = getString(R.string.bad)
             }
             2 -> {
-                rating_based_cmd.text = "Average"
+                rating_based_cmd.text = getString(R.string.average)
             }
             3 -> {
-                rating_based_cmd.text = "Good"
+                rating_based_cmd.text = getString(R.string.good)
             }
             4 -> {
-                rating_based_cmd.text = "Very good"
+                rating_based_cmd.text = getString(R.string.very_good)
             }
             5 -> {
-                rating_based_cmd.text = "Very impressive"
+                rating_based_cmd.text = getString(R.string.very_impressive)
             }
         }
     }
 
     fun mainCommentApiCall(consultantId: String, category_id: String, rate: String, comment: String) {
-        helperMethods.showProgressDialog("Please wait while loading...")
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
         val responseBodyCall = retrofitInterface.MAIN_CONSULTANT_COMMENT_API_CALL("Bearer ${dataUser.access_token}", consultantId, category_id, rate, comment)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -150,10 +151,10 @@ class MyConsultations : AppCompatActivity() {
                         try {
                             val commentsResponse: commentsResponse = Gson().fromJson(response.body()!!.string(), commentsResponse::class.java)
                             if (commentsResponse.status.equals("200")) {
-                                helperMethods.showToastMessage("Your rating and comments submitted successfully !")
+                                helperMethods.showToastMessage(getString(R.string.your_rating_and_comments_submitted_successfully))
                             } else {
                                 val message = JSONObject(response.body()!!.string()).getString("message")
-                                helperMethods.AlertPopup("Alert", message)
+                                helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -173,13 +174,13 @@ class MyConsultations : AppCompatActivity() {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
-                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
     }
 
     fun myCoursesApiCall() {
-        helperMethods.showProgressDialog("Please wait while loading...")
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
         val responseBodyCall = retrofitInterface.MY_CONSULTANTS_API_CALL("Bearer ${dataUser.access_token}")
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -194,7 +195,7 @@ class MyConsultations : AppCompatActivity() {
                                 InitializeRecyclerview()
                             } else {
                                 val message = JSONObject(response.body()!!.string()).getString("message")
-                                helperMethods.AlertPopup("Alert", message)
+                                helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -214,7 +215,7 @@ class MyConsultations : AppCompatActivity() {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
-                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
     }

@@ -24,11 +24,9 @@ class FaqAdapter(val context: Context, val faqArrayList: ArrayList<Data>) : Recy
             if (holder.faq_des.visibility == View.VISIBLE) {
                 holder.faq_des.visibility = View.GONE
                 holder.faq_arrow.rotation = 0f
-                //holder.faq_arrow.setImageResource(R.drawable.ic_right_arrow_black)
             }else{
                 holder.faq_des.visibility = View.VISIBLE
                 holder.faq_arrow.rotation = 90f
-               // holder.faq_arrow.setImageResource(R.drawable.ic_down_arrow_black)
             }
         }
     }

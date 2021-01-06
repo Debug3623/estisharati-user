@@ -11,10 +11,11 @@ import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_web_view.*
 import kotlinx.android.synthetic.main.no_internet_page.*
 
-class WebView : AppCompatActivity() {
+class WebView : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     var url = ""
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +51,7 @@ class WebView : AppCompatActivity() {
     }
 
     fun showWebview() {
-        helperMethods.showProgressDialog("Please wait while loading...")
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
         web_view.getSettings().setJavaScriptEnabled(true)
         web_view.setWebViewClient(WebViewController(helperMethods))
         web_view.loadUrl(url)

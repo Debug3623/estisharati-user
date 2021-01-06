@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/almarai_bold"
             android:gravity="center"
-            android:text="Do you have coupon ?"
+            android:text="@string/do_you_have_coupon"
             android:textColor="@color/black"
             android:textSize="18sp" />
 
@@ -26,7 +26,7 @@
             android:layout_marginTop="15dp"
             android:fontFamily="@font/almarai_regular"
             android:gravity="center"
-            android:text="Please enter your coupon here"
+            android:text="@string/please_enter_your_coupon_here"
             android:textColor="@color/black_light"
             android:textSize="16sp" />
 
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/corner_redius_5dp_gray"
-            android:hint="Your Coupon"
+            android:hint="@string/your_coupon"
             android:padding="13dp"
             android:textColor="@color/black"
             android:textColorHint="@color/dark_gray"
@@ -58,7 +58,7 @@
                 android:background="@drawable/corner_redius_5dp_white"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="Cancel"
+                android:text="@string/cancel_"
                 android:textAllCaps="false"
                 android:fontFamily="@font/almarai_regular"
                 android:textColor="@color/dark_gray"
@@ -74,7 +74,7 @@
                 android:background="@drawable/corner_redius_5dp_light_green"
                 android:elevation="3dp"
                 android:padding="10dp"
-                android:text="Enter"
+                android:text="@string/enter"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="18sp" />

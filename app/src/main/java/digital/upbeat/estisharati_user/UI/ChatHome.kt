@@ -31,10 +31,11 @@ import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_chat_home.*
 import java.util.*
 
-class ChatHome : AppCompatActivity() {
+class ChatHome : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var preferencesHelper: SharedPreferencesHelper
     lateinit var firestore: FirebaseFirestore
@@ -43,11 +44,13 @@ class ChatHome : AppCompatActivity() {
     var userArraylist = arrayListOf<DataUserFireStore>()
     val dataUserMessageFireStoreArrayList = arrayListOf<DataUserMessageFireStore>()
     var UserListener: ListenerRegistration? = null
+    var consultantListener: ListenerRegistration? = null
     var ChatListener1: ListenerRegistration? = null
     var ChatListener2: ListenerRegistration? = null
     private var recentChatAdapter: RecentChatAdapter? = null
     private var recyclerRecentChatViewState: Parcelable? = null
     var searchUserdialog: AlertDialog? = null
+    val consultantIdArrayList: ArrayList<String> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_home)
@@ -61,9 +64,13 @@ class ChatHome : AppCompatActivity() {
         preferencesHelper = SharedPreferencesHelper(this@ChatHome)
         firestore = FirebaseFirestore.getInstance()
         dataUser = preferencesHelper.logInUser
-       if (GlobalData.isThingInitialized()){
-        notificationCount.text = GlobalData.homeResponse.notification_count
-    }}
+        if (GlobalData.isThingInitialized()) {
+            notificationCount.text = GlobalData.homeResponse.notification_count
+        }
+        for (consultant in GlobalData.homeResponse.consultants) {
+            consultantIdArrayList.add(consultant.id)
+        }
+    }
 
     fun clickEvents() {
         nav_back.setOnClickListener { finish() }
@@ -71,8 +78,8 @@ class ChatHome : AppCompatActivity() {
             GlobalData.forwardType = ""
             GlobalData.forwardContent = ""
             forward_layout.visibility = View.GONE
-            action_bar_title.text = "Chat"
-            helperMethods.showToastMessage("Forward cancel !")
+            action_bar_title.text = getString(R.string.chat)
+            helperMethods.showToastMessage(getString(R.string.forward_cancel))
         }
         search_user_icon.setOnClickListener {
             searchUserPopup()
@@ -94,19 +101,30 @@ class ChatHome : AppCompatActivity() {
         }
         UserListener = firestore.collection("Users").orderBy("fname", Query.Direction.ASCENDING).addSnapshotListener { querySnapshot, firebaseFirestoreException ->
             querySnapshot?.let {
-                onlineConsultationArraylist.clear()
                 userArraylist.clear()
                 for (data in it) {
                     val dataUserFireStore = data.toObject(DataUserFireStore::class.java)
                     if (!dataUserFireStore.user_id.equals(dataUser.id)) {
-                        if (dataUserFireStore.online_status) {
-                            onlineConsultationArraylist.add(dataUserFireStore)
-                        }
                         userArraylist.add(dataUserFireStore)
                     }
                 }
                 recentChatLisiner()
-                onlineConsultationsRecycler()
+            }
+        }
+
+        Log.d("consultantIdArrayList", consultantIdArrayList.toString())
+        if (GlobalData.homeResponse.consultants.size > 0) {
+            consultantListener = firestore.collection("Users").whereIn("user_id", consultantIdArrayList).orderBy("fname", Query.Direction.ASCENDING).addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                querySnapshot?.let {
+                    onlineConsultationArraylist = arrayListOf<DataUserFireStore>()
+                    for (data in querySnapshot) {
+                        val dataUserFireStore = data.toObject(DataUserFireStore::class.java)
+                        if (!dataUserFireStore.user_id.equals(dataUser.id)) {
+                            onlineConsultationArraylist.add(dataUserFireStore)
+                        }
+                    }
+                    onlineConsultationsRecycler()
+                }
             }
         }
     }
@@ -181,6 +199,13 @@ class ChatHome : AppCompatActivity() {
         recyclerRecentChatViewState?.let {
             recent_chat_recycler.layoutManager?.onRestoreInstanceState(recyclerRecentChatViewState)
         }
+        if (dataUserMessageFireStoreArrayList.size > 0) {
+            recent_chat_recycler.visibility = View.VISIBLE
+            emptyLayout.visibility = View.GONE
+        } else {
+            recent_chat_recycler.visibility = View.GONE
+            emptyLayout.visibility = View.VISIBLE
+        }
     }
 
     fun sortArraylistDateWise() {
@@ -213,26 +238,31 @@ class ChatHome : AppCompatActivity() {
         var searchUserAdapter: SearchUserAdapter? = null
         val datauserFirestoreArrayList = arrayListOf<DataUserFireStore>()
         var dataPassed = arrayListOf<DataUserFireStore>()
-        firestore.collection("Users").orderBy("fname", Query.Direction.ASCENDING).get().addOnSuccessListener {
-            it?.let {
-                for (data in it) {
-                    val dataUserFireStore = data.toObject(DataUserFireStore::class.java)
-                    if (!dataUserFireStore.user_id.equals(dataUser.id)) {
-                        datauserFirestoreArrayList.add(dataUserFireStore)
+        if (GlobalData.homeResponse.consultants.size > 0) {
+            firestore.collection("Users").whereIn("user_id", consultantIdArrayList).orderBy("fname", Query.Direction.ASCENDING).get().addOnSuccessListener {
+                it?.let {
+                    for (data in it) {
+                        val dataUserFireStore = data.toObject(DataUserFireStore::class.java)
+                        if (!dataUserFireStore.user_id.equals(dataUser.id)) {
+                            datauserFirestoreArrayList.add(dataUserFireStore)
+                        }
+                    }
+                    searchUserdialog?.show()
+                    dataPassed.addAll(datauserFirestoreArrayList)
+                    if (dataPassed.size > 0) {
+                        search_user_recyclerview.visibility = View.VISIBLE
+                        search_not_found.visibility = View.GONE
+                        searchUserAdapter = SearchUserAdapter(this@ChatHome, this@ChatHome, dataPassed)
+                        search_user_recyclerview.adapter = searchUserAdapter
+                    } else {
+                        search_user_recyclerview.visibility = View.GONE
+                        search_not_found.visibility = View.VISIBLE
                     }
                 }
-                searchUserdialog?.show()
-                dataPassed.addAll(datauserFirestoreArrayList)
-                if (dataPassed.size > 0) {
-                    search_user_recyclerview.visibility = View.VISIBLE
-                    search_not_found.visibility = View.GONE
-                    searchUserAdapter = SearchUserAdapter(this@ChatHome, this@ChatHome, dataPassed)
-                    search_user_recyclerview.adapter = searchUserAdapter
-                } else {
-                    search_user_recyclerview.visibility = View.GONE
-                    search_not_found.visibility = View.VISIBLE
-                }
             }
+        } else {
+            search_user_recyclerview.visibility = View.GONE
+            search_not_found.visibility = View.VISIBLE
         }
         search_text.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -270,14 +300,14 @@ class ChatHome : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         if (!GlobalData.forwardContent.isEmpty()) {
-            action_bar_title.text = "Forward to..."
+            action_bar_title.text = getString(R.string.forward_to)
             forward_layout.visibility = View.VISIBLE
         }
     }
 
     override fun onStop() {
         super.onStop()
-        action_bar_title.text = "Chat"
+        action_bar_title.text = getString(R.string.chat)
         GlobalData.forwardType = ""
         GlobalData.forwardContent = ""
         forward_layout.visibility = View.GONE
@@ -288,6 +318,7 @@ class ChatHome : AppCompatActivity() {
         UserListener?.remove()
         ChatListener1?.remove()
         ChatListener2?.remove()
+        consultantListener?.remove()
     }
 
     fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)

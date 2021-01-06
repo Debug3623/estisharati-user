@@ -18,6 +18,13 @@
             android:layout_width="60dp"
             android:layout_height="60dp">
 
+            <ImageView
+                android:id="@+id/nectie"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:elevation="1dp"
+                android:background="@drawable/ic_necktie" />
+
             <digital.upbeat.estisharati_user.Utils.CircleImageView
                 android:id="@+id/profile_picture"
                 android:layout_width="match_parent"

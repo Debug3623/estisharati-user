@@ -40,7 +40,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="40dp"
                     android:fontFamily="@font/almarai_regular"
-                    android:text="Favorites"
+                    android:text="@string/favorites"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
 
@@ -96,7 +96,7 @@
                     android:fontFamily="@font/almarai_regular"
                     android:gravity="center"
                     android:padding="15dp"
-                    android:text="Consultants"
+                    android:text="@string/consultants"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
 
@@ -113,7 +113,7 @@
                     android:fontFamily="@font/almarai_regular"
                     android:gravity="center"
                     android:padding="15dp"
-                    android:text="Courses"
+                    android:text="@string/courses"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -167,7 +167,7 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/almarai_bold"
                 android:gravity="center"
-                android:text="Please wait while fetching favorites..."
+                android:text="@string/please_wait_while_fetching_favorites"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 

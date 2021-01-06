@@ -97,7 +97,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
                                 android:fontFamily="@font/almarai_regular"
-                                android:text="Chat"
+                                android:text="@string/chat"
                                 android:textColor="@color/white"
                                 android:textSize="9sp" />
                         </LinearLayout>
@@ -120,7 +120,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
                                 android:fontFamily="@font/almarai_regular"
-                                android:text="Voice"
+                                android:text="@string/voice"
                                 android:textColor="@color/white"
                                 android:textSize="9sp" />
                         </LinearLayout>
@@ -142,7 +142,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
                                 android:fontFamily="@font/almarai_regular"
-                                android:text="Video"
+                                android:text="@string/video"
                                 android:textColor="@color/white"
                                 android:textSize="9sp" />
                         </LinearLayout>
@@ -162,7 +162,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Add To Favorite"
+                        android:text="@string/add_to_favorite"
                         android:textColor="@color/white"
                         android:textSize="13sp" />
 
@@ -260,6 +260,7 @@
                             </androidx.cardview.widget.CardView>
 
                             <View
+                                android:id="@+id/onlineStatus"
                                 android:layout_width="13dp"
                                 android:layout_height="13dp"
                                 android:layout_alignParentRight="true"
@@ -329,7 +330,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Consultation description"
+                        android:text="@string/consultation_description"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
@@ -351,7 +352,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Show more"
+                        android:text="@string/show_more"
                         android:textColor="@color/orange"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -375,7 +376,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/almarai_regular"
-                            android:text="Comments"
+                            android:text="@string/comments"
                             android:textColor="@color/black"
                             android:textSize="13sp" />
 
@@ -385,7 +386,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/almarai_regular"
                             android:gravity="right"
-                            android:text="Comment &amp; Rate"
+                            android:text="@string/comment_amp_rate"
                             android:textColor="@color/green"
                             android:textSize="13sp" />
                     </LinearLayout>

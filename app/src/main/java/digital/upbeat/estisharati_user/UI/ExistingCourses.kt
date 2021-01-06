@@ -9,9 +9,10 @@ import digital.upbeat.estisharati_user.Adapter.MyCoursesAdapter
 import digital.upbeat.estisharati_user.DataClassHelper.Packages.Course
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_existing_courses.*
 
-class ExistingCourses : AppCompatActivity() {
+class ExistingCourses : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -17,30 +17,41 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
+import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
 import digital.upbeat.estisharati_user.DataClassHelper.DataCallsFireStore
 import digital.upbeat.estisharati_user.DataClassHelper.DataUser
 import digital.upbeat.estisharati_user.DataClassHelper.DataUserFireStore
+import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import io.agora.rtc.Constants
 import io.agora.rtc.IRtcEngineEventHandler
 import io.agora.rtc.RtcEngine
 import kotlinx.android.synthetic.main.activity_voice_call.*
+import okhttp3.ResponseBody
+import org.json.JSONException
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.io.IOException
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class VoiceCall : AppCompatActivity(), SensorEventListener {
+class VoiceCall : BaseCompatActivity(), SensorEventListener {
     var player: MediaPlayer? = null
     lateinit var mRtcEngine: RtcEngine
     var enableSpeakerphone = false
     var muteLocalAudioStrea = false
     lateinit var helperMethods: HelperMethods
+    lateinit var retrofitInterface: RetrofitInterface
     lateinit var preferencesHelper: SharedPreferencesHelper
     lateinit var firestore: FirebaseFirestore
     lateinit var dataUser: DataUser
@@ -51,13 +62,14 @@ class VoiceCall : AppCompatActivity(), SensorEventListener {
     var ringingDuration: CountDownTimer? = null
     var callConnectedTimeMilles = ""
     lateinit var firestoreRegistrar: ListenerRegistration
-
     private lateinit var sensorManager: SensorManager
     private var sensor: Sensor? = null
+    var audio_balance = 0
+    var alertPopupNotShow = true
     val iRtcEngineEventHandler = object : IRtcEngineEventHandler() {
         override fun onUserOffline(uid: Int, reason: Int) { // Tutorial Step 4
             runOnUiThread {
-                helperMethods.showToastMessage("${dataOtherUserFireStore.fname} left the conversation")
+                helperMethods.showToastMessage(dataOtherUserFireStore.fname + " " + getString(R.string.left_the_conversation))
                 endTheCall()
             }
         }
@@ -65,7 +77,7 @@ class VoiceCall : AppCompatActivity(), SensorEventListener {
         override fun onUserMuteAudio(uid: Int, muted: Boolean) {
             runOnUiThread {
                 if (muted) {
-                    muted_status.text = "${dataOtherUserFireStore.fname} muted this call"
+                    muted_status.text = dataOtherUserFireStore.fname + getString(R.string.muted_this_call)
                     muted_status.visibility = View.VISIBLE
                 } else {
                     muted_status.visibility = View.GONE
@@ -84,11 +96,11 @@ class VoiceCall : AppCompatActivity(), SensorEventListener {
                     ringingDuration?.cancel()
                 }
                 callCountDownTimer()
-                calling_status.text = "Connected"
+                calling_status.text = getString(R.string.connected)
                 circle_progress.visibility = View.GONE
                 stopRigntone()
 
-                helperMethods.showToastMessage("${dataOtherUserFireStore.fname} join the conversation")
+                helperMethods.showToastMessage(dataOtherUserFireStore.fname + " " + getString(R.string.join_the_conversation))
             }
         }
     }
@@ -102,8 +114,10 @@ class VoiceCall : AppCompatActivity(), SensorEventListener {
     }
 
     fun initViews() {
+        audio_balance = intent.getIntExtra("audio_balance", 0)
         helperMethods = HelperMethods(this@VoiceCall)
         preferencesHelper = SharedPreferencesHelper(this@VoiceCall)
+        retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
 
         dataUser = preferencesHelper.logInUser
         firestore = FirebaseFirestore.getInstance()
@@ -134,16 +148,6 @@ class VoiceCall : AppCompatActivity(), SensorEventListener {
     }
 
     fun getDetails() {
-        //        if (intent.extras != null) {
-        ////            channelUniqueId = intent.getStringExtra("channelUniqueId")
-        ////            callerId = intent.getStringExtra("callerId")
-        ////            callerName = intent.getStringExtra("callerName")
-        ////            callerImage = intent.getStringExtra("callerImage")
-        ////
-        ////
-        ////            setDatils()
-        ////
-        ////        }
         firestore.collection("Users").document(dataUser.id).get().addOnSuccessListener {
             dataUserFireStore = it.toObject(DataUserFireStore::class.java)!!
             firestore.collection("Calls").document(dataUserFireStore.channel_unique_id).get().addOnSuccessListener {
@@ -169,11 +173,11 @@ class VoiceCall : AppCompatActivity(), SensorEventListener {
         if (dataCallsFireStore.caller_id.equals(dataUserFireStore.user_id)) {
             callRingingDuration()
             playRigntone()
-        }else{
-            calling_status.text="Connecting..."
+        } else {
+            calling_status.text = getString(R.string.connecting)
         }
         val hashMap = hashMapOf<String, Any>("availability" to true, "channel_unique_id" to "")
-        firestoreRegistrar=  firestore.collection("Calls").document(dataUserFireStore.channel_unique_id).addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
+        firestoreRegistrar = firestore.collection("Calls").document(dataUserFireStore.channel_unique_id).addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
             documentSnapshot?.let {
                 dataCallsFireStore = documentSnapshot.toObject(DataCallsFireStore::class.java)!!
                 when (dataCallsFireStore.call_status) {
@@ -183,7 +187,7 @@ class VoiceCall : AppCompatActivity(), SensorEventListener {
                         firestoreRegistrar.remove()
                         helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
                         helperMethods.updateUserDetailsToFirestore(dataOtherUserFireStore.user_id, hashMap)
-                        helperMethods.showToastMessage("reject")
+                        helperMethods.showToastMessage(getString(R.string.your_call_was_not_accepted))
 
                         finish()
                     }
@@ -191,7 +195,7 @@ class VoiceCall : AppCompatActivity(), SensorEventListener {
                         firestoreRegistrar.remove()
                         helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
                         helperMethods.updateUserDetailsToFirestore(dataOtherUserFireStore.user_id, hashMap)
-                        helperMethods.showToastMessage("cancel")
+                        helperMethods.showToastMessage(getString(R.string.your_call_was_cancelled))
 
                         finish()
                     }
@@ -199,7 +203,7 @@ class VoiceCall : AppCompatActivity(), SensorEventListener {
                         firestoreRegistrar.remove()
                         helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
                         helperMethods.updateUserDetailsToFirestore(dataOtherUserFireStore.user_id, hashMap)
-                        helperMethods.showToastMessage("end_call")
+                        helperMethods.showToastMessage(getString(R.string.your_call_was_ended))
 
                         finish()
                     }
@@ -207,7 +211,7 @@ class VoiceCall : AppCompatActivity(), SensorEventListener {
                         firestoreRegistrar.remove()
                         helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
                         helperMethods.updateUserDetailsToFirestore(dataOtherUserFireStore.user_id, hashMap)
-                        helperMethods.showToastMessage("not_responding")
+                        helperMethods.showToastMessage(getString(R.string.there_is_no_response_your_call))
                         finish()
                     }
                     else -> {
@@ -248,6 +252,19 @@ class VoiceCall : AppCompatActivity(), SensorEventListener {
 
                 Log.d("serviceTimer", "TIME : " + String.format("%02d", hours) + ":" + String.format("%02d", minutes) + ":" + String.format("%02d", seconds))
                 timer.text = String.format("%02d", hours) + ":" + String.format("%02d", minutes) + ":" + String.format("%02d", seconds)
+                val percentage = audio_balance * 0.10
+                val balanceSec = audio_balance - diffInSec
+                Log.d("secLeft", "" + percentage + " " + balanceSec)
+                if (0 > balanceSec) {
+                    endTheCall()
+                    helperMethods.showToastMessage(getString(R.string.there_is_no_more_balance_to_continue_this_call))
+                }
+                if (alertPopupNotShow) {
+                    if (percentage > balanceSec) {
+                        alertPopupNotShow = false
+                        helperMethods.AlertPopup(getString(R.string.alert), "There are only " + balanceSec + " sec left for the conversation to end")
+                    }
+                }
             }
 
             override fun onFinish() {
@@ -260,16 +277,68 @@ class VoiceCall : AppCompatActivity(), SensorEventListener {
         var hashMap = hashMapOf<String, Any>()
         if (callConnectedTimeMilles.equals("")) {
             hashMap = hashMapOf("call_status" to "cancel")
+            helperMethods.updateCallsDetailsToFirestore(dataCallsFireStore.channel_unique_id, hashMap)
         } else {
-            hashMap = hashMapOf("call_status" to "end_call")
+            val diffInMs: Long = Date().time - callConnectedTimeMilles.toLong()
+            val diffInSec: Long = TimeUnit.MILLISECONDS.toSeconds(diffInMs)
+            Log.d("diffInSec", diffInSec.toString())
+            UpdateConsultationSecondsApiCall(dataOtherUserFireStore.user_id, diffInSec.toString())
         }
-        helperMethods.updateCallsDetailsToFirestore(dataCallsFireStore.channel_unique_id, hashMap)
 
         mRtcEngine.leaveChannel()
         RtcEngine.destroy()
         if (countDownTimer != null) {
             countDownTimer?.cancel()
         }
+    }
+
+    fun UpdateConsultationSecondsApiCall(consultant_id: String, audio_balance: String) {
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
+        val responseBodyCall = retrofitInterface.UPDATE_CONSULTATION_SECONDS_API_CALL("Bearer ${dataUser.access_token}", consultant_id, "0", audio_balance, "0")
+        responseBodyCall.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                helperMethods.dismissProgressDialog()
+                var hashMap = hashMapOf<String, Any>()
+                hashMap = hashMapOf("call_status" to "end_call")
+                helperMethods.updateCallsDetailsToFirestore(dataCallsFireStore.channel_unique_id, hashMap)
+
+                if (response.isSuccessful) {
+                    if (response.body() != null) {
+                        try {
+                            val jsonObject = JSONObject(response.body()!!.string())
+                            val status = jsonObject.getString("status")
+                            if (status.equals("200")) {
+                                val dataString = jsonObject.getString("data")
+                                val dataObject = JSONObject(dataString)
+                            } else {
+                                val message = jsonObject.getString("message")
+                                helperMethods.AlertPopup(getString(R.string.alert), message)
+                            }
+                        } catch (e: JSONException) {
+                            helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
+                            e.printStackTrace()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    } else {
+                        Log.d("body", "Body Empty")
+                    }
+                } else {
+                    helperMethods.showToastMessage(getString(R.string.something_went_wrong))
+                    Log.d("body", "Not Successful")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                var hashMap = hashMapOf<String, Any>()
+                hashMap = hashMapOf("call_status" to "end_call")
+                helperMethods.updateCallsDetailsToFirestore(dataCallsFireStore.channel_unique_id, hashMap)
+
+                helperMethods.dismissProgressDialog()
+                t.printStackTrace()
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
+            }
+        })
     }
 
     fun clickEvents() {
@@ -309,11 +378,10 @@ class VoiceCall : AppCompatActivity(), SensorEventListener {
         if (ContextCompat.checkSelfPermission(this@VoiceCall, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
             initAgoraEngineAndJoinChannel()
         } else {
-            helperMethods.showToastMessage("Audio permission denied")
+            helperMethods.showToastMessage(getString(R.string.audio_permission_denied))
             finish()
         }
     }
-
     // Tutorial Step 1
     private fun initializeAgoraEngine() {
         try {
@@ -328,7 +396,6 @@ class VoiceCall : AppCompatActivity(), SensorEventListener {
             Log.e("voice", Log.getStackTraceString(e))
         }
     }
-
     // Tutorial Step 2
     private fun joinChannel() {
         var accessToken: String? = getString(R.string.agora_access_token)

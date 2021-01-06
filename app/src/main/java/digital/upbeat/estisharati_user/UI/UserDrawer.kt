@@ -21,12 +21,13 @@ import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import digital.upbeat.estisharati_user.Utils.alertActionClickListner
 import kotlinx.android.synthetic.main.activity_user_drawer.*
 import kotlinx.android.synthetic.main.app_bar_user_drawer.*
 import kotlinx.android.synthetic.main.nav_side_manu.*
 
-class UserDrawer : AppCompatActivity() {
+class UserDrawer : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var preferencesHelper: SharedPreferencesHelper
     lateinit var radioEnglish: RadioButton
@@ -67,14 +68,26 @@ class UserDrawer : AppCompatActivity() {
     }
 
     fun clickEvents() {
-        radioButtonChange(true)
+        if (preferencesHelper.appLang.equals("en")) {
+            radioButtonChange(true)
+            radioEnglish.isChecked=true
+        } else {
+            radioButtonChange(false)
+            radioArabic.isChecked=true
+        }
         language_group.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
                 R.id.radio_english -> {
-                    radioButtonChange(true)
+                    //                    radioButtonChange(true)
+                    preferencesHelper.appLang = "en"
+                    startActivity(Intent(this@UserDrawer, SplashScreen::class.java))
+                    finish()
                 }
                 R.id.radio_arabic -> {
-                    radioButtonChange(false)
+                    //                    radioButtonChange(false)
+                    preferencesHelper.appLang = "ar"
+                    startActivity(Intent(this@UserDrawer, SplashScreen::class.java))
+                    finish()
                 }
             }
         }
@@ -175,7 +188,7 @@ class UserDrawer : AppCompatActivity() {
             startActivity(Intent(this@UserDrawer, MyProfile::class.java))
         }
         nav_logout.setOnClickListener {
-            LogOutPopup("LogOut", "Are you sure?\n" + "Do you want to logout !")
+            LogOutPopup(getString(R.string.logout), getString(R.string.are_you_sure_do_you_want_to_logout))
         }
         upgradePackage.setOnClickListener {
             val intent = Intent(this@UserDrawer, Packages::class.java)
@@ -187,7 +200,7 @@ class UserDrawer : AppCompatActivity() {
     fun setUserDetails() {
         user_name.text = "${dataUser.fname} ${dataUser.lname}"
         Glide.with(this@UserDrawer).load(dataUser.image).apply(helperMethods.profileRequestOption).into(user_image)
-        package_name.text = "${dataUser.subscription.package_count}   Package"
+        package_name.text = dataUser.subscription.package_count + " " + getString(R.string.package_)
     }
 
     fun LogOutPopup(titleStr: String, messageStr: String) {
@@ -250,10 +263,10 @@ class UserDrawer : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (mBackPressed + 2000 > System.currentTimeMillis()) {
-            exitPopup("Exit", "Are you sure?\nDo you want exit the app and offline.")
+            exitPopup(getString(R.string.exit), getString(R.string.are_you_sure_do_you_want_exit_the_app_and_offline))
             return
         } else {
-            Toast.makeText(this@UserDrawer, "Please click back again to exit!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@UserDrawer, getString(R.string.please_click_back_again_to_exit), Toast.LENGTH_SHORT).show()
         }
         mBackPressed = System.currentTimeMillis()
     }

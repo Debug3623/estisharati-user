@@ -18,6 +18,7 @@ import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import digital.upbeat.estisharati_user.Utils.PinOnKeyListener
 import digital.upbeat.estisharati_user.Utils.PinTextWatcher
 import kotlinx.android.synthetic.main.activity_verification.*
@@ -29,7 +30,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 
-class Verification : AppCompatActivity() {
+class Verification : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var preferencesHelper: SharedPreferencesHelper
@@ -85,13 +86,7 @@ class Verification : AppCompatActivity() {
         code_4.setOnKeyListener(PinOnKeyListener(this@Verification, 3, editTexts))
 
         btn_proceed.setOnClickListener {
-            //            Toast.makeText(this@Verification, "OTP verified!", Toast.LENGTH_LONG).show()
-            //            val result = Intent()
-            //            result.putExtra("value1", "hi")
-            //            result.putExtra("value2", "how")
-            //            result.putExtra("value3", "are you? $code")
-            //            setResult(Activity.RESULT_OK, result);
-            //            finish()
+
             if (codeValidation()) {
                 val code = "${code_1.toText()}${code_2.toText()}${code_3.toText()}${code_4.toText()}"
                 verifyPhoneApiCall(phone, code)
@@ -111,7 +106,7 @@ class Verification : AppCompatActivity() {
         val code = "${code_1.toText()}${code_2.toText()}${code_3.toText()}${code_4.toText()}"
 
         if (code.length != 4) {
-            helperMethods.showToastMessage("Enter valid code")
+            helperMethods.showToastMessage(getString(R.string.enter_valid_code))
             return false
         }
 
@@ -130,7 +125,7 @@ class Verification : AppCompatActivity() {
         }
         resendTimer = object : CountDownTimer(10000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                retry_on.text = "Retry on ${helperMethods.MillisUntilToTime(millisUntilFinished)}"
+                retry_on.text = getString(R.string.retry_on) + " "+helperMethods.MillisUntilToTime(millisUntilFinished)
             }
 
             override fun onFinish() {
@@ -149,7 +144,7 @@ class Verification : AppCompatActivity() {
     }
 
     fun resendApiCall(phone: String) {
-        helperMethods.showProgressDialog("Please wait while resending code...")
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_resending_code))
         val responseBodyCall = retrofitInterface.RESEND_CODE_API_CALL(phone)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -161,9 +156,7 @@ class Verification : AppCompatActivity() {
                             val jsonObject = JSONObject(response.body()!!.string())
                             val status = jsonObject.getString("status")
                             if (status.equals("200")) {
-                                val code = jsonObject.getString("code")
                                 val message = jsonObject.getString("message")
-                                helperMethods.sendPushNotification("Estisharati", "OTP code is " + code)
                                 helperMethods.showToastMessage(message)
                                 ResendCountdown()
                             } else {
@@ -188,13 +181,13 @@ class Verification : AppCompatActivity() {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
-                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
     }
 
     fun verifyPhoneApiCall(phone: String, code: String) {
-        helperMethods.showProgressDialog("Please wait while verifying code...")
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_verifying_code))
         val responseBodyCall = retrofitInterface.VERIFY_PHONE_API_CALL(phone, code)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -211,7 +204,7 @@ class Verification : AppCompatActivity() {
                                 logInApiCall(email,password)
                             } else {
                                 val message = jsonObject.getString("message")
-                                helperMethods.AlertPopup("Alert", message)
+                                helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -231,14 +224,14 @@ class Verification : AppCompatActivity() {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
-                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
     }
 
     fun logInApiCall(userIdStr: String, password: String) {
-        helperMethods.showProgressDialog("Please wait while login in...")
-        val responseBodyCall = retrofitInterface.LOGIN_API_CALL(userIdStr, password,"on",GlobalData.FcmToken)
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_login_in))
+        val responseBodyCall = retrofitInterface.LOGIN_API_CALL(userIdStr, password,"on",GlobalData.FcmToken,"User")
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()
@@ -275,7 +268,7 @@ class Verification : AppCompatActivity() {
                                 finish()
                             } else {
                                 val message = jsonObject.getString("message")
-                                helperMethods.AlertPopup("Alert", message)
+                                helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -295,7 +288,7 @@ class Verification : AppCompatActivity() {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
-                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
     }

@@ -26,15 +26,20 @@ class SharedPreferencesHelper(mContext: Context) {
             return field
         }
         private set
+
     var isUserLogIn: Boolean
         get() = pref.getBoolean("IsUserLogIn", false)
         set(IsUserLogIn) {
             pref_editor.putBoolean("IsUserLogIn", IsUserLogIn).apply()
         }
 
+    var appLang: String
+        get() = pref.getString("appLang", "ar").toString()
+        set(appLang) {
+            pref_editor.putString("appLang", appLang).apply()
+        }
 
-
-    var logInUser:DataUser
+    var logInUser: DataUser
         get() {
             val gson = Gson()
             val json = pref.getString("DataUser", "")
@@ -44,12 +49,11 @@ class SharedPreferencesHelper(mContext: Context) {
                 return gson.fromJson(json, DataUser::class.java)
             }
         }
-    set(user) {
-        val gson = Gson()
-        val json = gson.toJson(user)
-        pref_editor.putString("DataUser", json).apply()
-    }
-
+        set(user) {
+            val gson = Gson()
+            val json = gson.toJson(user)
+            pref_editor.putString("DataUser", json).apply()
+        }
     var countryCity: ArrayList<DataCountry>
         get() {
             val list = pref.getString("countryCity", null)

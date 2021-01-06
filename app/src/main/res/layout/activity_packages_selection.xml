@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:fontFamily="@font/almarai_regular"
-                android:text="Packages Options"
+                android:text="@string/packages_options"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -45,7 +45,7 @@
             android:layout_marginTop="40dp"
             android:fontFamily="@font/almarai_regular"
             android:gravity="center"
-            android:text="Choose how to buy?"
+            android:text="@string/choose_how_to_buy"
             android:textColor="@color/black"
             android:textSize="23sp" />
 
@@ -102,7 +102,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/almarai_regular"
                     android:gravity="center"
-                    android:text="Packages"
+                    android:text="@string/package_"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
@@ -113,7 +113,7 @@
                     android:layout_marginBottom="15dp"
                     android:fontFamily="@font/almarai_regular"
                     android:gravity="center"
-                    android:text="Monthly / Yearly"
+                    android:text="@string/monthly_yearly"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -218,7 +218,7 @@
             android:fontFamily="@font/almarai_regular"
             android:gravity="center"
             android:padding="15dp"
-            android:text="Proceed Payment"
+            android:text="@string/proceed_payment"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="18sp" />
@@ -242,7 +242,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:fontFamily="@font/almarai_regular"
-                android:text="Do you have any coupon ?"
+                android:text="@string/do_you_have_any_coupon"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 

@@ -198,7 +198,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
                             android:background="@drawable/corner_redius_30dp_gray1"
-                            android:hint="Write comments here..."
+                            android:hint="@string/write_comments_here"
                             android:paddingLeft="15dp"
                             android:paddingTop="9dp"
                             android:paddingRight="10dp"
@@ -219,7 +219,7 @@
                         android:fontFamily="@font/almarai_regular"
                         android:gravity="center"
                         android:padding="8dp"
-                        android:text="Reply"
+                        android:text="@string/reply"
                         android:textColor="@color/white"
                         android:textSize="13sp" />
                 </LinearLayout>

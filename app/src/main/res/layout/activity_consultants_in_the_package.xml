@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/almarai_regular"
-                android:text="Consultants in the package"
+                android:text="@string/consultants_in_the_package"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
         </RelativeLayout>

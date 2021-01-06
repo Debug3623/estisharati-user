@@ -37,7 +37,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="40dp"
                 android:fontFamily="@font/almarai_regular"
-                android:text="Offers"
+                android:text="@string/offers"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
@@ -94,7 +94,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="15dp"
-                android:text="Consultants"
+                android:text="@string/consultants"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
@@ -110,7 +110,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="15dp"
-                android:text="Courses"
+                android:text="@string/courses"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
@@ -155,7 +155,7 @@
             android:layout_marginTop="10dp"
             android:fontFamily="@font/almarai_bold"
             android:gravity="center"
-            android:text="Please wait while fetching offers..."
+            android:text="@string/please_wait_while_fetching_offers"
             android:textColor="@color/black"
             android:textSize="16sp" />
 

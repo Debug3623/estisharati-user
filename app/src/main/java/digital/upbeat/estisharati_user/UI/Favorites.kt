@@ -18,6 +18,7 @@ import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_favorites.*
 import okhttp3.ResponseBody
 import org.json.JSONException
@@ -27,7 +28,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 
-class Favorites : AppCompatActivity() {
+class Favorites : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var dataUser: DataUser
@@ -90,7 +91,7 @@ class Favorites : AppCompatActivity() {
                 favoriteConsultantRecycler.visibility = View.GONE
                 favoriteCoursesRecycler.visibility = View.GONE
                 emptyLayout.visibility = View.VISIBLE
-                errorText.text = "There is no favorite consultant available !"
+                errorText.text = getString(R.string.there_is_no_favorite_consultant_available)
             }
             consultantsTab.setTextColor(ContextCompat.getColor(this@Favorites, R.color.white))
             coursesTab.setTextColor(ContextCompat.getColor(this@Favorites, R.color.transparent_white))
@@ -107,7 +108,7 @@ class Favorites : AppCompatActivity() {
                 favoriteConsultantRecycler.visibility = View.GONE
                 favoriteCoursesRecycler.visibility = View.GONE
                 emptyLayout.visibility = View.VISIBLE
-                errorText.text = "There is no favorite courses available !"
+                errorText.text = getString(R.string.there_is_no_favorite_courses_available)
             }
             coursesTab.setTextColor(ContextCompat.getColor(this@Favorites, R.color.white))
             consultantsTab.setTextColor(ContextCompat.getColor(this@Favorites, R.color.transparent_white))
@@ -131,7 +132,7 @@ class Favorites : AppCompatActivity() {
     }
 
     fun FavouriteListApiCall() {
-        helperMethods.showProgressDialog("Please wait while loading...")
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
         val responseBodyCall = retrofitInterface.FAVOURITES_LIST_API_CALL("Bearer ${dataUser.access_token}")
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -148,7 +149,7 @@ class Favorites : AppCompatActivity() {
                                 initializeFavoriteCoursesRecyclerview()
                             } else {
                                 val message = jsonObject.getString("message")
-                                helperMethods.AlertPopup("Alert", message)
+                                helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -168,7 +169,7 @@ class Favorites : AppCompatActivity() {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
-                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
     }

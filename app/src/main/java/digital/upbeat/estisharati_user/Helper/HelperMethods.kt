@@ -73,9 +73,9 @@ class HelperMethods(val context: Context) {
         DatePickerDialog(context, OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
             val newDate = Calendar.getInstance()
             newDate[year, monthOfYear] = dayOfMonth
-            val targetFormat = SimpleDateFormat("MM-dd-yyyy")
+            val targetFormat = SimpleDateFormat("MM-dd-yyyy", Locale.US)
             date_picker_text.text = targetFormat.format(newDate.time)
-        }, calendarInstance!![Calendar.YEAR], calendarInstance!![Calendar.MONTH], calendarInstance!![Calendar.DAY_OF_MONTH]).show()
+        }, calendarInstance[Calendar.YEAR], calendarInstance[Calendar.MONTH], calendarInstance[Calendar.DAY_OF_MONTH]).show()
     }
 
     fun ShowTimePickerDialog(time_picker_text: TextView) {
@@ -86,7 +86,7 @@ class HelperMethods(val context: Context) {
         val mTimePicker = TimePickerDialog(context, OnTimeSetListener { timePicker, selectedHour, selectedMinute ->
             SelectedTime[Calendar.HOUR_OF_DAY] = selectedHour
             SelectedTime[Calendar.MINUTE] = selectedMinute
-            time_picker_text.text = SimpleDateFormat("hh:mm a").format(SelectedTime.time)
+            time_picker_text.text = SimpleDateFormat("hh:mm a", Locale.US).format(SelectedTime.time)
         }, hour, minute, false) //Yes 24 hour time
         mTimePicker.setTitle("Select time")
         mTimePicker.show()
@@ -110,10 +110,9 @@ class HelperMethods(val context: Context) {
                 val afterOneHour = Calendar.getInstance()
                 afterOneHour.add(Calendar.HOUR_OF_DAY, 1)
                 if (dateTime.timeInMillis > afterOneHour.timeInMillis) {
-                    datetime.text = SimpleDateFormat("dd-MMM-yyyy hh:mm a").format(dateTime.time)
+                    datetime.text = SimpleDateFormat("dd-MMM-yyyy hh:mm a", Locale.US).format(dateTime.time)
                 } else {
                     datetime.text = ""
-                    Toast.makeText(context, "Sorry, Your booking time should be 1 hour ahead of current time!", Toast.LENGTH_LONG).show()
                 }
             }, currentDate[Calendar.HOUR_OF_DAY], currentDate[Calendar.MINUTE], false).show()
         }, currentDate[Calendar.YEAR], currentDate[Calendar.MONTH], currentDate[Calendar.DATE])
@@ -300,8 +299,8 @@ class HelperMethods(val context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val audioAttributes = AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).setUsage(AudioAttributes.USAGE_NOTIFICATION).build()
             val importance = NotificationManager.IMPORTANCE_HIGH
-            val mChannel = NotificationChannel(CHANNEL_ID, "Estisharati", importance)
-            mChannel.description = "Estisharati Notification Settings"
+            val mChannel = NotificationChannel(CHANNEL_ID, context.getString(R.string.app_name), importance)
+            mChannel.description = context.getString(R.string.estisharati_notification_settings)
             mChannel.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION), audioAttributes)
             mChannel.enableLights(true)
             mChannel.lightColor = ContextCompat.getColor(context, R.color.orange)
@@ -355,6 +354,15 @@ class HelperMethods(val context: Context) {
         }
     }
 
+    fun findConsultantIsOnline(consultantID: String): Boolean {
+        for (consultant in GlobalData.allUserArraylist) {
+            if (consultantID.equals(consultant.user_id) && consultant.online_status) {
+                return true
+            }
+        }
+        return false
+    }
+
     fun isValidMobile(phone: String): Boolean {
         var check = false
         check = if (!Pattern.matches("[a-zA-Z]+", phone)) {
@@ -379,13 +387,13 @@ class HelperMethods(val context: Context) {
         val dateTimeFormatString = "E, MMMM d, h:mm aa"
         val HOURS = 60 * 60 * 60.toLong()
         return if (now[Calendar.DATE] === smsTime[Calendar.DATE]) {
-            "Today " + SimpleDateFormat(timeFormatString).format(smsTime.time)
+            "Today " + SimpleDateFormat(timeFormatString, Locale.US).format(smsTime.time)
         } else if (now[Calendar.DATE] - smsTime[Calendar.DATE] === 1) {
-            "Yesterday " + SimpleDateFormat(timeFormatString).format(smsTime.time)
+            "Yesterday " + SimpleDateFormat(timeFormatString, Locale.US).format(smsTime.time)
         } else if (now[Calendar.YEAR] === smsTime[Calendar.YEAR]) {
-            SimpleDateFormat(dateTimeFormatString).format(smsTime.time).toString()
+            SimpleDateFormat(dateTimeFormatString, Locale.US).format(smsTime.time).toString()
         } else {
-            SimpleDateFormat("MMMM dd yyyy, h:mm aa").format(smsTime.time).toString()
+            SimpleDateFormat("MMMM dd yyyy, h:mm aa", Locale.US).format(smsTime.time).toString()
         }
     }
 
@@ -398,13 +406,13 @@ class HelperMethods(val context: Context) {
         val dateTimeFormatString = "MMM dd"
         val HOURS = 60 * 60 * 60.toLong()
         return if (now[Calendar.DATE] === smsTime[Calendar.DATE]) {
-            SimpleDateFormat(timeFormatString).format(smsTime.time)
+            SimpleDateFormat(timeFormatString, Locale.US).format(smsTime.time)
         } else if (now[Calendar.DATE] - smsTime[Calendar.DATE] === 1) {
-            SimpleDateFormat(yesterdayTimeFormatString).format(smsTime.time)
+            SimpleDateFormat(yesterdayTimeFormatString, Locale.US).format(smsTime.time)
         } else if (now[Calendar.YEAR] === smsTime[Calendar.YEAR]) {
-            SimpleDateFormat(dateTimeFormatString).format(smsTime.time).toString()
+            SimpleDateFormat(dateTimeFormatString, Locale.US).format(smsTime.time).toString()
         } else {
-            SimpleDateFormat("MMM yyyy").format(smsTime.time).toString()
+            SimpleDateFormat("MMM yyyy", Locale.US).format(smsTime.time).toString()
         }
     }
 
@@ -416,16 +424,15 @@ class HelperMethods(val context: Context) {
         val dateTimeFormatString = "EEEE, MMMM d, h:mm aa"
         val HOURS = 60 * 60 * 60.toLong()
         return if (now[Calendar.DATE] === smsTime[Calendar.DATE]) {
-            "Today " + SimpleDateFormat(timeFormatString).format(smsTime.time)
+            "Today " + SimpleDateFormat(timeFormatString, Locale.US).format(smsTime.time)
         } else if (now[Calendar.DATE] - smsTime[Calendar.DATE] === 1) {
-            "Yesterday " + SimpleDateFormat(timeFormatString).format(smsTime.time)
+            "Yesterday " + SimpleDateFormat(timeFormatString, Locale.US).format(smsTime.time)
         } else if (now[Calendar.YEAR] === smsTime[Calendar.YEAR]) {
-            SimpleDateFormat(dateTimeFormatString).format(smsTime.time).toString()
+            SimpleDateFormat(dateTimeFormatString, Locale.US).format(smsTime.time).toString()
         } else {
-            SimpleDateFormat("MMMM dd yyyy, h:mm aa").format(smsTime.time).toString()
+            SimpleDateFormat("MMMM dd yyyy, h:mm aa", Locale.US).format(smsTime.time).toString()
         }
     }
-
     //    fun isvalidMobileNumber(number: String): Boolean {
     //        return try {
     //            if (!number.trim().equals("", ignoreCase = true)) {
@@ -545,8 +552,7 @@ class HelperMethods(val context: Context) {
         return Uri.parse(path)
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    fun getFilePath(uri: Uri): String? {
+    @TargetApi(Build.VERSION_CODES.KITKAT) fun getFilePath(uri: Uri): String? {
         val isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
         // DocumentProvider
         if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
@@ -585,7 +591,6 @@ class HelperMethods(val context: Context) {
         }
         return null
     }
-
     /**
      * Get the value of the data column for this Uri. This is useful for
      * MediaStore Uris, and other file-based ContentProviders.
@@ -608,7 +613,7 @@ class HelperMethods(val context: Context) {
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(context, "Unable to get the profile please try different folder", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, context.getString(R.string.unable_to_get_the_image_please_try_different_folder), Toast.LENGTH_LONG).show()
             //            ShowCustomToast( "Orofile update failed", "Unable to get the profile please try different folder");
         } finally {
             cursor?.close()
@@ -624,7 +629,6 @@ class HelperMethods(val context: Context) {
         fun isExternalStorageDocument(uri: Uri): Boolean {
             return "com.android.externalstorage.documents" == uri.authority
         }
-
         /**
          * @param uri The Uri to check.
          * @return Whether the Uri authority is DownloadsProvider.
@@ -632,7 +636,6 @@ class HelperMethods(val context: Context) {
         fun isDownloadsDocument(uri: Uri): Boolean {
             return "com.android.providers.downloads.documents" == uri.authority
         }
-
         /**
          * @param uri The Uri to check.
          * @return Whether the Uri authority is MediaProvider.

@@ -139,7 +139,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="50dp"
                                 android:fontFamily="@font/almarai_bold"
-                                android:text="You"
+                                android:text="@string/you"
                                 android:textColor="@color/green"
                                 android:textSize="16sp" />
 
@@ -186,7 +186,7 @@
                                 android:layout_marginLeft="10dp"
                                 android:fontFamily="@font/almarai_light"
                                 android:singleLine="true"
-                                android:text="Photo"
+                                android:text="@string/photo"
                                 android:textColor="@color/black"
                                 android:textSize="12sp" />
 
@@ -218,7 +218,7 @@
                             android:layout_marginRight="50dp"
                             android:background="@color/transparent"
                             android:fontFamily="@font/almarai_light"
-                            android:hint="Type your message"
+                            android:hint="@string/type_your_message"
                             android:inputType="textMultiLine"
                             android:maxLines="3"
                             android:textColor="@color/black"

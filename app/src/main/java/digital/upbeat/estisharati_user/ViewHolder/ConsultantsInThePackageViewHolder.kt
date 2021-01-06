@@ -8,4 +8,5 @@ class ConsultantsInThePackageViewHolder(itemView: View) : RecyclerView.ViewHolde
     val consultantImage=itemView.consultantImage
     val consultantName=itemView.consultantName
     val consultantLayout=itemView.consultantLayout
+    val onlineStatus=itemView.onlineStatus
 }

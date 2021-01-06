@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:fontFamily="@font/almarai_regular"
-                android:text="Packages"
+                android:text="@string/packages"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
@@ -61,7 +61,7 @@
             android:fontFamily="@font/almarai_regular"
             android:gravity="center"
             android:padding="16dp"
-            android:text="Choose the package"
+            android:text="@string/choose_the_package"
             android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="19sp"
@@ -88,7 +88,7 @@
             android:layout_marginTop="10dp"
             android:fontFamily="@font/almarai_bold"
             android:gravity="center"
-            android:text="Please wait while fetching packages..."
+            android:text="@string/please_wait_while_fetching_packages"
             android:textColor="@color/black"
             android:textSize="16sp" />
 

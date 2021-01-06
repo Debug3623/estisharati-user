@@ -53,6 +53,7 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
     lateinit var firestore: FirebaseFirestore
     lateinit var dataUser: DataUser
     lateinit var dataUserFireStore: DataUserFireStore
+    var allUserListener: ListenerRegistration? = null
     var onlineUserListener: ListenerRegistration? = null
     var incomingCallListener: ListenerRegistration? = null
     var runnable: Runnable = object : Runnable {
@@ -136,6 +137,7 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
         super.onDestroy()
         onlineUserListener?.remove()
         incomingCallListener?.remove()
+        allUserListener?.remove()
     }
 
     fun InitializeRecyclerview() {
@@ -168,8 +170,8 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
     }
 
     fun homeDetailsApiCall() {
-        helperMethods.showProgressDialog("Please wait while loading...")
-        val responseBodyCall = retrofitInterface.HOME_API_CALL("Bearer ${dataUser.access_token}")
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
+        val responseBodyCall = retrofitInterface.HOME_API_CALL("Bearer ${dataUser.access_token}", GlobalData.FcmToken)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()
@@ -187,7 +189,7 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
                                 firestoreLisiner()
                             } else {
                                 val message = jsonObject.getString("message")
-                                helperMethods.AlertPopup("Alert", message)
+                                helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -207,7 +209,7 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
-                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
     }
@@ -217,18 +219,23 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
         for (consultant in GlobalData.homeResponse.consultants) {
             consultantIdArrayList.add(consultant.id)
         }
-        //            .whereIn("user_id", consultantIdArrayList)
-        onlineUserListener = firestore.collection("Users").orderBy("fname", Query.Direction.ASCENDING).addSnapshotListener { querySnapshot, firebaseFirestoreException ->
-            querySnapshot?.let {
-                onlineUserArraylist = arrayListOf<DataUserFireStore>()
-                for (data in querySnapshot) {
-                    val dataUserFireStore = data.toObject(DataUserFireStore::class.java)
-                    if (!dataUserFireStore.user_id.equals(dataUser.id) && dataUserFireStore.online_status) {
-                        onlineUserArraylist.add(dataUserFireStore)
+        Log.d("consultantIdArrayList", consultantIdArrayList.toString())
+        if (GlobalData.homeResponse.consultants.size > 0) {
+            //            .whereIn("user_id", consultantIdArrayList)
+            onlineUserListener = firestore.collection("Users").whereIn("user_id", consultantIdArrayList).orderBy("fname", Query.Direction.ASCENDING).addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                querySnapshot?.let {
+                    onlineUserArraylist = arrayListOf<DataUserFireStore>()
+                    for (data in querySnapshot) {
+                        val dataUserFireStore = data.toObject(DataUserFireStore::class.java)
+                        if (!dataUserFireStore.user_id.equals(dataUser.id) && dataUserFireStore.online_status) {
+                            onlineUserArraylist.add(dataUserFireStore)
+                        }
                     }
+                    initializeOnlineUserRecyclerview()
                 }
-                initializeOnlineUserRecyclerview()
             }
+        } else {
+            initializeOnlineUserRecyclerview()
         }
 
         incomingCallListener = firestore.collection("Users").document(dataUser.id).addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
@@ -244,6 +251,16 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
                             }
                         }
                     }
+                }
+            }
+        }
+
+        allUserListener = firestore.collection("Users").orderBy("fname", Query.Direction.ASCENDING).addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+            querySnapshot?.let {
+                GlobalData.allUserArraylist = arrayListOf<DataUserFireStore>()
+                for (data in querySnapshot) {
+                    val dataUserFireStore = data.toObject(DataUserFireStore::class.java)
+                    GlobalData.allUserArraylist.add(dataUserFireStore)
                 }
             }
         }

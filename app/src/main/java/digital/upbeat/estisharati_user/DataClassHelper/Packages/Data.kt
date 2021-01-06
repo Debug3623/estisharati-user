@@ -1,7 +1,7 @@
 package digital.upbeat.estisharati_user.DataClassHelper.Packages
 
 data class Data(
-    val amount: Int,
+    val amount: String,
     val audio_balance: Int,
     val audio_subscribed: Int,
     val consultant_id: Any,
@@ -11,7 +11,7 @@ data class Data(
     val course_id: Any,
     val courses: ArrayList<Course>,
     val date_subscribed: String,
-    val discount: Int,
+    val discount: String,
     val effective_date: String,
     val features: Features,
     val id: String,

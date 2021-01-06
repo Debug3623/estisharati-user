@@ -108,7 +108,7 @@
                         android:fontFamily="@font/almarai_regular"
                         android:hint="@string/email_address"
                         android:inputType="textEmailAddress"
-                        android:paddingLeft="0dp"
+                        android:paddingStart="0dp"
                         android:paddingBottom="10dp"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black_light"
@@ -138,7 +138,7 @@
                             android:fontFamily="@font/almarai_regular"
                             android:hint="@string/password"
                             android:inputType="textPassword"
-                            android:paddingLeft="0dp"
+                            android:paddingStart="0dp"
                             android:paddingBottom="10dp"
                             android:textColor="@color/black"
                             android:textColorHint="@color/black_light"
@@ -177,7 +177,7 @@
                             android:id="@+id/remember_me"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="-6dp"
+                            android:layout_marginStart="-6dp"
                             android:checked="true"
                             android:scaleX="1.00"
                             android:scaleY="1.00" />
@@ -204,7 +204,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/almarai_regular"
-                            android:gravity="right"
+                            android:gravity="end"
                             android:text="@string/forgot_password"
                             android:textColor="@color/black_light"
                             android:textSize="15sp" />
@@ -255,7 +255,7 @@
                             android:id="@+id/terms_policy"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
                             android:fontFamily="@font/almarai_regular"
                             android:singleLine="true"
                             android:text="@string/terms_and_policy"
@@ -380,7 +380,7 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginEnd="15dp"
                         android:layout_weight="1"
                         android:orientation="vertical">
 
@@ -408,7 +408,7 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
                         android:layout_weight="1"
                         android:orientation="vertical">
 
@@ -594,7 +594,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/almarai_regular"
                             android:singleLine="true"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
                             android:text="@string/terms_and_policy"
                             android:textColor="@color/orange"
                             android:textSize="15sp" />
@@ -621,7 +621,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:fontFamily="@font/almarai_bold"
                         android:singleLine="true"
                         android:text="@string/login_caps"

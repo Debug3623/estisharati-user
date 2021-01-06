@@ -1,7 +1,5 @@
 package digital.upbeat.estisharati_user.UI
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
@@ -15,6 +13,7 @@ import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import digital.upbeat.estisharati_user.Utils.PinOnKeyListener
 import digital.upbeat.estisharati_user.Utils.PinTextWatcher
 import kotlinx.android.synthetic.main.activity_forgot_password.*
@@ -26,7 +25,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 
-class ForgotPassword : AppCompatActivity() {
+class ForgotPassword : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var preferencesHelper: SharedPreferencesHelper
@@ -47,13 +46,13 @@ class ForgotPassword : AppCompatActivity() {
     }
 
     fun clickEvents() {
-        val editTexts = arrayOf(code_1, code_2, code_3, code_4,code_5, code_6, code_7, code_8)
+        val editTexts = arrayOf(code_1, code_2, code_3, code_4, code_5, code_6, code_7, code_8)
 
         code_1.addTextChangedListener(PinTextWatcher(this@ForgotPassword, 0, editTexts))
         code_2.addTextChangedListener(PinTextWatcher(this@ForgotPassword, 1, editTexts))
         code_3.addTextChangedListener(PinTextWatcher(this@ForgotPassword, 2, editTexts))
         code_4.addTextChangedListener(PinTextWatcher(this@ForgotPassword, 3, editTexts))
-       code_5.addTextChangedListener(PinTextWatcher(this@ForgotPassword, 4, editTexts))
+        code_5.addTextChangedListener(PinTextWatcher(this@ForgotPassword, 4, editTexts))
         code_6.addTextChangedListener(PinTextWatcher(this@ForgotPassword, 5, editTexts))
         code_7.addTextChangedListener(PinTextWatcher(this@ForgotPassword, 6, editTexts))
         code_8.addTextChangedListener(PinTextWatcher(this@ForgotPassword, 7, editTexts))
@@ -88,20 +87,8 @@ class ForgotPassword : AppCompatActivity() {
                 code_3.text = "".toEditable()
                 code_4.text = "".toEditable()
             }
-            //            Toast.makeText(this@ForgotPassword,"OTP sent to you email address!", Toast.LENGTH_LONG).show()
-            //
-            //            val intent = Intent(this@ForgotPassword, Verification::class.java)
-            //            intent.putExtra("come_from", "ForgotPassword")
-            //            startActivityForResult(intent, 123)
         }
         btn_proceed.setOnClickListener {
-            //            Toast.makeText(this@Verification, "OTP verified!", Toast.LENGTH_LONG).show()
-            //            val result = Intent()
-            //            result.putExtra("value1", "hi")
-            //            result.putExtra("value2", "how")
-            //            result.putExtra("value3", "are you? $code")
-            //            setResult(Activity.RESULT_OK, result);
-            //            finish()
             if (codeValidation()) {
                 val code = "${code_1.toText()}${code_2.toText()}${code_3.toText()}${code_4.toText()}${code_5.toText()}${code_6.toText()}${code_7.toText()}${code_8.toText()}"
                 verification_layout.visibility = View.GONE
@@ -112,7 +99,6 @@ class ForgotPassword : AppCompatActivity() {
         save_passwrod.setOnClickListener {
             if (changePasswordValidation()) {
                 val code = "${code_1.toText()}${code_2.toText()}${code_3.toText()}${code_4.toText()}${code_5.toText()}${code_6.toText()}${code_7.toText()}${code_8.toText()}"
-
                 VerifyResetCodeApiCall(codePicker.selectedCountryCodeWithPlus + "" + phone.toText(), code, new_password.toText())
             }
         }
@@ -129,7 +115,7 @@ class ForgotPassword : AppCompatActivity() {
         val code = "${code_1.toText()}${code_2.toText()}${code_3.toText()}${code_4.toText()}${code_5.toText()}${code_6.toText()}${code_7.toText()}${code_8.toText()}"
 
         if (code.length != 8) {
-            helperMethods.showToastMessage("Enter valid code")
+            helperMethods.showToastMessage(getString(R.string.enter_valid_code))
             return false
         }
 
@@ -148,7 +134,7 @@ class ForgotPassword : AppCompatActivity() {
         }
         resendTimer = object : CountDownTimer(10000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                retry_on.text = "Retry on ${helperMethods.MillisUntilToTime(millisUntilFinished)}"
+                retry_on.text = getString(R.string.retry_on) +" "+ helperMethods.MillisUntilToTime(millisUntilFinished)
             }
 
             override fun onFinish() {
@@ -184,11 +170,11 @@ class ForgotPassword : AppCompatActivity() {
 
     fun forgotPasswordValidation(): Boolean {
         if (phone.toText().equals("")) {
-            helperMethods.showToastMessage("Enter phone number")
+            helperMethods.showToastMessage(getString(R.string.enter_phone_number))
             return false
         }
         if (!helperMethods.isValidMobile(codePicker.selectedCountryCodeWithPlus + "" + phone.toText())) {
-            helperMethods.showToastMessage("Enter vaid phone number")
+            helperMethods.showToastMessage(getString(R.string.enter_vaid_phone_number))
             return false
         }
 
@@ -201,19 +187,19 @@ class ForgotPassword : AppCompatActivity() {
 
     fun changePasswordValidation(): Boolean {
         if (new_password.toText().equals("")) {
-            helperMethods.showToastMessage("Enter new password")
+            helperMethods.showToastMessage(getString(R.string.enter_new_password))
             return false
         }
         if (!helperMethods.isValidPassword(new_password.toText())) {
-            helperMethods.AlertPopup("Alert", "Password at least 8 characters including a lower-case letter, an upper–case letter, a number and one special character")
+            helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.password_at_least_8_characters_including_a_lower_case_letteran_uppercase_lettera_number_and_one_special_character))
             return false
         }
         if (confirm_password.toText().equals("")) {
-            helperMethods.showToastMessage("Enter confirm password")
+            helperMethods.showToastMessage(getString(R.string.enter_confirm_password))
             return false
         }
         if (!new_password.toText().equals(confirm_password.toText())) {
-            helperMethods.showToastMessage("New password and Confirm password not same")
+            helperMethods.showToastMessage(getString(R.string.new_password_and_confirm_password_not_same))
             return false
         }
 
@@ -226,7 +212,7 @@ class ForgotPassword : AppCompatActivity() {
     }
 
     fun forgotPasswordApiCall(phone: String) {
-        helperMethods.showProgressDialog("Please wait while sending code...")
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
         val responseBodyCall = retrofitInterface.RESET_PASSWORD_API_CALL(phone)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -238,9 +224,9 @@ class ForgotPassword : AppCompatActivity() {
                             val jsonObject = JSONObject(response.body()!!.string())
                             val status = jsonObject.getString("status")
                             if (status.equals("200")) {
-                                val code = jsonObject.getString("code")
+//                                val code = jsonObject.getString("code")
                                 val message = jsonObject.getString("message")
-                                helperMethods.sendPushNotification("Estisharati", "OTP code is " + code)
+//                                helperMethods.sendPushNotification("Estisharati", "OTP code is " + code)
                                 helperMethods.showToastMessage(message)
                                 forgot_password_layout.visibility = View.GONE
                                 verification_layout.visibility = View.VISIBLE
@@ -268,13 +254,13 @@ class ForgotPassword : AppCompatActivity() {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
-                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
     }
 
     fun VerifyResetCodeApiCall(phone: String, code: String, password: String) {
-        helperMethods.showProgressDialog("Please wait while sending code...")
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
         val responseBodyCall = retrofitInterface.VERIFY_RESET_CODE_API_CALL(phone, code, password)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -311,23 +297,9 @@ class ForgotPassword : AppCompatActivity() {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
-                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 123) {
-            if (resultCode == Activity.RESULT_OK) {
-                val street = data!!.getStringExtra("value1")
-                val city = data.getStringExtra("value2")
-                val home = data.getStringExtra("value3")
-                Log.d("result", "$street $city $home")
-                forgot_password_layout.visibility = View.GONE
-                change_password_layot.visibility = View.VISIBLE
-            }
-        }
     }
 
     fun EditText.toText(): String = text.toString().trim()

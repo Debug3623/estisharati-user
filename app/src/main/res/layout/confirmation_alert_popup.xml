@@ -17,7 +17,6 @@
             android:layout_height="wrap_content"
             android:background="@drawable/top_laft_right_corner_redius_15dp_orange"
             android:fontFamily="@font/almarai_bold"
-
             android:gravity="center"
             android:padding="20dp"
             android:text="Success"
@@ -64,7 +63,7 @@
                 android:fontFamily="@font/almarai_regular"
                 android:gravity="center"
                 android:padding="13dp"
-                android:text="CANCEL"
+                android:text="@string/cancel"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
@@ -82,7 +81,7 @@
                 android:fontFamily="@font/almarai_regular"
                 android:gravity="center"
                 android:padding="13dp"
-                android:text="OK"
+                android:text="@string/ok"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
         </LinearLayout>

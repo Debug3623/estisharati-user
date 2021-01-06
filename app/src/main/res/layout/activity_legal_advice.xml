@@ -39,7 +39,7 @@
                 android:layout_marginEnd="40dp"
                 android:fontFamily="@font/almarai_regular"
                 android:singleLine="true"
-                android:text="Legal Advice"
+                android:text="@string/legal_advice"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
@@ -69,7 +69,7 @@
                     android:layout_alignParentRight="true"
                     android:background="@drawable/round_light_green_white_stroke"
                     android:gravity="center"
-                    android:text="2"
+                    android:text="0"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
             </RelativeLayout>
@@ -108,7 +108,7 @@
                     android:layout_marginLeft="15dp"
                     android:background="@color/transparent"
                     android:fontFamily="@font/almarai_regular"
-                    android:hint="Search for consultant"
+                    android:hint="@string/search_for_consultant"
                     android:singleLine="true"
                     android:textColor="@color/white"
                     android:textColorHint="@color/ach_white_dark"
@@ -129,14 +129,6 @@
                     android:adjustViewBounds="true"
                     android:src="@drawable/ic_sort" />
 
-                <!--                <TextView-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_marginLeft="5dp"-->
-                <!--                    android:fontFamily="@font/almarai_regular"-->
-                <!--                    android:text="sort by"-->
-                <!--                    android:textColor="@color/white"-->
-                <!--                    android:textSize="16sp" />-->
 
                 <Spinner
                     android:id="@+id/legal_filter_spinner"
@@ -184,7 +176,7 @@
             android:layout_marginTop="10dp"
             android:fontFamily="@font/almarai_bold"
             android:gravity="center"
-            android:text="Please wait while fetching advice..."
+            android:text="@string/please_wait_while_fetching_advice"
             android:textColor="@color/black"
             android:textSize="16sp" />
 

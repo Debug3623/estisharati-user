@@ -30,7 +30,7 @@
             android:background="@drawable/corner_redius_15dp_white"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Camera"
+            android:text="@string/camera"
             android:textColor="@color/orange"
             android:textSize="17sp" />
     </LinearLayout>
@@ -57,7 +57,7 @@
             android:background="@drawable/corner_redius_15dp_white"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Gallery"
+            android:text="@string/gallery"
             android:textColor="@color/orange"
             android:textSize="17sp" />
     </LinearLayout>

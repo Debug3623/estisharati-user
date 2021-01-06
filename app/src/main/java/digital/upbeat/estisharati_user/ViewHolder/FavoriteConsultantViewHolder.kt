@@ -12,4 +12,5 @@ class FavoriteConsultantViewHolder(itemView: View) : RecyclerView.ViewHolder(ite
     val consultantPrice=itemView.consultantPrice
     val favoriteIcon=itemView.favoriteIcon
     val parentLayout=itemView.parentLayout
+    val onlineStatus=itemView.onlineStatus
 }

@@ -59,7 +59,7 @@
                     android:paddingTop="5dp"
                     android:paddingRight="10dp"
                     android:paddingBottom="5dp"
-                    android:text="start course"
+                    android:text="@string/start_course_"
                     android:textColor="@color/white"
                     android:textSize="13sp"
                     android:visibility="visible" />
@@ -95,7 +95,7 @@
                         android:paddingTop="5dp"
                         android:paddingRight="10dp"
                         android:paddingBottom="5dp"
-                        android:text="Add a review"
+                        android:text="@string/add_a_review"
                         android:textColor="@color/white"
                         android:textSize="13sp" />
 

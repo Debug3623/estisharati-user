@@ -78,7 +78,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="15dp"
                                 android:fontFamily="@font/almarai_regular"
-                                android:text="My Profile"
+                                android:text="@string/my_profile"
                                 android:textColor="@color/white"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -120,7 +120,7 @@
                         android:paddingTop="6dp"
                         android:paddingRight="27dp"
                         android:paddingBottom="6dp"
-                        android:text="Upgrade"
+                        android:text="@string/upgrade"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -157,7 +157,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Home"
+                        android:text="@string/home"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -188,7 +188,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Offers"
+                        android:text="@string/offers"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -219,7 +219,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Consultations"
+                        android:text="@string/consultations"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -230,6 +230,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="70dp"
                     android:background="@color/gainsboro" />
+
                 <LinearLayout
                     android:id="@+id/nav_online_courses"
                     android:layout_width="match_parent"
@@ -249,7 +250,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Online Courses"
+                        android:text="@string/online_courses"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -280,7 +281,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="My Consultations"
+                        android:text="@string/my_consultations"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -312,7 +313,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="My Packages"
+                        android:text="@string/my_packages"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -323,8 +324,6 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="70dp"
                     android:background="@color/gainsboro" />
-
-
 
 
                 <LinearLayout
@@ -346,7 +345,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="My Courses"
+                        android:text="@string/my_courses"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -357,7 +356,8 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="70dp"
                     android:background="@color/gainsboro" />
-           <LinearLayout
+
+                <LinearLayout
                     android:id="@+id/nav_favorites"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -372,12 +372,12 @@
                         android:src="@drawable/ic_favorite_green" />
 
 
-               <TextView
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Favorites"
+                        android:text="@string/favorites"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -409,7 +409,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="About APP"
+                        android:text="@string/about_app"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -420,7 +420,6 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="70dp"
                     android:background="@color/gainsboro" />
-
 
 
                 <LinearLayout
@@ -442,7 +441,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Terms and Condition"
+                        android:text="@string/terms_and_condition"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -474,7 +473,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Refund Policy"
+                        android:text="@string/refund_policy"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -485,7 +484,8 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="70dp"
                     android:background="@color/gainsboro" />
-       <LinearLayout
+
+                <LinearLayout
                     android:id="@+id/nav_chat_home"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -504,7 +504,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Chat Home"
+                        android:text="@string/chat_home"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -536,7 +536,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Contact us"
+                        android:text="@string/contact_us"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -567,7 +567,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="FAQ"
+                        android:text="@string/faq"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -597,7 +597,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Language"
+                        android:text="@string/language"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -617,7 +617,7 @@
                         android:buttonTint="@color/orange"
                         android:checked="true"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="English"
+                        android:text="@string/english"
                         android:textColor="@color/black"
                         android:textSize="13sp" />
 
@@ -627,7 +627,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="25dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Arabic"
+                        android:text="@string/arabic"
                         android:textSize="13sp" />
 
                 </RadioGroup>
@@ -643,7 +643,7 @@
                     android:fontFamily="@font/almarai_regular"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="LOGOUT"
+                    android:text="@string/logout_"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
 

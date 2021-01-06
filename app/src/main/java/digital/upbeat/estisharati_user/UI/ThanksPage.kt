@@ -7,9 +7,10 @@ import digital.upbeat.estisharati_user.DataClassHelper.PackagesOptions.PackagesO
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_thanks_page.*
 
-class ThanksPage : AppCompatActivity() {
+class ThanksPage : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

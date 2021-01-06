@@ -19,7 +19,7 @@
             android:background="@drawable/top_laft_right_corner_redius_15dp_orange"
             android:gravity="center"
             android:padding="15dp"
-            android:text="What type of consultation ? "
+            android:text="@string/what_type_of_consultation"
             android:textColor="@color/white"
             android:textSize="20sp" />
 

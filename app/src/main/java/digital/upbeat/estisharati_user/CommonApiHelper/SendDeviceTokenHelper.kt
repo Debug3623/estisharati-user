@@ -34,7 +34,7 @@ class SendDeviceTokenHelper(val context: Context, val splashScreen: SplashScreen
             return
         }
         if (IfNotService) {
-            helperMethods.showProgressDialog("Please wait...")
+            helperMethods.showProgressDialog(context.getString(R.string.Please_wait))
         }
         if (GlobalData.FcmToken.equals("")) {
             helperMethods.dismissProgressDialog()

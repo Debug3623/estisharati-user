@@ -24,7 +24,7 @@ class InstructorAdapter(val context: Context, val instructor: Instructor, val co
     override fun onBindViewHolder(holder: InstructorViewHolder, position: Int) {
         holder.consultantName.text = consultants.get(position).user.name
         holder.consultantRate.text = consultants.get(position).user.rate
-        holder.courseCount.text ="Total Course : "+ consultants.get(position).user.course_count
+        holder.courseCount.text =context.getString(R.string.total_course)+ consultants.get(position).user.course_count
         if (consultants.get(position).user.qualification.size > 0) {
             holder.qualificationDetails.setText(consultants.get(position).user.qualification.get(0).attr_value)
             holder.qualificationDetails.visibility = View.VISIBLE

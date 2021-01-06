@@ -10,7 +10,6 @@ import digital.upbeat.estisharati_user.Adapter.CourseContentAdapter
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.R
 import digital.upbeat.estisharati_user.UI.CourseDetails
-import kotlinx.android.synthetic.main.activity_course_details.*
 import kotlinx.android.synthetic.main.fragment_course_content.*
 
 class CourseContent(val courseDetails: CourseDetails) : Fragment() {
@@ -36,10 +35,16 @@ class CourseContent(val courseDetails: CourseDetails) : Fragment() {
     }
 
     fun InitializeRecyclerview() {
-
-         courseVideoRecycler.setHasFixedSize(true)
-        courseVideoRecycler.removeAllViews()
-        courseVideoRecycler.layoutManager = LinearLayoutManager(requireContext())
-        courseVideoRecycler.adapter = CourseContentAdapter(requireContext(), this@CourseContent, courseDetails.responseCoursesDetails.course_resources)
+        courseContentRecycler.setHasFixedSize(true)
+        courseContentRecycler.removeAllViews()
+        courseContentRecycler.layoutManager = LinearLayoutManager(requireContext())
+        courseContentRecycler.adapter = CourseContentAdapter(requireContext(), this@CourseContent, courseDetails.responseCoursesDetails.course_resources)
+        if (courseDetails.responseCoursesDetails.course_resources.size > 0) {
+            courseContentRecycler.visibility = View.VISIBLE
+            emptyLayout.visibility = View.GONE
+        } else {
+            courseContentRecycler.visibility = View.GONE
+            emptyLayout.visibility = View.VISIBLE
+        }
     }
 }

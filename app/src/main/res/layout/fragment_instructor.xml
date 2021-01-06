@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     tools:context=".Fragment.Instructor">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -16,8 +16,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"
-            tools:itemCount="3"
+            tools:itemCount="0"
             tools:listitem="@layout/instructor_item" />
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/emptyLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="50dp"
+            android:paddingBottom="50dp"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_my_consulting" />
+
+            <TextView
+                android:id="@+id/errorText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/almarai_bold"
+                android:gravity="center"
+                android:text="@string/there_is_no_consultant_available"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </FrameLayout>

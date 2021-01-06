@@ -17,15 +17,16 @@ import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import digital.upbeat.estisharati_user.Utils.alertActionClickListner
 
-class SplashScreen : AppCompatActivity() {
+class SplashScreen : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var preferencesHelper: SharedPreferencesHelper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
-       
+
         FirebaseMessaging.getInstance().token.addOnCompleteListener {
             if (it.isComplete) {
                 GlobalData.FcmToken = it.result.toString()
@@ -59,11 +60,11 @@ class SplashScreen : AppCompatActivity() {
 
     fun checkInternetConnection(errorMsg: String) {
         if (helperMethods.isConnectingToInternet) {
-            if (preferencesHelper.isUserLogIn) {
-                SendDeviceTokenHelper(this@SplashScreen, this@SplashScreen, true).SendDeviceTokenFirebase()
-            } else {
-                checkSelfPermission()
-            }
+            //            if (preferencesHelper.isUserLogIn) {
+            //                SendDeviceTokenHelper(this@SplashScreen, this@SplashScreen, true).SendDeviceTokenFirebase()
+            //            } else {
+            checkSelfPermission()
+            //            }
         } else {
             helperMethods.showAlertDialog(this@SplashScreen, object : alertActionClickListner {
                 override fun onActionOk() {
@@ -73,7 +74,7 @@ class SplashScreen : AppCompatActivity() {
                 override fun onActionCancel() {
                     finish()
                 }
-            }, "No Internet Connection", errorMsg, false, resources.getString(R.string.ok), resources.getString(R.string.cancel))
+            }, getString(R.string.no_internet_connection), errorMsg, false, resources.getString(R.string.ok), resources.getString(R.string.cancel))
         }
     }
 

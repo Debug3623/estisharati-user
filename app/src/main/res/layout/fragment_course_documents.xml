@@ -38,7 +38,7 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/almarai_bold"
                 android:gravity="center"
-                android:text="There is no documents for this course !"
+                android:text="@string/there_is_no_documents_for_this_course"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 

@@ -70,7 +70,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/almarai_regular"
-                                android:text="Add To Favorite"
+                                android:text="@string/add_to_favorite"
                                 android:textColor="@color/white"
                                 android:textSize="13sp" />
 
@@ -194,7 +194,7 @@
                             android:paddingTop="3dp"
                             android:paddingRight="15dp"
                             android:paddingBottom="3dp"
-                            android:text="Monthly"
+                            android:text="@string/monthly"
                             android:textColor="@color/white"
                             android:textSize="11sp" />
                     </RelativeLayout>
@@ -252,7 +252,7 @@
                         android:layout_marginBottom="10dp"
                         android:fontFamily="@font/almarai_regular"
                         android:gravity="center"
-                        android:text="Preview this course"
+                        android:text="@string/preview_this_course"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
                 </RelativeLayout>
@@ -350,7 +350,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/almarai_regular"
-                            android:text="Course description"
+                            android:text="@string/course_description"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
 
@@ -372,7 +372,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:fontFamily="@font/almarai_regular"
-                            android:text="Show more"
+                            android:text="@string/show_more"
                             android:textColor="@color/orange"
                             android:textSize="13sp" />
                     </LinearLayout>

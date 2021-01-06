@@ -9,10 +9,11 @@ import digital.upbeat.estisharati_user.Adapter.ConsultantCommentsReplySubAdapter
 import digital.upbeat.estisharati_user.DataClassHelper.DataTextsAndColors
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_notification_details.*
 import kotlinx.android.synthetic.main.activity_notifications.nav_back
 
-class NotificationDetails : AppCompatActivity() {
+class NotificationDetails : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

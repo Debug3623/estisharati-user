@@ -14,7 +14,6 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,6 +34,7 @@ import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.MessageSwipe.MessageSwipeController
 import digital.upbeat.estisharati_user.MessageSwipe.SwipeControllerActions
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_chat_page.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -49,7 +49,7 @@ import java.io.File
 import java.io.IOException
 import java.util.*
 
-class ChatPage : AppCompatActivity() {
+class ChatPage : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var preferencesHelper: SharedPreferencesHelper
     lateinit var firestore: FirebaseFirestore
@@ -71,6 +71,9 @@ class ChatPage : AppCompatActivity() {
     var slide_left: Animation? = null
     var slide_top: Animation? = null
     var slide_bottom: Animation? = null
+    var video_balance = 0
+    var audio_balance = 0
+    var chat_balance = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_page)
@@ -121,6 +124,11 @@ class ChatPage : AppCompatActivity() {
         inside_reply.put("message_content", "")
         inside_reply.put("sender_id", "")
         inside_reply.put("position", "")
+    }
+
+    override fun onStart() {
+        getConsultationSecondsApiCall(userId)
+        super.onStart()
     }
 
     fun InitializeRecyclerview() {
@@ -185,16 +193,22 @@ class ChatPage : AppCompatActivity() {
     fun firestoreUserLisiner() {
         firestore.collection("Users").document(userId).addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
             documentSnapshot?.let {
-                dataUserFireStore = documentSnapshot.toObject(DataUserFireStore::class.java)!!
+                if (documentSnapshot.toObject(DataUserFireStore::class.java) != null) {
+                    dataUserFireStore = documentSnapshot.toObject(DataUserFireStore::class.java)!!
+                } else {
+                    helperMethods.showToastMessage(getString(R.string.currently_the_consultant_is_not_available_for_chat))
+                    finish()
+                }
             }
 
             name.text = dataUserFireStore.fname + " " + dataUserFireStore.lname
             if (dataUserFireStore.online_status) {
-                online_status.text = "Online"
+                online_status.text = getString(R.string.online)
             } else {
-                online_status.text = "Last seen " + helperMethods.getFormattedDate(dataUserFireStore.last_seen)
+                online_status.text = getString(R.string.last_seen) + " " + helperMethods.getFormattedDate(dataUserFireStore.last_seen)
             }
         }
+
         firestoreRegistrar = firestore.collection("Chats").whereEqualTo("communication_id", IdArray).orderBy("send_time", Query.Direction.ASCENDING).addSnapshotListener { querySnapshot, firebaseFirestoreException ->
             querySnapshot?.let {
                 messagesArrayList.clear()
@@ -219,49 +233,57 @@ class ChatPage : AppCompatActivity() {
     fun clickEvents() {
         nav_back.setOnClickListener { finish() }
         voice_call.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(this@ChatPage, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
-                if (helperMethods.isConnectingToInternet) {
-                    if (dataUserFireStore.availability) {
-                        val channelUniqueId = UUID.randomUUID().toString()
-                        val callHashMap = hashMapOf<String, Any>("channel_unique_id" to channelUniqueId, "caller_id" to dataUser.id, "receiver_id" to dataUserFireStore.user_id, "call_type" to "voice_call", "call_status" to "", "ringing_duration" to "60")
-                        helperMethods.setCallsDetailsToFirestore(channelUniqueId, callHashMap)
-                        val hashMap = hashMapOf<String, Any>("channel_unique_id" to channelUniqueId, "availability" to false)
-                        helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
-                        helperMethods.updateUserDetailsToFirestore(dataUser.id, hashMap)
-                        val data = data("Incoming call", "you are receiving voice call from ${dataUser.fname} ${dataUser.lname}", "incoming_voice_call", dataUser.id, dataUserFireStore.user_id, channelUniqueId)
-                        val dataFcmBody = DataFcmBody(dataUserFireStore.fire_base_token, data)
-                        sendPushNotification(dataFcmBody)
+            if (audio_balance > 0) {
+                if (ContextCompat.checkSelfPermission(this@ChatPage, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+                    if (helperMethods.isConnectingToInternet) {
+                        if (dataUserFireStore.availability) {
+                            val channelUniqueId = UUID.randomUUID().toString()
+                            val callHashMap = hashMapOf<String, Any>("channel_unique_id" to channelUniqueId, "caller_id" to dataUser.id, "receiver_id" to dataUserFireStore.user_id, "call_type" to "voice_call", "call_status" to "", "ringing_duration" to "60")
+                            helperMethods.setCallsDetailsToFirestore(channelUniqueId, callHashMap)
+                            val hashMap = hashMapOf<String, Any>("channel_unique_id" to channelUniqueId, "availability" to false)
+                            helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
+                            helperMethods.updateUserDetailsToFirestore(dataUser.id, hashMap)
+                            val data = data(getString(R.string.incoming_call), "${getString(R.string.you_are_receiving_voice_call_from)} ${dataUser.fname} ${dataUser.lname}", "incoming_voice_call", dataUser.id, dataUserFireStore.user_id, channelUniqueId)
+                            val dataFcmBody = DataFcmBody(dataUserFireStore.fire_base_token, data)
+                            sendPushNotification(dataFcmBody)
+                        } else {
+                            helperMethods.showToastMessage(getString(R.string.the_person_you_are_calling_is_busy_please_try_again_later))
+                        }
                     } else {
-                        helperMethods.showToastMessage("The person you are calling is busy please try again later")
+                        helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
                     }
                 } else {
-                    helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
+                    helperMethods.selfPermission(this@ChatPage)
                 }
             } else {
-                helperMethods.selfPermission(this@ChatPage)
+                helperMethods.showToastMessage(getString(R.string.you_dont_have_enough_balance_to_make_call))
             }
         }
         video_call.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(this@ChatPage, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this@ChatPage, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                if (helperMethods.isConnectingToInternet) {
-                    if (dataUserFireStore.availability) {
-                        val channelUniqueId = UUID.randomUUID().toString()
-                        val callHashMap = hashMapOf<String, Any>("channel_unique_id" to channelUniqueId, "caller_id" to dataUser.id, "receiver_id" to dataUserFireStore.user_id, "call_type" to "video_call", "call_status" to "", "ringing_duration" to "60")
-                        helperMethods.setCallsDetailsToFirestore(channelUniqueId, callHashMap)
-                        val hashMap = hashMapOf<String, Any>("channel_unique_id" to channelUniqueId, "availability" to false)
-                        helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
-                        helperMethods.updateUserDetailsToFirestore(dataUser.id, hashMap)
-                        val data = data("Incoming call", "you are receiving video call from ${dataUser.fname} ${dataUser.lname}", "incoming_video_call", dataUser.id, dataUserFireStore.user_id, channelUniqueId)
-                        val dataFcmBody = DataFcmBody(dataUserFireStore.fire_base_token, data)
-                        sendPushNotification(dataFcmBody)
+            if (video_balance > 0) {
+                if (ContextCompat.checkSelfPermission(this@ChatPage, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this@ChatPage, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                    if (helperMethods.isConnectingToInternet) {
+                        if (dataUserFireStore.availability) {
+                            val channelUniqueId = UUID.randomUUID().toString()
+                            val callHashMap = hashMapOf<String, Any>("channel_unique_id" to channelUniqueId, "caller_id" to dataUser.id, "receiver_id" to dataUserFireStore.user_id, "call_type" to "video_call", "call_status" to "", "ringing_duration" to "60")
+                            helperMethods.setCallsDetailsToFirestore(channelUniqueId, callHashMap)
+                            val hashMap = hashMapOf<String, Any>("channel_unique_id" to channelUniqueId, "availability" to false)
+                            helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
+                            helperMethods.updateUserDetailsToFirestore(dataUser.id, hashMap)
+                            val data = data(getString(R.string.incoming_call), "${getString(R.string.you_are_receiving_video_call_from)} ${dataUser.fname} ${dataUser.lname}", "incoming_video_call", dataUser.id, dataUserFireStore.user_id, channelUniqueId)
+                            val dataFcmBody = DataFcmBody(dataUserFireStore.fire_base_token, data)
+                            sendPushNotification(dataFcmBody)
+                        } else {
+                            helperMethods.showToastMessage(getString(R.string.the_person_you_are_calling_is_busy_please_try_again_later))
+                        }
                     } else {
-                        helperMethods.showToastMessage("The person you are calling is busy please try again later")
+                        helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
                     }
                 } else {
-                    helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
+                    helperMethods.selfPermission(this@ChatPage)
                 }
             } else {
-                helperMethods.selfPermission(this@ChatPage)
+                helperMethods.showToastMessage(getString(R.string.you_dont_have_enough_balance_to_make_call))
             }
         }
         upload_image.setOnClickListener {
@@ -295,7 +317,7 @@ class ChatPage : AppCompatActivity() {
 
     fun sendMessageValidation(): Boolean {
         if (message.toText().isEmpty()) {
-            helperMethods.showToastMessage("Enter message before send !")
+            helperMethods.showToastMessage(getString(R.string.enter_message_before_send))
             return false
         }
         if (!helperMethods.isConnectingToInternet) {
@@ -315,7 +337,7 @@ class ChatPage : AppCompatActivity() {
         inside_reply.put("position", position.toString())
         inside_reply_layout.visibility = View.VISIBLE
         if (dataMessageFireStore.sender_id.equals(dataUser.id)) {
-            inside_reply_from.text = "You"
+            inside_reply_from.text = getString(R.string.you)
             inside_reply_from.setTextColor(ContextCompat.getColor(this@ChatPage, R.color.green))
         } else {
             inside_reply_from.text = dataUserFireStore.fname + " " + dataUserFireStore.lname
@@ -344,7 +366,7 @@ class ChatPage : AppCompatActivity() {
                 val img_uri = data.data
                 val filePath = helperMethods.getFilePath(img_uri!!)
                 if (filePath == null) {
-                    Toast.makeText(this@ChatPage, "Could not get image", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@ChatPage, getString(R.string.could_not_get_image), Toast.LENGTH_LONG).show()
                     return
                 }
                 getImageUrlForChatApiCall(filePath)
@@ -355,7 +377,7 @@ class ChatPage : AppCompatActivity() {
                 val img_uri = helperMethods.getImageUriFromBitmap(yourSelectedImage)
                 val filePath = helperMethods.getFilePath(img_uri)
                 if (filePath == null) {
-                    Toast.makeText(this@ChatPage, "Could not get image", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@ChatPage, getString(R.string.could_not_get_image), Toast.LENGTH_LONG).show()
                     return
                 }
                 getImageUrlForChatApiCall(filePath)
@@ -368,7 +390,7 @@ class ChatPage : AppCompatActivity() {
         val requestBody = RequestBody.create(MediaType.parse("*/*"), file)
         val image = MultipartBody.Part.createFormData("image", file.getName(), requestBody)
 
-        helperMethods.showProgressDialog("Image uploading...")
+        helperMethods.showProgressDialog(getString(R.string.image_uploading))
         val responseBodyCall = retrofitInterface.upload_chatting_image_API_CALL("Bearer ${dataUser.access_token}", image)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -397,7 +419,7 @@ class ChatPage : AppCompatActivity() {
                                 }
                             } else {
                                 val message = jsonObject.getString("message")
-                                helperMethods.AlertPopup("Alert", message)
+                                helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -417,14 +439,59 @@ class ChatPage : AppCompatActivity() {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
-                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
+            }
+        })
+    }
+
+    fun getConsultationSecondsApiCall(consultant_id: String) {
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
+        val responseBodyCall = retrofitInterface.GET_CONSULTATION_SECONDS_API_CALL("Bearer ${dataUser.access_token}", consultant_id)
+        responseBodyCall.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                helperMethods.dismissProgressDialog()
+
+                if (response.isSuccessful) {
+                    if (response.body() != null) {
+                        try {
+                            val jsonObject = JSONObject(response.body()!!.string())
+                            val status = jsonObject.getString("status")
+                            if (status.equals("200")) {
+                                val dataString = jsonObject.getString("data")
+                                val dataObject = JSONObject(dataString)
+                                video_balance = dataObject.getInt("video_balance")
+                                audio_balance = dataObject.getInt("audio_balance")
+                                chat_balance = dataObject.getInt("chat_balance")
+                            } else {
+                                val message = jsonObject.getString("message")
+                                helperMethods.AlertPopup(getString(R.string.alert), message)
+                            }
+                        } catch (e: JSONException) {
+                            helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
+                            e.printStackTrace()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    } else {
+                        Log.d("body", "Body Empty")
+                    }
+                } else {
+                    helperMethods.showToastMessage(getString(R.string.something_went_wrong))
+                    Log.d("body", "Not Successful")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                helperMethods.dismissProgressDialog()
+                t.printStackTrace()
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
     }
 
     fun sendPushNotification(dataFcmBody: DataFcmBody) {
         val body = Gson().toJson(dataFcmBody.data)
-        helperMethods.showProgressDialog("Please wait while preparing to call...")
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_preparing_to_call))
         val responseBodyCall = retrofitInterface.NOTIFY_API_CALL("Bearer ${dataUser.access_token}", dataFcmBody.data.receiver_id, dataFcmBody.data.title, dataFcmBody.data.body, body)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -438,12 +505,9 @@ class ChatPage : AppCompatActivity() {
                                 val dataString = jsonObject.getString("data")
                                 val dataObject = JSONObject(dataString)
                                 val success = dataObject.getString("success")
-                                if (success.equals(1)) {
-                                } else {
-                                }
                             } else {
                                 Log.d("push_notification", jsonObject.toString())
-                                helperMethods.showToastMessage("push notificaiton not set")
+                                helperMethods.showToastMessage(getString(R.string.push_notificaiton_not_send))
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -459,9 +523,13 @@ class ChatPage : AppCompatActivity() {
                     Log.d("body", "Not Successful")
                 }
                 if (dataFcmBody.data.type.equals("incoming_voice_call")) {
-                    startActivity(Intent(this@ChatPage, VoiceCall::class.java))
+                    val intent = Intent(this@ChatPage, VoiceCall::class.java)
+                    intent.putExtra("audio_balance", 50)
+                    startActivity(intent)
                 } else {
-                    startActivity(Intent(this@ChatPage, VideoCall::class.java))
+                    val intent = Intent(this@ChatPage, VideoCall::class.java)
+                    intent.putExtra("video_balance", 50)
+                    startActivity(intent)
                 }
             }
 
@@ -469,11 +537,15 @@ class ChatPage : AppCompatActivity() {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
                 if (dataFcmBody.data.type.equals("incoming_voice_call")) {
-                    startActivity(Intent(this@ChatPage, VoiceCall::class.java))
+                    val intent = Intent(this@ChatPage, VoiceCall::class.java)
+                    intent.putExtra("audio_balance", 50)
+                    startActivity(intent)
                 } else {
-                    startActivity(Intent(this@ChatPage, VideoCall::class.java))
+                    val intent = Intent(this@ChatPage, VideoCall::class.java)
+                    intent.putExtra("video_balance", 50)
+                    startActivity(intent)
                 }
-                helperMethods.showToastMessage("oops notification sending problem!")
+                helperMethods.showToastMessage(getString(R.string.oops_notification_sending_problem))
             }
         })
     }

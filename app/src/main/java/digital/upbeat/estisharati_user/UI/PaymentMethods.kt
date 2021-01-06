@@ -22,6 +22,7 @@ import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import digital.upbeat.estisharati_user.Utils.alertActionClickListner
 import kotlinx.android.synthetic.main.activity_payment_methods.*
 import okhttp3.ResponseBody
@@ -32,7 +33,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 
-class PaymentMethods : AppCompatActivity() {
+class PaymentMethods : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var dataUser: DataUser

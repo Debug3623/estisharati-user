@@ -7,9 +7,10 @@ import digital.upbeat.estisharati_user.Adapter.ConsultantsInThePackageAdapter
 import digital.upbeat.estisharati_user.DataClassHelper.Packages.Consultant
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_consultants_in_the_package.*
 
-class ConsultantsInThePackage : AppCompatActivity() {
+class ConsultantsInThePackage : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

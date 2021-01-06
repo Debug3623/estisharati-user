@@ -5,19 +5,46 @@
     android:layout_height="wrap_content"
     tools:context=".Fragment.CourseContent">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/courseVideoRecycler"
+            android:id="@+id/courseContentRecycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"
-            tools:itemCount="4"
+            tools:itemCount="0"
             tools:listitem="@layout/course_content_item" />
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/emptyLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="50dp"
+            android:paddingBottom="50dp"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_books" />
+
+            <TextView
+                android:id="@+id/errorText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/almarai_bold"
+                android:gravity="center"
+                android:text="@string/there_is_no_documents_for_this_course"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </RelativeLayout>
 
 </FrameLayout>

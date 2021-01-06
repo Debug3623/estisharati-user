@@ -33,7 +33,7 @@
         android:layout_marginRight="15dp"
         android:layout_marginBottom="5dp"
         android:gravity="center"
-        android:text="progress..."
+        android:text="@string/progress"
         android:textColor="@color/dark_gray"
         android:textSize="15sp" />
 </LinearLayout>

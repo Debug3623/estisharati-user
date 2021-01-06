@@ -1,6 +1,7 @@
 package digital.upbeat.estisharati_user.Helper
 
 import com.google.android.exoplayer2.MediaItem
+import digital.upbeat.estisharati_user.DataClassHelper.DataUserFireStore
 import digital.upbeat.estisharati_user.DataClassHelper.Home.HomeResponse
 import digital.upbeat.estisharati_user.DataClassHelper.PackagesOptions.PackagesOptions
 import digital.upbeat.estisharati_user.DataClassHelper.StartCourse.Lesson
@@ -23,4 +24,6 @@ object GlobalData {
     val lessonArrayList: ArrayList<Lesson> = arrayListOf()
     var lessonsPlayingPosition = 0
     var lessonsPlayingDuration: Long = 0
+    var allUserArraylist = arrayListOf<DataUserFireStore>()
+
 }

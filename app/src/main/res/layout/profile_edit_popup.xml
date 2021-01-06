@@ -16,7 +16,7 @@
             android:fontFamily="@font/almarai_regular"
             android:gravity="center"
             android:padding="18dp"
-            android:text="Profile Edit"
+            android:text="@string/profile_edit"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
@@ -64,7 +64,7 @@
                                 android:layout_marginLeft="15dp"
                                 android:backgroundTint="@color/transparent"
                                 android:fontFamily="@font/almarai_regular"
-                                android:hint="First Name"
+                                android:hint="@string/first_name"
                                 android:inputType="textCapSentences"
                                 android:paddingLeft="0dp"
                                 android:paddingBottom="10dp"
@@ -107,7 +107,7 @@
                                 android:layout_marginLeft="15dp"
                                 android:backgroundTint="@color/transparent"
                                 android:fontFamily="@font/almarai_regular"
-                                android:hint="Last Name"
+                                android:hint="@string/last_name"
                                 android:inputType="text"
                                 android:paddingLeft="0dp"
                                 android:paddingBottom="10dp"
@@ -150,7 +150,7 @@
                             android:layout_marginLeft="15dp"
                             android:backgroundTint="@color/transparent"
                             android:fontFamily="@font/almarai_regular"
-                            android:hint="Email Address"
+                            android:hint="@string/email_address"
                             android:inputType="textEmailAddress"
                             android:paddingLeft="0dp"
                             android:paddingBottom="10dp"
@@ -198,7 +198,7 @@
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/transparent"
                             android:fontFamily="@font/almarai_regular"
-                            android:hint="Phone"
+                            android:hint="@string/phone"
                             android:inputType="phone"
                             android:paddingLeft="0dp"
                             android:paddingBottom="10dp"
@@ -299,7 +299,7 @@
                     android:fontFamily="@font/almarai_regular"
                     android:gravity="center"
                     android:padding="15dp"
-                    android:text="CANCEL"
+                    android:text="@string/cancel"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
 
@@ -312,7 +312,7 @@
                     android:fontFamily="@font/almarai_regular"
                     android:gravity="center"
                     android:padding="15dp"
-                    android:text="UPDATE"
+                    android:text="@string/update"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
             </LinearLayout>
