@@ -2,24 +2,185 @@
     <string name="app_name">Estisharati Consultant</string>
 
 
-    <string name="press_once_again_to_exit">Press once again to exit!</string>
+    <string name="agora_app_id" translatable="false">29c6b00fa7ba4e1eaa2c52d3ef791786</string>
+    <string name="agora_access_token" translatable="false"></string>
+
+
     <string name="internet_connection_failed">Internet Connection Failed</string>
     <string name="please_check_your_internet_connection_and_try_again">Please check your internet connection and try again</string>
     <string name="something_went_wrong">Something went wrong!</string>
     <string name="your_network_connection_is_slow_please_try_again">Your network connection is slow, please try again.</string>
     <string name="something_went_wrong_on_backend_server">Something went wrong on backend server!</string>
+    <string name="login">Login</string>
     <string name="could_not_get_your_device_token_please_try_again">Could not get your device token please try again</string>
 
+    <string name="register">Register</string>
+    <string name="email_address">Email Address</string>
+    <string name="password">Password</string>
+    <string name="remember_me">Remember me</string>
+    <string name="forgot_password">Forgot Password ?</string>
+    <string name="by_continuing_you_accept">By Continuing you accept</string>
+    <string name="terms_and_policy">terms and policy</string>
+    <string name="don_t_have_an_account">Don\'t have an account ?</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="phone">Phone</string>
+    <string name="already_have_account">Already have account ?</string>
 
-    <!-- PLEASE KEEP THIS App ID IN SAFE PLACE -->
-    <!-- Get your own App ID at https://dashboard.agora.io/ -->
-    <!-- After you entered the App ID, remove <##> outside of Your App ID -->
-    <string name="agora_app_id">29c6b00fa7ba4e1eaa2c52d3ef791786</string>
-    <!-- Obtain a temp Access Token at https://dashboard.agora.io -->
-    <!-- You will need to deploy your own token server for production release -->
-    <!-- Leave this value empty if Security keys/Token is not enabled for your project -->
-    <string name="agora_access_token"></string>
-    <string name="there_is_no_notification_available">There is no notification available !</string>
+
+    <string name="cancel">CANCEL</string>
+    <string name="ok">OK</string>
+    <string name="now_you_can_forward_the_message">Now you can forward the message!</string>
+    <string name="reply">Reply</string>
+    <string name="alert">Alert</string>
+    <string name="estisharati_notification_settings">Estisharati Notification Settings</string>
+    <string name="forward_cancel">Forward cancel !</string>
+    <string name="online">Online</string>
+    <string name="last_seen">Last seen</string>
+    <string name="incoming_call">Incoming call</string>
+    <string name="you_are_receiving_voice_call_from">You are receiving voice call from </string>
+    <string name="you_are_receiving_video_call_from">You are receiving video call from</string>
+    <string name="the_person_you_are_calling_is_busy_please_try_again_later">The person you are calling is busy please try again later</string>
+    <string name="enter_message_before_send">Enter message before send !</string>
+    <string name="you">You</string>
+    <string name="image_uploading">Image uploading...</string>
+    <string name="please_wait_while_preparing_to_call">Please wait while preparing to call...</string>
+    <string name="push_notificaiton_not_send">Push notificaiton not send !</string>
+    <string name="oops_notification_sending_problem">Oops notification sending problem !</string>
+    <string name="enter_your_name">Enter your name</string>
+    <string name="enter_your_phone_number">Enter your phone number</string>
+    <string name="enter_valid_phone_number">Enter valid phone number</string>
+    <string name="enter_your_message">Enter your message</string>
+    <string name="enter_new_password">Enter new password</string>
+    <string name="password_at_least_8_characters_including_a_lower_case_letteran_uppercase_lettera_number_and_one_special_character">Password at least 8 characters including a lower-case letter, an upper–case letter, a number and one special character</string>
+    <string name="enter_confirm_password">Enter confirm password</string>
+    <string name="new_password_and_confirm_password_not_same">New password and Confirm password not same</string>
+    <string name="your_call_was_not_accepted">Your call was not accepted !</string>
+    <string name="your_call_was_cancelled">Your call was cancelled</string>
+    <string name="your_call_was_ended">Your call was ended</string>
+    <string name="there_is_no_response_your_call">There is no response your call</string>
+    <string name="automatically_rejected_on">Automatically rejected on</string>
+    <string name="sec">sec</string>
+    <string name="we_need_permission_for_this_call">We need permission for this call !</string>
+    <string name="enter_phone_number">Enter phone number</string>
+    <string name="enter_vaid_phone_number">Enter vaid phone number</string>
+    <string name="enter_password">Enter password</string>
     <string name="please_wait_while_loading">Please wait while loading...</string>
+    <string name="you_did_not_purchase_any_course_till_now">You did not purchase any course till now !</string>
+    <string name="please_feel_free_to_leave_your_comments">Please feel free to leave your comments</string>
+    <string name="could_not_get_image">Could not get image</string>
+    <string name="profile_picture_is_updating">Profile picture is updating...</string>
+    <string name="enter_first_name">Enter first name</string>
+    <string name="enter_last_name">Enter last name</string>
+    <string name="enter_email_address">Enter email address</string>
+    <string name="enter_valid_email_address">Enter valid email address</string>
+    <string name="profile_is_updating">Profile is updating...</string>
+    <string name="enter_your_current_password">Enter your current password !</string>
+    <string name="enter_your_confirm_password">Enter your confirm password !</string>
+    <string name="there_is_no_notification_available">There is no notification available !</string>
+    <string name="no_internet_connection">No Internet Connection</string>
+    <string name="please_click_back_again_to_exit">Please click back again to exit !</string>
+    <string name="exit">Exit</string>
+    <string name="are_you_sure_do_you_want_exit_the_app_and_offline">Are you sure?\nDo you want exit the app and offline.</string>
+    <string name="are_you_sure_do_you_want_to_logout">Are you sure? \nDo you want to logout !</string>
+    <string name="logout">LogOut</string>
+    <string name="enter_valid_code">Enter valid code</string>
+    <string name="retry_on">Retry on</string>
+    <string name="video_paused_this_call">video paused this call</string>
+    <string name="connecting">Connecting...</string>
+    <string name="left_the_conversation">left the conversation</string>
+    <string name="muted_this_call">muted this call</string>
+    <string name="connected">Connected</string>
+    <string name="join_the_conversation">join the conversation</string>
+    <string name="audio_permission_denied">Audio permission denied</string>
+    <string name="type_your_message">Type your message</string>
+    <string name="photo">Photo</string>
+    <string name="contact_us">Contact us</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="message">Message</string>
+    <string name="send">Send</string>
+    <string name="forgot_password_">Forgot Password</string>
+    <string name="a_code_will_be_sent_to_your_mobile_to_nreset_your_password">A code will be sent to your mobile to\nreset your password</string>
+    <string name="send_">SEND</string>
+    <string name="login_">LOGIN</string>
+    <string name="verification_code">Verification code</string>
+    <string name="please_type_the_code_that_n_have_been_sented_from_your_phone">Please type the code that\n have been sented from your phone</string>
+    <string name="no_sent_code">No sent code ?</string>
+    <string name="retry">Retry</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="save">SAVE</string>
+    <string name="confirm">Confirm</string>
+    <string name="reject">Reject</string>
+    <string name="my_consultations">My Consultations</string>
+    <string name="my_courses">My Courses</string>
+    <string name="my_profile">My Profile</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="change">Change</string>
+    <string name="current_password">Current Password</string>
+    <string name="confirm_passoword">Confirm Passoword</string>
+    <string name="notifications">Notifications</string>
+    <string name="please_wait_while_fetching_notification">Please wait while fetching notification...</string>
+    <string name="calling">Calling...</string>
+    <string name="consultations">Consultations</string>
+    <string name="forwarded">Forwarded</string>
+    <string name="about_app">About APP</string>
+    <string name="terms_and_condition">Terms and Condition</string>
+    <string name="language">Language</string>
+    <string name="english">English</string>
+    <string name="arabic">اللغة العربية</string>
+    <string name="logout_">LOGOUT</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="update">UPDATE</string>
+    <string name="search_user">Search User</string>
+    <string name="search_here">Search here...</string>
+    <string name="you_dont_have_enough_balance_to_make_call">You don\'t have enough balance to make call !</string>
+    <string name="there_is_no_more_balance_to_continue_this_call">There is no more balance to continue this call !</string>
+    <string name="there_are_only">"There are only "</string>
+    <string name="minutes_left_for_the_conversation_to_end">minutes left for the conversation to end</string>
+    <string name="subject">Subject</string>
+    <string name="enter_your_subject">Enter your subject</string>
+    <string name="members">Members</string>
+    <string name="your_groups">Your Groups</string>
+    <string name="you_dont_have_enough_balance_to_make_this_chat">You don\'t have enough balance to make this chat !</string>
+    <string name="appointment">Appointment</string>
+    <string name="please_wait_while_fetching_appointment">Please wait while fetching appointment...</string>
+    <string name="pending">PENDING</string>
+    <string name="accepted">ACCEPTED</string>
+    <string name="rejected">REJECTED</string>
+    <string name="no_user_found">No user found!</string>
 
+
+    //************************************************************
+
+
+    <string name="enter_qualification">Enter qualification</string>
+    <string name="qualification_is_updating">Qualification is updating...</string>
+    <string name="call_us">Call us</string>
+    <string name="my_profile_update">My Profile Update</string>
+    <string name="qualification">Qualification</string>
+    <string name="add_qualification">Add Qualification</string>
+    <string name="the_old_one_it_will_be_replaced">(The old one it will be replaced)</string>
+    <string name="details">Details</string>
+    <string name="type_your_reply_here">Type your reply here...</string>
+    <string name="subscribers">Subscribers</string>
+    <string name="help">Help</string>
+    <string name="create_group">Create Group</string>
+    <string name="group_name">Group Name</string>
+    <string name="close">CLOSE</string>
+    <string name="create">CREATE</string>
+    <string name="active">Active</string>
+    <string name="group_created_successfully">Group created successfully !</string>
+    <string name="group_updated_successfully">Group updated successfully !</string>
+    <string name="delete_group">Delete Group</string>
+    <string name="are_you_sure_dou_yo_want_delete_this_group">Are you sure ?.\n Dou yo want delete this group</string>
+    <string name="group_deleted_successfully">Group deleted successfully !</string>
+    <string name="are_you_sure_do_you_want_accept_consultation_on">Are you sure? Do you want accept consultation on</string>
+    <string name="are_you_sure_do_you_want_reject_consultation_on">Are you sure ? Do you want reject consultation on</string>
+    <string name="at"> at </string>
+    <string name="enter_group_name">Enter group name</string>
+    <string name="upload_group_profile_picture">Upload group profile picture</string>
+    <string name="select_group_members">Select group members</string>
 </resources>

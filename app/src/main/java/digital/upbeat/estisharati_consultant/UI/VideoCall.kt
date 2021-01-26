@@ -12,17 +12,17 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.FrameLayout
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
-import digital.upbeat.estisharati_consultant.DataClassHelper.DataCallsFireStore
-import digital.upbeat.estisharati_consultant.DataClassHelper.DataUser
-import digital.upbeat.estisharati_consultant.DataClassHelper.DataUserFireStore
+import digital.upbeat.estisharati_consultant.DataClassHelper.Calls.DataCallsFireStore
+import digital.upbeat.estisharati_consultant.DataClassHelper.Login.DataUser
+import digital.upbeat.estisharati_consultant.DataClassHelper.RecentChat.DataUserFireStore
 import digital.upbeat.estisharati_consultant.Helper.HelperMethods
 import digital.upbeat.estisharati_consultant.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_consultant.R
+import digital.upbeat.estisharati_consultant.Utils.BaseCompatActivity
 import digital.upbeat.estisharati_consultant.Utils.CustomTouchListener
 import io.agora.rtc.IRtcEngineEventHandler
 import io.agora.rtc.RtcEngine
@@ -39,7 +39,7 @@ import kotlinx.android.synthetic.main.activity_video_call.timer
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class VideoCall : AppCompatActivity() {
+class VideoCall : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var preferencesHelper: SharedPreferencesHelper
     lateinit var mRtcEngine: RtcEngine
@@ -60,6 +60,9 @@ class VideoCall : AppCompatActivity() {
     lateinit var dataOtherUserFireStore: DataUserFireStore
     lateinit var dataCallsFireStore: DataCallsFireStore
     lateinit var firestoreRegistrar: ListenerRegistration
+    var video_balance = 0
+    var alertPopupNotShow = true
+
     val iRtcEngineEventHandler = object : IRtcEngineEventHandler() {
         override fun onUserJoined(uid: Int, p1: Int) {
             runOnUiThread {
@@ -71,9 +74,9 @@ class VideoCall : AppCompatActivity() {
                     ringingDuration?.cancel()
                 }
                 callCountDownTimer()
-                calling_status.text = "Connected"
+                calling_status.text = getString(R.string.connected)
                 circle_progress.visibility = View.GONE
-                helperMethods.showToastMessage("${dataOtherUserFireStore.fname} join the conversation")
+                helperMethods.showToastMessage(dataOtherUserFireStore.fname + " " + getString(R.string.join_the_conversation))
                 frontAction()
                 stopRigntone()
             }
@@ -86,7 +89,7 @@ class VideoCall : AppCompatActivity() {
         override fun onUserMuteAudio(uid: Int, muted: Boolean) {
             runOnUiThread {
                 if (muted) {
-                    voice_muted_status.text = "${dataOtherUserFireStore.fname} muted this call"
+                    voice_muted_status.text = dataOtherUserFireStore.fname + " " + getString(R.string.muted_this_call)
                     voice_muted_layout.visibility = View.VISIBLE
                 } else {
                     voice_muted_layout.visibility = View.GONE
@@ -101,7 +104,7 @@ class VideoCall : AppCompatActivity() {
         override fun onUserMuteVideo(uid: Int, muted: Boolean) {
             runOnUiThread {
                 if (muted) {
-                    video_muted_status.text = "${dataOtherUserFireStore.fname} video paused this call"
+                    video_muted_status.text = dataOtherUserFireStore.fname + " " + getString(R.string.video_paused_this_call)
                     video_muted_layout.visibility = View.VISIBLE
                 } else {
                     video_muted_layout.visibility = View.GONE
@@ -127,6 +130,7 @@ class VideoCall : AppCompatActivity() {
     }
 
     fun initViews() {
+        video_balance = intent.getIntExtra("video_balance", video_balance)
         helperMethods = HelperMethods(this@VideoCall)
         preferencesHelper = SharedPreferencesHelper(this@VideoCall)
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -188,7 +192,7 @@ class VideoCall : AppCompatActivity() {
             playRigntone()
             callRingingDuration()
         }else{
-            calling_status.text="Connecting..."
+            calling_status.text = getString(R.string.connecting)
         }
         val hashMap = hashMapOf<String, Any>("availability" to true, "channel_unique_id" to "")
         firestoreRegistrar=  firestore.collection("Calls").document(dataUserFireStore.channel_unique_id).addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
@@ -201,14 +205,14 @@ class VideoCall : AppCompatActivity() {
                         firestoreRegistrar.remove()
                         helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
                         helperMethods.updateUserDetailsToFirestore(dataOtherUserFireStore.user_id, hashMap)
-                        helperMethods.showToastMessage("reject")
+                        helperMethods.showToastMessage(getString(R.string.your_call_was_not_accepted))
                         finish()
                     }
                     "cancel" -> {
                         firestoreRegistrar.remove()
                         helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
                         helperMethods.updateUserDetailsToFirestore(dataOtherUserFireStore.user_id, hashMap)
-                        helperMethods.showToastMessage("cancel")
+                        helperMethods.showToastMessage(getString(R.string.your_call_was_cancelled))
 
                         finish()
                     }
@@ -216,7 +220,7 @@ class VideoCall : AppCompatActivity() {
                         firestoreRegistrar.remove()
                         helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
                         helperMethods.updateUserDetailsToFirestore(dataOtherUserFireStore.user_id, hashMap)
-                        helperMethods.showToastMessage("end_call")
+                        helperMethods.showToastMessage(getString(R.string.your_call_was_ended))
 
                         finish()
                     }
@@ -224,7 +228,7 @@ class VideoCall : AppCompatActivity() {
                         firestoreRegistrar.remove()
                         helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
                         helperMethods.updateUserDetailsToFirestore(dataOtherUserFireStore.user_id, hashMap)
-                        helperMethods.showToastMessage("not_responding")
+                        helperMethods.showToastMessage(getString(R.string.there_is_no_response_your_call))
                         finish()
                     }
                     else -> {
@@ -355,6 +359,19 @@ class VideoCall : AppCompatActivity() {
 
                 Log.d("serviceTimer", "TIME : " + String.format("%02d", hours) + ":" + String.format("%02d", minutes) + ":" + String.format("%02d", seconds))
                 timer.text = String.format("%02d", hours) + ":" + String.format("%02d", minutes) + ":" + String.format("%02d", seconds)
+                val percentage =video_balance * 0.10
+                val balanceSec = video_balance - diffInSec
+                Log.d("secLeft", "" + percentage + " " + balanceSec)
+                if (0 > balanceSec) {
+                    leaveChannel()
+                    helperMethods.showToastMessage(getString(R.string.there_is_no_more_balance_to_continue_this_call))
+                }
+                if (alertPopupNotShow) {
+                    if (percentage > balanceSec) {
+                        alertPopupNotShow = false
+                        helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.there_are_only)+" " + (((balanceSec % 3600) / 60).toString() + "." + (balanceSec % 3600) % 60) + " "+getString(R.string.minutes_left_for_the_conversation_to_end))
+                    }
+                }
             }
 
             override fun onFinish() {

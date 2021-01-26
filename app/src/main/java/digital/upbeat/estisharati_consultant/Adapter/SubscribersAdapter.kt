@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import digital.upbeat.estisharati_consultant.DataClassHelper.DataUserMessageFireStore
+import digital.upbeat.estisharati_consultant.DataClassHelper.RecentChat.DataUserMessageFireStore
 import digital.upbeat.estisharati_consultant.Fragment.Subscribers
 import digital.upbeat.estisharati_consultant.Helper.GlobalData
 import digital.upbeat.estisharati_consultant.Helper.HelperMethods
@@ -18,11 +18,7 @@ import digital.upbeat.estisharati_consultant.R
 import digital.upbeat.estisharati_consultant.UI.ChatPage
 import digital.upbeat.estisharati_consultant.ViewHolder.SubscribersViewHolder
 
-class SubscribersAdapter(
-    val context: Context,
-    val subscribers: Subscribers,
-    val dataUserMessageFireStoreArrayList: ArrayList<DataUserMessageFireStore>,
-) : RecyclerView.Adapter<SubscribersViewHolder>() {
+class SubscribersAdapter(val context: Context, val subscribers: Subscribers, val dataUserMessageFireStoreArrayList: ArrayList<DataUserMessageFireStore>) : RecyclerView.Adapter<SubscribersViewHolder>() {
     val helperMethods: HelperMethods
     val almarai_light: Typeface
     val almarai_regular: Typeface
@@ -54,7 +50,6 @@ class SubscribersAdapter(
         Glide.with(context).load(dataUserMessageFireStore.dataUserFireStore.image).apply(helperMethods.profileRequestOption).into(holder.profile_picture)
         if (0 < count) {
             holder.unread_message_count.text = if (count > 50) "50+" else count.toString()
-
             holder.unread_message_count.visibility = View.VISIBLE
             holder.profile_picture.borderWidth = 8
         } else {
@@ -118,11 +113,10 @@ class SubscribersAdapter(
             } else {
                 holder.image_message_status.visibility = View.GONE
             }
-        }else{
+        } else {
             holder.image_message_status.visibility = View.GONE
             holder.last_image_layout.visibility = View.GONE
             holder.last_message.visibility = View.GONE
-
         }
 
         if (dataUserMessageFireStore.dataUserFireStore.online_status) holder.online_status.visibility = View.VISIBLE else holder.online_status.visibility = View.GONE

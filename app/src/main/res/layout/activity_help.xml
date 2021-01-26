@@ -41,9 +41,9 @@
                 android:background="@color/orange"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="20dp"
+                android:paddingStart="20dp"
                 android:paddingTop="15dp"
-                android:paddingRight="20dp"
+                android:paddingEnd="20dp"
                 android:paddingBottom="15dp">
 
                 <ImageView
@@ -55,9 +55,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:fontFamily="@font/almarai_regular"
-                    android:text="Contact us"
+                    android:text="@string/contact_us"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -65,9 +65,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="30dp"
-                android:layout_marginRight="30dp"
+                android:layout_marginEnd="30dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/corner_redius_15dp_white"
                 android:elevation="3dp"
@@ -79,10 +79,11 @@
                     android:layout_height="wrap_content"
                     android:background="@color/transparent"
                     android:fontFamily="@font/almarai_regular"
-                    android:hint="Name"
+                    android:hint="@string/name"
                     android:inputType="text"
                     android:padding="20dp"
                     android:singleLine="true"
+                    android:textAlignment="viewStart"
                     android:textColor="@color/black"
                     android:textColorHint="@color/black_light"
                     android:textSize="16sp" />
@@ -98,10 +99,11 @@
                     android:layout_height="wrap_content"
                     android:background="@color/transparent"
                     android:fontFamily="@font/almarai_regular"
-                    android:hint="Email"
+                    android:hint="@string/email"
                     android:inputType="textEmailAddress"
                     android:padding="20dp"
                     android:singleLine="true"
+                    android:textAlignment="viewStart"
                     android:textColor="@color/black"
                     android:textColorHint="@color/black_light"
                     android:textSize="16sp" />
@@ -117,10 +119,45 @@
                     android:layout_height="wrap_content"
                     android:background="@color/transparent"
                     android:fontFamily="@font/almarai_regular"
-                    android:hint="Phone"
+                    android:hint="@string/phone"
                     android:inputType="phone"
                     android:padding="20dp"
                     android:singleLine="true"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black_light"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gainsboro" />
+
+                <Spinner
+                    android:id="@+id/messageTypeSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="7dp"
+                    android:textAlignment="viewStart"
+                    android:paddingStart="13dp"
+                    android:spinnerMode="dropdown" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gainsboro" />
+
+                <EditText
+                    android:id="@+id/contactusSubject"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:fontFamily="@font/almarai_regular"
+                    android:hint="@string/subject"
+                    android:inputType="text"
+                    android:padding="20dp"
+                    android:singleLine="true"
+                    android:textAlignment="viewStart"
                     android:textColor="@color/black"
                     android:textColorHint="@color/black_light"
                     android:textSize="16sp" />
@@ -136,10 +173,11 @@
                     android:layout_height="170dp"
                     android:background="@color/transparent"
                     android:fontFamily="@font/almarai_regular"
-                    android:gravity="top|left"
-                    android:hint="Message"
+                    android:gravity="top|start"
+                    android:hint="@string/message"
                     android:inputType="textMultiLine"
                     android:padding="20dp"
+                    android:textAlignment="viewStart"
                     android:textColor="@color/black"
                     android:textColorHint="@color/black_light"
                     android:textSize="16sp" />
@@ -150,16 +188,16 @@
                 android:id="@+id/contactusSend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="30dp"
+                android:layout_marginEnd="30dp"
                 android:layout_marginBottom="30dp"
                 android:background="@drawable/corner_redius_5dp_light_green"
                 android:elevation="3dp"
                 android:fontFamily="@font/almarai_bold"
                 android:gravity="center"
                 android:padding="15dp"
-                android:text="Send"
+                android:text="@string/send"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
@@ -167,8 +205,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -186,9 +224,9 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Call us"
+                        android:text="@string/call_us"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -197,7 +235,7 @@
                     android:id="@+id/call_us"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
+                    android:layout_marginStart="25dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="30dp"
                     android:fontFamily="@font/almarai_regular"

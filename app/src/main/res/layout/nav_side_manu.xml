@@ -70,7 +70,7 @@
                             android:id="@+id/jobTitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
+                            android:layout_marginStart="15dp"
                             android:fontFamily="@font/almarai_regular"
                             android:text="Android Developer"
                             android:textColor="@color/white"
@@ -91,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="vertical"
-                android:paddingLeft="7dp">
+                android:paddingStart="7dp">
 
 
                 <LinearLayout
@@ -111,9 +111,9 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginStart="20dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Subscribers"
+                        android:text="@string/subscribers"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -121,8 +121,8 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="70dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="70dp"
                     android:background="@color/gainsboro" />
 
 
@@ -143,9 +143,9 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginStart="20dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="My Profile"
+                        android:text="@string/my_profile"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -153,8 +153,40 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="70dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="70dp"
+                    android:background="@color/gainsboro" />
+
+                <LinearLayout
+                    android:id="@+id/nav_appointment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="13dp">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/ic_on_time_green" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:fontFamily="@font/almarai_regular"
+                        android:text="@string/appointment"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="70dp"
                     android:background="@color/gainsboro" />
 
 
@@ -175,9 +207,9 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginStart="20dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="About APP"
+                        android:text="@string/about_app"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -185,8 +217,8 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="70dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="70dp"
                     android:background="@color/gainsboro" />
 
 
@@ -207,9 +239,9 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginStart="20dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Help"
+                        android:text="@string/help"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -217,8 +249,8 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="70dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="70dp"
                     android:background="@color/gainsboro" />
 
 
@@ -239,9 +271,9 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginStart="20dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Terms and Condition"
+                        android:text="@string/terms_and_condition"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -249,8 +281,8 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="70dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="70dp"
                     android:background="@color/gainsboro" />
 
 
@@ -270,9 +302,9 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginStart="20dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Language"
+                        android:text="@string/language"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -281,7 +313,7 @@
                     android:id="@+id/language_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="45dp"
+                    android:layout_marginStart="45dp"
                     android:layout_marginBottom="25dp"
                     android:orientation="horizontal">
 
@@ -292,7 +324,7 @@
                         android:buttonTint="@color/orange"
                         android:checked="true"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="English"
+                        android:text="@string/english"
                         android:textColor="@color/black"
                         android:textSize="13sp" />
 
@@ -300,9 +332,9 @@
                         android:id="@+id/radio_arabic"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="25dp"
+                        android:layout_marginStart="25dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:text="Arabic"
+                        android:text="@string/arabic"
                         android:textSize="13sp" />
 
                 </RadioGroup>
@@ -311,14 +343,14 @@
                     android:id="@+id/nav_logout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginRight="40dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
                     android:layout_marginBottom="30dp"
                     android:background="@drawable/corner_redius_30dp_green"
                     android:fontFamily="@font/almarai_regular"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="LOGOUT"
+                    android:text="@string/logout_"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
 

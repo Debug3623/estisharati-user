@@ -30,8 +30,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-
+                android:layout_marginStart="40dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -56,12 +55,10 @@
 
         </RelativeLayout>
 
-        <ImageView
+        <com.ortiz.touchview.TouchImageView
             android:id="@+id/pv_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_temp3" />
+            />
     </LinearLayout>
 </LinearLayout>

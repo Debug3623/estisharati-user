@@ -15,10 +15,11 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/top_laft_right_corner_redius_15dp_orange"
             android:gravity="center"
             android:padding="20dp"
             android:text="Success"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="20sp" />
 
         <View
@@ -32,25 +33,75 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:padding="20dp"
-            android:text="Registration completed successfully!"
+            android:maxLines="18"
+            android:padding="15dp"
+            android:lineSpacingExtra="3dp"
+            android:text="Registration completed successfully!  Registration completed successfullyRegistration completed successfullyRegistration completed successfullyRegistration completed successfully            "
             android:textColor="@color/black"
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/action_ok"
+            android:id="@+id/actionOkBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="110dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="110dp"
+            android:layout_marginStart="110dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="110dp"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/corner_redius_15dp_white"
+            android:background="@drawable/corner_redius_15dp_orange"
             android:elevation="3dp"
             android:gravity="center"
-            android:padding="15dp"
-            android:text="OK"
-            android:textColor="@color/black"
+            android:padding="13dp"
+            android:text="@string/ok"
+            android:textColor="@color/white"
             android:textSize="16sp" />
+
+        <LinearLayout
+            android:id="@+id/confirmationLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:visibility="gone"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/actionCancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/corner_redius_15dp_orange"
+                android:elevation="3dp"
+                android:fontFamily="@font/almarai_regular"
+                android:gravity="center"
+                android:padding="13dp"
+                android:text="@string/cancel"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/actionOk"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/corner_redius_15dp_orange"
+                android:elevation="3dp"
+                android:fontFamily="@font/almarai_regular"
+                android:gravity="center"
+                android:padding="13dp"
+                android:text="@string/ok"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>

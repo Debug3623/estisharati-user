@@ -1,11 +1,12 @@
 package digital.upbeat.estisharati_consultant.Helper
 
+import digital.upbeat.estisharati_consultant.DataClassHelper.MySubsribers.MySubscriberResponse
+import digital.upbeat.estisharati_consultant.DataClassHelper.Notification.NotificationsResponse
+
 object GlobalData {
     const val PICK_IMAGE_GALLERY = 1
     const val PICK_IMAGE_CAMERA = 2
-    var LanguageCode = "en"
-    val BaseUrl = "https://super-servers.com/estisharati/api/v1/$LanguageCode/"
-
+    var BaseUrl = "https://super-servers.com/estisharati/api/v1/en/"
     var profileUpdate=false
     var FcmToken=""
     const val DOC = "application/msword"
@@ -19,4 +20,7 @@ object GlobalData {
 
     var forwardType = ""
     var forwardContent = ""
+    lateinit var mySubscriberResponse: MySubscriberResponse
+    var notificationResponse: NotificationsResponse = NotificationsResponse("","", arrayListOf())
+
 }

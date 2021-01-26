@@ -10,22 +10,20 @@ import android.text.Editable
 import android.util.Log
 import android.view.View
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FieldValue
 import com.google.gson.Gson
-import digital.upbeat.estisharati_consultant.DataClassHelper.DataCountry
-import digital.upbeat.estisharati_consultant.DataClassHelper.DataSubscription
+import digital.upbeat.estisharati_consultant.DataClassHelper.CountryCity.DataCountry
 import digital.upbeat.estisharati_consultant.Helper.HelperMethods
 import digital.upbeat.estisharati_consultant.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_consultant.R
 import digital.upbeat.estisharati_consultant.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_consultant.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_consultant.DataClassHelper.DataUser
-import digital.upbeat.estisharati_consultant.DataClassHelper.DataUserMetas
+import digital.upbeat.estisharati_consultant.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_consultant.Helper.GlobalData
+import digital.upbeat.estisharati_consultant.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_my_profile_update.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -39,7 +37,7 @@ import retrofit2.Response
 import java.io.File
 import java.io.IOException
 
-class MyProfileUpdate : AppCompatActivity() {
+class MyProfileUpdate : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var preferencesHelper: SharedPreferencesHelper
     lateinit var retrofitInterface: RetrofitInterface
@@ -168,31 +166,31 @@ class MyProfileUpdate : AppCompatActivity() {
 
     fun updateValidation(): Boolean {
         if (ud_fname.toText().equals("")) {
-            helperMethods.showToastMessage("Enter first name")
+            helperMethods.showToastMessage(getString(R.string.enter_first_name))
             return false
         }
         if (ud_lname.toText().equals("")) {
-            helperMethods.showToastMessage("Enter last name")
+            helperMethods.showToastMessage(getString(R.string.enter_last_name))
             return false
         }
         if (ud_phone.toText().equals("")) {
-            helperMethods.showToastMessage("Enter phone number")
+            helperMethods.showToastMessage(getString(R.string.enter_phone_number))
             return false
         }
         if (!helperMethods.isValidMobile(ud_phone_codePicker.selectedCountryCodeWithPlus + "" + ud_phone.toText())) {
-            helperMethods.showToastMessage("Enter vaid phone number")
+            helperMethods.showToastMessage(getString(R.string.enter_valid_phone_number))
             return false
         }
         if (ud_email_address.toText().equals("")) {
-            helperMethods.showToastMessage("Enter email address")
+            helperMethods.showToastMessage(getString(R.string.enter_email_address))
             return false
         }
         if (!helperMethods.isvalidEmail(ud_email_address.toText())) {
-            helperMethods.showToastMessage("Enter valid email address")
+            helperMethods.showToastMessage(getString(R.string.enter_valid_email_address))
             return false
         }
         if (ud_qualification_brief.toText().equals("")) {
-            helperMethods.showToastMessage("Enter qualification")
+            helperMethods.showToastMessage(getString(R.string.enter_qualification))
             return false
         }
 
@@ -230,7 +228,7 @@ class MyProfileUpdate : AppCompatActivity() {
                 val img_uri = data.data
                 val filePath = helperMethods.getFilePath(img_uri!!)
                 if (filePath == null) {
-                    Toast.makeText(this@MyProfileUpdate, "Could not get image", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@MyProfileUpdate, getString(R.string.could_not_get_image), Toast.LENGTH_LONG).show()
                     return
                 }
                 if (uploadType.equals("profilePicture")) {
@@ -245,7 +243,7 @@ class MyProfileUpdate : AppCompatActivity() {
                 val img_uri = helperMethods.getImageUriFromBitmap(yourSelectedImage)
                 val filePath = helperMethods.getFilePath(img_uri)
                 if (filePath == null) {
-                    Toast.makeText(this@MyProfileUpdate, "Could not get image", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@MyProfileUpdate, getString(R.string.could_not_get_image), Toast.LENGTH_LONG).show()
                     return
                 }
                 if (uploadType.equals("profilePicture")) {
@@ -258,7 +256,7 @@ class MyProfileUpdate : AppCompatActivity() {
     }
 
     fun profileUpdateApiCall(fNmae: String, lName: String, phone_str: String, phone_code_str: String, email_str: String, qualification_brief_str: String, countryID: String, cityID: String) {
-        helperMethods.showProgressDialog("Profile is updating...")
+        helperMethods.showProgressDialog(getString(R.string.profile_is_updating))
         val responseBodyCall = retrofitInterface.PROFILE_UPDATE_API_CALL("Bearer ${dataUserObject.access_token}", fNmae, lName, phone_str, phone_code_str, email_str, qualification_brief_str, countryID, cityID)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -293,7 +291,11 @@ class MyProfileUpdate : AppCompatActivity() {
                                 setUserDetils()
                             } else {
                                 val message = jsonObject.getString("message")
-                                helperMethods.AlertPopup("Alert", message)
+                                if (helperMethods.checkTokenValidation(status, message)) {
+                                    finish()
+                                    return
+                                }
+                                helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -313,7 +315,7 @@ class MyProfileUpdate : AppCompatActivity() {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
-                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
     }
@@ -323,7 +325,7 @@ class MyProfileUpdate : AppCompatActivity() {
         val requestBody = RequestBody.create(MediaType.parse("*/*"), file)
         val imageFile = MultipartBody.Part.createFormData("image", file.getName(), requestBody)
 
-        helperMethods.showProgressDialog("Profile picture is updating...")
+        helperMethods.showProgressDialog(getString(R.string.profile_picture_is_updating))
         val responseBodyCall = retrofitInterface.FILE_UPDATE_API_CALL("Bearer ${dataUserObject.access_token}", imageFile)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -349,7 +351,11 @@ class MyProfileUpdate : AppCompatActivity() {
                                 helperMethods.updateUserDetailsToFirestore(dataUser.id, hashMap)
                             } else {
                                 val message = jsonObject.getString("message")
-                                helperMethods.AlertPopup("Alert", message)
+                                if (helperMethods.checkTokenValidation(status, message)) {
+                                    finish()
+                                    return
+                                }
+                                helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -369,7 +375,7 @@ class MyProfileUpdate : AppCompatActivity() {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
-                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
     }
@@ -378,7 +384,7 @@ class MyProfileUpdate : AppCompatActivity() {
         val file = File(filePath)
         val requestBody = RequestBody.create(MediaType.parse("*/*"), file)
         val imageFile = MultipartBody.Part.createFormData("qualification", file.getName(), requestBody)
-        helperMethods.showProgressDialog("Qualification is updating...")
+        helperMethods.showProgressDialog(getString(R.string.qualification_is_updating))
         val responseBodyCall = retrofitInterface.FILE_UPDATE_API_CALL("Bearer ${dataUserObject.access_token}", imageFile)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -403,7 +409,11 @@ class MyProfileUpdate : AppCompatActivity() {
                                 setUserDetils()
                             } else {
                                 val message = jsonObject.getString("message")
-                                helperMethods.AlertPopup("Alert", message)
+                                if (helperMethods.checkTokenValidation(status, message)) {
+                                    finish()
+                                    return
+                                }
+                                helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -423,7 +433,7 @@ class MyProfileUpdate : AppCompatActivity() {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
-                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
     }

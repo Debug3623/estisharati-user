@@ -22,6 +22,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
+            android:name=".UI.MyAppointment"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.GroupChatPage"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".UI.Pages"
             android:screenOrientation="portrait" />
         <activity

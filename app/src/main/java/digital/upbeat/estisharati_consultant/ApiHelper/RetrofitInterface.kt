@@ -27,7 +27,6 @@ interface RetrofitInterface {
     @Multipart @POST("upload-chatting-image")
     fun upload_chatting_image_API_CALL(@Header("Authorization") token: String, @Part profile_picture: MultipartBody.Part): Call<ResponseBody>
 
-
     @FormUrlEncoded @POST("user/change_password")
     fun CHANGE_PASSWORD_API_CALL(@Header("Authorization") token: String, @Field("old_password") old_password: String, @Field("password") password: String, @Field("password_confirmation") password_confirmation: String): Call<ResponseBody>
 
@@ -35,12 +34,46 @@ interface RetrofitInterface {
     fun PAGES_API_CALL(@Header("Authorization") token: String, @Path("pages") pages: String): Call<ResponseBody>
 
     @FormUrlEncoded @POST("contactus")
-    fun CONTACTUS_API_CALL(@Header("Authorization") token: String, @Field("name") name: String, @Field("phone") phone: String, @Field("email") email: String, @Field("message") message: String): Call<ResponseBody>
+    fun CONTACTUS_API_CALL(@Header("Authorization") token: String, @Field("name") name: String, @Field("phone") phone: String, @Field("email") email: String, @Field("message_type") message_type: String, @Field("subject") subject: String,  @Field("message") message: String): Call<ResponseBody>
 
      @GET("my-subsribers")
-    fun MY_SUBSRIBERS_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
+    fun MY_SUBSRIBERS_API_CALL(@Header("Authorization") token: String,@Query("fire_base_token") fire_base_token: String): Call<ResponseBody>
 
     @GET("notifications")
     fun NOTIFICATION_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("consultant/comment")
+    fun CONSULTANT_COMMENT_API_CALL(@Header("Authorization") token: String, @Field("consultant_id") consultant_id: String, @Field("parent_id") parent_id: String, @Field("comment") comment: String): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("courses/comment")
+    fun COURSES_COMMENT_API_CALL(@Header("Authorization") token: String, @Field("course_id") course_id: String, @Field("parent_id") parent_id: String, @Field("comment") comment: String): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("user/reset_password")
+    fun RESET_PASSWORD_API_CALL(@Field("phone") phone: String): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("user/verify_reset_code")
+    fun VERIFY_RESET_CODE_API_CALL(@Field("phone") phone: String, @Field("code") code: String, @Field("password") password: String): Call<ResponseBody>
+
+    @GET("get_user_seconds/{user_id}")
+    fun GET_USER_SECONDS_API_CALL(@Header("Authorization") token: String,@Path("user_id")user_id:String): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("update-user-seconds")
+    fun UPDATE_USER_SECONDS_API_CALL(@Header("Authorization") token: String, @Field("user_id") user_id: String, @Field("video_balance") video_balance: String, @Field("audio_balance") audio_balance: String, @Field("chat_minutes") chat_minutes: String,@Field("receiver_id") receiver_id:String,@Field("message") message:String,@Field("attachment") attachment:String): Call<ResponseBody>
+
+    @GET("appointments")
+    fun APPOINTMENTS_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("user/logout")
+    fun LOGOUT_API_CALL(@Header("Authorization") token: String ,@Field("empty") empty: String): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("appove_reject")
+    fun APPOVE_REJECT_API_CALL(@Header("Authorization") token: String ,@Field("appointment_id") appointment_id: String,@Field("status") status: String): Call<ResponseBody>
 
 }

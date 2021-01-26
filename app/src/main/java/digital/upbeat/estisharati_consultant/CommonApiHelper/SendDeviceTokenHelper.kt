@@ -34,7 +34,7 @@ class SendDeviceTokenHelper(val context: Context, val splashScreen: SplashScreen
             return
         }
         if (IfNotService) {
-            helperMethods.showProgressDialog("Please wait...")
+            helperMethods.showProgressDialog(context.getString(R.string.please_wait_while_loading))
         }
         if (GlobalData.FcmToken.equals("")) {
             helperMethods.dismissProgressDialog()
@@ -59,6 +59,9 @@ class SendDeviceTokenHelper(val context: Context, val splashScreen: SplashScreen
                             } else {
                                 val message = jsonObject.optString("message")
                                 helperMethods.showToastMessage(message)
+                                if (helperMethods.checkTokenValidation(status, message)) {
+                                    return
+                                }
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(context.getString(R.string.something_went_wrong_on_backend_server))

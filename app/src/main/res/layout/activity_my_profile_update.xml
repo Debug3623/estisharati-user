@@ -38,9 +38,9 @@
             android:background="@color/orange"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingLeft="20dp"
+            android:paddingStart="20dp"
             android:paddingTop="15dp"
-            android:paddingRight="20dp"
+            android:paddingEnd="20dp"
             android:paddingBottom="15dp">
 
             <ImageView
@@ -50,11 +50,11 @@
                 android:background="@drawable/ic_left_arrow_white" />
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:fontFamily="@font/almarai_regular"
-                android:text="My Profile Update"
+                android:text="@string/my_profile_update"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -79,7 +79,7 @@
             <LinearLayout
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:background="@drawable/round_white"
                 android:gravity="center">
 
@@ -117,7 +117,7 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="15dp"
+                            android:layout_marginEnd="15dp"
                             android:layout_weight="1"
                             android:orientation="vertical">
 
@@ -137,14 +137,15 @@
                                     android:id="@+id/ud_fname"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="15dp"
+                                    android:layout_marginStart="15dp"
                                     android:backgroundTint="@color/transparent"
                                     android:fontFamily="@font/almarai_regular"
-                                    android:hint="First Name"
+                                    android:hint="@string/first_name"
                                     android:inputType="textCapSentences"
-                                    android:paddingLeft="0dp"
+                                    android:paddingStart="0dp"
                                     android:paddingBottom="10dp"
                                     android:singleLine="true"
+                                    android:textAlignment="viewStart"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/black_light"
                                     android:textSize="15sp" />
@@ -160,7 +161,7 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
+                            android:layout_marginStart="15dp"
                             android:layout_weight="1"
                             android:orientation="vertical">
 
@@ -180,14 +181,15 @@
                                     android:id="@+id/ud_lname"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="15dp"
+                                    android:layout_marginStart="15dp"
                                     android:backgroundTint="@color/transparent"
                                     android:fontFamily="@font/almarai_regular"
-                                    android:hint="Last Name"
+                                    android:hint="@string/last_name"
                                     android:inputType="text"
-                                    android:paddingLeft="0dp"
+                                    android:paddingStart="0dp"
                                     android:paddingBottom="10dp"
                                     android:singleLine="true"
+                                    android:textAlignment="viewStart"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/black_light"
                                     android:textSize="15sp" />
@@ -233,11 +235,12 @@
                                 android:layout_height="wrap_content"
                                 android:backgroundTint="@color/transparent"
                                 android:fontFamily="@font/almarai_regular"
-                                android:hint="Phone"
+                                android:hint="@string/phone"
                                 android:inputType="phone"
-                                android:paddingLeft="0dp"
+                                android:paddingStart="0dp"
                                 android:paddingBottom="10dp"
                                 android:singleLine="true"
+                                android:textAlignment="viewStart"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/black_light"
                                 android:textSize="15sp" />
@@ -271,14 +274,15 @@
                                 android:id="@+id/ud_email_address"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="15dp"
+                                android:layout_marginStart="15dp"
                                 android:backgroundTint="@color/transparent"
                                 android:fontFamily="@font/almarai_regular"
-                                android:hint="Email Address"
+                                android:hint="@string/email_address"
                                 android:inputType="textEmailAddress"
-                                android:paddingLeft="0dp"
+                                android:paddingStart="0dp"
                                 android:paddingBottom="10dp"
                                 android:singleLine="true"
+                                android:textAlignment="viewStart"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/black_light"
                                 android:textSize="15sp" />
@@ -312,14 +316,15 @@
                                 android:id="@+id/ud_qualification_brief"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="15dp"
+                                android:layout_marginStart="15dp"
                                 android:backgroundTint="@color/transparent"
                                 android:fontFamily="@font/almarai_regular"
-                                android:hint="Qualification"
+                                android:hint="@string/qualification"
                                 android:inputType="text"
-                                android:paddingLeft="0dp"
+                                android:paddingStart="0dp"
                                 android:paddingBottom="10dp"
                                 android:singleLine="true"
+                                android:textAlignment="viewStart"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/black_light"
                                 android:textSize="15sp" />
@@ -352,9 +357,11 @@
                             <Spinner
                                 android:id="@+id/ud_country_spinner"
                                 android:layout_width="match_parent"
+
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="15dp"
-                                android:spinnerMode="dropdown" />
+                                android:layout_marginStart="15dp"
+                                android:spinnerMode="dropdown"
+                                android:textAlignment="viewStart" />
 
                         </LinearLayout>
 
@@ -385,9 +392,10 @@
                                 android:id="@+id/ud_city_spinner"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="15dp"
+                                android:layout_marginStart="15dp"
                                 android:layout_weight="1"
-                                android:spinnerMode="dropdown" />
+                                android:spinnerMode="dropdown"
+                                android:textAlignment="viewStart" />
 
                         </LinearLayout>
 
@@ -404,9 +412,9 @@
                     android:id="@+id/add_qualification"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
+                    android:layout_marginStart="25dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginRight="25dp"
+                    android:layout_marginEnd="25dp"
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/corner_redius_10dp_white"
                     android:elevation="3dp"
@@ -428,18 +436,18 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
+                            android:layout_marginStart="15dp"
                             android:fontFamily="@font/almarai_regular"
-                            android:text="Add Qualification"
+                            android:text="@string/add_qualification"
                             android:textColor="@color/black"
                             android:textSize="17sp" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
                             android:fontFamily="@font/almarai_light"
-                            android:text="(The old one it will be replaced)"
+                            android:text="@string/the_old_one_it_will_be_replaced"
                             android:textColor="@color/dark_gray"
                             android:textSize="10sp" />
 
@@ -460,9 +468,9 @@
 
                         <TextView
                             android:id="@+id/qualification_name"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
+                            android:layout_marginStart="15dp"
                             android:fontFamily="@font/almarai_regular"
                             android:singleLine="true"
                             android:text="personal_doucment .doc"
@@ -475,16 +483,16 @@
                     android:id="@+id/btn_update"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="40dp"
+                    android:layout_marginStart="40dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginRight="40dp"
+                    android:layout_marginEnd="40dp"
                     android:layout_marginBottom="30dp"
                     android:background="@drawable/corner_redius_30dp_light_green1"
                     android:elevation="3dp"
                     android:fontFamily="@font/almarai_bold"
                     android:gravity="center"
                     android:padding="13dp"
-                    android:text="Update"
+                    android:text="@string/update"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="18sp" />

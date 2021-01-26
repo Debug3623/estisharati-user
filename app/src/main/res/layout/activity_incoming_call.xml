@@ -26,7 +26,7 @@
                 android:layout_marginTop="30dp"
                 android:fontFamily="@font/almarai_bold"
                 android:gravity="center"
-                android:text="Incoming Call"
+                android:text="@string/incoming_call"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
@@ -81,7 +81,7 @@
                 android:id="@+id/call_accept"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="40dp"
+                android:layout_marginEnd="40dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -95,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/almarai_regular"
-                    android:text="Confirm"
+                    android:text="@string/confirm"
                     android:textColor="@color/black_light"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -104,7 +104,7 @@
                 android:id="@+id/call_reject"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
+                android:layout_marginStart="40dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -118,7 +118,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/almarai_regular"
-                    android:text="Reject"
+                    android:text="@string/reject"
                     android:textColor="@color/black_light"
                     android:textSize="16sp" />
             </LinearLayout>

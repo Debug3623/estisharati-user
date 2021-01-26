@@ -10,14 +10,10 @@
     <color name="green">#80a02e</color>
     <color name="light_green">#9fb761</color>
     <color name="light_green1">#91b146</color>
-    <color name="light_green2">#b4d460</color>
     <color name="dark_green">#008000</color>
     <color name="parrot_green">#6adb67</color>
 
     <color name="transparent">#00000000</color>
-    <color name="transparent_white">#80ffffff</color>
-    <color name="gray_transparent">#C3706F6F</color>
-    <color name="blur_transparent">#66000000</color>
 
     <color name="pink">#ffe8dd</color>
     <color name="white_pink">#FAF4F4</color>
@@ -37,9 +33,7 @@
     <color name="yellow">#f4cc07</color>
 
     <color name="dark_gray">#aaaaaa</color>
-    <color name="light_gray">#c9c9c9</color>
     <color name="gray">#cacaca</color>
-    <color name="gray1">#e6e6e6</color>
 
     <color name="gainsboro">#DCDCDC</color>
 

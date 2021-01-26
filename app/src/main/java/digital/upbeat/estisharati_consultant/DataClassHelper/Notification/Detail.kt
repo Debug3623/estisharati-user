@@ -1,12 +1,17 @@
 package digital.upbeat.estisharati_consultant.DataClassHelper.Notification
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 data class Detail(
+    val category_id: String,
     val comment: String,
-    val course_id: Int,
+    val consultant_id: String,
+    val course_id: String,
     val created_at: String,
-    val id: Int,
-    val parent_id: Any,
-    val replies: List<Reply>,
+    val id: String,
+    val parent_id: String,
+    val replies: ArrayList<Reply>,
     val review: String,
     val type: String,
     val user: User,

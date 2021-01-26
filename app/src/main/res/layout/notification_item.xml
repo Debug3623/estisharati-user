@@ -23,7 +23,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -42,6 +42,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/almarai_bold"
                         android:text="Successfully"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
 
@@ -50,6 +51,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
+                        android:textAlignment="viewStart"
                         android:fontFamily="@font/almarai_regular"
                         android:text="Successfully subscribed in Introduction to
 social media Course"
@@ -58,28 +60,15 @@ social media Course"
 
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/notification_rply"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/corner_redius_30dp_light_green1"
-                    android:elevation="3dp"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="10dp"
-                    android:paddingBottom="5dp"
-                    android:text="reply"
-                    android:textColor="@color/white"
-                    android:textSize="11sp"
-                    android:visibility="gone" />
 
                 <ImageView
+                    android:id="@+id/rightArrow"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_right_arrow_black" />
+                    android:src="@drawable/ic_right_arrow_black"
+                    android:visibility="visible" />
             </RelativeLayout>
 
             <LinearLayout
@@ -97,9 +86,9 @@ social media Course"
 
                 <TextView
                     android:id="@+id/notification_date"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:fontFamily="@font/almarai_regular"
                     android:text="6 may     03:30 PM"
                     android:textColor="@color/dark_gray"

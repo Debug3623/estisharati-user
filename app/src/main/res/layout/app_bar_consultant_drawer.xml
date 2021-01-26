@@ -12,9 +12,9 @@
         android:layout_height="wrap_content"
         android:background="@color/orange"
         android:orientation="horizontal"
-        android:paddingLeft="20dp"
+        android:paddingStart="20dp"
         android:paddingTop="10dp"
-        android:paddingRight="20dp"
+        android:paddingEnd="20dp"
         android:paddingBottom="10dp">
 
         <ImageView
@@ -40,18 +40,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="35dp"
+            android:layout_marginEnd="35dp"
             android:padding="4dp"
             android:visibility="gone"
             android:fontFamily="@font/almarai_regular"
-            android:text="Consultations"
+            android:text="@string/consultations"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -61,7 +61,7 @@
                 android:id="@+id/search_user_icon"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:src="@drawable/ic_search" />
 
@@ -74,10 +74,10 @@
                     android:id="@+id/bell"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginTop="5dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
                     android:adjustViewBounds="true"
                     android:src="@drawable/ic_bell" />
 
@@ -85,10 +85,11 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:background="@drawable/round_light_green_white_stroke"
                     android:gravity="center"
-                    android:text="2"
+                    android:text="0"
+                    android:id="@+id/notificationCount"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
             </RelativeLayout>

@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".UI.NotificationDetails">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,9 +18,9 @@
             android:background="@color/orange"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingLeft="20dp"
+            android:paddingStart="20dp"
             android:paddingTop="15dp"
-            android:paddingRight="20dp"
+            android:paddingEnd="20dp"
             android:paddingBottom="15dp">
 
             <ImageView
@@ -31,330 +32,338 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:fontFamily="@font/almarai_regular"
-                android:text="Details"
+                android:text="@string/details"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/notification_parant"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="20dp">
-
-            <ImageView
-                android:id="@+id/notificationImg"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="3dp"
-                android:adjustViewBounds="true"
-                android:elevation="3dp"
-                android:src="@mipmap/ic_launcher" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:orientation="vertical">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/notification_title"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/almarai_bold"
-                            android:text="Successfully"
-                            android:textColor="@color/black"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:id="@+id/notification_message"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="3dp"
-                            android:fontFamily="@font/almarai_regular"
-                            android:text="Successfully subscribed in Introduction to
-social media Course"
-                            android:textColor="@color/black_light"
-                            android:textSize="14sp" />
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/notification_rply"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:background="@drawable/corner_redius_30dp_light_green1"
-                        android:elevation="3dp"
-                        android:paddingLeft="10dp"
-                        android:paddingTop="5dp"
-                        android:paddingRight="10dp"
-                        android:paddingBottom="5dp"
-                        android:text="reply"
-                        android:textColor="@color/white"
-                        android:textSize="11sp"
-                        android:visibility="gone" />
-
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:adjustViewBounds="true"
-                        android:background="@drawable/ic_clock" />
-
-                    <TextView
-                        android:id="@+id/notification_date"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:fontFamily="@font/almarai_regular"
-                        android:text="6 may     03:30 PM"
-                        android:textColor="@color/dark_gray"
-                        android:textSize="12sp" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+
                 android:orientation="vertical">
 
-
                 <LinearLayout
+                    android:id="@+id/notification_parant"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/corner_redius_10dp_white"
-                    android:elevation="3dp"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:id="@+id/notificationImg"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="3dp"
+                        android:adjustViewBounds="true"
+                        android:elevation="3dp"
+                        android:src="@mipmap/ic_launcher" />
 
                     <LinearLayout
-                        android:id="@+id/main_item"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="10dp">
+                        android:layout_marginStart="20dp"
+                        android:orientation="vertical">
 
-
-                        <digital.upbeat.estisharati_consultant.Utils.CircleImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:elevation="3dp"
-                            android:src="@drawable/ic_temp_profile"
-                            app:civ_border_color="@color/black"
-                            app:civ_border_width="0.5dp" />
-
-                        <LinearLayout
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:orientation="vertical">
+                            android:layout_height="wrap_content">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:orientation="horizontal"
-                                android:weightSum="6">
+                                android:orientation="vertical">
 
-                                <LinearLayout
-                                    android:layout_width="0dp"
+                                <TextView
+                                    android:id="@+id/notificationTitle"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="4.5"
-                                    android:gravity="center_vertical"
-                                    android:weightSum="2">
+                                    android:fontFamily="@font/almarai_bold"
+                                    android:text="Successfully"
 
-                                    <TextView
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:fontFamily="@font/almarai_regular"
-                                        android:singleLine="true"
-                                        android:text="Taliha Al-Jaber"
-                                        android:textColor="@color/black"
-                                        android:textSize="13sp" />
+                               android:textAlignment="viewStart"
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp" />
 
-                                    <LinearLayout
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1">
-
-                                        <RatingBar
-                                            style="?android:attr/ratingBarStyleSmall"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginLeft="10dp"
-                                            android:isIndicator="true"
-                                            android:numStars="5"
-                                            android:progressBackgroundTint="@color/black"
-                                            android:progressTint="@color/yellow"
-                                            android:rating="4"
-                                            android:scaleX="0.9"
-                                            android:scaleY="0.9"
-                                            android:secondaryProgressTint="@color/yellow" />
-
-                                    </LinearLayout>
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="0dp"
+                                <TextView
+                                    android:id="@+id/notificationMessage"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1.5"
-                                    android:gravity="right|center_vertical">
+                                    android:layout_marginTop="3dp"
+                                    android:fontFamily="@font/almarai_regular"
+                                    android:text="Successfully subscribed in Introduction to
+social media Course"
+                                    android:textAlignment="viewStart"
+                                    android:textColor="@color/black_light"
+                                    android:textSize="14sp" />
 
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="@font/almarai_regular"
-                                        android:text="2  Reply"
-                                        android:textColor="@color/dark_gray"
-                                        android:textSize="11sp" />
-
-                                    <ImageView
-                                        android:layout_width="13dp"
-                                        android:layout_height="13dp"
-                                        android:layout_marginLeft="10dp"
-                                        android:adjustViewBounds="true"
-                                        android:background="@drawable/ic_reply_for_cmd"
-                                        android:backgroundTint="@color/gray" />
-                                </LinearLayout>
                             </LinearLayout>
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/almarai_regular"
-                                android:text="1 months ago"
-                                android:textColor="@color/dark_gray"
-                                android:textSize="12sp" />
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:fontFamily="@font/almarai_regular"
-                                android:text="Very good, may Allah give you wellness"
-                                android:textColor="@color/black"
-                                android:textSize="13sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/sub_item_reply_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:visibility="visible">
+                        </RelativeLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:layout_marginTop="8dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="@color/gainsboro" />
+                            <ImageView
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:adjustViewBounds="true"
+                                android:background="@drawable/ic_clock" />
 
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/notification_sub_recycler"
-                                android:layout_width="match_parent"
+                            <TextView
+                                android:id="@+id/notificationDate"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:scrollbars="none"
-                                tools:itemCount="2"
-                                tools:listitem="@layout/notification_sub_item" />
+                                android:layout_marginStart="10dp"
+                                android:fontFamily="@font/almarai_regular"
+                                android:text="6 may 03:30 PM"
+                                android:textColor="@color/dark_gray"
+                                android:textSize="12sp" />
                         </LinearLayout>
-
-
                     </LinearLayout>
-
                 </LinearLayout>
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginRight="20dp"
-                    android:gravity="right"
                     android:orientation="vertical">
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/corner_redius_10dp_white"
+                        android:elevation="3dp"
+                        android:orientation="vertical">
 
-                        <digital.upbeat.estisharati_consultant.Utils.CircleImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:elevation="2dp"
-                            android:src="@drawable/ic_temp_profile"
-                            app:civ_border_color="@color/black"
-                            app:civ_border_width="0.5dp" />
-
-                        <EditText
-                            android:id="@+id/comments"
+                        <LinearLayout
+                            android:id="@+id/main_item"
                             android:layout_width="match_parent"
-                            android:layout_height="120dp"
-                            android:layout_marginLeft="20dp"
-                            android:background="@drawable/corner_redius_15dp_ach_light_white_sroke_dark_gray"
-                            android:gravity="top"
-                            android:hint="Type your reply here..."
-                            android:inputType="textMultiLine"
-                            android:minLines="2"
-                            android:padding="20dp"
-                            android:singleLine="true"
-                            android:textColor="@color/black"
-                            android:textColorHint="@color/black_light"
-                            android:textSize="15sp" />
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="10dp">
+
+
+                            <digital.upbeat.estisharati_consultant.Utils.CircleImageView
+                                android:id="@+id/userImage"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:elevation="3dp"
+                                android:src="@drawable/ic_temp_profile"
+                                app:civ_border_color="@color/black"
+                                app:civ_border_width="0.5dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="horizontal"
+                                    android:weightSum="6">
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="4.5"
+                                        android:gravity="center_vertical"
+                                        android:weightSum="2">
+
+                                        <TextView
+                                            android:id="@+id/userNmae"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:textAlignment="viewStart"
+                                            android:fontFamily="@font/almarai_regular"
+                                            android:singleLine="true"
+                                            android:text="Taliha Al-Jaber"
+                                            android:textColor="@color/black"
+                                            android:textSize="13sp" />
+
+                                        <LinearLayout
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1">
+
+                                            <RatingBar
+                                                android:id="@+id/userRating"
+                                                style="?android:attr/ratingBarStyleSmall"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginStart="10dp"
+                                                android:isIndicator="true"
+                                                android:numStars="5"
+                                                android:progressBackgroundTint="@color/black"
+                                                android:progressTint="@color/yellow"
+                                                android:rating="4"
+                                                android:scaleX="0.9"
+                                                android:scaleY="0.9"
+                                                android:secondaryProgressTint="@color/yellow" />
+
+                                        </LinearLayout>
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1.5"
+                                        android:gravity="end|center_vertical">
+
+                                        <TextView
+                                            android:id="@+id/reply"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/almarai_regular"
+                                            android:text="2  Reply"
+                                            android:textColor="@color/dark_gray"
+                                            android:textSize="11sp" />
+
+                                        <ImageView
+                                            android:layout_width="13dp"
+                                            android:layout_height="13dp"
+                                            android:layout_marginStart="10dp"
+                                            android:adjustViewBounds="true"
+                                            android:background="@drawable/ic_reply_for_cmd"
+                                            android:backgroundTint="@color/gray" />
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <TextView
+                                    android:id="@+id/commenteTime"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/almarai_regular"
+                                    android:text="1 months ago"
+                                    android:textColor="@color/dark_gray"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/message"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:textAlignment="viewStart"
+                                    android:fontFamily="@font/almarai_regular"
+                                    android:text="Very good, may Allah give you wellness"
+                                    android:textColor="@color/black"
+                                    android:textSize="13sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/sub_item_reply_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="visible">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/gainsboro" />
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/notification_sub_recycler"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:scrollbars="none"
+                                    tools:itemCount="2"
+                                    tools:listitem="@layout/notification_sub_item" />
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
                     </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginRight="15dp"
-                        android:background="@drawable/corner_redius_30dp_light_green1"
-                        android:fontFamily="@font/almarai_regular"
-                        android:gravity="center"
-                        android:paddingLeft="20dp"
-                        android:paddingTop="8dp"
-                        android:paddingRight="20dp"
-                        android:paddingBottom="8dp"
-                        android:text="Reply"
-                        android:textColor="@color/white"
-                        android:textSize="13sp" />
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginEnd="20dp"
+                        android:gravity="end"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <digital.upbeat.estisharati_consultant.Utils.CircleImageView
+                                android:id="@+id/myProfileImage"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:elevation="2dp"
+                                android:src="@drawable/ic_temp_profile"
+                                app:civ_border_color="@color/black"
+                                app:civ_border_width="0.5dp" />
+
+                            <EditText
+                                android:id="@+id/comments"
+                                android:layout_width="match_parent"
+                                android:layout_height="120dp"
+                                android:layout_marginStart="20dp"
+                                android:background="@drawable/corner_redius_15dp_ach_light_white_sroke_dark_gray"
+                                android:gravity="top"
+                                android:hint="@string/type_your_reply_here"
+                                android:inputType="textMultiLine"
+                                android:minLines="2"
+                                android:padding="20dp"
+                                android:singleLine="true"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/black_light"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/submitReply"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="15dp"
+                            android:layout_marginBottom="20dp"
+                            android:background="@drawable/corner_redius_30dp_light_green1"
+                            android:fontFamily="@font/almarai_regular"
+                            android:gravity="center"
+                            android:paddingStart="20dp"
+                            android:paddingTop="8dp"
+                            android:paddingEnd="20dp"
+                            android:paddingBottom="8dp"
+                            android:text="@string/reply"
+                            android:textColor="@color/white"
+                            android:textSize="13sp" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
+
+
 </LinearLayout>

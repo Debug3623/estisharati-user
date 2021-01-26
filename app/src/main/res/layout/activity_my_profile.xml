@@ -18,16 +18,11 @@
             android:layout_weight="1"
             android:background="@color/orange" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3"
-            android:background="@color/white" />
     </LinearLayout>
 
     <ScrollView
-        android:layout_width="match_parent"
         android:id="@+id/scrollView"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none">
 
@@ -42,9 +37,9 @@
                 android:background="@color/orange"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="20dp"
+                android:paddingStart="20dp"
                 android:paddingTop="15dp"
-                android:paddingRight="20dp"
+                android:paddingEnd="20dp"
                 android:paddingBottom="15dp">
 
                 <ImageView
@@ -56,9 +51,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:fontFamily="@font/almarai_regular"
-                    android:text="My Profile"
+                    android:text="@string/my_profile"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -71,9 +66,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="40dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginEnd="20dp"
                     android:layout_marginBottom="15dp"
                     android:background="@drawable/corner_redius_10dp_white"
                     android:elevation="3dp"
@@ -96,9 +91,9 @@
                         android:id="@+id/jobTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
                         android:fontFamily="@font/almarai_regular"
                         android:gravity="center"
-                        android:layout_marginBottom="10dp"
                         android:text="Android Developer"
                         android:textColor="@color/black_light"
                         android:textSize="14sp" />
@@ -111,27 +106,27 @@
                         android:layout_margin="5dp"
                         android:background="@drawable/corner_redius_30dp_orange"
                         android:elevation="3dp"
-                        android:visibility="gone"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
-                        android:paddingLeft="15dp"
+                        android:paddingStart="15dp"
                         android:paddingTop="5dp"
-                        android:paddingRight="15dp"
-                        android:paddingBottom="5dp">
+                        android:paddingEnd="15dp"
+                        android:paddingBottom="5dp"
+                        android:visibility="gone">
 
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/almarai_regular"
-                            android:text="Edit profile"
+                            android:text="@string/edit_profile"
                             android:textColor="@color/white"
                             android:textSize="14sp" />
 
                         <ImageView
                             android:layout_width="15dp"
                             android:layout_height="15dp"
-                            android:layout_marginLeft="8dp"
+                            android:layout_marginStart="8dp"
                             android:adjustViewBounds="true"
                             android:background="@drawable/ic_pencil"
                             android:backgroundTint="@color/white" />
@@ -173,7 +168,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:fontFamily="@font/almarai_regular"
-                                android:text="My Courses"
+                                android:text="@string/my_courses"
                                 android:textColor="@color/black_light"
                                 android:textSize="13sp" />
                         </LinearLayout>
@@ -212,7 +207,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:fontFamily="@font/almarai_regular"
-                                android:text="My Consultations"
+                                android:text="@string/my_consultations"
                                 android:textColor="@color/black_light"
                                 android:textSize="13sp" />
                         </LinearLayout>
@@ -242,7 +237,7 @@
                     <LinearLayout
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         android:background="@drawable/round_white"
                         android:gravity="center">
 
@@ -258,27 +253,27 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/corner_redius_10dp_white"
-                android:elevation="3dp"
+                android:elevation="2dp"
                 android:orientation="horizontal"
                 android:padding="15dp">
 
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:adjustViewBounds="true"
                     android:src="@drawable/ic_document" />
 
                 <TextView
                     android:id="@+id/qualification_name"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
                     android:fontFamily="@font/almarai_regular"
                     android:singleLine="true"
                     android:text="personal_doucment .doc"
@@ -289,8 +284,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="45dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginStart="45dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
                 android:orientation="vertical">
 
@@ -308,14 +303,20 @@
 
                     <TextView
                         android:id="@+id/email_address"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
                         android:fontFamily="@font/almarai_regular"
                         android:singleLine="true"
                         android:text="abdellatif_z@gmail.com"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="3"
+                        android:background="@color/white" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -335,7 +336,7 @@
                         android:id="@+id/phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
                         android:fontFamily="@font/almarai_regular"
                         android:singleLine="true"
                         android:text="+971 90435345345"
@@ -368,7 +369,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
+                            android:layout_marginStart="15dp"
                             android:fontFamily="@font/almarai_regular"
                             android:text="•••••••••••••••"
                             android:textColor="@color/black"
@@ -379,7 +380,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:gravity="bottom|right">
+                        android:gravity="bottom|end">
 
                         <LinearLayout
                             android:id="@+id/password_btn"
@@ -390,9 +391,9 @@
                             android:elevation="3dp"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
-                            android:paddingLeft="15dp"
+                            android:paddingStart="15dp"
                             android:paddingTop="3dp"
-                            android:paddingRight="15dp"
+                            android:paddingEnd="15dp"
                             android:paddingBottom="3dp">
 
                             <ImageView
@@ -405,9 +406,9 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="8dp"
+                                android:layout_marginStart="8dp"
                                 android:fontFamily="@font/almarai_regular"
-                                android:text="Change"
+                                android:text="@string/change"
                                 android:textColor="@color/white"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -420,8 +421,8 @@
                     android:id="@+id/change_password_layot"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
                     android:layout_marginBottom="30dp"
                     android:background="@drawable/corner_redius_15dp_white_sroke_dark_gray"
                     android:orientation="vertical"
@@ -434,9 +435,10 @@
                         android:layout_height="wrap_content"
                         android:background="@color/transparent"
                         android:fontFamily="@font/almarai_regular"
-                        android:hint="Current Password"
-                        android:inputType="textPassword"
+                        android:hint="@string/current_password"
                         android:imeOptions="actionNext"
+                        android:inputType="textPassword"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black_light"
                         android:textSize="14sp" />
@@ -454,9 +456,10 @@
                         android:layout_marginTop="20dp"
                         android:background="@color/transparent"
                         android:fontFamily="@font/almarai_regular"
-                        android:hint="New Password"
-                        android:inputType="textPassword"
+                        android:hint="@string/new_password"
                         android:imeOptions="actionNext"
+                        android:inputType="textPassword"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black_light"
                         android:textSize="14sp" />
@@ -472,11 +475,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
-                        android:inputType="textVisiblePassword"
                         android:background="@color/transparent"
                         android:fontFamily="@font/almarai_regular"
-                        android:hint="Confirm Passoword"
+                        android:hint="@string/confirm_passoword"
                         android:imeOptions="actionDone"
+                        android:inputType="textVisiblePassword"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black_light"
                         android:textSize="14sp" />
@@ -489,18 +493,18 @@
                         android:background="@color/gainsboro" />
 
                     <TextView
+                        android:id="@+id/savePassword"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:layout_margin="5dp"
                         android:background="@drawable/corner_redius_30dp_light_green1"
                         android:elevation="3dp"
-                        android:id="@+id/savePassword"
-                        android:paddingLeft="30dp"
+                        android:paddingStart="30dp"
                         android:paddingTop="7dp"
-                        android:paddingRight="30dp"
+                        android:paddingEnd="30dp"
                         android:paddingBottom="7dp"
-                        android:text="Save"
+                        android:text="@string/save"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
                 </LinearLayout>

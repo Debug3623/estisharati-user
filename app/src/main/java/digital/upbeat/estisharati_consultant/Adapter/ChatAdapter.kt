@@ -14,7 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import digital.upbeat.estisharati_consultant.DataClassHelper.DataMessageFireStore
+import digital.upbeat.estisharati_consultant.DataClassHelper.Chat.DataMessageFireStore
 import digital.upbeat.estisharati_consultant.Helper.GlobalData
 import digital.upbeat.estisharati_consultant.Helper.HelperMethods
 import digital.upbeat.estisharati_consultant.R
@@ -197,7 +197,7 @@ class ChatAdapter(val context: Context, val chatPage: ChatPage, val messagesArra
         GlobalData.forwardType = dataMessageFireStore.message_type
         GlobalData.forwardContent = dataMessageFireStore.message_content
         chatPage.finish()
-        helperMethods.showToastMessage("Now you can forward the message!")
+        helperMethods.showToastMessage(context.getString(R.string.now_you_can_forward_the_message))
     }
 
     fun changeBackgroundColor(holder: ChatViewHolder) {
@@ -219,7 +219,7 @@ class ChatAdapter(val context: Context, val chatPage: ChatPage, val messagesArra
             reply_layout.visibility = View.VISIBLE
             view_line.visibility = View.VISIBLE
             if (dataMessageFireStore.inside_reply.getValue("sender_id").equals(chatPage.dataUser.id)) {
-                reply_from.text = "You"
+                reply_from.text = context.getString(R.string.you)
                 reply_from.setTextColor(ContextCompat.getColor(context, R.color.green))
             } else {
                 reply_from.text = chatPage.dataUserFireStore.fname + " " + chatPage.dataUserFireStore.lname

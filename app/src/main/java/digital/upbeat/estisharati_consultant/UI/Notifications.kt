@@ -3,18 +3,18 @@ package digital.upbeat.estisharati_consultant.UI
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import digital.upbeat.estisharati_consultant.Adapter.NotificationsAdapter
 import digital.upbeat.estisharati_consultant.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_consultant.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_consultant.DataClassHelper.DataUser
+import digital.upbeat.estisharati_consultant.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_consultant.DataClassHelper.Notification.NotificationsResponse
 import digital.upbeat.estisharati_consultant.Helper.GlobalData
 import digital.upbeat.estisharati_consultant.Helper.HelperMethods
 import digital.upbeat.estisharati_consultant.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_consultant.R
+import digital.upbeat.estisharati_consultant.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_notifications.*
 import okhttp3.ResponseBody
 import org.json.JSONException
@@ -24,12 +24,11 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 
-class Notifications : AppCompatActivity() {
+class Notifications : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var dataUser: DataUser
     lateinit var sharedPreferencesHelper: SharedPreferencesHelper
-    var notificationResponse: NotificationsResponse = NotificationsResponse("", arrayListOf())
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notifications)
@@ -53,9 +52,9 @@ class Notifications : AppCompatActivity() {
         notificationsRecycler.setHasFixedSize(true)
         notificationsRecycler.removeAllViews()
         notificationsRecycler.layoutManager = LinearLayoutManager(this@Notifications)
-        notificationsRecycler.adapter = NotificationsAdapter(this@Notifications, this@Notifications, notificationResponse.data)
+        notificationsRecycler.adapter = NotificationsAdapter(this@Notifications, this@Notifications, GlobalData.notificationResponse.data)
 
-        if (notificationResponse.data.size > 0) {
+        if (GlobalData.notificationResponse.data.size > 0) {
             notificationsRecycler.visibility = View.VISIBLE
             emptyLayout.visibility = View.GONE
         } else {
@@ -74,14 +73,15 @@ class Notifications : AppCompatActivity() {
                 if (response.isSuccessful) {
                     if (response.body() != null) {
                         try {
-                            notificationResponse = Gson().fromJson(response.body()!!.string(), NotificationsResponse::class.java)
-                            if (notificationResponse.status.equals("200")) {
+                           GlobalData. notificationResponse = Gson().fromJson(response.body()!!.string(), NotificationsResponse::class.java)
+                            if (GlobalData.notificationResponse.status.equals("200")) {
                                 InitializeRecyclerview()
-
                             } else {
-                                val jsonObject = JSONObject(response.body()!!.string())
-                                val message = jsonObject.getString("message")
-                                helperMethods.AlertPopup("Alert", message)
+                               if (helperMethods.checkTokenValidation(GlobalData.notificationResponse.status, GlobalData.notificationResponse.message)) {
+                                    finish()
+                                    return
+                                }
+                                helperMethods.AlertPopup(getString(R.string.alert), GlobalData.notificationResponse.message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -101,7 +101,7 @@ class Notifications : AppCompatActivity() {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
-                helperMethods.AlertPopup("Alert", getString(R.string.your_network_connection_is_slow_please_try_again))
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
     }

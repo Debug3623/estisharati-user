@@ -3,8 +3,8 @@ package digital.upbeat.estisharati_consultant.Helper
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
-import digital.upbeat.estisharati_consultant.DataClassHelper.DataCountry
-import digital.upbeat.estisharati_consultant.DataClassHelper.DataUser
+import digital.upbeat.estisharati_consultant.DataClassHelper.CountryCity.DataCountry
+import digital.upbeat.estisharati_consultant.DataClassHelper.Login.DataUser
 import org.codehaus.jackson.map.ObjectMapper
 import java.io.IOException
 
@@ -46,6 +46,13 @@ class SharedPreferencesHelper(private val mContext: Context) {
             val json = gson.toJson(user)
             pref_editor.putString("logInConsultant", json).apply()
         }
+
+    var appLang: String
+        get() = pref.getString("appLang", "en").toString()
+        set(appLang) {
+            pref_editor.putString("appLang", appLang).apply()
+        }
+
     var countryCity: ArrayList<DataCountry>
         get() {
             val list = pref.getString("countryCity", null)
