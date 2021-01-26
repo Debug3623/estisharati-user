@@ -6,14 +6,11 @@ import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
 import android.widget.EditText
-import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FieldValue
 import com.google.gson.Gson
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_user.DataClassHelper.DataSubscription
-import digital.upbeat.estisharati_user.DataClassHelper.DataUser
-import digital.upbeat.estisharati_user.DataClassHelper.DataUserMetas
+import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
@@ -123,7 +120,7 @@ class Verification : BaseCompatActivity() {
         if (resendTimer != null) {
             resendTimer?.cancel()
         }
-        resendTimer = object : CountDownTimer(10000, 1000) {
+        resendTimer = object : CountDownTimer(120000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 retry_on.text = getString(R.string.retry_on) + " "+helperMethods.MillisUntilToTime(millisUntilFinished)
             }

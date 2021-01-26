@@ -38,6 +38,7 @@
             android:background="@drawable/corner_redius_5dp_gray"
             android:hint="@string/your_coupon"
             android:padding="13dp"
+            android:textAlignment="viewStart"
             android:textColor="@color/black"
             android:textColorHint="@color/dark_gray"
             android:textSize="16sp" />

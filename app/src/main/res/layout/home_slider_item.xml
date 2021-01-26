@@ -35,7 +35,7 @@
 
                 <TextView
                     android:id="@+id/sliderTitle"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/almarai_regular"
                     android:gravity="end"
@@ -46,7 +46,7 @@
 
                 <TextView
                     android:id="@+id/sliderDescription"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/almarai_regular"
@@ -64,9 +64,9 @@
                     android:background="@drawable/corner_redius_30dp_light_green1"
                     android:fontFamily="@font/almarai_regular"
                     android:gravity="center"
-                    android:paddingLeft="20dp"
+                    android:paddingStart="20dp"
                     android:paddingTop="5dp"
-                    android:paddingRight="20dp"
+                    android:paddingEnd="20dp"
                     android:paddingBottom="5dp"
                     android:text="@string/discover"
                     android:textColor="@color/white"

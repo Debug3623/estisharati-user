@@ -5,5 +5,7 @@ data class HomeResponse(
     val consultants: ArrayList<Consultant>,
     val courses: ArrayList<Course>,
     var notification_count: String,
-    val slider: ArrayList<Slider>
+    val slider: ArrayList<Slider>,
+    val message_types: ArrayList<MessageTypes>,
+    val subscriptions: ArrayList<Subscriptions>
 )

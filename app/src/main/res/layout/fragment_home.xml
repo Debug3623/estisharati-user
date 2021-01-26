@@ -58,8 +58,8 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
                     android:orientation="horizontal"
                     android:padding="15dp">
 
@@ -76,7 +76,7 @@
                         android:id="@+id/exp_consultations_all"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:background="@drawable/corner_redius_30dp_white_sroke_dark_gray"
                         android:fontFamily="@font/almarai_regular"
@@ -129,7 +129,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
                         android:fontFamily="@font/almarai_regular"
                         android:gravity="center_vertical"
                         android:text="@string/ask_for_advice_now"
@@ -140,7 +140,7 @@
                         android:id="@+id/ask_for_advice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
                         android:background="@drawable/corner_redius_30dp_orange"
                         android:fontFamily="@font/almarai_regular"
                         android:paddingLeft="15dp"
@@ -180,7 +180,7 @@
                         android:id="@+id/exp_courses_all"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:background="@drawable/corner_redius_30dp_white_sroke_dark_gray"
                         android:fontFamily="@font/almarai_regular"
@@ -215,9 +215,9 @@
                 android:visibility="visible">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/almarai_regular"
                     android:text="@string/online_now"

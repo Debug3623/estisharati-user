@@ -36,7 +36,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -58,6 +58,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:textAlignment="viewStart"
                             android:fontFamily="@font/almarai_regular"
                             android:singleLine="true"
                             android:text="Taliha Al-Jaber"
@@ -74,7 +75,7 @@
                                 style="?android:attr/ratingBarStyleSmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
+                                android:layout_marginStart="10dp"
                                 android:isIndicator="true"
                                 android:numStars="5"
                                 android:progressBackgroundTint="@color/black"
@@ -91,7 +92,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.5"
-                        android:gravity="right|center_vertical">
+                        android:gravity="end|center_vertical">
 
                         <TextView
                             android:id="@+id/cmdReplyCount"
@@ -105,7 +106,7 @@
                         <ImageView
                             android:layout_width="13dp"
                             android:layout_height="13dp"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
                             android:adjustViewBounds="true"
                             android:src="@drawable/ic_reply_for_cmd" />
                     </LinearLayout>
@@ -113,7 +114,7 @@
 
                 <TextView
                     android:id="@+id/cmdDateTime"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/almarai_regular"
                     android:text="1 months ago000"
@@ -127,6 +128,7 @@
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/almarai_regular"
                     android:singleLine="true"
+                    android:textAlignment="viewStart"
                     android:text="Very good, may Allah give you wellness"
                     android:textColor="@color/black"
                     android:textSize="13sp" />
@@ -196,12 +198,13 @@
                             android:id="@+id/commentsReply"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
+                            android:layout_marginStart="15dp"
+                            android:textAlignment="viewStart"
                             android:background="@drawable/corner_redius_30dp_gray1"
                             android:hint="@string/write_comments_here"
-                            android:paddingLeft="15dp"
+                            android:paddingStart="15dp"
                             android:paddingTop="9dp"
-                            android:paddingRight="10dp"
+                            android:paddingEnd="10dp"
                             android:paddingBottom="9dp"
                             android:singleLine="true"
                             android:textColor="@color/black"
@@ -213,7 +216,7 @@
                         android:id="@+id/submitReplay"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
                         android:layout_weight="1"
                         android:background="@drawable/corner_redius_30dp_light_green1"
                         android:fontFamily="@font/almarai_regular"

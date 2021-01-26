@@ -2,23 +2,18 @@ package digital.upbeat.estisharati_user.Adapter
 
 import android.content.Context
 import android.content.Intent
-import android.media.Image
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
-import digital.upbeat.estisharati_user.DataClassHelper.DataBoarding
 import digital.upbeat.estisharati_user.DataClassHelper.Home.Slider
 import digital.upbeat.estisharati_user.Fragment.Home
 import digital.upbeat.estisharati_user.R
 import digital.upbeat.estisharati_user.UI.ConsultantDetails
 import digital.upbeat.estisharati_user.UI.CourseDetails
-import kotlinx.android.synthetic.main.activity_course_details.*
 import kotlinx.android.synthetic.main.home_slider_item.view.*
 import kotlin.collections.ArrayList
 

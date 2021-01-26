@@ -2,6 +2,7 @@ package digital.upbeat.estisharati_user.Adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -37,6 +38,7 @@ class ConsultantCommentsReplySubAdapter(val context: Context, val comments: Comm
             holder.subReplyMessage.setOnClickListener {
                 comments.helperMethods.AlertPopup(courseRepliesArrayList.get(position).user.name, courseRepliesArrayList.get(position).comment)
             }
+            holder.nectie.visibility = if (comments.courseDetails.findConsultantID(courseRepliesArrayList.get(position).user.id)) View.VISIBLE else View.GONE
         } else if (consultantDetails != null) {
             Glide.with(context).load(consultantRepliesArrayList.get(position).user.image_path).apply(HelperMethods(context).profileRequestOption).into(holder.subReplyUserImage)
             holder.subReplyUserName.text = consultantRepliesArrayList.get(position).user.name
@@ -45,6 +47,7 @@ class ConsultantCommentsReplySubAdapter(val context: Context, val comments: Comm
             holder.subReplyMessage.setOnClickListener {
                 consultantDetails.helperMethods.AlertPopup(consultantRepliesArrayList.get(position).user.name, consultantRepliesArrayList.get(position).comment)
             }
+            holder.nectie.visibility = if (consultantDetails.consultantDetailsResponse.id.equals(consultantRepliesArrayList.get(position).user.id)) View.VISIBLE else View.GONE
         }
     }
 }

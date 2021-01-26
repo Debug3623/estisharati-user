@@ -10,6 +10,7 @@
         android:fontFamily="@font/almarai_regular"
         android:text="Important information"
         android:textColor="@color/black"
+        android:textAlignment="viewStart"
         android:textSize="14sp" />
 
 </LinearLayout>

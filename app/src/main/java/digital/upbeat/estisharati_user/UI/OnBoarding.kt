@@ -4,14 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.animation.AnimationUtils
-import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager.widget.ViewPager
 import digital.upbeat.estisharati_user.Adapter.OnBoardingPagerAdapter
-import digital.upbeat.estisharati_user.DataClassHelper.DataBoarding
+import digital.upbeat.estisharati_user.DataClassHelper.Boarding.DataBoarding
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.R
 import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
-import digital.upbeat.estisharati_user.Utils.CirclePageIndicator
 import kotlinx.android.synthetic.main.activity_on_boarding.*
 
 class OnBoarding : BaseCompatActivity() {

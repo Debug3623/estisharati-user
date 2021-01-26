@@ -17,7 +17,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-
             android:orientation="horizontal">
 
             <androidx.cardview.widget.CardView
@@ -40,7 +39,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -49,6 +48,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/almarai_regular"
                     android:text="Muhammadi Masoud"
+                    android:textAlignment="viewStart"
                     android:singleLine="true"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
@@ -56,7 +56,6 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
@@ -72,7 +71,7 @@
                     <ImageView
                         android:layout_width="13dp"
                         android:layout_height="13dp"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:src="@drawable/ic_star_yellow" />
                 </LinearLayout>
 
@@ -81,6 +80,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/almarai_regular"
                     android:text="Total Courses : 3"
+                    android:textAlignment="viewStart"
                     android:id="@+id/courseCount"
                     android:textColor="@color/black_light"
                     android:textSize="14sp" />
@@ -90,12 +90,13 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:id="@+id/qualificationDetails"
             android:fontFamily="@font/almarai_regular"
             android:text="He holds a PhD in human and management development
  from Oxford University"
+            android:textAlignment="viewStart"
             android:textColor="@color/black_light"
             android:textSize="12sp" />
     </LinearLayout>

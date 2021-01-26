@@ -2,6 +2,9 @@
     <string name="app_name">Estisharati</string>
 
 
+    <string name="agora_app_id" translatable="false">29c6b00fa7ba4e1eaa2c52d3ef791786</string>
+    <string name="agora_access_token" translatable="false"></string>
+
     <string name="internet_connection_failed">Internet Connection Failed</string>
     <string name="please_check_your_internet_connection_and_try_again">Please check your internet connection and try again</string>
     <string name="something_went_wrong">Something went wrong!</string>
@@ -9,16 +12,6 @@
     <string name="something_went_wrong_on_backend_server">Something went wrong on backend server!</string>
     <string name="login">Login</string>
     <string name="could_not_get_your_device_token_please_try_again">Could not get your device token please try again</string>
-
-    <!-- PLEASE KEEP THIS App ID IN SAFE PLACE -->
-    <!-- Get your own App ID at https://dashboard.agora.io/ -->
-    <!-- After you entered the App ID, remove <##> outside of Your App ID -->
-    <string name="agora_app_id">29c6b00fa7ba4e1eaa2c52d3ef791786</string>
-    <!-- Obtain a temp Access Token at https://dashboard.agora.io -->
-    <!-- You will need to deploy your own token server for production release -->
-    <!-- Leave this value empty if Security keys/Token is not enabled for your project -->
-    <string name="agora_access_token"></string>
-
 
     <string name="register">Register</string>
     <string name="email_address">Email Address</string>
@@ -159,7 +152,6 @@
     <string name="connected">Connected</string>
     <string name="join_the_conversation">join the conversation</string>
     <string name="audio_permission_denied">Audio permission denied</string>
-    <string name="online_consultations">Online consultations</string>
     <string name="there_is_no_recent_chat_available">There is no recent chat available !</string>
     <string name="message_ready_to_forwarding">Message ready to forwarding</string>
     <string name="type_your_message">Type your message</string>
@@ -170,7 +162,6 @@
     <string name="show_more">Show more</string>
     <string name="comment_amp_rate"><![CDATA[Comment & Rate]]></string>
     <string name="consultants_in_the_package">Consultants in the package</string>
-    <string name="consultantion_details">Consultantion Details</string>
     <string name="contact_us">Contact us</string>
     <string name="name">Name</string>
     <string name="email">Email</string>
@@ -262,7 +253,7 @@
     <string name="faq">FAQ</string>
     <string name="language">Language</string>
     <string name="english">English</string>
-    <string name="arabic">Arabic</string>
+    <string name="arabic">اللغة العربية</string>
     <string name="logout_">LOGOUT</string>
     <string name="show">show</string>
     <string name="camera">Camera</string>
@@ -277,8 +268,46 @@
     <string name="search_here">Search here...</string>
     <string name="there_is_no_consultant_available">There is no consultant available !</string>
     <string name="you_dont_have_enough_balance_to_make_call">You don\'t have enough balance to make call !</string>
-    <string name="all_consultant">All Consultant</string>
     <string name="there_is_no_more_balance_to_continue_this_call">There is no more balance to continue this call !</string>
     <string name="currently_the_consultant_is_not_available_for_chat">Currently the consultant is not available for chat !</string>
-
+    <string name="balance">Balance</string>
+    <string name="there_are_only">"There are only "</string>
+    <string name="minutes_left_for_the_conversation_to_end">minutes left for the conversation to end</string>
+    <string name="all_users">All Users</string>
+    <string name="blog">Blog</string>
+    <string name="please_wait_while_fetching_blog_post">Please wait while fetching blog post...</string>
+    <string name="there_is_no_blog_post_available">There is no blog post available !</string>
+    <string name="blog_details">Blog Details</string>
+    <string name="survey">Survey</string>
+    <string name="start_survey">Start Survey</string>
+    <string name="please_choose_any_option">Please choose any option !</string>
+    <string name="there_is_no_survey_till_now">There is no survey till now !</string>
+    <string name="submit_survey">Submit Survey</string>
+    <string name="invite_app">Invite App</string>
+    <string name="your_discounts">Your Discounts</string>
+    <string name="invite_your_friends">Invite Your Friends</string>
+    <string name="get_amazing_discounts_in_next_purchase">Get amazing discounts in next purchase !</string>
+    <string name="share">SHARE</string>
+    <string name="copied_to_clipboard">Copied to Clipboard!</string>
+    <string name="referral_code">Referral Code (Optional)</string>
+    <string name="subject">Subject</string>
+    <string name="enter_your_subject">Enter your subject</string>
+    <string name="members">Members</string>
+    <string name="your_groups">Your Groups</string>
+    <string name="you_dont_have_enough_balance_to_make_this_chat">You don\'t have enough balance to make this chat !</string>
+    <string name="count">Count</string>
+    <string name="minutes">Minutes</string>
+    <string name="sign_in_with_google">Sign In With Google</string>
+    <string name="please_select_data_and_time">Please select data and time !</string>
+    <string name="select_your_appointment_request_date_and_time">Select your appointment request date and time</string>
+    <string name="appointment">Appointment</string>
+    <string name="please_wait_while_fetching_appointment">Please wait while fetching appointment...</string>
+    <string name="pending">PENDING</string>
+    <string name="accepted">ACCEPTED</string>
+    <string name="rejected">REJECTED</string>
+    <string name="referral_discount">Referral Discount</string>
+    <string name="yyyy_mm_dd">YYYY-MM-DD</string>
+    <string name="hh_mm">HH:MM</string>
+    <string name="consultation_balance">Consultation Balance</string>
+    <string name="no_user_found">No user found!</string>
 </resources>

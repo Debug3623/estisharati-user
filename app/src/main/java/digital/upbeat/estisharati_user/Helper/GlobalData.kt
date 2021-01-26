@@ -1,24 +1,25 @@
 package digital.upbeat.estisharati_user.Helper
 
 import com.google.android.exoplayer2.MediaItem
-import digital.upbeat.estisharati_user.DataClassHelper.DataUserFireStore
+import digital.upbeat.estisharati_user.DataClassHelper.Chat.DataUserFireStore
 import digital.upbeat.estisharati_user.DataClassHelper.Home.HomeResponse
 import digital.upbeat.estisharati_user.DataClassHelper.PackagesOptions.PackagesOptions
 import digital.upbeat.estisharati_user.DataClassHelper.StartCourse.Lesson
-import org.intellij.lang.annotations.Language
 
 object GlobalData {
     const val PICK_IMAGE_GALLERY = 1
     const val PICK_IMAGE_CAMERA = 2
-    var LanguageCode = "en"
-    val BaseUrl = "https://super-servers.com/estisharati/api/v1/$LanguageCode/"
+    var BaseUrl = "https://super-servers.com/estisharati/api/v1/en/"
     var profileUpdate = false
     var FcmToken = ""
     var forwardType = ""
     var forwardContent = ""
+    var referralCode = ""
+    var courseId = ""
     lateinit var homeResponse: HomeResponse
+     var homeResponseMain: HomeResponse?=null
     fun isThingInitialized() = ::homeResponse.isInitialized
-    var packagesOptions = PackagesOptions("", "", "", "", "", "", "", "", "", "")
+    var packagesOptions = PackagesOptions("", "", "", "", "", "", "", "", "", "", "", "", "", "")
     var FullScreen = false
     val mediaItemArrayList: ArrayList<MediaItem> = arrayListOf()
     val lessonArrayList: ArrayList<Lesson> = arrayListOf()

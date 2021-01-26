@@ -17,9 +17,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="55dp"
+                android:layout_marginStart="55dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/corner_redius_10dp_white"
                 android:elevation="4dp"
@@ -31,7 +31,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginStart="30dp"
                     android:layout_weight="5"
                     android:gravity="center_vertical"
                     android:orientation="vertical"
@@ -41,7 +41,7 @@
                         android:id="@+id/consultantName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:fontFamily="@font/almarai_regular"
                         android:singleLine="true"
                         android:text="Sufyan Al-Nasr"
@@ -84,6 +84,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="10dp"
+                            android:gravity="center"
                             android:orientation="vertical">
 
                             <ImageView
@@ -107,6 +108,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="10dp"
+                            android:gravity="center"
                             android:orientation="vertical">
 
                             <ImageView
@@ -128,6 +130,7 @@
                         <LinearLayout
                             android:id="@+id/videoOption"
                             android:layout_width="wrap_content"
+                            android:gravity="center"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
 
@@ -189,7 +192,7 @@
         <RelativeLayout
             android:layout_width="80dp"
             android:layout_height="75dp"
-            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="13dp">
 
 
@@ -213,7 +216,7 @@
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:id="@+id/online_status"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:background="@drawable/round_parrot_green"
                 android:elevation="2dp" />
 

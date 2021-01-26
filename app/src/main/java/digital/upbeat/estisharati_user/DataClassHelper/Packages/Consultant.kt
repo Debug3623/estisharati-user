@@ -12,5 +12,5 @@ data class Consultant(
     val image_path: String,
     val job_title: String,
     val name: String,
-    val rate: Int
+    val rate: String
 ): Parcelable

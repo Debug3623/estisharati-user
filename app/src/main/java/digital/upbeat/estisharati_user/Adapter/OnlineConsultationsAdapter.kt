@@ -7,17 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import digital.upbeat.estisharati_user.DataClassHelper.DataUserFireStore
-import digital.upbeat.estisharati_user.Fragment.Home
+import digital.upbeat.estisharati_user.DataClassHelper.Chat.DataUserFireStore
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.R
 import digital.upbeat.estisharati_user.UI.ChatHome
 import digital.upbeat.estisharati_user.UI.ChatPage
-import digital.upbeat.estisharati_user.ViewHolder.ExpConsultationsViewHolder
-import digital.upbeat.estisharati_user.ViewHolder.ExpCoursesViewHolder
 import digital.upbeat.estisharati_user.ViewHolder.OnlineConsultationsViewHolder
-import digital.upbeat.estisharati_user.ViewHolder.OnlineUserViewHolder
 
 class OnlineConsultationsAdapter(val context: Context, val chatHome: ChatHome, val dataUserFireStoreArraylist: ArrayList<DataUserFireStore>) : RecyclerView.Adapter<OnlineConsultationsViewHolder>() {
     var helperMethods: HelperMethods
@@ -51,6 +47,8 @@ class OnlineConsultationsAdapter(val context: Context, val chatHome: ChatHome, v
             intent.putExtra("forward_type", GlobalData.forwardType)
             intent.putExtra("forward_content", GlobalData.forwardContent)
             context.startActivity(intent)
+            GlobalData.forwardType = ""
+            GlobalData.forwardContent = ""
         }
     }
 }

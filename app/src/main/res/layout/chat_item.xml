@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/parentLayout"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -14,24 +14,26 @@
         android:orientation="horizontal"
         android:visibility="gone">
 
+
         <digital.upbeat.estisharati_user.Utils.CircleImageView
             android:id="@+id/other_text_profile"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/ic_temp_profile" />
 
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="65dp"
-            android:layout_marginRight="35dp"
+            android:layout_marginStart="65dp"
+            android:layout_marginEnd="35dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/other_text_is_forward"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:fontFamily="@font/almarai_light"
                 android:text="@string/forwarded"
                 android:textColor="@color/dark_gray"
@@ -95,10 +97,10 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
                             android:fontFamily="@font/almarai_light"
                             android:singleLine="true"
-                            android:text="@string/photo"
+                            android:text="Photo"
                             android:textColor="@color/black"
                             android:textSize="12sp" />
 
@@ -107,7 +109,7 @@
                             android:id="@+id/other_text_reply_image"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginStart="20dp"
                             android:adjustViewBounds="true"
                             android:scaleType="centerCrop"
                             android:src="@drawable/ic_logo" />
@@ -138,9 +140,9 @@
                 android:id="@+id/other_text_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:layout_marginTop="5dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginEnd="15dp"
                 android:fontFamily="@font/almarai_light"
                 android:text="2 min ago"
                 android:textColor="@color/dark_gray"
@@ -151,7 +153,7 @@
             android:id="@+id/other_forward_text"
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_right_forward"
             android:visibility="gone" />
@@ -171,18 +173,19 @@
             android:layout_height="50dp"
             android:src="@drawable/ic_temp_profile" />
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="65dp"
-            android:layout_marginRight="75dp"
+            android:layout_marginStart="65dp"
+            android:layout_marginEnd="75dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/other_image_is_forward"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:fontFamily="@font/almarai_light"
                 android:text="@string/forwarded"
                 android:textColor="@color/dark_gray"
@@ -211,7 +214,7 @@
                         android:id="@+id/other_image_reply_from"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="50dp"
+                        android:layout_marginStart="50dp"
                         android:fontFamily="@font/almarai_bold"
                         android:text="@string/you"
                         android:textColor="@color/green"
@@ -249,10 +252,10 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
                             android:fontFamily="@font/almarai_light"
                             android:singleLine="true"
-                            android:text="@string/photo"
+                            android:text="Photo"
                             android:textColor="@color/black"
                             android:textSize="12sp" />
 
@@ -261,7 +264,7 @@
                             android:id="@+id/other_image_reply_image"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginStart="20dp"
                             android:adjustViewBounds="true"
                             android:scaleType="centerCrop"
                             android:src="@drawable/ic_logo" />
@@ -293,9 +296,9 @@
                 android:id="@+id/other_image_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:layout_marginTop="5dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginEnd="15dp"
                 android:fontFamily="@font/almarai_light"
                 android:text="2 min ago"
                 android:textColor="@color/dark_gray"
@@ -306,7 +309,7 @@
             android:id="@+id/other_forward_image"
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_right_forward"
             android:visibility="gone" />
@@ -324,7 +327,7 @@
             android:id="@+id/me_forward_text"
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_right_forward"
             android:visibility="gone" />
@@ -332,17 +335,17 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="35dp"
-            android:layout_marginRight="65dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="35dp"
+            android:layout_marginEnd="65dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/me_text_is_forward"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginRight="5dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="5dp"
                 android:fontFamily="@font/almarai_light"
                 android:text="@string/forwarded"
                 android:textColor="@color/dark_gray"
@@ -354,7 +357,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:background="@drawable/chat_me_pink_stroke_gray"
-                android:gravity="right"
+                android:gravity="end"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -371,7 +374,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/almarai_bold"
-                        android:gravity="right"
+                        android:gravity="end"
                         android:text="@string/you"
                         android:textColor="@color/green"
                         android:textSize="16sp" />
@@ -383,7 +386,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:fontFamily="@font/almarai_regular"
-                        android:gravity="right"
+                        android:gravity="end"
                         android:maxLines="3"
                         android:text="GitHub is home to over 50 million developers working together to host and review code, manage projects, and build software together.GitHub is home to over 50 million developers working together to host and review code, manage projects, and build software together."
                         android:textColor="@color/black"
@@ -395,7 +398,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:gravity="right|center_vertical"
+                        android:gravity="end|center_vertical"
                         android:orientation="horizontal"
                         android:visibility="gone">
 
@@ -404,7 +407,7 @@
                             android:id="@+id/me_text_reply_image"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
-                            android:layout_marginRight="20dp"
+                            android:layout_marginEnd="20dp"
                             android:adjustViewBounds="true"
                             android:scaleType="centerCrop"
                             android:src="@drawable/ic_logo" />
@@ -412,10 +415,10 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="10dp"
+                            android:layout_marginEnd="10dp"
                             android:fontFamily="@font/almarai_light"
                             android:singleLine="true"
-                            android:text="@string/photo"
+                            android:text="Photo"
                             android:textColor="@color/black"
                             android:textSize="12sp" />
 
@@ -451,7 +454,7 @@
                 android:id="@+id/me_text_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/almarai_light"
                 android:text="2 min ago"
@@ -462,16 +465,16 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:gravity="right"
+            android:layout_alignParentEnd="true"
+            android:gravity="end"
             android:orientation="vertical">
-
 
             <digital.upbeat.estisharati_user.Utils.CircleImageView
                 android:id="@+id/me_text_profile"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/ic_temp_profile" />
+
 
             <ImageView
                 android:id="@+id/text_message_status"
@@ -495,7 +498,7 @@
             android:id="@+id/me_forward_image"
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_right_forward"
             android:visibility="gone" />
@@ -503,17 +506,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="75dp"
-            android:layout_marginRight="65dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="75dp"
+            android:layout_marginEnd="65dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/me_image_is_forward"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginRight="5dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="5dp"
                 android:fontFamily="@font/almarai_light"
                 android:text="@string/forwarded"
                 android:textColor="@color/dark_gray"
@@ -543,7 +546,7 @@
                         android:id="@+id/me_image_reply_from"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="50dp"
+                        android:layout_marginEnd="50dp"
                         android:fontFamily="@font/almarai_bold"
                         android:text="@string/you"
                         android:textColor="@color/green"
@@ -567,7 +570,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
@@ -581,10 +583,10 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
                             android:fontFamily="@font/almarai_light"
                             android:singleLine="true"
-                            android:text="@string/photo"
+                            android:text="Photo"
                             android:textColor="@color/black"
                             android:textSize="12sp" />
 
@@ -593,7 +595,7 @@
                             android:id="@+id/me_image_reply_image"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginStart="20dp"
                             android:adjustViewBounds="true"
                             android:scaleType="centerCrop"
                             android:src="@drawable/ic_logo" />
@@ -624,7 +626,7 @@
                 android:id="@+id/me_image_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/almarai_light"
                 android:text="2 min ago"
@@ -635,17 +637,15 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:gravity="right"
+            android:layout_alignParentEnd="true"
+            android:gravity="end"
             android:orientation="vertical">
 
             <digital.upbeat.estisharati_user.Utils.CircleImageView
                 android:id="@+id/me_image_profile"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_alignParentRight="true"
                 android:src="@drawable/ic_temp_profile" />
-
             <ImageView
                 android:id="@+id/image_message_status"
                 android:layout_width="15dp"
@@ -656,7 +656,6 @@
         </LinearLayout>
 
     </RelativeLayout>
-
 
 
 </LinearLayout>

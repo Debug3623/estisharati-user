@@ -6,11 +6,10 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.EditText
-import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_user.DataClassHelper.DataUser
+import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_user.DataClassHelper.PaymentMethodList.Data
 import digital.upbeat.estisharati_user.DataClassHelper.PaymentRequest.Details
 import digital.upbeat.estisharati_user.DataClassHelper.PaymentRequest.PaymentRequest
@@ -35,7 +34,7 @@ class AddPaymentMethod : BaseCompatActivity() {
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var dataUser: DataUser
     lateinit var sharedPreferencesHelper: SharedPreferencesHelper
-    var ptResponse: PTResponse = PTResponse(arrayListOf(), "")
+    var ptResponse: PTResponse = PTResponse(arrayListOf(), "","")
     var paymentMethodType = "1"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -243,9 +242,11 @@ class AddPaymentMethod : BaseCompatActivity() {
                             if (ptResponse.status.equals("200")) {
                                 checkPaymentType()
                             } else {
-                                val jsonObject = JSONObject(response.body()!!.string())
-                                val message = jsonObject.getString("message")
-                                helperMethods.AlertPopup("Alert", message)
+                            if (helperMethods.checkTokenValidation(ptResponse.status, ptResponse.message)) {
+                                    finish()
+                                    return
+                                }
+                                helperMethods.AlertPopup("Alert", ptResponse.message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -331,18 +332,20 @@ class AddPaymentMethod : BaseCompatActivity() {
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()
-
                 if (response.isSuccessful) {
                     if (response.body() != null) {
                         try {
                             val jsonObject = JSONObject(response.body()!!.string())
                             val status = jsonObject.getString("status")
+                            val message = jsonObject.getString("message")
                             if (status.equals("200")) {
-                                val message = jsonObject.getString("message")
                                 helperMethods.showToastMessage(message)
                                 finish()
                             } else {
-                                val message = jsonObject.getString("message")
+                                if (helperMethods.checkTokenValidation(status, message)) {
+                                    finish()
+                                    return
+                                }
                                 helperMethods.AlertPopup("Alert", message)
                             }
                         } catch (e: JSONException) {

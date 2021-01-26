@@ -14,19 +14,20 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
+import digital.upbeat.estisharati_user.Adapter.ChatGroupAdapter
 import digital.upbeat.estisharati_user.Adapter.OnlineConsultationsAdapter
 import digital.upbeat.estisharati_user.Adapter.RecentChatAdapter
 import digital.upbeat.estisharati_user.Adapter.SearchUserAdapter
-import digital.upbeat.estisharati_user.DataClassHelper.DataMessageFireStore
-import digital.upbeat.estisharati_user.DataClassHelper.DataUser
-import digital.upbeat.estisharati_user.DataClassHelper.DataUserFireStore
-import digital.upbeat.estisharati_user.DataClassHelper.DataUserMessageFireStore
+import digital.upbeat.estisharati_user.DataClassHelper.Chat.DataMessageFireStore
+import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
+import digital.upbeat.estisharati_user.DataClassHelper.Chat.DataUserFireStore
+import digital.upbeat.estisharati_user.DataClassHelper.Chat.DataUserMessageFireStore
+import digital.upbeat.estisharati_user.DataClassHelper.Group.GroupItem
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
@@ -43,6 +44,7 @@ class ChatHome : BaseCompatActivity() {
     var onlineConsultationArraylist = arrayListOf<DataUserFireStore>()
     var userArraylist = arrayListOf<DataUserFireStore>()
     val dataUserMessageFireStoreArrayList = arrayListOf<DataUserMessageFireStore>()
+    var groupItemsArrayList: ArrayList<GroupItem> = arrayListOf()
     var UserListener: ListenerRegistration? = null
     var consultantListener: ListenerRegistration? = null
     var ChatListener1: ListenerRegistration? = null
@@ -87,6 +89,15 @@ class ChatHome : BaseCompatActivity() {
         notificationLayout.setOnClickListener {
             startActivity(Intent(this@ChatHome, Notifications::class.java))
         }
+        groupShowHide.setOnClickListener {
+            if (groupsRecycler.visibility == View.VISIBLE) {
+                groupShowHide.rotation = 180F
+                groupsRecycler.visibility = View.GONE
+            } else {
+                groupShowHide.rotation = 0F
+                groupsRecycler.visibility = View.VISIBLE
+            }
+        }
     }
 
     fun onlineConsultationLisiner() {
@@ -114,18 +125,46 @@ class ChatHome : BaseCompatActivity() {
 
         Log.d("consultantIdArrayList", consultantIdArrayList.toString())
         if (GlobalData.homeResponse.consultants.size > 0) {
-            consultantListener = firestore.collection("Users").whereIn("user_id", consultantIdArrayList).orderBy("fname", Query.Direction.ASCENDING).addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+            consultantListener = firestore.collection("Users").orderBy("fname", Query.Direction.ASCENDING).addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 querySnapshot?.let {
                     onlineConsultationArraylist = arrayListOf<DataUserFireStore>()
                     for (data in querySnapshot) {
                         val dataUserFireStore = data.toObject(DataUserFireStore::class.java)
                         if (!dataUserFireStore.user_id.equals(dataUser.id)) {
-                            onlineConsultationArraylist.add(dataUserFireStore)
+                            if (dataUserFireStore.user_type.equals("user") || helperMethods.findConsultantId(dataUserFireStore.user_id)) {
+                                onlineConsultationArraylist.add(dataUserFireStore)
+                            }
                         }
                     }
                     onlineConsultationsRecycler()
                 }
             }
+        }
+        firestore.collection("Group").addSnapshotListener { value, error ->
+            value?.let {
+                groupItemsArrayList.clear()
+                for (groupItem in it) {
+                    val groupItemData = groupItem.toObject(GroupItem::class.java)
+                    if (groupItemData.group_members.contains(dataUser.id) && groupItemData.active) {
+                        groupItemData.group_id = groupItem.id
+                        groupItemsArrayList.add(groupItemData)
+                    }
+                }
+                groupChatList()
+            }
+        }
+    }
+
+    fun groupChatList() {
+        totalGroupLabel.text = getString(R.string.your_groups) + " ( " + groupItemsArrayList.size + " )"
+        groupsRecycler.setHasFixedSize(true)
+        groupsRecycler.removeAllViews()
+        groupsRecycler.adapter = ChatGroupAdapter(this@ChatHome, this@ChatHome, groupItemsArrayList)
+        groupsRecycler.layoutManager = LinearLayoutManager(this@ChatHome)
+        if (groupItemsArrayList.size > 0) {
+            groupLayout.visibility = View.VISIBLE
+        } else {
+            groupLayout.visibility = View.GONE
         }
     }
 
@@ -239,12 +278,14 @@ class ChatHome : BaseCompatActivity() {
         val datauserFirestoreArrayList = arrayListOf<DataUserFireStore>()
         var dataPassed = arrayListOf<DataUserFireStore>()
         if (GlobalData.homeResponse.consultants.size > 0) {
-            firestore.collection("Users").whereIn("user_id", consultantIdArrayList).orderBy("fname", Query.Direction.ASCENDING).get().addOnSuccessListener {
+            firestore.collection("Users").orderBy("fname", Query.Direction.ASCENDING).get().addOnSuccessListener {
                 it?.let {
                     for (data in it) {
                         val dataUserFireStore = data.toObject(DataUserFireStore::class.java)
                         if (!dataUserFireStore.user_id.equals(dataUser.id)) {
-                            datauserFirestoreArrayList.add(dataUserFireStore)
+                            if (dataUserFireStore.user_type.equals("user") || helperMethods.findConsultantId(dataUserFireStore.user_id)) {
+                                datauserFirestoreArrayList.add(dataUserFireStore)
+                            }
                         }
                     }
                     searchUserdialog?.show()

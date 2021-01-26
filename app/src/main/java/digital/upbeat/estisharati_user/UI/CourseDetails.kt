@@ -10,17 +10,21 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.firebase.dynamiclinks.ktx.androidParameters
+import com.google.firebase.dynamiclinks.ktx.dynamicLinks
+import com.google.firebase.dynamiclinks.ktx.iosParameters
+import com.google.firebase.dynamiclinks.ktx.shortLinkAsync
+import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import digital.upbeat.estisharati_user.Adapter.TapViewPagerAdapter
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
 import digital.upbeat.estisharati_user.DataClassHelper.CourseDetails.ResponseCourseDetails
-import digital.upbeat.estisharati_user.DataClassHelper.DataUser
+import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_user.DataClassHelper.PackagesOptions.PackagesOptions
 import digital.upbeat.estisharati_user.Fragment.Comments
 import digital.upbeat.estisharati_user.Fragment.CourseContent
@@ -31,6 +35,7 @@ import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
 import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_course_details.*
+import kotlinx.android.synthetic.main.activity_invite_app.*
 import kotlinx.android.synthetic.main.preview_courses_popup.view.*
 import kotlinx.android.synthetic.main.tap_item.view.*
 import okhttp3.ResponseBody
@@ -47,6 +52,8 @@ class CourseDetails : BaseCompatActivity() {
     lateinit var sharedPreferencesHelper: SharedPreferencesHelper
     lateinit var dataUser: DataUser
     lateinit var responseCoursesDetails: ResponseCourseDetails
+    var courseInvitationUrl = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_course_details)
@@ -65,6 +72,8 @@ class CourseDetails : BaseCompatActivity() {
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
         sharedPreferencesHelper = SharedPreferencesHelper(this@CourseDetails)
         dataUser = sharedPreferencesHelper.logInUser
+
+
     }
 
     fun clickEvents() {
@@ -88,9 +97,9 @@ class CourseDetails : BaseCompatActivity() {
                 } else {
                     responseCoursesDetails.offerprice
                 }
-                val vatAmount: Float = price.toFloat() / 100.0f * 5
-                val priceIncludedVat = vatAmount + price.toFloat()
-                GlobalData.packagesOptions = PackagesOptions(responseCoursesDetails.id, responseCoursesDetails.name, "course", "", price, vatAmount.toString(), priceIncludedVat.toString(), "", "", "")
+//                val vatAmount = price.toDouble() * 0.05
+//                val priceIncludedVat = vatAmount + price.toDouble()
+                GlobalData.packagesOptions = PackagesOptions(responseCoursesDetails.id, responseCoursesDetails.name, "course", "", price, "0","0", "", "", "0", "0", "", "0", "0")
 
                 startActivity(Intent(this@CourseDetails, PackagesSelection::class.java))
             }
@@ -101,6 +110,12 @@ class CourseDetails : BaseCompatActivity() {
             } else {
                 helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
             }
+        }
+        shareCourse.setOnClickListener {
+            val sendIntent = Intent(Intent.ACTION_SEND)
+            sendIntent.putExtra(Intent.EXTRA_TEXT, responseCoursesDetails.name+" Clicking link to view the course  "+"     " + courseInvitationUrl)
+            sendIntent.setType("text/plain")
+            startActivity(sendIntent)
         }
     }
 
@@ -125,7 +140,7 @@ class CourseDetails : BaseCompatActivity() {
             offersEndDateLayout.visibility = View.GONE
         } else {
             coursePrice.text = "${getString(R.string.aed)} ${responseCoursesDetails.offerprice}"
-            courseOldPrice.text = "${getString(R.string.aed)} ${responseCoursesDetails.price}"
+            courseOldPrice.text = " ${responseCoursesDetails.price}"
             offersEndDate.text = responseCoursesDetails.offer_end
             courseOldPrice.setPaintFlags(courseOldPrice.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
             courseOldPrice.visibility = View.VISIBLE
@@ -139,6 +154,16 @@ class CourseDetails : BaseCompatActivity() {
         }
         buyTheCourse.text = if (responseCoursesDetails.is_subscribed) resources.getString(R.string.start_course) else {
             resources.getString(R.string.buy_now)
+        }
+
+        val invitationLink = "https://upbeat.digital/en?courseId=${responseCoursesDetails.id}"
+        Firebase.dynamicLinks.shortLinkAsync {
+            link = Uri.parse(invitationLink)
+            domainUriPrefix = "https://estisharati.page.link"
+            androidParameters("digital.upbeat.estisharati_user") {}
+            iosParameters("com.upbeat.Estisharaty") {}
+        }.addOnSuccessListener { shortDynamicLink ->
+            courseInvitationUrl = shortDynamicLink.shortLink.toString()+"?courseId=${responseCoursesDetails.id}"
         }
     }
 
@@ -187,6 +212,15 @@ class CourseDetails : BaseCompatActivity() {
         viewPager.setAdapter(adapter)
     }
 
+    fun findConsultantID(id: String): Boolean {
+        for (consultant in responseCoursesDetails.consultants) {
+            if (consultant.user.id.equals(id)) {
+                return true
+            }
+        }
+        return false
+    }
+
     fun onlineCoursesApiCall(courseId: String) {
         helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
         val responseBodyCall = retrofitInterface.COURSES_DETAILS_API_CALL("Bearer ${dataUser.access_token}", courseId)
@@ -206,6 +240,10 @@ class CourseDetails : BaseCompatActivity() {
                                 setCourseDetails()
                             } else {
                                 val message = jsonObject.getString("message")
+                                if (helperMethods.checkTokenValidation(status, message)) {
+                                    finish()
+                                    return
+                                }
                                 helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {
@@ -256,6 +294,10 @@ class CourseDetails : BaseCompatActivity() {
                                     favoriteIcon.setImageResource(R.drawable.ic_un_favorite)
                                 }
                             } else {
+                                if (helperMethods.checkTokenValidation(status, message)) {
+                                    finish()
+                                    return
+                                }
                                 helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {

@@ -32,7 +32,7 @@
                 android:id="@+id/onlineStatus"
                 android:layout_width="13dp"
                 android:layout_height="13dp"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:background="@drawable/round_parrot_green"
                 android:elevation="4dp" />
@@ -42,7 +42,8 @@
             android:id="@+id/consultantName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
+            android:layout_marginStart="25dp"
+            android:textAlignment="viewStart"
             android:fontFamily="@font/almarai_regular"
             android:text="Abdin Al-Farraj"
             android:textColor="@color/black"

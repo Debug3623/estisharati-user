@@ -1,7 +1,6 @@
 package digital.upbeat.estisharati_user.UI
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,7 +11,7 @@ import digital.upbeat.estisharati_user.Adapter.OffersConsultantsAdapter
 import digital.upbeat.estisharati_user.Adapter.OffersCoursesAdapter
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_user.DataClassHelper.DataUser
+import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_user.DataClassHelper.Offers.OffersResponse
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
@@ -47,12 +46,10 @@ class Offers : BaseCompatActivity() {
         nav_back.setOnClickListener { finish() }
         offersConsultants.setTextColor(ContextCompat.getColor(this@Offers, R.color.white))
         offersCourses.setTextColor(ContextCompat.getColor(this@Offers, R.color.transparent_white))
-
         offersConsultants.setOnClickListener {
             currentTab = "consultant"
             initializeOffersConsultantRecyclerview()
         }
-
         offersCourses.setOnClickListener {
             currentTab = "courses"
             initializeOffersConsultantRecyclerview()
@@ -138,6 +135,10 @@ class Offers : BaseCompatActivity() {
                                 initializeOffersConsultantRecyclerview()
                             } else {
                                 val message = jsonObject.getString("message")
+                                if (helperMethods.checkTokenValidation(status, message)) {
+                                    finish()
+                                    return
+                                }
                                 helperMethods.AlertPopup(getString(R.string.alert), message)
                                 initializeOffersConsultantRecyclerview()
                             }

@@ -38,7 +38,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="40dp"
+                    android:layout_marginStart="40dp"
                     android:fontFamily="@font/almarai_regular"
                     android:text="@string/favorites"
                     android:textColor="@color/white"
@@ -48,17 +48,17 @@
                     android:id="@+id/notificationLayout"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true">
 
                     <ImageView
                         android:id="@+id/bell"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_marginTop="5dp"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginEnd="10dp"
                         android:adjustViewBounds="true"
                         android:src="@drawable/ic_bell" />
 
@@ -67,7 +67,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_alignParentTop="true"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         android:background="@drawable/round_light_green_white_stroke"
                         android:gravity="center"
                         android:text="2"

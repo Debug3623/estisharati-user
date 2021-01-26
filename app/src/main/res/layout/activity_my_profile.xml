@@ -26,9 +26,9 @@
     </LinearLayout>
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/scrollView"
         android:scrollbars="none">
 
         <LinearLayout
@@ -56,7 +56,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:fontFamily="@font/almarai_regular"
                     android:text="@string/my_profile"
                     android:textColor="@color/white"
@@ -93,7 +93,6 @@
                         android:textSize="18sp" />
 
 
-
                     <LinearLayout
                         android:id="@+id/edit_profile"
                         android:layout_width="wrap_content"
@@ -120,7 +119,7 @@
                         <ImageView
                             android:layout_width="15dp"
                             android:layout_height="15dp"
-                            android:layout_marginLeft="8dp"
+                            android:layout_marginStart="8dp"
                             android:adjustViewBounds="true"
                             android:background="@drawable/ic_pencil"
                             android:backgroundTint="@color/white" />
@@ -252,11 +251,11 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/upgradePackage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:layout_margin="5dp"
-                        android:id="@+id/upgradePackage"
                         android:background="@drawable/corner_redius_30dp_light_green1"
                         android:elevation="3dp"
                         android:paddingLeft="15dp"
@@ -288,7 +287,7 @@
                     <LinearLayout
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         android:background="@drawable/round_white"
                         android:gravity="center">
 
@@ -324,18 +323,21 @@
                         android:id="@+id/email_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
                         android:fontFamily="@font/almarai_regular"
                         android:singleLine="true"
+                        android:textAlignment="viewStart"
                         android:text="abdellatif_z@gmail.com"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
                 </LinearLayout>
+
                 <LinearLayout
+                    android:id="@+id/phoneNumberLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
                     android:layout_marginTop="20dp"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -348,15 +350,17 @@
                         android:id="@+id/phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
                         android:fontFamily="@font/almarai_regular"
                         android:singleLine="true"
+                        android:textAlignment="viewStart"
                         android:text="+971 90435345345"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/passwordLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -381,7 +385,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
+                            android:layout_marginStart="15dp"
                             android:fontFamily="@font/almarai_regular"
                             android:text="•••••••••••••••"
                             android:textColor="@color/black"
@@ -418,7 +422,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="8dp"
+                                android:layout_marginStart="8dp"
                                 android:fontFamily="@font/almarai_regular"
                                 android:text="@string/change"
                                 android:textColor="@color/white"
@@ -448,9 +452,10 @@
                         android:background="@color/transparent"
                         android:fontFamily="@font/almarai_regular"
                         android:hint="@string/current_password"
-                        android:inputType="textPassword"
                         android:imeOptions="actionNext"
+                        android:inputType="textPassword"
                         android:singleLine="true"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black_light"
                         android:textSize="14sp" />
@@ -469,9 +474,10 @@
                         android:background="@color/transparent"
                         android:fontFamily="@font/almarai_regular"
                         android:hint="@string/new_password"
-                        android:singleLine="true"
-                        android:inputType="textPassword"
                         android:imeOptions="actionNext"
+                        android:inputType="textPassword"
+                        android:singleLine="true"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black_light"
                         android:textSize="14sp" />
@@ -493,6 +499,7 @@
                         android:imeOptions="actionDone"
                         android:inputType="textVisiblePassword"
                         android:singleLine="true"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black_light"
                         android:textSize="14sp" />
@@ -505,6 +512,7 @@
                         android:background="@color/gainsboro" />
 
                     <TextView
+                        android:id="@+id/savePassword"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
@@ -513,7 +521,6 @@
                         android:elevation="3dp"
                         android:paddingLeft="30dp"
                         android:paddingTop="7dp"
-                        android:id="@+id/savePassword"
                         android:paddingRight="30dp"
                         android:paddingBottom="7dp"
                         android:text="@string/save"

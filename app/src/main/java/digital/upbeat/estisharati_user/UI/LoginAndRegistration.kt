@@ -8,12 +8,13 @@ import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.View
 import android.widget.EditText
-import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.*
 import com.google.firebase.firestore.FieldValue
 import com.google.gson.Gson
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_user.DataClassHelper.DataUser
+import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
@@ -34,6 +35,9 @@ class LoginAndRegistration : BaseCompatActivity() {
     var eyeVisible: Boolean = false
     var eyeVisibleReg: Boolean = false
     lateinit var retrofitInterface: RetrofitInterface
+    val RC_SIGN_IN = 101
+    lateinit var googleSignInOptions: GoogleSignInOptions
+    lateinit var mGoogleApiClient: GoogleSignInClient
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_and_registration)
@@ -46,9 +50,15 @@ class LoginAndRegistration : BaseCompatActivity() {
         preferencesHelper = SharedPreferencesHelper(this@LoginAndRegistration)
         helperMethods.setStatusBarColor(this, R.color.white)
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
+        googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().requestProfile().requestId().build()
     }
 
     fun clickEvents() {
+        if (!GlobalData.referralCode.equals("")) {
+            login_layout.visibility = View.GONE
+            register_layout.visibility = View.VISIBLE
+            referral_code.text = GlobalData.referralCode.toEditable()
+        }
         if (eyeVisible) {
             eye.setBackgroundResource(R.drawable.ic_eye_invisible)
             password.transformationMethod = HideReturnsTransformationMethod.getInstance()
@@ -131,9 +141,10 @@ class LoginAndRegistration : BaseCompatActivity() {
         }
         register.setOnClickListener {
             if (registrationValidation()) {
-                registrationApiCall(reg_fname.toText(), reg_lname.toText(), reg_email_address.toText(), codePicker.selectedCountryCodeWithPlus + "" + reg_phone.toText(), codePicker.selectedCountryCodeWithPlus, reg_password.toText())
+                registrationApiCall(reg_fname.toText(), reg_lname.toText(), reg_email_address.toText(), codePicker.selectedCountryCodeWithPlus + "" + reg_phone.toText(), codePicker.selectedCountryCodeWithPlus, reg_password.toText(), referral_code.toText())
             }
         }
+        sign_in_button.setOnClickListener { launchGoogleSignIn() }
     }
 
     fun loginValidation(): Boolean {
@@ -161,9 +172,15 @@ class LoginAndRegistration : BaseCompatActivity() {
         return true
     }
 
+    fun launchGoogleSignIn() {
+        mGoogleApiClient = GoogleSignIn.getClient(this, googleSignInOptions)
+        val intent = mGoogleApiClient.signInIntent
+        startActivityForResult(intent, RC_SIGN_IN)
+    }
+
     fun logInApiCall(userIdStr: String, password: String, remember: String) {
         helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
-        val responseBodyCall = retrofitInterface.LOGIN_API_CALL(userIdStr, password, remember, GlobalData.FcmToken,"User")
+        val responseBodyCall = retrofitInterface.LOGIN_API_CALL(userIdStr, password, remember, GlobalData.FcmToken, "User")
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()
@@ -221,9 +238,70 @@ class LoginAndRegistration : BaseCompatActivity() {
         })
     }
 
-    fun registrationApiCall(fname: String, lname: String, email: String, phone: String, phone_code: String, passwrod: String) {
+    fun GoogleSignInApiCall(google_id: String, firstname: String, lastname: String, email: String, image: String, fire_base_token: String) {
         helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
-        val responseBodyCall = retrofitInterface.REGISTER_API_CALL(fname, lname, email, phone, phone_code, passwrod, "User")
+        val responseBodyCall = retrofitInterface.GOOGLE_LOGIN_API_CALL(google_id, firstname, lastname, email, image, fire_base_token)
+        responseBodyCall.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                helperMethods.dismissProgressDialog()
+                if (response.isSuccessful) {
+                    if (response.body() != null) {
+                        try {
+                            val jsonObject = JSONObject(response.body()!!.string())
+                            val status = jsonObject.getString("status")
+                            if (status.equals("200")) {
+                                val userString = jsonObject.getString("user")
+                                val dataUser = Gson().fromJson(userString, DataUser::class.java)
+                                val hashMap = hashMapOf<String, Any>()
+                                hashMap.put("user_id", dataUser.id)
+                                hashMap.put("fname", dataUser.fname)
+                                hashMap.put("lname", dataUser.lname)
+                                hashMap.put("email", dataUser.email)
+                                hashMap.put("phone", dataUser.phone)
+                                hashMap.put("image", dataUser.image)
+                                hashMap.put("fire_base_token", dataUser.user_metas.fire_base_token)
+                                hashMap.put("user_type", "user")
+                                hashMap.put("online_status", true)
+                                hashMap.put("last_seen", FieldValue.serverTimestamp())
+                                hashMap.put("availability", true)
+                                hashMap.put("channel_unique_id", "")
+                                helperMethods.setUserDetailsToFirestore(dataUser.id, hashMap)
+                                preferencesHelper.isUserLogIn = true
+                                preferencesHelper.logInUser = dataUser
+                                mGoogleApiClient.signOut()
+                                startActivity(Intent(this@LoginAndRegistration, UserDrawer::class.java))
+                                finish()
+
+                            } else {
+                                val message = jsonObject.getString("message")
+                                helperMethods.AlertPopup(getString(R.string.alert), message)
+                            }
+                        } catch (e: JSONException) {
+                            helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
+                            e.printStackTrace()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    } else {
+                        Log.d("body", "Body Empty")
+                    }
+                } else {
+                    helperMethods.showToastMessage(getString(R.string.something_went_wrong))
+                    Log.d("body", "Not Successful")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                helperMethods.dismissProgressDialog()
+                t.printStackTrace()
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
+            }
+        })
+    }
+
+    fun registrationApiCall(fname: String, lname: String, email: String, phone: String, phone_code: String, passwrod: String, referralCode: String) {
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
+        val responseBodyCall = retrofitInterface.REGISTER_API_CALL(fname, lname, email, phone, phone_code, passwrod, "User", referralCode)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()
@@ -323,7 +401,44 @@ class LoginAndRegistration : BaseCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-         }
+        if (requestCode == RC_SIGN_IN) {
+            val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
+            handleSignInResult(result!!)
+        }
+    }
+
+    private fun handleSignInResult(result: GoogleSignInResult) {
+        if (result.isSuccess) {
+            val googleSignIn = result.signInAccount
+            googleSignIn?.let {
+                var google_id = ""
+                var givenName = ""
+                var familyName = ""
+                var email = ""
+                var photoUrl = ""
+
+                it.id?.let {
+                    google_id = it
+                }
+                it.givenName?.let {
+                    givenName = it
+                }
+                it.familyName?.let {
+                    familyName = it
+                }
+                it.email?.let {
+                    email = it
+                }
+
+                it.photoUrl?.let {
+                    photoUrl = it.toString()
+                }
+
+                GoogleSignInApiCall(google_id, givenName, familyName, email, photoUrl, GlobalData.FcmToken)
+                Log.d("GoogleSignInResult", google_id + "  " + givenName + "  " + familyName + "  " + email + "  " + photoUrl)
+            }
+        }
+    }
 
     fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
     fun EditText.toText(): String = text.toString().trim()

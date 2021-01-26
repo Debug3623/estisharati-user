@@ -1,7 +1,6 @@
 package digital.upbeat.estisharati_user.UI
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
@@ -17,7 +16,7 @@ import com.google.gson.Gson
 import digital.upbeat.estisharati_user.Adapter.OnlineCoursesAdapter
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_user.DataClassHelper.DataUser
+import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_user.DataClassHelper.OnlineCourses.DataCategories
 import digital.upbeat.estisharati_user.DataClassHelper.OnlineCourses.DataOnlineCourses
 import digital.upbeat.estisharati_user.DataClassHelper.OnlineCourses.OnlineCoursesResponse
@@ -216,6 +215,10 @@ class OnlineCourses : BaseCompatActivity() {
                                 initializeRecyclerview()
                             } else {
                                 val message = jsonObject.getString("message")
+                                if (helperMethods.checkTokenValidation(status, message)) {
+                                    finish()
+                                    return
+                                }
                                 helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {

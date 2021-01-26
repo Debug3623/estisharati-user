@@ -3,8 +3,8 @@ package digital.upbeat.estisharati_user.Helper
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
-import digital.upbeat.estisharati_user.DataClassHelper.DataCountry
-import digital.upbeat.estisharati_user.DataClassHelper.DataUser
+import digital.upbeat.estisharati_user.DataClassHelper.CityCountry.DataCountry
+import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
 import org.codehaus.jackson.map.ObjectMapper
 import java.io.IOException
 
@@ -34,7 +34,7 @@ class SharedPreferencesHelper(mContext: Context) {
         }
 
     var appLang: String
-        get() = pref.getString("appLang", "ar").toString()
+        get() = pref.getString("appLang", "en").toString()
         set(appLang) {
             pref_editor.putString("appLang", appLang).apply()
         }

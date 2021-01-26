@@ -31,9 +31,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:fontFamily="@font/almarai_regular"
                 android:text=""
+                android:textAlignment="viewStart"
                 android:id="@+id/actionBarTitle"
                 android:textColor="@color/white"
                 android:textSize="18sp" />

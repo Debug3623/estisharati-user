@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.chat_item.view.*
 
 class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    val parent_layout=itemView.parentLayout
+    val parent_layout=itemView.parent_layout
 
     val other_text_layout = itemView.other_text_layout
     val other_text_profile = itemView.other_text_profile
@@ -14,7 +14,6 @@ class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val other_forward_text=itemView.other_forward_text
     val other_text_is_forward=itemView.other_text_is_forward
 //***************
-
     val other_image_hole_layout = itemView.other_image_hole_layout
     val other_image_profile = itemView.other_image_profile
     val other_image_layout = itemView.other_image_layout

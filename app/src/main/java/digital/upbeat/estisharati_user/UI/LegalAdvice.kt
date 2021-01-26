@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +18,7 @@ import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
 import digital.upbeat.estisharati_user.DataClassHelper.Consultant.ConsultantResponse
 import digital.upbeat.estisharati_user.DataClassHelper.Consultant.Data
-import digital.upbeat.estisharati_user.DataClassHelper.DataUser
+import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
@@ -33,7 +32,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 
-class LegalAdvice : BaseCompatActivity() {
+class
+LegalAdvice : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var sharedPreferencesHelper: SharedPreferencesHelper
@@ -157,6 +157,10 @@ class LegalAdvice : BaseCompatActivity() {
                             if (consultantsResponse.status.equals("200")) {
                                 InitializeRecyclerview()
                             } else {
+                                if (helperMethods.checkTokenValidation(consultantsResponse.status,consultantsResponse.message)) {
+                                    finish()
+                                    return
+                                }
                                 InitializeRecyclerview()
                             }
                         } catch (e: JSONException) {

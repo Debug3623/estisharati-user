@@ -44,9 +44,11 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.firestore.FirebaseFirestore
-import digital.upbeat.estisharati_user.DataClassHelper.DataTextsAndColors
-import digital.upbeat.estisharati_user.DataClassHelper.DataUserMessageFireStore
+import digital.upbeat.estisharati_user.DataClassHelper.Utils.DataTextsAndColors
+import digital.upbeat.estisharati_user.DataClassHelper.Chat.DataUserMessageFireStore
+import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.UI.SplashScreen
 import digital.upbeat.estisharati_user.Utils.alertActionClickListner
 import kotlinx.android.synthetic.main.alert_popup.view.*
 import java.io.ByteArrayOutputStream
@@ -99,24 +101,25 @@ class HelperMethods(val context: Context) {
         return pattern.matcher(password).matches()
     }
 
-    fun ShowDateTimePicker(datetime: TextView) {
-        val currentDate = Calendar.getInstance()
+    fun convetDecimalFormat(amount: Double): String {
+        val df = DecimalFormat("#.##")
+        return df.format(amount)
+    }
+
+    fun ShowDateTimePicker(date: TextView, time: TextView) {
+        val nextDate = Calendar.getInstance()
+        nextDate.add(Calendar.DAY_OF_YEAR, 1);
         val dateTime = Calendar.getInstance()
         val datePickerDialog = DatePickerDialog(context, OnDateSetListener { datePicker, year, monthOfYear, dayOfMonth ->
             dateTime[year, monthOfYear] = dayOfMonth
             TimePickerDialog(context, OnTimeSetListener { view, hourOfDay, minute ->
                 dateTime[Calendar.HOUR_OF_DAY] = hourOfDay
                 dateTime[Calendar.MINUTE] = minute
-                val afterOneHour = Calendar.getInstance()
-                afterOneHour.add(Calendar.HOUR_OF_DAY, 1)
-                if (dateTime.timeInMillis > afterOneHour.timeInMillis) {
-                    datetime.text = SimpleDateFormat("dd-MMM-yyyy hh:mm a", Locale.US).format(dateTime.time)
-                } else {
-                    datetime.text = ""
-                }
-            }, currentDate[Calendar.HOUR_OF_DAY], currentDate[Calendar.MINUTE], false).show()
-        }, currentDate[Calendar.YEAR], currentDate[Calendar.MONTH], currentDate[Calendar.DATE])
-        //        datePickerDialog.getDatePicker().setMinDate(currentDate.getTimeInMillis());
+                date.text = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(dateTime.time)
+                time.text = SimpleDateFormat("HH:mm", Locale.US).format(dateTime.time)
+            }, nextDate[Calendar.HOUR_OF_DAY], nextDate[Calendar.MINUTE], false).show()
+        }, nextDate[Calendar.YEAR], nextDate[Calendar.MONTH], nextDate[Calendar.DATE])
+        datePickerDialog.getDatePicker().setMinDate(nextDate.getTimeInMillis());
         datePickerDialog.show()
     }
 
@@ -363,10 +366,19 @@ class HelperMethods(val context: Context) {
         return false
     }
 
+    fun findConsultantId(consultantID: String): Boolean {
+        for (consultant in GlobalData.homeResponse.consultants) {
+            if (consultantID.equals(consultant.id)) {
+                return true
+            }
+        }
+        return false
+    }
+
     fun isValidMobile(phone: String): Boolean {
         var check = false
         check = if (!Pattern.matches("[a-zA-Z]+", phone)) {
-            if (phone.length < 9 || phone.length > 13) {
+            if (phone.length < 9 || phone.length > 14) {
                 // if(phone.length() != 10) {
                 false
                 // txtPhone.setError("Not Valid Number");
@@ -550,6 +562,19 @@ class HelperMethods(val context: Context) {
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
         val path = MediaStore.Images.Media.insertImage(context.contentResolver, inImage, "Title", null)
         return Uri.parse(path)
+    }
+
+    fun checkTokenValidation(status: String, message: String): Boolean {
+        if (status.equals("401")) {
+            if (!message.equals("")) showToastMessage(message)
+            preferencesHelper.isUserLogIn = false
+            preferencesHelper.logInUser = DataUser()
+            val intent = Intent(context, SplashScreen::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            context.startActivity(intent)
+            return true
+        }
+        return false
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT) fun getFilePath(uri: Uri): String? {

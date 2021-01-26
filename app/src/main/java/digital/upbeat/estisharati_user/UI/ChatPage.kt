@@ -28,6 +28,11 @@ import digital.upbeat.estisharati_user.Adapter.ChatAdapter
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
 import digital.upbeat.estisharati_user.DataClassHelper.*
+import digital.upbeat.estisharati_user.DataClassHelper.Chat.DataMessageFireStore
+import digital.upbeat.estisharati_user.DataClassHelper.Chat.DataUserFireStore
+import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
+import digital.upbeat.estisharati_user.DataClassHelper.SendNotification.DataFcmBody
+import digital.upbeat.estisharati_user.DataClassHelper.SendNotification.data
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
@@ -112,22 +117,10 @@ class ChatPage : BaseCompatActivity() {
         IdArray.add(userId.toInt())
         Collections.sort(IdArray)
         firestoreUserLisiner()
-        if (!forward_content.isEmpty()) {
-            val hashMap = hashMapOf<String, Any>("sender_id" to dataUser.id, "receiver_id" to userId, "message_type" to forward_type, "message_content" to forward_content, "message_status" to "send", "message_other_type" to "forwarded", "send_time" to FieldValue.serverTimestamp(), "communication_id" to IdArray, "inside_reply" to inside_reply)
-            firestore.collection("Chats").add(hashMap).addOnSuccessListener {}.addOnFailureListener {
-                Log.d("FailureListener", "" + it.localizedMessage)
-            }
-        }
-        // ********for empty inside reply message*********
-        inside_reply.put("message_id", "")
-        inside_reply.put("message_type", "")
-        inside_reply.put("message_content", "")
-        inside_reply.put("sender_id", "")
-        inside_reply.put("position", "")
     }
 
     override fun onStart() {
-        getConsultationSecondsApiCall(userId)
+        UpdateConsultationSecondsApiCall(userId, "0","","")
         super.onStart()
     }
 
@@ -287,21 +280,30 @@ class ChatPage : BaseCompatActivity() {
             }
         }
         upload_image.setOnClickListener {
-            helperMethods.ChangeProfilePhotoPopup(this@ChatPage)
+            if (chat_balance > 0) {
+                helperMethods.ChangeProfilePhotoPopup(this@ChatPage)
+            } else {
+                helperMethods.showToastMessage(getString(R.string.you_dont_have_enough_balance_to_make_this_chat))
+            }
         }
         send_msg.setOnClickListener {
             if (sendMessageValidation()) {
-                val hashMap = hashMapOf<String, Any>("sender_id" to dataUser.id, "receiver_id" to dataUserFireStore.user_id, "message_type" to "text", "message_content" to message.toText(), "message_status" to "send", "message_other_type" to "normal", "send_time" to FieldValue.serverTimestamp(), "communication_id" to IdArray, "inside_reply" to inside_reply)
-                firestore.collection("Chats").add(hashMap).addOnSuccessListener {
-                    message.text = "".toEditable()
-                    inside_reply_layout.visibility = View.GONE
-                    inside_reply.put("message_id", "")
-                    inside_reply.put("message_type", "")
-                    inside_reply.put("message_content", "")
-                    inside_reply.put("sender_id", "")
-                    inside_reply.put("position", "")
-                }.addOnFailureListener {
-                    Log.d("FailureListener", "" + it.localizedMessage)
+                if (chat_balance > 0) {
+                    val hashMap = hashMapOf<String, Any>("sender_id" to dataUser.id, "receiver_id" to dataUserFireStore.user_id, "message_type" to "text", "message_content" to message.toText(), "message_status" to "send", "message_other_type" to "normal", "send_time" to FieldValue.serverTimestamp(), "communication_id" to IdArray, "inside_reply" to inside_reply)
+                    firestore.collection("Chats").add(hashMap).addOnSuccessListener {
+                      inside_reply_layout.visibility = View.GONE
+                        inside_reply.put("message_id", "")
+                        inside_reply.put("message_type", "")
+                        inside_reply.put("message_content", "")
+                        inside_reply.put("sender_id", "")
+                        inside_reply.put("position", "")
+                        UpdateConsultationSecondsApiCall(dataUserFireStore.user_id, "1", message.toText(), "")
+                        message.text = "".toEditable()
+                    }.addOnFailureListener {
+                        Log.d("FailureListener", "" + it.localizedMessage)
+                    }
+                } else {
+                    helperMethods.showToastMessage(getString(R.string.you_dont_have_enough_balance_to_make_this_chat))
                 }
             }
         }
@@ -391,7 +393,7 @@ class ChatPage : BaseCompatActivity() {
         val image = MultipartBody.Part.createFormData("image", file.getName(), requestBody)
 
         helperMethods.showProgressDialog(getString(R.string.image_uploading))
-        val responseBodyCall = retrofitInterface.upload_chatting_image_API_CALL("Bearer ${dataUser.access_token}", image)
+        val responseBodyCall = retrofitInterface.UPLOAD_CHATTING_IMAGE_API_CALL("Bearer ${dataUser.access_token}", image)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()
@@ -414,11 +416,16 @@ class ChatPage : BaseCompatActivity() {
                                     inside_reply.put("message_content", "")
                                     inside_reply.put("sender_id", "")
                                     inside_reply.put("position", "")
+                                    UpdateConsultationSecondsApiCall(dataUserFireStore.user_id, "1", "", image_path)
                                 }.addOnFailureListener {
                                     Log.d("FailureListener", "" + it.localizedMessage)
                                 }
                             } else {
                                 val message = jsonObject.getString("message")
+                                if (helperMethods.checkTokenValidation(status, message)) {
+                                    finish()
+                                    return
+                                }
                                 helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {
@@ -444,27 +451,59 @@ class ChatPage : BaseCompatActivity() {
         })
     }
 
-    fun getConsultationSecondsApiCall(consultant_id: String) {
-        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
-        val responseBodyCall = retrofitInterface.GET_CONSULTATION_SECONDS_API_CALL("Bearer ${dataUser.access_token}", consultant_id)
+    fun UpdateConsultationSecondsApiCall(consultant_id: String, chat_count: String, message: String, imageUrl: String) {
+        //        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
+        val responseBodyCall = if (chat_count.equals("1")) retrofitInterface.UPDATE_CONSULTATION_SECONDS_API_CALL("Bearer ${dataUser.access_token}", consultant_id, "0", "0", chat_count, consultant_id, message, imageUrl)
+        else retrofitInterface.GET_CONSULTATION_SECONDS_API_CALL("Bearer ${dataUser.access_token}", consultant_id)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                helperMethods.dismissProgressDialog()
-
+                //                helperMethods.dismissProgressDialog()
                 if (response.isSuccessful) {
                     if (response.body() != null) {
                         try {
                             val jsonObject = JSONObject(response.body()!!.string())
+                            Log.d("jsonObject", jsonObject.toString())
                             val status = jsonObject.getString("status")
                             if (status.equals("200")) {
                                 val dataString = jsonObject.getString("data")
                                 val dataObject = JSONObject(dataString)
                                 video_balance = dataObject.getInt("video_balance")
                                 audio_balance = dataObject.getInt("audio_balance")
+                                //                                chat_balance = 0
                                 chat_balance = dataObject.getInt("chat_balance")
+                                if (!forward_content.isEmpty()) {
+                                    if (chat_balance > 0) {
+                                        val hashMap = hashMapOf<String, Any>("sender_id" to dataUser.id, "receiver_id" to userId, "message_type" to forward_type, "message_content" to forward_content, "message_status" to "send", "message_other_type" to "forwarded", "send_time" to FieldValue.serverTimestamp(), "communication_id" to IdArray, "inside_reply" to inside_reply)
+                                        firestore.collection("Chats").add(hashMap).addOnSuccessListener {
+                                            // ********for empty inside reply message*********
+                                            inside_reply.put("message_id", "")
+                                            inside_reply.put("message_type", "")
+                                            inside_reply.put("message_content", "")
+                                            inside_reply.put("sender_id", "")
+                                            inside_reply.put("position", "")
+                                            var itsMessage=""
+                                            var itsImageUrl=""
+                                            if (forward_type.equals("image")) {
+                                                itsImageUrl =forward_content
+                                            } else if (forward_type.equals("text")) {
+                                                itsMessage=forward_content
+                                            }
+                                            forward_content = ""
+                                            UpdateConsultationSecondsApiCall(dataUserFireStore.user_id, "1",itsMessage,itsImageUrl)
+                                        }.addOnFailureListener {
+                                            Log.d("FailureListener", "" + it.localizedMessage)
+                                        }
+                                    } else {
+                                        helperMethods.showToastMessage(getString(R.string.you_dont_have_enough_balance_to_make_this_chat))
+                                    }
+                                }
                             } else {
-                                val message = jsonObject.getString("message")
-                                helperMethods.AlertPopup(getString(R.string.alert), message)
+                                val message_ = jsonObject.getString("message")
+                                if (helperMethods.checkTokenValidation(status, message_)) {
+                                    finish()
+                                    return
+                                }
+                                helperMethods.AlertPopup(getString(R.string.alert), message_)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -482,7 +521,7 @@ class ChatPage : BaseCompatActivity() {
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                helperMethods.dismissProgressDialog()
+                //                helperMethods.dismissProgressDialog()
                 t.printStackTrace()
                 helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
@@ -506,6 +545,10 @@ class ChatPage : BaseCompatActivity() {
                                 val dataObject = JSONObject(dataString)
                                 val success = dataObject.getString("success")
                             } else {
+                                if (helperMethods.checkTokenValidation(status, "")) {
+                                    finish()
+                                    return
+                                }
                                 Log.d("push_notification", jsonObject.toString())
                                 helperMethods.showToastMessage(getString(R.string.push_notificaiton_not_send))
                             }
@@ -524,11 +567,11 @@ class ChatPage : BaseCompatActivity() {
                 }
                 if (dataFcmBody.data.type.equals("incoming_voice_call")) {
                     val intent = Intent(this@ChatPage, VoiceCall::class.java)
-                    intent.putExtra("audio_balance", 50)
+                    intent.putExtra("audio_balance", audio_balance)
                     startActivity(intent)
-                } else {
+                } else if (dataFcmBody.data.type.equals("incoming_video_call")) {
                     val intent = Intent(this@ChatPage, VideoCall::class.java)
-                    intent.putExtra("video_balance", 50)
+                    intent.putExtra("video_balance", video_balance)
                     startActivity(intent)
                 }
             }
@@ -538,11 +581,11 @@ class ChatPage : BaseCompatActivity() {
                 t.printStackTrace()
                 if (dataFcmBody.data.type.equals("incoming_voice_call")) {
                     val intent = Intent(this@ChatPage, VoiceCall::class.java)
-                    intent.putExtra("audio_balance", 50)
+                    intent.putExtra("audio_balance", audio_balance)
                     startActivity(intent)
-                } else {
+                } else if (dataFcmBody.data.type.equals("incoming_video_call")) {
                     val intent = Intent(this@ChatPage, VideoCall::class.java)
-                    intent.putExtra("video_balance", 50)
+                    intent.putExtra("video_balance", video_balance)
                     startActivity(intent)
                 }
                 helperMethods.showToastMessage(getString(R.string.oops_notification_sending_problem))

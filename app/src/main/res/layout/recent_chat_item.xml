@@ -42,7 +42,7 @@
                     android:id="@+id/unread_message_count"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:background="@drawable/round_parrot_green_white_stroke"
                     android:fontFamily="@font/almarai_regular"
                     android:gravity="center"
@@ -60,7 +60,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:layout_weight="7"
                     android:orientation="vertical">
 
@@ -70,6 +70,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/almarai_regular"
                         android:singleLine="true"
+                        android:textAlignment="viewStart"
                         android:text="Shaima Al Yaqoub"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
@@ -91,14 +92,13 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
                             android:orientation="vertical">
 
                             <LinearLayout
                                 android:id="@+id/last_image_layout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="center"
                                 android:orientation="horizontal"
                                 android:visibility="gone">
 
@@ -111,9 +111,9 @@
 
                                 <TextView
                                     android:id="@+id/last_image_name"
-                                    android:layout_width="match_parent"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginStart="10dp"
                                     android:fontFamily="@font/almarai_light"
                                     android:singleLine="true"
                                     android:text="Photo"
@@ -127,6 +127,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/almarai_light"
                                 android:singleLine="true"
+                                android:textAlignment="viewStart"
                                 android:text="good thanks to Allah"
                                 android:textColor="@color/dark_gray"
                                 android:textSize="12sp" />
@@ -138,9 +139,9 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_weight="3"
-                    android:gravity="right"
+                    android:gravity="end"
                     android:orientation="vertical">
 
                     <TextView

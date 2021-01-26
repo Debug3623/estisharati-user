@@ -1,7 +1,6 @@
 package digital.upbeat.estisharati_user.UI
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,7 +11,7 @@ import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
 import digital.upbeat.estisharati_user.CarouselHelper.CarouselLayoutManager
 import digital.upbeat.estisharati_user.CarouselHelper.CarouselZoomPostLayoutListener
 import digital.upbeat.estisharati_user.CarouselHelper.CenterScrollListener
-import digital.upbeat.estisharati_user.DataClassHelper.DataUser
+import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_user.DataClassHelper.Packages.PackagesResponse
 import digital.upbeat.estisharati_user.DataClassHelper.PackagesOptions.PackagesOptions
 import digital.upbeat.estisharati_user.Helper.GlobalData
@@ -23,7 +22,6 @@ import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_packages.*
 import okhttp3.ResponseBody
 import org.json.JSONException
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -61,9 +59,9 @@ class Packages : BaseCompatActivity() {
         nav_back.setOnClickListener { finish() }
         choose_the_package.setOnClickListener {
             val packages = packagesResponse.data.get(layoutManager.centerItemPosition)
-            val vatAmount: Float = packages.price.toFloat() / 100.0f * 5
-            val priceIncludedVat = vatAmount + packages.price.toFloat()
-            GlobalData.packagesOptions = PackagesOptions(packages.id, packages.name, "subscription","",  packages.price, vatAmount.toString(), priceIncludedVat.toString(), "", "", "")
+            //            val vatAmount = packages.price.toDouble() * 0.05
+            //            val priceIncludedVat = vatAmount + packages.price.toDouble()
+            GlobalData.packagesOptions = PackagesOptions(packages.id, packages.name, "subscription", "", packages.price, "0", "0", "", "", "0", "0", "", "0", "0")
             if (viaFrom.equals("Home")) {
                 startActivity(Intent(this@Packages, PackagesSelection::class.java))
             } else {
@@ -104,9 +102,11 @@ class Packages : BaseCompatActivity() {
                             if (packagesResponse.status.equals("200")) {
                                 InitializeRecyclerview()
                             } else {
-                                val jsonObject = JSONObject(response.body()!!.string())
-                                val message = jsonObject.getString("message")
-                                helperMethods.AlertPopup(getString(R.string.alert), message)
+                                if (helperMethods.checkTokenValidation(packagesResponse.status, packagesResponse.message)) {
+                                    finish()
+                                    return
+                                }
+                                helperMethods.AlertPopup(getString(R.string.alert), packagesResponse.message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))

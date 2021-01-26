@@ -41,7 +41,7 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginEnd="15dp"
                         android:layout_weight="1"
                         android:orientation="vertical">
 
@@ -61,12 +61,13 @@
                                 android:id="@+id/ud_fname"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="15dp"
+                                android:layout_marginStart="15dp"
                                 android:backgroundTint="@color/transparent"
                                 android:fontFamily="@font/almarai_regular"
                                 android:hint="@string/first_name"
+                                android:textAlignment="viewStart"
                                 android:inputType="textCapSentences"
-                                android:paddingLeft="0dp"
+                                android:paddingStart="0dp"
                                 android:paddingBottom="10dp"
                                 android:singleLine="true"
                                 android:textColor="@color/black"
@@ -84,7 +85,7 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
                         android:layout_weight="1"
                         android:orientation="vertical">
 
@@ -104,12 +105,13 @@
                                 android:id="@+id/ud_lname"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="15dp"
+                                android:layout_marginStart="15dp"
                                 android:backgroundTint="@color/transparent"
                                 android:fontFamily="@font/almarai_regular"
                                 android:hint="@string/last_name"
+                                android:textAlignment="viewStart"
                                 android:inputType="text"
-                                android:paddingLeft="0dp"
+                                android:paddingStart="0dp"
                                 android:paddingBottom="10dp"
                                 android:singleLine="true"
                                 android:textColor="@color/black"
@@ -147,13 +149,14 @@
                             android:id="@+id/ud_email_address"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
+                            android:layout_marginStart="15dp"
                             android:backgroundTint="@color/transparent"
                             android:fontFamily="@font/almarai_regular"
                             android:hint="@string/email_address"
                             android:inputType="textEmailAddress"
-                            android:paddingLeft="0dp"
+                            android:paddingStart="0dp"
                             android:paddingBottom="10dp"
+                            android:textAlignment="viewStart"
                             android:singleLine="true"
                             android:textColor="@color/black"
                             android:textColorHint="@color/black_light"
@@ -200,8 +203,9 @@
                             android:fontFamily="@font/almarai_regular"
                             android:hint="@string/phone"
                             android:inputType="phone"
-                            android:paddingLeft="0dp"
+                            android:paddingStart="0dp"
                             android:paddingBottom="10dp"
+                            android:textAlignment="viewStart"
                             android:singleLine="true"
                             android:textColor="@color/black"
                             android:textColorHint="@color/black_light"
@@ -235,7 +239,7 @@
                             android:id="@+id/ud_country_spinner"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
+                            android:layout_marginStart="15dp"
                             android:spinnerMode="dropdown" />
 
                     </LinearLayout>
@@ -268,7 +272,7 @@
                             android:id="@+id/ud_city_spinner"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
+                            android:layout_marginStart="15dp"
                             android:spinnerMode="dropdown" />
 
                     </LinearLayout>

@@ -37,7 +37,7 @@
                     android:id="@+id/search_close_btn"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_x_mark" />
             </RelativeLayout>
@@ -53,7 +53,7 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:background="@drawable/ic_search"
                     android:backgroundTint="@color/orange" />
 
@@ -61,10 +61,11 @@
                     android:id="@+id/search_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:backgroundTint="@color/white"
                     android:fontFamily="@font/almarai_regular"
                     android:hint="@string/search_here"
+                    android:textAlignment="viewStart"
                     android:textColor="@color/orange"
                     android:textColorHint="@color/orange_light"
                     android:textSize="16sp" />
@@ -106,7 +107,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/almarai_regular"
                     android:gravity="center"
-                    android:text="No user found!"
+                    android:text="@string/no_user_found"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
             </LinearLayout>

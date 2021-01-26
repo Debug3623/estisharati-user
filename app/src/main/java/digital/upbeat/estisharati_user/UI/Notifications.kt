@@ -3,13 +3,12 @@ package digital.upbeat.estisharati_user.UI
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import digital.upbeat.estisharati_user.Adapter.NotificationsAdapter
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_user.DataClassHelper.DataUser
+import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_user.DataClassHelper.Notification.NotificationResponse
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
@@ -19,7 +18,6 @@ import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_notifications.*
 import okhttp3.ResponseBody
 import org.json.JSONException
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,7 +28,7 @@ class Notifications : BaseCompatActivity() {
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var dataUser: DataUser
     lateinit var sharedPreferencesHelper: SharedPreferencesHelper
-    var notificationResponse: NotificationResponse = NotificationResponse("", arrayListOf())
+    var notificationResponse: NotificationResponse = NotificationResponse("","" ,arrayListOf())
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notifications)
@@ -82,9 +80,11 @@ class Notifications : BaseCompatActivity() {
                                     GlobalData.homeResponse.notification_count = notificationResponse.data.size.toString()
                                 }
                             } else {
-                                val jsonObject = JSONObject(response.body()!!.string())
-                                val message = jsonObject.getString("message")
-                                helperMethods.AlertPopup(getString(R.string.alert), message)
+                                if (helperMethods.checkTokenValidation(notificationResponse.status, notificationResponse.message)) {
+                                    finish()
+                                    return
+                                }
+                                helperMethods.AlertPopup(getString(R.string.alert), notificationResponse.message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))

@@ -23,9 +23,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_user.DataClassHelper.DataCallsFireStore
-import digital.upbeat.estisharati_user.DataClassHelper.DataUser
-import digital.upbeat.estisharati_user.DataClassHelper.DataUserFireStore
+import digital.upbeat.estisharati_user.DataClassHelper.Chat.DataCallsFireStore
+import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
+import digital.upbeat.estisharati_user.DataClassHelper.Chat.DataUserFireStore
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
@@ -262,7 +262,7 @@ class VoiceCall : BaseCompatActivity(), SensorEventListener {
                 if (alertPopupNotShow) {
                     if (percentage > balanceSec) {
                         alertPopupNotShow = false
-                        helperMethods.AlertPopup(getString(R.string.alert), "There are only " + balanceSec + " sec left for the conversation to end")
+                        helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.there_are_only)+" " + (((balanceSec % 3600) / 60).toString() + "." + (balanceSec % 3600) % 60) + " "+getString(R.string.minutes_left_for_the_conversation_to_end))
                     }
                 }
             }
@@ -294,7 +294,7 @@ class VoiceCall : BaseCompatActivity(), SensorEventListener {
 
     fun UpdateConsultationSecondsApiCall(consultant_id: String, audio_balance: String) {
         helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
-        val responseBodyCall = retrofitInterface.UPDATE_CONSULTATION_SECONDS_API_CALL("Bearer ${dataUser.access_token}", consultant_id, "0", audio_balance, "0")
+        val responseBodyCall = retrofitInterface.UPDATE_CONSULTATION_SECONDS_API_CALL("Bearer ${dataUser.access_token}", consultant_id, "0", audio_balance, "0","","","")
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()
@@ -312,6 +312,10 @@ class VoiceCall : BaseCompatActivity(), SensorEventListener {
                                 val dataObject = JSONObject(dataString)
                             } else {
                                 val message = jsonObject.getString("message")
+                                if (helperMethods.checkTokenValidation(status, message)) {
+                                    finish()
+                                    return
+                                }
                                 helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {

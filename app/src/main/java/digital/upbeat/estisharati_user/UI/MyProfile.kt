@@ -10,7 +10,6 @@ import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
-import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +23,9 @@ import com.google.gson.Gson
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
 import digital.upbeat.estisharati_user.DataClassHelper.*
+import digital.upbeat.estisharati_user.DataClassHelper.CityCountry.DataCity
+import digital.upbeat.estisharati_user.DataClassHelper.CityCountry.DataCountry
+import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
@@ -73,6 +75,14 @@ class MyProfile : AppCompatActivity() {
         current_package.text = dataUserObject.subscription.package_count
         email_address.text = dataUserObject.email
         Glide.with(this@MyProfile).load(dataUserObject.image).apply(helperMethods.profileRequestOption).into(profile_picture)
+
+        if (dataUserObject.google_login) {
+            phoneNumberLayout.visibility = View.GONE
+            passwordLayout.visibility = View.GONE
+        } else {
+            phoneNumberLayout.visibility = View.VISIBLE
+            passwordLayout.visibility = View.VISIBLE
+        }
     }
 
     fun clickEvents() {
@@ -144,6 +154,10 @@ class MyProfile : AppCompatActivity() {
                                 change_password_arrow.setImageResource(R.drawable.ic_up_arrow_white)
                             } else {
                                 val message = jsonObject.getString("message")
+                                if (helperMethods.checkTokenValidation(status, message)) {
+                                    finish()
+                                    return
+                                }
                                 helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {
@@ -234,6 +248,10 @@ class MyProfile : AppCompatActivity() {
                                 helperMethods.updateUserDetailsToFirestore(dataUser.id, hashMap)
                             } else {
                                 val message = jsonObject.getString("message")
+                                if (helperMethods.checkTokenValidation(status, message)) {
+                                    finish()
+                                    return
+                                }
                                 helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {
@@ -408,6 +426,10 @@ class MyProfile : AppCompatActivity() {
                                 profileEditPopup()
                             } else {
                                 val message = jsonObject.getString("message")
+                                if (helperMethods.checkTokenValidation(status, message)) {
+                                    finish()
+                                    return
+                                }
                                 helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {
@@ -443,7 +465,9 @@ class MyProfile : AppCompatActivity() {
                 if (response.isSuccessful) {
                     if (response.body() != null) {
                         try {
-                            val jsonObject = JSONObject(response.body()!!.string())
+                            val responseString = response.body()!!.string()
+                            Log.d("response", response.body()!!.string())
+                            val jsonObject = JSONObject(responseString)
                             val status = jsonObject.getString("status")
                             if (status.equals("200")) {
                                 val userString = jsonObject.getString("user")
@@ -469,6 +493,10 @@ class MyProfile : AppCompatActivity() {
                                 helperMethods.setUserDetailsToFirestore(dataUser.id, hashMap)
                             } else {
                                 val message = jsonObject.getString("message")
+                                if (helperMethods.checkTokenValidation(status, message)) {
+                                    finish()
+                                    return
+                                }
                                 helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {

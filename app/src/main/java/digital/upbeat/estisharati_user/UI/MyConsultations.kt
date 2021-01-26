@@ -2,7 +2,6 @@ package digital.upbeat.estisharati_user.UI
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,7 +16,7 @@ import digital.upbeat.estisharati_user.Adapter.MyConsultationsAdapter
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
 import digital.upbeat.estisharati_user.DataClassHelper.ConsultantComments.commentsResponse
-import digital.upbeat.estisharati_user.DataClassHelper.DataUser
+import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_user.DataClassHelper.MyConsultation.Data
 import digital.upbeat.estisharati_user.DataClassHelper.MyConsultation.MyConsultationResponse
 import digital.upbeat.estisharati_user.Helper.GlobalData
@@ -28,7 +27,6 @@ import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_my_consultations.*
 import okhttp3.ResponseBody
 import org.json.JSONException
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -153,8 +151,11 @@ class MyConsultations : BaseCompatActivity() {
                             if (commentsResponse.status.equals("200")) {
                                 helperMethods.showToastMessage(getString(R.string.your_rating_and_comments_submitted_successfully))
                             } else {
-                                val message = JSONObject(response.body()!!.string()).getString("message")
-                                helperMethods.AlertPopup(getString(R.string.alert), message)
+                                if (helperMethods.checkTokenValidation(commentsResponse.status, commentsResponse.message)) {
+                                    finish()
+                                    return
+                                }
+                                helperMethods.AlertPopup(getString(R.string.alert), commentsResponse.message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -194,8 +195,11 @@ class MyConsultations : BaseCompatActivity() {
                                 myConsultationArrayList = myConsultationResponse.data
                                 InitializeRecyclerview()
                             } else {
-                                val message = JSONObject(response.body()!!.string()).getString("message")
-                                helperMethods.AlertPopup(getString(R.string.alert), message)
+                                if (helperMethods.checkTokenValidation(myConsultationResponse.status, myConsultationResponse.message)) {
+                                    finish()
+                                    return
+                                }
+                                helperMethods.AlertPopup(getString(R.string.alert), myConsultationResponse.message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))

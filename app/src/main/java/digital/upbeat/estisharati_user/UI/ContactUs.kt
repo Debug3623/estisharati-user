@@ -1,20 +1,21 @@
 package digital.upbeat.estisharati_user.UI
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
-import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_user.DataClassHelper.DataUser
+import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
 import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_contact_us.*
+import kotlinx.android.synthetic.main.activity_contact_us.nav_back
+import kotlinx.android.synthetic.main.activity_legal_advice.*
 import okhttp3.ResponseBody
 import org.json.JSONException
 import org.json.JSONObject
@@ -28,6 +29,7 @@ class ContactUs : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var dataUserObject: DataUser
     lateinit var retrofitInterface: RetrofitInterface
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contact_us)
@@ -48,15 +50,22 @@ class ContactUs : BaseCompatActivity() {
 
         contactusSend.setOnClickListener {
             if (contactusValidation()) {
-                ContactusApiCall(contactusName.toText(), contactusPhone.toText(), contactusEmail.toText(), contactusMsg.toText())
+                ContactusApiCall(contactusName.toText(), contactusPhone.toText(), contactusEmail.toText(),GlobalData.homeResponse.message_types.get(messageTypeSpinner.selectedItemPosition).id,contactusSubject.toText(), contactusMsg.toText())
             }
         }
-    }
+        }
 
     fun setUserDetails() {
-    contactusName.text=(dataUserObject.fname+" "+dataUserObject.lname).toEditable()
-    contactusEmail.text=dataUserObject.email.toEditable()
-    contactusPhone.text=dataUserObject.phone.toEditable()
+        contactusName.text = (dataUserObject.fname + " " + dataUserObject.lname).toEditable()
+        contactusEmail.text = dataUserObject.email.toEditable()
+        contactusPhone.text = dataUserObject.phone.toEditable()
+        val messageTypesArrayList : ArrayList<String> = arrayListOf()
+        for (types in GlobalData.homeResponse.message_types) {
+            messageTypesArrayList.add(types.title)
+        }
+        val adapter = ArrayAdapter(this@ContactUs, R.layout.support_simple_spinner_dropdown_item, messageTypesArrayList)
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+        messageTypeSpinner.adapter = adapter
 
     }
 
@@ -82,6 +91,10 @@ class ContactUs : BaseCompatActivity() {
             return false
         }
 
+        if (contactusSubject.toText().equals("")) {
+            helperMethods.showToastMessage(getString(R.string.enter_your_subject))
+            return false
+        }
         if (contactusMsg.toText().equals("")) {
             helperMethods.showToastMessage(getString(R.string.enter_your_message))
             return false
@@ -93,9 +106,9 @@ class ContactUs : BaseCompatActivity() {
         return true
     }
 
-    fun ContactusApiCall(name: String, phone: String, email: String, msg: String) {
+    fun ContactusApiCall(name: String, phone: String, email: String, message_type: String,subject: String, msg: String) {
         helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
-        val responseBodyCall = retrofitInterface.CONTACTUS_API_CALL("Bearer ${dataUserObject.access_token}", name, phone, email, msg)
+        val responseBodyCall = retrofitInterface.CONTACTUS_API_CALL("Bearer ${dataUserObject.access_token}", name, phone, email, message_type,subject,msg)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()
@@ -110,6 +123,10 @@ class ContactUs : BaseCompatActivity() {
                                 finish()
                             } else {
                                 val message = jsonObject.getString("message")
+                                if (helperMethods.checkTokenValidation(status, message)) {
+                                    finish()
+                                    return
+                                }
                                 helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {
@@ -137,5 +154,4 @@ class ContactUs : BaseCompatActivity() {
 
     fun EditText.toText(): String = text.toString().trim()
     fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
-
 }

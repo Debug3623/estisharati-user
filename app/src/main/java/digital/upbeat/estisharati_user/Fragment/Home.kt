@@ -1,6 +1,7 @@
 package digital.upbeat.estisharati_user.Fragment
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -21,9 +22,9 @@ import digital.upbeat.estisharati_user.Adapter.HomePagerAdapter
 import digital.upbeat.estisharati_user.Adapter.OnlineUserAdapter
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_user.DataClassHelper.DataCallsFireStore
-import digital.upbeat.estisharati_user.DataClassHelper.DataUser
-import digital.upbeat.estisharati_user.DataClassHelper.DataUserFireStore
+import digital.upbeat.estisharati_user.DataClassHelper.Chat.DataCallsFireStore
+import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
+import digital.upbeat.estisharati_user.DataClassHelper.Chat.DataUserFireStore
 import digital.upbeat.estisharati_user.DataClassHelper.Home.Category
 import digital.upbeat.estisharati_user.DataClassHelper.Home.HomeResponse
 import digital.upbeat.estisharati_user.Helper.GlobalData
@@ -79,7 +80,7 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initViews()
         clickEvents()
-        if (GlobalData.isThingInitialized()) {
+        if (GlobalData.homeResponseMain!=null) {
             ShowViewPager()
             InitializeRecyclerview()
             firestoreLisiner()
@@ -95,9 +96,18 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
     fun initViews() {
         helperMethods = HelperMethods(requireContext())
         preferencesHelper = SharedPreferencesHelper(requireContext())
+        Log.d("BaseUrl1",GlobalData.BaseUrl)
+
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
         firestore = FirebaseFirestore.getInstance()
         dataUser = preferencesHelper.logInUser
+
+        if (!GlobalData.courseId.equals("")) {
+            val intent = Intent(context, CourseDetails::class.java)
+            intent.putExtra("courseId", GlobalData.courseId)
+            startActivity(intent)
+            GlobalData.courseId = ""
+        }
     }
 
     fun clickEvents() {
@@ -142,6 +152,7 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
 
     fun InitializeRecyclerview() {
         requireActivity().notificationCount.text = GlobalData.homeResponse.notification_count
+        sideNavBackgroundColorBasedOnPackage()
         val splitCount = GlobalData.homeResponse.categories.size / 2
         var categoriesArrayList1: ArrayList<Category> = arrayListOf()
         var categoriesArrayList2: ArrayList<Category> = arrayListOf()
@@ -169,6 +180,16 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
         exp_courses_recycler.adapter = ExpCoursesAdapter(requireContext(), this, GlobalData.homeResponse.courses)
     }
 
+    fun sideNavBackgroundColorBasedOnPackage() {
+        var subscriptionsPrice = 0.0
+        for (subscriptions in GlobalData.homeResponse.subscriptions) {
+            if (subscriptions.price.toDouble() > subscriptionsPrice) {
+                subscriptionsPrice = subscriptions.price.toDouble()
+                requireActivity().sideNavBack.setBackgroundColor(Color.parseColor(subscriptions.color_code))
+            }
+        }
+    }
+
     fun homeDetailsApiCall() {
         helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
         val responseBodyCall = retrofitInterface.HOME_API_CALL("Bearer ${dataUser.access_token}", GlobalData.FcmToken)
@@ -184,11 +205,16 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
                             if (status.equals("200")) {
                                 val data = jsonObject.getString("data")
                                 GlobalData.homeResponse = Gson().fromJson(data, HomeResponse::class.java)
+                                GlobalData.homeResponseMain=GlobalData.homeResponse
                                 ShowViewPager()
                                 InitializeRecyclerview()
                                 firestoreLisiner()
                             } else {
                                 val message = jsonObject.getString("message")
+                                if (helperMethods.checkTokenValidation(status, message)) {
+                                    requireActivity().finish()
+                                    return
+                                }
                                 helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {
@@ -222,13 +248,15 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
         Log.d("consultantIdArrayList", consultantIdArrayList.toString())
         if (GlobalData.homeResponse.consultants.size > 0) {
             //            .whereIn("user_id", consultantIdArrayList)
-            onlineUserListener = firestore.collection("Users").whereIn("user_id", consultantIdArrayList).orderBy("fname", Query.Direction.ASCENDING).addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+            onlineUserListener = firestore.collection("Users").orderBy("fname", Query.Direction.ASCENDING).addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 querySnapshot?.let {
                     onlineUserArraylist = arrayListOf<DataUserFireStore>()
                     for (data in querySnapshot) {
                         val dataUserFireStore = data.toObject(DataUserFireStore::class.java)
                         if (!dataUserFireStore.user_id.equals(dataUser.id) && dataUserFireStore.online_status) {
-                            onlineUserArraylist.add(dataUserFireStore)
+                            if (dataUserFireStore.user_type.equals("user") || helperMethods.findConsultantId(dataUserFireStore.user_id)) {
+                                onlineUserArraylist.add(dataUserFireStore)
+                            }
                         }
                     }
                     initializeOnlineUserRecyclerview()

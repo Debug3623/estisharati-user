@@ -30,7 +30,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:orientation="vertical">
 
             <TextView
@@ -39,6 +39,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/almarai_regular"
                 android:lines="3"
+                android:textAlignment="viewStart"
                 android:text="Introduction to human resources tasks "
                 android:textColor="@color/black"
                 android:textSize="14sp" />
@@ -87,7 +88,7 @@
                         android:id="@+id/reviewCourse"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:background="@drawable/corner_redius_30dp_yellow"
                         android:fontFamily="@font/almarai_regular"

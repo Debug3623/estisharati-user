@@ -27,17 +27,42 @@
                 android:id="@+id/nav_back"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
+                android:layout_centerVertical="true"
                 android:background="@drawable/ic_left_arrow_white" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginStart="40dp"
                 android:fontFamily="@font/almarai_regular"
-                android:text="@string/consultantion_details"
+                android:text="@string/my_consultations"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
+            <ImageView
+                android:id="@+id/appointmentImage"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="100dp"
+                android:src="@drawable/ic_on_time" />
+
+            <TextView
+                android:id="@+id/balanceBTN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/corner_redius_20dp_white"
+                android:paddingStart="20dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="5dp"
+                android:text="@string/balance"
+                android:textColor="@color/orange"
+                android:textSize="14sp" />
 
         </RelativeLayout>
 
@@ -53,9 +78,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="55dp"
+                    android:layout_marginStart="55dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginEnd="20dp"
                     android:layout_marginBottom="15dp"
                     android:background="@drawable/corner_redius_10dp_white"
                     android:elevation="4dp"
@@ -66,7 +91,7 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginStart="30dp"
                         android:layout_weight="5"
                         android:gravity="center_vertical"
                         android:orientation="vertical"
@@ -76,7 +101,7 @@
                             android:id="@+id/consultantName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
                             android:fontFamily="@font/almarai_regular"
                             android:singleLine="true"
                             android:text="Sufyan Al-Nasr"
@@ -102,10 +127,10 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/chatPage"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="3"
-                        android:id="@+id/chatPage"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -187,8 +212,8 @@
             <RelativeLayout
                 android:layout_width="80dp"
                 android:layout_height="75dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="13dp">
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp">
 
 
                 <androidx.cardview.widget.CardView
@@ -210,7 +235,7 @@
                 <View
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:background="@drawable/round_parrot_green"
                     android:elevation="2dp" />
 

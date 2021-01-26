@@ -64,6 +64,7 @@
                             android:id="@+id/actionBarTitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:textAlignment="viewStart"
                             android:layout_marginStart="20dp"
                             android:fontFamily="@font/almarai_regular"
                             android:text="Sufyan Al-Nasr"
@@ -81,9 +82,8 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="30dp"
+                            android:layout_marginEnd="30dp"
                             android:gravity="center"
-
                             android:orientation="vertical">
 
                             <ImageView
@@ -105,7 +105,7 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="30dp"
+                            android:layout_marginEnd="30dp"
                             android:gravity="center"
                             android:orientation="vertical">
 
@@ -223,7 +223,7 @@
                             <ImageView
                                 android:layout_width="14dp"
                                 android:layout_height="14dp"
-                                android:layout_marginRight="3dp"
+                                android:layout_marginEnd="3dp"
                                 android:adjustViewBounds="true"
                                 android:src="@drawable/ic_end_date" />
 
@@ -263,7 +263,7 @@
                                 android:id="@+id/onlineStatus"
                                 android:layout_width="13dp"
                                 android:layout_height="13dp"
-                                android:layout_alignParentRight="true"
+                                android:layout_alignParentEnd="true"
                                 android:background="@drawable/round_parrot_green"
                                 android:elevation="2dp" />
 
@@ -272,7 +272,7 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
                             android:layout_marginTop="5dp"
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
@@ -289,7 +289,7 @@
                             <ImageView
                                 android:layout_width="13dp"
                                 android:layout_height="13dp"
-                                android:layout_marginLeft="5dp"
+                                android:layout_marginStart="5dp"
                                 android:src="@drawable/ic_star_yellow" />
                         </LinearLayout>
                     </RelativeLayout>
@@ -329,6 +329,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textAlignment="viewStart"
                         android:fontFamily="@font/almarai_regular"
                         android:text="@string/consultation_description"
                         android:textColor="@color/black"
@@ -338,6 +339,7 @@
                         android:id="@+id/consultantQualification"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textAlignment="viewStart"
                         android:layout_marginTop="10dp"
                         android:fontFamily="@font/almarai_regular"
                         android:maxLines="2"
@@ -385,7 +387,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/almarai_regular"
-                            android:gravity="right"
+                            android:gravity="end"
                             android:text="@string/comment_amp_rate"
                             android:textColor="@color/green"
                             android:textSize="13sp" />

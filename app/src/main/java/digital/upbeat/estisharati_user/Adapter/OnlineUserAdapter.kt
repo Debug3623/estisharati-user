@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import digital.upbeat.estisharati_user.DataClassHelper.DataUserFireStore
+import digital.upbeat.estisharati_user.DataClassHelper.Chat.DataUserFireStore
 import digital.upbeat.estisharati_user.Fragment.Home
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
@@ -48,6 +48,8 @@ class OnlineUserAdapter(val context: Context, val home: Home, val dataUserFireSt
                 intent.putExtra("forward_type", GlobalData.forwardType)
                 intent.putExtra("forward_content", GlobalData.forwardContent)
                 context.startActivity(intent)
+                GlobalData.forwardType = ""
+                GlobalData.forwardContent = ""
             }
             Glide.with(context).load(dataUserFireStore.image).apply(helperMethods.profileRequestOption).into(holder.profile_picture)
             holder.name.text = dataUserFireStore.fname + " " + dataUserFireStore.lname

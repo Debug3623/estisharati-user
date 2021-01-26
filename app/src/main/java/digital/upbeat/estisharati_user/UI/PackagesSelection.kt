@@ -3,7 +3,6 @@ package digital.upbeat.estisharati_user.UI
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,8 +11,8 @@ import androidx.appcompat.app.AlertDialog
 import com.google.gson.Gson
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_user.DataClassHelper.DataUser
-import digital.upbeat.estisharati_user.DataClassHelper.MyCourse.MyCourseResponse
+import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
+import digital.upbeat.estisharati_user.DataClassHelper.Referral.ReferralResponse
 import digital.upbeat.estisharati_user.DataClassHelper.Subscription.SubscriptionResponse
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
@@ -38,6 +37,7 @@ class PackagesSelection : BaseCompatActivity() {
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var sharedPreferencesHelper: SharedPreferencesHelper
     lateinit var dataUser: DataUser
+    lateinit var referralResponse: ReferralResponse
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_packages_selection)
@@ -61,6 +61,7 @@ class PackagesSelection : BaseCompatActivity() {
         }
         proceed.setOnClickListener {
             if (helperMethods.isConnectingToInternet) {
+                Log.d("Subscription", Gson().toJson(GlobalData.packagesOptions))
                 subscriptionApiCall()
             } else {
                 helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
@@ -73,19 +74,54 @@ class PackagesSelection : BaseCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        setChoosenDetails()
+        if (helperMethods.isConnectingToInternet) {
+            referralApiCall()
+        } else {
+            helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
+        }
     }
 
     fun setChoosenDetails() {
+        var TransactionAmount = 0.0
+        var totelDiscountAmount = 0.0
+
+        TransactionAmount = GlobalData.packagesOptions.originalPrice.toDouble() - GlobalData.packagesOptions.discount.toDouble()
+        val referralAmount =  (TransactionAmount / 100.0f) * referralResponse.data.points.toDouble()
+        TransactionAmount -= referralAmount
+        totelDiscountAmount += GlobalData.packagesOptions.discount.toDouble()
+        totelDiscountAmount += referralAmount
+        val vatAmount = TransactionAmount * 0.05
+        TransactionAmount += vatAmount
+
+        GlobalData.packagesOptions.transaction_amount = helperMethods.convetDecimalFormat(TransactionAmount)
+        GlobalData.packagesOptions.vat_amount = helperMethods.convetDecimalFormat(vatAmount)
+
+        if (referralResponse.data.points.toDouble() > 0) {
+            GlobalData.packagesOptions.referral = "true"
+            GlobalData.packagesOptions.referral_code = referralResponse.data.referral_code
+            GlobalData.packagesOptions.referral_percent = referralResponse.data.points
+            GlobalData.packagesOptions.referral_discount = helperMethods.convetDecimalFormat(referralAmount)
+            referralAmountTxt.text = "(" + GlobalData.packagesOptions.referral_percent + " %)  " + GlobalData.packagesOptions.referral_discount + " " + getString(R.string.aed)
+        } else {
+            GlobalData.packagesOptions.referral = "false"
+            GlobalData.packagesOptions.referral_code = ""
+            GlobalData.packagesOptions.referral_percent = "0"
+            GlobalData.packagesOptions.referral_discount = "0"
+        }
+
+
         chooseName.text = GlobalData.packagesOptions.name
         choosePrice.text = GlobalData.packagesOptions.transaction_amount
         originalPrice.text = resources.getString(R.string.aed) + " " + GlobalData.packagesOptions.originalPrice
-        chooseDiscount.text = "- " + resources.getString(R.string.aed) + " " + GlobalData.packagesOptions.discount
-        vatAmount.text = "${resources.getString(R.string.aed)} ${GlobalData.packagesOptions.vat_amount} ${resources.getString(R.string.vat_5)}"
-        if (GlobalData.packagesOptions.discount.equals("")) {
-            chooseDiscount.visibility = View.GONE
-        } else {
+
+
+
+        chooseDiscount.text = "- " + resources.getString(R.string.aed) + " " + helperMethods.convetDecimalFormat(totelDiscountAmount)
+        vatAmountTxt.text = "${resources.getString(R.string.aed)} ${GlobalData.packagesOptions.vat_amount} ${resources.getString(R.string.vat_5)}"
+        if (totelDiscountAmount > 0) {
             chooseDiscount.visibility = View.VISIBLE
+        } else {
+            chooseDiscount.visibility = View.GONE
         }
         chooseType.text = when (GlobalData.packagesOptions.type) {
             "course" -> {
@@ -98,6 +134,12 @@ class PackagesSelection : BaseCompatActivity() {
                 "Package"
             }
             else -> ""
+        }
+
+        if (!referralResponse.data.points.equals("0")) {
+            referralDiscountLayout.visibility = View.VISIBLE
+        } else {
+            referralDiscountLayout.visibility = View.GONE
         }
     }
 
@@ -141,21 +183,62 @@ class PackagesSelection : BaseCompatActivity() {
                             if (status.equals("200")) {
                                 val data = jsonObject.getString("data")
                                 val dataObject = JSONObject(data)
-                                val vatAmount: Float = dataObject.getString("offerprice").toFloat() / 100.0f * 5
-                                val priceIncludedVat = vatAmount + dataObject.getString("offerprice").toFloat()
-
-
                                 GlobalData.packagesOptions.coupon_id = dataObject.getString("coupon_id")
                                 GlobalData.packagesOptions.coupon_code = code
                                 GlobalData.packagesOptions.discount = dataObject.getString("discount")
-                                GlobalData.packagesOptions.transaction_amount = priceIncludedVat.toString()
-                                GlobalData.packagesOptions.vat_amount = vatAmount.toString()
                                 helperMethods.showToastMessage(getString(R.string.coupon_added_successfully))
                                 setChoosenDetails()
                             } else {
                                 val message = jsonObject.getString("message")
-
+                                if (helperMethods.checkTokenValidation(status, message)) {
+                                    finish()
+                                    return
+                                }
                                 helperMethods.AlertPopup(getString(R.string.alert), message)
+                            }
+                        } catch (e: JSONException) {
+                            helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
+                            e.printStackTrace()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    } else {
+                        Log.d("body", "Body Empty")
+                    }
+                } else {
+                    helperMethods.showToastMessage(getString(R.string.something_went_wrong))
+                    Log.d("body", "Not Successful")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                helperMethods.dismissProgressDialog()
+                t.printStackTrace()
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
+            }
+        })
+    }
+
+    fun referralApiCall() {
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
+        val responseBodyCall = retrofitInterface.REFERRAL_API_CALL("Bearer ${dataUser.access_token}")
+        responseBodyCall.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                helperMethods.dismissProgressDialog()
+
+                if (response.isSuccessful) {
+                    if (response.body() != null) {
+                        try {
+                            referralResponse = Gson().fromJson(response.body()!!.string(), ReferralResponse::class.java)
+                            if (referralResponse.status.equals("200")) {
+                                setChoosenDetails()
+                            } else {
+                                if (helperMethods.checkTokenValidation(referralResponse.status, referralResponse.message)) {
+                                    finish()
+                                    return
+                                }
+                                helperMethods.showToastMessage(referralResponse.message)
+
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -198,7 +281,7 @@ class PackagesSelection : BaseCompatActivity() {
             else -> {
             }
         }
-        val responseBodyCall = retrofitInterface.USER_SUBSCRIPTION_API_CALL("Bearer ${dataUser.access_token}", GlobalData.packagesOptions.type, GlobalData.packagesOptions.category_id, subscription_id, course_id, consultant_id, GlobalData.packagesOptions.transaction_amount, GlobalData.packagesOptions.vat_amount, "1", UUID.randomUUID().toString(), GlobalData.packagesOptions.coupon_id, GlobalData.packagesOptions.coupon_code, GlobalData.packagesOptions.discount)
+        val responseBodyCall = retrofitInterface.USER_SUBSCRIPTION_API_CALL("Bearer ${dataUser.access_token}", GlobalData.packagesOptions.type, GlobalData.packagesOptions.category_id, subscription_id, course_id, consultant_id, GlobalData.packagesOptions.transaction_amount, GlobalData.packagesOptions.vat_amount, "1", UUID.randomUUID().toString(), GlobalData.packagesOptions.coupon_id, GlobalData.packagesOptions.coupon_code, GlobalData.packagesOptions.discount, GlobalData.packagesOptions.referral_code, GlobalData.packagesOptions.referral_discount, GlobalData.packagesOptions.referral_percent)
 
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -216,6 +299,10 @@ class PackagesSelection : BaseCompatActivity() {
                                 sharedPreferencesHelper.logInUser = dataUser
                                 startActivity(Intent(this@PackagesSelection, ThanksPage::class.java))
                             } else {
+                                if (helperMethods.checkTokenValidation(subscriptionResponse.status, subscriptionResponse.message)) {
+                                    finish()
+                                    return
+                                }
                                 helperMethods.AlertPopup(getString(R.string.alert), subscriptionResponse.message)
                             }
                         } catch (e: JSONException) {

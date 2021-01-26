@@ -1,6 +1,5 @@
 package digital.upbeat.estisharati_user.UI
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -8,8 +7,7 @@ import com.google.gson.Gson
 import digital.upbeat.estisharati_user.Adapter.FaqAdapter
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_user.DataClassHelper.DataUser
-import digital.upbeat.estisharati_user.DataClassHelper.FaqDetails.Data
+import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_user.DataClassHelper.FaqDetails.FAQResponse
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
@@ -19,7 +17,6 @@ import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_faq.*
 import okhttp3.ResponseBody
 import org.json.JSONException
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,7 +28,7 @@ class FAQ : BaseCompatActivity() {
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var dataUser: DataUser
     lateinit var sharedPreferencesHelper: SharedPreferencesHelper
-    var faqResponse : FAQResponse = FAQResponse(arrayListOf(), "")
+    var faqResponse : FAQResponse = FAQResponse(arrayListOf(), "","")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,9 +74,11 @@ class FAQ : BaseCompatActivity() {
                             if (faqResponse.status.equals("200")) {
                                 initializeFAQRecyclerview()
                             } else {
-                                val jsonObject = JSONObject(response.body()!!.string())
-                                val message = jsonObject.getString("message")
-                                helperMethods.AlertPopup(getString(R.string.alert), message)
+                                if (helperMethods.checkTokenValidation(faqResponse.status, faqResponse.message)) {
+                                    finish()
+                                    return
+                                }
+                                helperMethods.AlertPopup(getString(R.string.alert), faqResponse.message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))

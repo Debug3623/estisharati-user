@@ -110,6 +110,7 @@
                         android:inputType="textEmailAddress"
                         android:paddingStart="0dp"
                         android:paddingBottom="10dp"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black_light"
                         android:textSize="15sp" />
@@ -140,6 +141,7 @@
                             android:inputType="textPassword"
                             android:paddingStart="0dp"
                             android:paddingBottom="10dp"
+                            android:textAlignment="viewStart"
                             android:textColor="@color/black"
                             android:textColorHint="@color/black_light"
                             android:textSize="15sp" />
@@ -148,7 +150,7 @@
                             android:id="@+id/eye"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:background="@drawable/ic_eye_visible" />
                     </RelativeLayout>
@@ -265,9 +267,35 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/sign_in_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/corner_redius_5dp_white"
+                    android:elevation="3dp"
+                    android:orientation="horizontal"
+                    android:padding="15sp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="5dp"
+                        android:src="@drawable/ic_google_icon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:text="@string/sign_in_with_google"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="55dp"
+                    android:layout_marginTop="30dp"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -395,6 +423,7 @@
                             android:paddingLeft="0dp"
                             android:paddingBottom="10dp"
                             android:singleLine="true"
+                            android:textAlignment="viewStart"
                             android:textColor="@color/black"
                             android:textColorHint="@color/black_light"
                             android:textSize="15sp" />
@@ -423,6 +452,7 @@
                             android:paddingLeft="0dp"
                             android:paddingBottom="10dp"
                             android:singleLine="true"
+                            android:textAlignment="viewStart"
                             android:textColor="@color/black"
                             android:textColorHint="@color/black_light"
                             android:textSize="15sp" />
@@ -452,6 +482,7 @@
                         android:paddingLeft="0dp"
                         android:paddingBottom="10dp"
                         android:singleLine="true"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black_light"
                         android:textSize="15sp" />
@@ -497,6 +528,7 @@
                             android:paddingLeft="0dp"
                             android:paddingBottom="10dp"
                             android:singleLine="true"
+                            android:textAlignment="viewStart"
                             android:textColor="@color/black"
                             android:textColorHint="@color/black_light"
                             android:textSize="15sp" />
@@ -529,6 +561,7 @@
                             android:paddingLeft="0dp"
                             android:paddingBottom="10dp"
                             android:singleLine="true"
+                            android:textAlignment="viewStart"
                             android:textColor="@color/black"
                             android:textColorHint="@color/black_light"
                             android:textSize="15sp" />
@@ -537,7 +570,7 @@
                             android:id="@+id/reg_eye"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:background="@drawable/ic_eye_visible" />
                     </RelativeLayout>
@@ -549,6 +582,34 @@
                         android:background="@color/dark_gray" />
                 </LinearLayout>
 
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/referral_code"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/transparent"
+                        android:fontFamily="@font/almarai_regular"
+                        android:hint="@string/referral_code"
+                        android:inputType="text"
+                        android:paddingLeft="0dp"
+                        android:paddingBottom="10dp"
+                        android:singleLine="true"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black_light"
+                        android:textSize="15sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/dark_gray" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -592,9 +653,9 @@
                             android:id="@+id/terms_policy1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
                             android:fontFamily="@font/almarai_regular"
                             android:singleLine="true"
-                            android:layout_marginStart="5dp"
                             android:text="@string/terms_and_policy"
                             android:textColor="@color/orange"
                             android:textSize="15sp" />

@@ -7,8 +7,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="15dp"
         android:background="@drawable/corner_redius_10dp_white_sroke_dark_gray"
         android:orientation="vertical"
@@ -23,7 +23,8 @@
                 android:id="@+id/chapter_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="35dp"
+                android:layout_marginEnd="35dp"
+                android:textAlignment="viewStart"
                 android:fontFamily="@font/almarai_regular"
                 android:text="Introduction to the course"
                 android:textColor="@color/black"
@@ -34,7 +35,7 @@
                 android:id="@+id/expand_icon"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:src="@drawable/ic_plus_round" />
         </RelativeLayout>

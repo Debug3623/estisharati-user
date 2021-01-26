@@ -7,7 +7,6 @@ import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.SimpleExoPlayer
@@ -17,8 +16,7 @@ import com.google.gson.Gson
 import digital.upbeat.estisharati_user.Adapter.TapViewPagerAdapter
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_user.DataClassHelper.DataUser
-import digital.upbeat.estisharati_user.DataClassHelper.StartCourse.Lesson
+import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_user.DataClassHelper.StartCourse.StartCourseResponse
 import digital.upbeat.estisharati_user.Fragment.*
 import digital.upbeat.estisharati_user.Helper.GlobalData
@@ -87,8 +85,10 @@ class CourseResource() : BaseCompatActivity() {
     fun clickEvents() {
         nav_back.setOnClickListener { finish() }
         fullScreen.setOnClickListener {
-            GlobalData.FullScreen = true
-            startActivity(Intent(this@CourseResource, VideoFullScreen::class.java))
+            if (startCourseResponse.data.videos.size > 0) {
+                GlobalData.FullScreen = true
+                startActivity(Intent(this@CourseResource, VideoFullScreen::class.java))
+            }
         }
     }
 
@@ -132,7 +132,7 @@ class CourseResource() : BaseCompatActivity() {
             override fun onRepeatModeChanged(repeatMode: Int) {}
             override fun onShuffleModeEnabledChanged(shuffleModeEnabled: Boolean) {}
             override fun onPlayerError(error: ExoPlaybackException) {
-                    error.printStackTrace()
+                error.printStackTrace()
                 helperMethods.showToastMessage(getString(R.string.this_mobile_not_capable_for_playing_this_video))
             }
 
@@ -197,11 +197,11 @@ class CourseResource() : BaseCompatActivity() {
     }
 
     fun lessonCompletedApiCall(course_id: String, resource_id: String, lesson_id: String) {
-//        helperMethods.showProgressDialog("Please wait while loading...")
+        //        helperMethods.showProgressDialog("Please wait while loading...")
         val responseBodyCall = retrofitInterface.LESSON_COMPLETED_API_CALL("Bearer ${dataUser.access_token}", course_id, resource_id, lesson_id)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-//                helperMethods.dismissProgressDialog()
+                //                helperMethods.dismissProgressDialog()
                 if (response.isSuccessful) {
                     if (response.body() != null) {
                         try {
@@ -209,9 +209,13 @@ class CourseResource() : BaseCompatActivity() {
                             val status = jsonObject.getString("status")
                             if (status.equals("200")) {
                                 val message = jsonObject.getString("message")
-                                helperMethods.showToastMessage(message)
+                                //                                helperMethods.showToastMessage(message)
                             } else {
                                 val message = jsonObject.getString("message")
+                                if (helperMethods.checkTokenValidation(status, message)) {
+                                    finish()
+                                    return
+                                }
                                 helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {
@@ -230,7 +234,7 @@ class CourseResource() : BaseCompatActivity() {
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-//                helperMethods.dismissProgressDialog()
+                //                helperMethods.dismissProgressDialog()
                 t.printStackTrace()
                 helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
@@ -251,8 +255,11 @@ class CourseResource() : BaseCompatActivity() {
                             if (startCourseResponse.status.equals("200")) {
                                 tapInitialize()
                             } else {
-                                val message = JSONObject(response.body()!!.string()).getString("message")
-                                helperMethods.AlertPopup(getString(R.string.alert), message)
+                                if (helperMethods.checkTokenValidation(startCourseResponse.status, startCourseResponse.message)) {
+                                    finish()
+                                    return
+                                }
+                                helperMethods.AlertPopup(getString(R.string.alert), startCourseResponse.message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))

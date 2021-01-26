@@ -8,24 +8,35 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="60dp"
+        android:layout_marginStart="60dp"
         android:orientation="horizontal"
         android:padding="10dp">
 
-
-        <digital.upbeat.estisharati_user.Utils.CircleImageView
-            android:id="@+id/subReplyUserImage"
+        <RelativeLayout
             android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:elevation="3dp"
-            android:src="@drawable/ic_temp_profile"
-            app:civ_border_color="@color/black"
-            app:civ_border_width="0.5dp" />
+            android:layout_height="40dp">
+
+            <digital.upbeat.estisharati_user.Utils.CircleImageView
+                android:id="@+id/subReplyUserImage"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_temp_profile"
+                app:civ_border_color="@color/black"
+                app:civ_border_width="0.5dp" />
+
+            <ImageView
+                android:id="@+id/nectie"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@drawable/ic_necktie"
+                android:elevation="3dp" />
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:orientation="vertical">
 
             <TextView
@@ -35,12 +46,13 @@
                 android:fontFamily="@font/almarai_regular"
                 android:singleLine="true"
                 android:text="Taliha Al-Jaber"
+                android:textAlignment="viewStart"
                 android:textColor="@color/black"
                 android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/subReplyDateTime"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/almarai_regular"
                 android:text="1 months ago"
@@ -54,6 +66,7 @@
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/almarai_regular"
                 android:maxLines="2"
+                android:textAlignment="viewStart"
                 android:singleLine="true"
                 android:text="Very good, may Allah give you wellness"
                 android:textColor="@color/black"

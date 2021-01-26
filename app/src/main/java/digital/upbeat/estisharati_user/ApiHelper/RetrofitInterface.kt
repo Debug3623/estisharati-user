@@ -1,10 +1,9 @@
 package digital.upbeat.estisharati_user.ApiHelper
 
-import digital.upbeat.estisharati_user.DataClassHelper.DataFcmBody
+import digital.upbeat.estisharati_user.DataClassHelper.SendNotification.DataFcmBody
 import digital.upbeat.estisharati_user.DataClassHelper.PaymentRequest.PaymentRequest
-import digital.upbeat.estisharati_user.DataClassHelper.data
+import digital.upbeat.estisharati_user.DataClassHelper.SubmitSurvey.SubmitSurvey
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -16,7 +15,7 @@ interface RetrofitInterface {
 
     @FormUrlEncoded
     @POST("user/register")
-    fun REGISTER_API_CALL(@Field("fname") fname: String, @Field("lname") lname: String, @Field("email") email: String, @Field("phone") phone: String, @Field("phone_code") phone_code: String, @Field("password") password: String, @Field("user_type") user_type: String): Call<ResponseBody>
+    fun REGISTER_API_CALL(@Field("fname") fname: String, @Field("lname") lname: String, @Field("email") email: String, @Field("phone") phone: String, @Field("phone_code") phone_code: String, @Field("password") password: String, @Field("user_type") user_type: String, @Field("referral_code") referral_code : String): Call<ResponseBody>
 
     @FormUrlEncoded
     @POST("user/verify_phone")
@@ -37,10 +36,6 @@ interface RetrofitInterface {
     @POST("user/verify_reset_code")
     fun VERIFY_RESET_CODE_API_CALL(@Field("phone") phone: String, @Field("code") code: String, @Field("password") password: String): Call<ResponseBody>
 
-    @Headers("Authorization: key=AAAALTvNfY4:APA91bFOPQ7yoHyA85qfqOslNzhlOll9prOzyW3LUi9x3KofyRI0YeHlEv_0hv8OrI3BnJaEytF-d6sq48y7NxRFQabeOYcwGYqDMvhI2gw5Mjz0lSNRWvSDs4nRE3jdHujTvFfIX1wv")
-    @POST("fcm/send")
-    fun FCM_SEND_API_CALL(@Body dataFcmBody: DataFcmBody): Call<ResponseBody>
-
     @FormUrlEncoded
     @POST("notify")
     fun NOTIFY_API_CALL(@Header("Authorization") token: String, @Field("receiver_id") receiver_id: String, @Field("title") title: String, @Field("body") body: String, @Field("data") data: String): Call<ResponseBody>
@@ -59,7 +54,7 @@ interface RetrofitInterface {
 
     @Multipart
     @POST("upload-chatting-image")
-    fun upload_chatting_image_API_CALL(@Header("Authorization") token: String, @Part profile_picture: MultipartBody.Part): Call<ResponseBody>
+    fun UPLOAD_CHATTING_IMAGE_API_CALL(@Header("Authorization") token: String, @Part profile_picture: MultipartBody.Part): Call<ResponseBody>
 
     @GET("courses")
     fun COURSES_API_CALL(@Header("Authorization") token: String, @Query("category_id") category_id: String, @Query("sortby") sortby: String, @Query("page") page: String): Call<ResponseBody>
@@ -113,7 +108,7 @@ interface RetrofitInterface {
 
     @FormUrlEncoded
     @POST("contactus")
-    fun CONTACTUS_API_CALL(@Header("Authorization") token: String, @Field("name") name: String, @Field("phone") phone: String, @Field("email") email: String, @Field("message") message: String): Call<ResponseBody>
+    fun CONTACTUS_API_CALL(@Header("Authorization") token: String, @Field("name") name: String, @Field("phone") phone: String, @Field("email") email: String, @Field("message_type") message_type: String, @Field("subject") subject: String, @Field("message") message: String): Call<ResponseBody>
 
     @GET("search")
     fun SEARCH_API_CALL(@Header("Authorization") token: String, @Query("search") search: String): Call<ResponseBody>
@@ -147,7 +142,7 @@ interface RetrofitInterface {
 
     @FormUrlEncoded
     @POST("user_subscription")
-    fun USER_SUBSCRIPTION_API_CALL(@Header("Authorization") token: String, @Field("type") type: String, @Field("category_id") category_id  : String, @Field("subscription_id") subscription_id: String, @Field("course_id") course_id: String, @Field("consultant_id") consultant_id: String,@Field("amount") amount: String, @Field("vat") vat: String, @Field("payment_method") payment_method: String, @Field("payment_reference_no") payment_reference_no: String, @Field("coupon_id") coupon_id: String, @Field("coupon_code") coupon_code: String, @Field("discount") discount: String): Call<ResponseBody>
+    fun USER_SUBSCRIPTION_API_CALL(@Header("Authorization") token: String, @Field("type") type: String, @Field("category_id") category_id  : String, @Field("subscription_id") subscription_id: String, @Field("course_id") course_id: String, @Field("consultant_id") consultant_id: String,@Field("amount") amount: String, @Field("vat") vat: String, @Field("payment_method") payment_method: String, @Field("payment_reference_no") payment_reference_no: String, @Field("coupon_id") coupon_id: String, @Field("coupon_code") coupon_code: String, @Field("discount") discount: String,  @Field("referral_code") referral_code : String, @Field("referral_discount") referral_discount : String, @Field("referral_percent") referral_percent : String): Call<ResponseBody>
 
 
     @GET("my-consultants")
@@ -159,7 +154,6 @@ interface RetrofitInterface {
     @GET("start-course/{course_id}")
     fun START_COURSE_API_CALL(@Header("Authorization") token: String,@Path("course_id")course_id:String): Call<ResponseBody>
 
-
     @GET("mypackages")
     fun MYPACKAGES_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
 
@@ -168,10 +162,40 @@ interface RetrofitInterface {
     fun LESSON_COMPLETED_API_CALL(@Header("Authorization") token: String, @Field("course_id") course_id: String, @Field("resource_id") resource_id: String, @Field("lesson_id") lesson_id: String): Call<ResponseBody>
 
     @GET("get-consultation-seconds/{consultant_id}")
-    fun GET_CONSULTATION_SECONDS_API_CALL(@Header("Authorization") token: String,@Path("consultant_id")course_id:String): Call<ResponseBody>
+    fun GET_CONSULTATION_SECONDS_API_CALL(@Header("Authorization") token: String,@Path("consultant_id")consultant_id:String): Call<ResponseBody>
 
     @FormUrlEncoded
     @POST("update-consultation-seconds")
-    fun UPDATE_CONSULTATION_SECONDS_API_CALL(@Header("Authorization") token: String, @Field("consultant_id") consultant_id: String, @Field("video_balance") video_balance: String, @Field("audio_balance") audio_balance: String, @Field("chat_minutes") chat_minutes: String): Call<ResponseBody>
+    fun UPDATE_CONSULTATION_SECONDS_API_CALL(@Header("Authorization") token: String, @Field("consultant_id") consultant_id: String, @Field("video_balance") video_balance: String, @Field("audio_balance") audio_balance: String, @Field("chat_minutes") chat_minutes: String,@Field("receiver_id") receiver_id:String,@Field("message") message:String,@Field("attachment") attachment:String): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("user/logout")
+    fun LOGOUT_API_CALL(@Header("Authorization") token: String,@Field("empty") empty: String): Call<ResponseBody>
+
+    @GET("posts")
+    fun POSTS_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
+
+    @GET("surveys")
+    fun SURVEYS_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
+
+    @POST("surveys")
+    fun SURVEYS_SUBMIT_API_CALL(@Header("Authorization") token: String,@Body() submitSurvey: SubmitSurvey): Call<ResponseBody>
+
+    @GET("user/referral")
+    fun REFERRAL_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("user/googlelogin")
+    fun GOOGLE_LOGIN_API_CALL(@Field("google_id") google_id: String, @Field("firstname") firstname: String, @Field("lastname") lastname: String, @Field("email") email: String, @Field("image") image: String, @Field("fire_base_token") fire_base_token: String): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("save_appointment")
+    fun SAVE_APPOINTMENT_API_CALL(@Header("Authorization") token: String,@Field("consultant_id") google_id: String, @Field("date") firstname: String, @Field("time") lastname: String, @Field("category_id") category_id: String): Call<ResponseBody>
+
+    @GET("appointments")
+    fun APPOINTMENTS_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
+
+    @GET("categories")
+    fun CATEGORIES_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
 
 }

@@ -32,221 +32,259 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:fontFamily="@font/almarai_regular"
                 android:text="@string/packages_options"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
         </LinearLayout>
 
-        <TextView
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:fontFamily="@font/almarai_regular"
-            android:gravity="center"
-            android:text="@string/choose_how_to_buy"
-            android:textColor="@color/black"
-            android:textSize="23sp" />
-
-
-        <TextView
-            android:id="@+id/chooseName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:fontFamily="@font/almarai_bold"
-            android:gravity="center"
-            android:text="Sliver Packages"
-            android:textColor="@color/orange"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/originalPrice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/almarai_bold"
-            android:gravity="center"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="20dp"
-            android:text="AED 200"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="15dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="10">
+            android:layout_height="match_parent">
 
             <LinearLayout
-                android:id="@+id/change_packages"
-                android:layout_width="0dp"
-                android:layout_height="150dp"
-                android:layout_margin="10dp"
-                android:layout_weight="4.5"
-                android:background="@drawable/corner_redius_15dp_white"
-                android:elevation="3dp"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="20dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/almarai_regular"
-                    android:gravity="center"
-                    android:text="@string/package_"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="15dp"
-                    android:fontFamily="@font/almarai_regular"
-                    android:gravity="center"
-                    android:text="@string/monthly_yearly"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <RelativeLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="5.5">
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:fontFamily="@font/almarai_regular"
+                    android:gravity="center"
+                    android:text="@string/choose_how_to_buy"
+                    android:textColor="@color/black"
+                    android:textSize="23sp" />
+
+
+                <TextView
+                    android:id="@+id/chooseName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:fontFamily="@font/almarai_bold"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/orange"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/originalPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="20dp"
+                    android:fontFamily="@font/almarai_bold"
+                    android:gravity="center"
+                    android:text="AED 0"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/corner_redius_15dp_parrot_green"
-                    android:elevation="3dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginRight="15dp"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="15dp">
+                    android:orientation="horizontal"
+                    android:weightSum="10">
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:orientation="horizontal">
+                        android:id="@+id/change_packages"
+                        android:layout_width="0dp"
+                        android:layout_height="150dp"
+                        android:layout_margin="10dp"
+                        android:layout_weight="4.5"
+                        android:background="@drawable/corner_redius_15dp_white"
+                        android:elevation="3dp"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="20dp">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/almarai_regular"
-                            android:text="@string/aed"
-                            android:textColor="@color/light_green"
+                            android:gravity="center"
+                            android:text="@string/package_"
+                            android:textColor="@color/black"
                             android:textSize="14sp" />
 
                         <TextView
-                            android:id="@+id/choosePrice"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:singleLine="true"
-                            android:text="1.599"
-                            android:textColor="@color/light_green"
-                            android:textSize="25sp"
-                            android:textStyle="bold" />
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="15dp"
+                            android:fontFamily="@font/almarai_regular"
+                            android:gravity="center"
+                            android:text="@string/monthly_yearly"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
                     </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/chooseDiscount"
-                        android:layout_width="match_parent"
+                    <RelativeLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:fontFamily="@font/almarai_regular"
-                        android:gravity="center"
-                        android:text="-AED 20"
-                        android:textColor="@color/orange"
-                        android:textSize="13sp"
-                        android:visibility="visible" />
+                        android:layout_weight="5.5">
 
-                    <TextView
-                        android:id="@+id/vatAmount"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:fontFamily="@font/almarai_regular"
-                        android:gravity="center"
-                        android:text="AED 20 (VAT 5%)"
-                        android:textColor="@color/black_light"
-                        android:textSize="13sp"
-                        android:visibility="visible" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="150dp"
+                            android:layout_margin="10dp"
+                            android:background="@drawable/corner_redius_15dp_parrot_green"
+                            android:elevation="3dp"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="15dp">
 
-                    <TextView
-                        android:id="@+id/chooseType"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:fontFamily="@font/almarai_regular"
-                        android:gravity="center"
-                        android:text="One Time"
-                        android:textColor="@color/black"
-                        android:textSize="15sp" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/almarai_regular"
+                                    android:text="@string/aed"
+                                    android:textColor="@color/light_green"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/choosePrice"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="5dp"
+                                    android:singleLine="true"
+                                    android:text="0.0"
+                                    android:textColor="@color/light_green"
+                                    android:textSize="25sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/chooseDiscount"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:fontFamily="@font/almarai_regular"
+                                android:gravity="center"
+                                android:text="-AED 20"
+                                android:textColor="@color/orange"
+                                android:textSize="13sp"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/vatAmountTxt"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:fontFamily="@font/almarai_regular"
+                                android:gravity="center"
+                                android:text="AED 0 (VAT 5%)"
+                                android:textColor="@color/black_light"
+                                android:textSize="13sp"
+                                android:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/chooseType"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/almarai_regular"
+                                android:gravity="center"
+                                android:text="One Time"
+                                android:textColor="@color/black"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="2dp"
+                            android:elevation="4dp"
+                            android:src="@drawable/ic_check_round_green" />
+                    </RelativeLayout>
                 </LinearLayout>
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="2dp"
-                    android:elevation="4dp"
-                    android:src="@drawable/ic_check_round_green" />
-            </RelativeLayout>
-        </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/referralDiscountLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
 
-        <Button
-            android:id="@+id/proceed"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="45dp"
-            android:layout_marginTop="60dp"
-            android:layout_marginRight="45dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/corner_redius_30dp_light_green1"
-            android:fontFamily="@font/almarai_regular"
-            android:gravity="center"
-            android:padding="15dp"
-            android:text="@string/proceed_payment"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/referral_discount"
+                        android:textColor="@color/black_light"
+                        android:textSize="15sp" />
 
-        <LinearLayout
-            android:id="@+id/addCouponLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/referralAmountTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="(15%) 100 AED"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
 
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/ic_coupon" />
+                </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:fontFamily="@font/almarai_regular"
-                android:text="@string/do_you_have_any_coupon"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
+                <Button
+                    android:id="@+id/proceed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="45dp"
+                    android:layout_marginTop="60dp"
+                    android:layout_marginRight="45dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/corner_redius_30dp_light_green1"
+                    android:fontFamily="@font/almarai_regular"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:text="@string/proceed_payment"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
 
-        </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/addCouponLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="30dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/ic_coupon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="@font/almarai_regular"
+                        android:text="@string/do_you_have_any_coupon"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
 </LinearLayout>

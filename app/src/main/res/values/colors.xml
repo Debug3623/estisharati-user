@@ -17,7 +17,6 @@
     <color name="transparent">#00000000</color>
     <color name="transparent_white">#80ffffff</color>
     <color name="gray_transparent">#C3706F6F</color>
-    <color name="blur_transparent">#66000000</color>
 
     <color name="pink">#ffe8dd</color>
     <color name="white_pink">#FAF4F4</color>
@@ -37,7 +36,6 @@
     <color name="yellow">#f4cc07</color>
 
     <color name="dark_gray">#aaaaaa</color>
-    <color name="light_gray">#c9c9c9</color>
     <color name="gray">#cacaca</color>
     <color name="gray1">#e6e6e6</color>
 

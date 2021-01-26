@@ -8,20 +8,17 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import digital.upbeat.estisharati_user.Adapter.ConsultantCommentsReplyAdapter
-import digital.upbeat.estisharati_user.Adapter.ConsultationsAdapter
 import digital.upbeat.estisharati_user.Adapter.ConsultationsCategoryAdapter
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
 import digital.upbeat.estisharati_user.DataClassHelper.ConsultantComments.commentsResponse
 import digital.upbeat.estisharati_user.DataClassHelper.ConsultantDetails.ConsultantDetailsResponse
-import digital.upbeat.estisharati_user.DataClassHelper.DataUser
+import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_user.DataClassHelper.PackagesOptions.PackagesOptions
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
@@ -130,9 +127,9 @@ class ConsultantDetails : BaseCompatActivity() {
             } else {
                 consultantDetailsResponse.offerprice
             }
-            val vatAmount: Float = price.toFloat() / 100.0f * 5
-            val priceIncludedVat = vatAmount + price.toFloat()
-            GlobalData.packagesOptions = PackagesOptions(consultantDetailsResponse.id, consultantDetailsResponse.name, "consultation", categoryId, price, vatAmount.toString(), priceIncludedVat.toString(), "", "", "")
+//            val vatAmount = price.toDouble() * 0.05
+//            val priceIncludedVat = vatAmount + price.toDouble()
+            GlobalData.packagesOptions = PackagesOptions(consultantDetailsResponse.id, consultantDetailsResponse.name, "consultation", categoryId, price,"0","0", "", "", "0", "0", "", "0", "0")
             startActivity(Intent(this@ConsultantDetails, PackagesSelection::class.java))
         }
     }
@@ -173,7 +170,6 @@ class ConsultantDetails : BaseCompatActivity() {
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()
-
                 if (response.isSuccessful) {
                     if (response.body() != null) {
                         try {
@@ -186,6 +182,10 @@ class ConsultantDetails : BaseCompatActivity() {
                                 InitializeRecyclerview()
                             } else {
                                 val message = jsonObject.getString("message")
+                                if (helperMethods.checkTokenValidation(status, message)) {
+                                    finish()
+                                    return
+                                }
                                 helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {
@@ -202,7 +202,6 @@ class ConsultantDetails : BaseCompatActivity() {
                     Log.d("body", "Not Successful")
                 }
             }
-
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
@@ -228,8 +227,11 @@ class ConsultantDetails : BaseCompatActivity() {
                                 InitializeRecyclerview()
                                 helperMethods.showToastMessage(getString(R.string.replied_successfully))
                             } else {
-                                val message = JSONObject(response.body()!!.string()).getString("message")
-                                helperMethods.AlertPopup(getString(R.string.alert), message)
+                                if (helperMethods.checkTokenValidation(commentsResponse.status, commentsResponse.message)) {
+                                    finish()
+                                    return
+                                }
+                                helperMethods.AlertPopup(getString(R.string.alert), commentsResponse.message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -279,6 +281,10 @@ class ConsultantDetails : BaseCompatActivity() {
                                     favoriteIcon.setImageResource(R.drawable.ic_un_favorite)
                                 }
                             } else {
+                                if (helperMethods.checkTokenValidation(status, message)) {
+                                    finish()
+                                    return
+                                }
                                 helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {

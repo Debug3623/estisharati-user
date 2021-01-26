@@ -21,9 +21,27 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
-            android:theme="@style/AppTheme.FullScreenAppTheme"
+            android:name=".UI.MyAppointment"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.InviteApp"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.Survey"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.BlogDetails"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UI.Blog"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".UI.VideoFullScreen"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.FullScreenAppTheme" />
+        <activity
+            android:name=".UI.GroupChatPage"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UI.MyPackages"
             android:screenOrientation="portrait" />
@@ -41,9 +59,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".UI.WebView"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".UI.NotificationDetails"
             android:screenOrientation="portrait" />
         <activity
             android:name=".UI.VideoCall"

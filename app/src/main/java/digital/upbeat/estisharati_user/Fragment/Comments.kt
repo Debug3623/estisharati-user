@@ -13,7 +13,7 @@ import digital.upbeat.estisharati_user.Adapter.ConsultantCommentsReplyAdapter
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
 import digital.upbeat.estisharati_user.DataClassHelper.CourseComments.CommentsResponse
-import digital.upbeat.estisharati_user.DataClassHelper.DataUser
+import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
@@ -22,7 +22,6 @@ import digital.upbeat.estisharati_user.UI.CourseDetails
 import kotlinx.android.synthetic.main.fragment_comments.*
 import okhttp3.ResponseBody
 import org.json.JSONException
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -108,8 +107,11 @@ class Comments(val courseDetails: CourseDetails) : Fragment() {
                                 InitializeRecyclerview()
                                 helperMethods.showToastMessage(getString(R.string.replied_successfully))
                             } else {
-                                val message = JSONObject(response.body()!!.string()).getString("message")
-                                helperMethods.AlertPopup(getString(R.string.alert), message)
+                                if (helperMethods.checkTokenValidation(commentsResponse.status, commentsResponse.message)) {
+                                   requireActivity().finish()
+                                    return
+                                }
+                                helperMethods.AlertPopup(getString(R.string.alert), commentsResponse.message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))

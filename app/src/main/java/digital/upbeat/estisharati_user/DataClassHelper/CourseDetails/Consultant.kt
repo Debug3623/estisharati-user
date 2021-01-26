@@ -5,5 +5,5 @@ data class Consultant(
     val id: Int,
     val rate: String,
     val user: UserXX,
-    val user_id: Int
+    val consultant_id: String
 )

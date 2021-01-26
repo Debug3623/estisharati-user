@@ -33,10 +33,10 @@
                 android:id="@+id/action_bar_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:singleLine="true"
                 android:fontFamily="@font/almarai_regular"
-                android:text="My Courses"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="18sp" />
         </LinearLayout>

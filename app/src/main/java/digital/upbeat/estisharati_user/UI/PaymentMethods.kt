@@ -1,21 +1,14 @@
 package digital.upbeat.estisharati_user.UI
 
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import digital.upbeat.estisharati_user.Adapter.PaymentMethodAdapter
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_user.DataClassHelper.DataUser
-import digital.upbeat.estisharati_user.DataClassHelper.FaqDetails.FAQResponse
+import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_user.DataClassHelper.PaymentMethodList.Data
 import digital.upbeat.estisharati_user.DataClassHelper.PaymentMethodList.PMResponse
 import digital.upbeat.estisharati_user.Helper.GlobalData
@@ -38,7 +31,7 @@ class PaymentMethods : BaseCompatActivity() {
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var dataUser: DataUser
     lateinit var sharedPreferencesHelper: SharedPreferencesHelper
-    var pmResponse : PMResponse = PMResponse("",arrayListOf())
+    var pmResponse : PMResponse = PMResponse("","",arrayListOf())
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment_methods)
@@ -116,6 +109,10 @@ class PaymentMethods : BaseCompatActivity() {
                                 paymentMethodListApiCall()
                             } else {
                                 val message = jsonObject.getString("message")
+                                if (helperMethods.checkTokenValidation(status, message)) {
+                                    finish()
+                                    return
+                                }
                                 helperMethods.AlertPopup("Alert", message)
                             }
                         } catch (e: JSONException) {
@@ -141,7 +138,7 @@ class PaymentMethods : BaseCompatActivity() {
         })
     }
     fun paymentMethodListApiCall() {
-        helperMethods.showProgressDialog("Please wait while loading...")
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
         val responseBodyCall = retrofitInterface.PAYMENTMETHOD_LIST_API_CALL("Bearer ${dataUser.access_token}")
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -153,9 +150,11 @@ class PaymentMethods : BaseCompatActivity() {
                             if (pmResponse.status.equals("200")) {
                                 InitializeRecyclerview()
                             } else {
-                                val jsonObject = JSONObject(response.body()!!.string())
-                                val message = jsonObject.getString("message")
-                                helperMethods.AlertPopup("Alert", message)
+                               if (helperMethods.checkTokenValidation(pmResponse.status,pmResponse. message)) {
+                                    finish()
+                                    return
+                                }
+                                helperMethods.AlertPopup("Alert", pmResponse.message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))

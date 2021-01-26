@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="40dp"
+                android:layout_marginStart="40dp"
                 android:fontFamily="@font/almarai_regular"
                 android:text="@string/chat"
                 android:textColor="@color/white"
@@ -45,26 +45,26 @@
                 android:id="@+id/search_user_icon"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="55dp"
+                android:layout_marginEnd="55dp"
                 android:src="@drawable/ic_search" />
 
             <RelativeLayout
                 android:id="@+id/notificationLayout"
                 android:layout_width="45dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true">
 
                 <ImageView
                     android:id="@+id/bell"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginTop="5dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
                     android:adjustViewBounds="true"
                     android:src="@drawable/ic_bell" />
 
@@ -73,7 +73,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:background="@drawable/round_light_green_white_stroke"
                     android:gravity="center"
                     android:text="0"
@@ -106,7 +106,7 @@
                     android:id="@+id/forward_cancel"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:background="@drawable/ic_x_mark"
                     android:backgroundTint="@color/black" />
@@ -126,12 +126,13 @@
 
             <TextView
                 android:id="@+id/lebel_online_consultations"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
+                android:textAlignment="viewStart"
                 android:fontFamily="@font/almarai_regular"
-                android:text="@string/all_consultant"
+                android:text="@string/all_users"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
@@ -144,88 +145,142 @@
                 tools:listitem="@layout/online_consultations_item" />
         </LinearLayout>
 
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:scrollbars="none">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@drawable/gradient_top_bottom_gray_color" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recent_chat_recycler"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:scrollbars="none"
-                android:visibility="gone"
-                tools:itemCount="10"
-                tools:listitem="@layout/recent_chat_item" />
+                android:orientation="vertical">
 
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/shimmer_view_container"
-                android:layout_width="match_parent"
-                android:visibility="visible"
-                android:layout_height="wrap_content">
-
-                <ScrollView
+                <View
                     android:layout_width="match_parent"
-                    android:scrollbars="none"
-                    android:layout_height="wrap_content">
+                    android:layout_height="2dp"
+                    android:background="@drawable/gradient_top_bottom_gray_color" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <include layout="@layout/chat_placeholder_item" />
-
-                        <include layout="@layout/chat_placeholder_item" />
-
-                        <include layout="@layout/chat_placeholder_item" />
-
-                        <include layout="@layout/chat_placeholder_item" />
-
-                        <include layout="@layout/chat_placeholder_item" />
-
-                        <include layout="@layout/chat_placeholder_item" />
-
-                        <include layout="@layout/chat_placeholder_item" />
-
-                        <include layout="@layout/chat_placeholder_item" />
-                    </LinearLayout>
-                </ScrollView>
-            </com.facebook.shimmer.ShimmerFrameLayout>
-            <LinearLayout
-                android:id="@+id/emptyLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginTop="100dp"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/ic_speech_bubble" />
-
-                <TextView
-                    android:id="@+id/errorText"
+                <LinearLayout
+                    android:id="@+id/groupLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="15dp">
+
+                        <TextView
+                            android:id="@+id/totalGroupLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="@string/your_groups"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:id="@+id/groupShowHide"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentEnd="true"
+                            android:padding="5dp"
+                            android:src="@drawable/ic_down_arrow_white"
+                            app:tint="@color/black" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/gainsboro" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/groupsRecycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scrollbars="none"
+                        android:visibility="visible"
+                        tools:itemCount="2"
+                        tools:listitem="@layout/group_item" />
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recent_chat_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
-                    android:fontFamily="@font/almarai_bold"
+                    android:scrollbars="none"
+                    android:visibility="gone"
+                    tools:itemCount="10"
+                    tools:listitem="@layout/recent_chat_item" />
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer_view_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible">
+
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="none">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <include layout="@layout/chat_placeholder_item" />
+
+                            <include layout="@layout/chat_placeholder_item" />
+
+                            <include layout="@layout/chat_placeholder_item" />
+
+                            <include layout="@layout/chat_placeholder_item" />
+
+                            <include layout="@layout/chat_placeholder_item" />
+
+                            <include layout="@layout/chat_placeholder_item" />
+
+                            <include layout="@layout/chat_placeholder_item" />
+
+                            <include layout="@layout/chat_placeholder_item" />
+                        </LinearLayout>
+                    </ScrollView>
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+                <LinearLayout
+                    android:id="@+id/emptyLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="100dp"
                     android:gravity="center"
-                    android:text="@string/there_is_no_recent_chat_available"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/ic_speech_bubble" />
+
+                    <TextView
+                        android:id="@+id/errorText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/almarai_bold"
+                        android:gravity="center"
+                        android:text="@string/there_is_no_recent_chat_available"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
 
             </LinearLayout>
-
-        </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 
 </LinearLayout>

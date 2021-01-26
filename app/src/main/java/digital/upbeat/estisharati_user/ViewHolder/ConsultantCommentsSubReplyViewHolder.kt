@@ -9,4 +9,5 @@ class ConsultantCommentsSubReplyViewHolder(itemView: View) : RecyclerView.ViewHo
     val subReplyUserName=itemView.subReplyUserName
     val subReplyDateTime=itemView.subReplyDateTime
     val subReplyMessage=itemView.subReplyMessage
+    val nectie=itemView.nectie
 }

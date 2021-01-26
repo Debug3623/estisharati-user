@@ -2,7 +2,6 @@ package digital.upbeat.estisharati_user.UI
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,7 +16,7 @@ import digital.upbeat.estisharati_user.Adapter.MyCoursesAdapter
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
 import digital.upbeat.estisharati_user.DataClassHelper.CourseComments.CommentsResponse
-import digital.upbeat.estisharati_user.DataClassHelper.DataUser
+import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_user.DataClassHelper.MyCourse.Data
 import digital.upbeat.estisharati_user.DataClassHelper.MyCourse.MyCourseResponse
 import digital.upbeat.estisharati_user.Helper.GlobalData
@@ -28,7 +27,6 @@ import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_my_courses.*
 import okhttp3.ResponseBody
 import org.json.JSONException
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -98,8 +96,11 @@ class MyCourses : BaseCompatActivity() {
                                 myCoursesArrayList = myCourseResponse.data
                                 InitializeRecyclerview()
                             } else {
-                                val message = JSONObject(response.body()!!.string()).getString("message")
-                                helperMethods.AlertPopup(getString(R.string.alert), message)
+                                if (helperMethods.checkTokenValidation(myCourseResponse.status, myCourseResponse.message)) {
+                                    finish()
+                                    return
+                                }
+                                helperMethods.AlertPopup(getString(R.string.alert), myCourseResponse.message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -190,7 +191,6 @@ class MyCourses : BaseCompatActivity() {
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()
-
                 if (response.isSuccessful) {
                     if (response.body() != null) {
                         try {
@@ -199,8 +199,11 @@ class MyCourses : BaseCompatActivity() {
                             if (commentsResponse.status.equals("200")) {
                                 helperMethods.showToastMessage(getString(R.string.your_rating_and_comments_submitted_successfully))
                             } else {
-                                val message = JSONObject(response.body()!!.string()).getString("message")
-                                helperMethods.AlertPopup(getString(R.string.alert), message)
+                                if (helperMethods.checkTokenValidation(commentsResponse.status, commentsResponse.message)) {
+                                    finish()
+                                    return
+                                }
+                                helperMethods.AlertPopup(getString(R.string.alert), commentsResponse.message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))

@@ -10,8 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import digital.upbeat.estisharati_user.DataClassHelper.DataUserMessageFireStore
-import digital.upbeat.estisharati_user.Fragment.Consultations
+import digital.upbeat.estisharati_user.DataClassHelper.Chat.DataUserMessageFireStore
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.R
@@ -122,6 +121,8 @@ class RecentChatAdapter(val context: Context, val chatHome: ChatHome, val dataUs
             intent.putExtra("forward_content", GlobalData.forwardContent)
 
             context.startActivity(intent)
+            GlobalData.forwardType = ""
+            GlobalData.forwardContent = ""
         }
     }
 }

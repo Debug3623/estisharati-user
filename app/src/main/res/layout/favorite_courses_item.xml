@@ -48,6 +48,7 @@
                     android:layout_weight="6"
                     android:singleLine="true"
                     android:id="@+id/courseName"
+                    android:textAlignment="viewStart"
                     android:fontFamily="@font/almarai_regular"
                     android:text="Introduction to human resources tasks"
                     android:textColor="@color/black"
@@ -71,7 +72,7 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:orientation="vertical">
@@ -103,7 +104,7 @@
                         <ImageView
                             android:layout_width="13dp"
                             android:layout_height="13dp"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
                             android:src="@drawable/ic_star_yellow" />
                     </LinearLayout>
                 </LinearLayout>
@@ -112,7 +113,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
-                    android:gravity="right|bottom">
+                    android:gravity="end|bottom">
 
                     <TextView
                         android:layout_width="wrap_content"

@@ -6,7 +6,6 @@ import android.text.Editable
 import android.util.Log
 import android.view.View
 import android.widget.EditText
-import androidx.appcompat.app.AppCompatActivity
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
 import digital.upbeat.estisharati_user.Helper.GlobalData
@@ -25,7 +24,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 
-class ForgotPassword : BaseCompatActivity() {
+class
+ForgotPassword : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var preferencesHelper: SharedPreferencesHelper
@@ -132,7 +132,7 @@ class ForgotPassword : BaseCompatActivity() {
         if (resendTimer != null) {
             resendTimer?.cancel()
         }
-        resendTimer = object : CountDownTimer(10000, 1000) {
+        resendTimer = object : CountDownTimer(120000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 retry_on.text = getString(R.string.retry_on) +" "+ helperMethods.MillisUntilToTime(millisUntilFinished)
             }

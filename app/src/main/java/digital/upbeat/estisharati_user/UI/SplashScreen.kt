@@ -6,13 +6,10 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.iid.FirebaseInstanceId
-import com.google.firebase.installations.FirebaseInstallations
+import com.google.firebase.dynamiclinks.ktx.dynamicLinks
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
-import digital.upbeat.estisharati_user.CommonApiHelper.SendDeviceTokenHelper
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
@@ -34,6 +31,7 @@ class SplashScreen : BaseCompatActivity() {
             }
         }
         initViews()
+        handleDynamicLink()
         startCountDownTimer()
     }
 
@@ -45,6 +43,24 @@ class SplashScreen : BaseCompatActivity() {
             val hashMap = hashMapOf<String, Any>("availability" to true, "channel_unique_id" to "")
             helperMethods.updateUserDetailsToFirestore(preferencesHelper.logInUser.id, hashMap)
         }
+    }
+
+    fun handleDynamicLink() {
+        Firebase.dynamicLinks.getDynamicLink(intent).addOnSuccessListener(this) { pendingDynamicLinkData ->
+            // Get deep link from result (may be null if no link is found)
+            if (pendingDynamicLinkData != null) {
+                pendingDynamicLinkData.link?.let {
+                    pendingDynamicLinkData.link?.getQueryParameter("referral_code")?.let {
+                        GlobalData.referralCode = it
+                        Log.d("dynamicLinks", it)
+                    }
+                    pendingDynamicLinkData.link?.getQueryParameter("courseId")?.let {
+                        GlobalData.courseId = it
+                        Log.d("dynamicLinks", it)
+                    }
+                }
+            }
+        }.addOnFailureListener(this) { e -> Log.e("dynamicLinks", "getDynamicLink:onFailure", e) }
     }
 
     fun startCountDownTimer() {
@@ -87,6 +103,9 @@ class SplashScreen : BaseCompatActivity() {
     }
 
     fun loginProcess() {
+        GlobalData.BaseUrl = "https://super-servers.com/estisharati/api/v1/${preferencesHelper.appLang}/"
+        Log.d("BaseURL", GlobalData.BaseUrl)
+        GlobalData.homeResponseMain = null
         if (preferencesHelper.isUserLogIn) {
             startActivity(Intent(this@SplashScreen, UserDrawer::class.java))
         } else {

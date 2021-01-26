@@ -58,9 +58,13 @@ class SendDeviceTokenHelper(val context: Context, val splashScreen: SplashScreen
                                 val user = jsonObject.getString("user")
                             } else {
                                 val message = jsonObject.optString("message")
+                                if (helperMethods.checkTokenValidation(status, message)) {
+                                    return
+                                }
                                 helperMethods.showToastMessage(message)
                             }
                         } catch (e: JSONException) {
+
                             helperMethods.showToastMessage(context.getString(R.string.something_went_wrong_on_backend_server))
 
                             e.printStackTrace()

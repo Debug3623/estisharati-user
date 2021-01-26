@@ -48,7 +48,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
                         android:fontFamily="@font/almarai_regular"
                         android:text="@string/verification_code"
                         android:textColor="@color/white"
@@ -71,7 +71,7 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="125dp"
+                android:layout_marginTop="120dp"
                 android:background="@drawable/ic_phone_round"
                 android:scaleType="fitXY" />
 
@@ -94,7 +94,7 @@
                         android:id="@+id/code_1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginEnd="20dp"
                         android:layout_weight="1"
                         android:backgroundTint="@color/black"
                         android:focusable="true"
@@ -109,7 +109,7 @@
                         android:id="@+id/code_2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginEnd="20dp"
                         android:layout_weight="1"
                         android:backgroundTint="@color/black"
                         android:fontFamily="@font/almarai_regular"
@@ -123,7 +123,7 @@
                         android:id="@+id/code_3"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginEnd="20dp"
                         android:layout_weight="1"
                         android:backgroundTint="@color/black"
                         android:fontFamily="@font/almarai_regular"
@@ -165,6 +165,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/almarai_regular"
                             android:text="@string/no_sent_code"
+                            android:textAlignment="viewStart"
                             android:textColor="@color/dark_gray"
                             android:textSize="16sp" />
 
@@ -204,7 +205,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="right">
+                        android:gravity="end">
 
                         <ImageView
                             android:id="@+id/btn_proceed"

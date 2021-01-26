@@ -1,7 +1,6 @@
 package digital.upbeat.estisharati_user.Adapter
 
 import android.content.Context
-import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
-import digital.upbeat.estisharati_user.DataClassHelper.DataBoarding
+import digital.upbeat.estisharati_user.DataClassHelper.Boarding.DataBoarding
 import digital.upbeat.estisharati_user.R
 import kotlin.collections.ArrayList
 

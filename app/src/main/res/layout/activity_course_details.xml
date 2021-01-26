@@ -55,12 +55,24 @@
                             android:id="@+id/nav_back"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
+                            android:layout_centerVertical="true"
                             android:adjustViewBounds="true"
                             android:src="@drawable/ic_left_arrow_white" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="140dp"
+                            android:adjustViewBounds="true"
+                            android:id="@+id/shareCourse"
+                            android:src="@drawable/ic_right_forward"
+                            app:tint="@color/ach_white_light" />
 
                         <LinearLayout
                             android:id="@+id/favoriteLayout"
                             android:layout_width="wrap_content"
+                            android:layout_centerVertical="true"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:gravity="end|center_vertical"
@@ -89,6 +101,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
+                        android:textAlignment="viewStart"
                         android:fontFamily="@font/almarai_regular"
                         android:text="Introduction to human resources tasks"
                         android:textColor="@color/white"
@@ -101,6 +114,7 @@
                         android:layout_marginTop="15dp"
                         android:fontFamily="@font/almarai_regular"
                         android:maxLines="2"
+                        android:textAlignment="viewStart"
                         android:text="Learn about the tasks and functions of human tasks in the labor
  market and keep pace with development Modern society"
                         android:textColor="@color/white"
@@ -125,7 +139,7 @@
                         <ImageView
                             android:layout_width="13dp"
                             android:layout_height="13dp"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
                             android:src="@drawable/ic_star_yellow" />
                     </LinearLayout>
 
@@ -187,7 +201,7 @@
                             android:id="@+id/coursePeriod"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
                             android:background="@drawable/corner_redius_30dp_light_green1_white_stroke"
                             android:elevation="3dp"
                             android:paddingLeft="15dp"
@@ -216,7 +230,7 @@
                             android:id="@+id/download_video"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
                             android:fontFamily="@font/almarai_regular"
                             android:text="@string/you_can_not_download_course_videos"
                             android:textColor="@color/white"
@@ -289,17 +303,18 @@
                             android:text="AUD 1.599"
                             android:textColor="@color/gray"
                             android:textSize="18sp" />
+
                         <LinearLayout
                             android:id="@+id/offersEndDateLayout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                          android:layout_marginStart="10dp"
+                            android:layout_marginStart="10dp"
                             android:gravity="center_vertical">
 
                             <ImageView
                                 android:layout_width="14dp"
                                 android:layout_height="14dp"
-                                android:layout_marginRight="3dp"
+                                android:layout_marginEnd="3dp"
                                 android:adjustViewBounds="true"
                                 android:src="@drawable/ic_end_date" />
 
@@ -352,6 +367,7 @@
                             android:fontFamily="@font/almarai_regular"
                             android:text="@string/course_description"
                             android:textColor="@color/black"
+                            android:textAlignment="viewStart"
                             android:textSize="16sp" />
 
                         <TextView
@@ -361,6 +377,7 @@
                             android:layout_marginTop="10dp"
                             android:fontFamily="@font/almarai_regular"
                             android:maxLines="2"
+                            android:textAlignment="viewStart"
                             android:text="Learn about the tasks and functions of human tasks in the labor
  market and keep pace with development Modern society"
                             android:textColor="@color/black"

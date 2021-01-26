@@ -1,7 +1,5 @@
 package digital.upbeat.estisharati_user.UI
 
-import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -10,7 +8,7 @@ import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_user.DataClassHelper.DataUser
+import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
@@ -115,7 +113,7 @@ class VideoFullScreen : BaseCompatActivity() {
     }
 
     fun lessonCompletedApiCall(course_id: String, resource_id: String, lesson_id: String) {
-//        helperMethods.showProgressDialog("Please wait while loading...")
+        //        helperMethods.showProgressDialog("Please wait while loading...")
         val responseBodyCall = retrofitInterface.LESSON_COMPLETED_API_CALL("Bearer ${dataUser.access_token}", course_id, resource_id, lesson_id)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -127,9 +125,13 @@ class VideoFullScreen : BaseCompatActivity() {
                             val status = jsonObject.getString("status")
                             if (status.equals("200")) {
                                 val message = jsonObject.getString("message")
-                                helperMethods.showToastMessage(message)
+                                //helperMethods.showToastMessage(message)
                             } else {
                                 val message = jsonObject.getString("message")
+                                if (helperMethods.checkTokenValidation(status, message)) {
+                                    finish()
+                                    return
+                                }
                                 helperMethods.AlertPopup(getString(R.string.alert), message)
                             }
                         } catch (e: JSONException) {
@@ -148,7 +150,7 @@ class VideoFullScreen : BaseCompatActivity() {
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-//                helperMethods.dismissProgressDialog()
+                //                helperMethods.dismissProgressDialog()
                 t.printStackTrace()
                 helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }

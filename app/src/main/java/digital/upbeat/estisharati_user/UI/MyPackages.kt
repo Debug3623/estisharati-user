@@ -1,6 +1,5 @@
 package digital.upbeat.estisharati_user.UI
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -9,10 +8,8 @@ import com.google.gson.Gson
 import digital.upbeat.estisharati_user.Adapter.PackageAdapter
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_user.CarouselHelper.CarouselLayoutManager
-import digital.upbeat.estisharati_user.CarouselHelper.CarouselZoomPostLayoutListener
 import digital.upbeat.estisharati_user.CarouselHelper.CenterScrollListener
-import digital.upbeat.estisharati_user.DataClassHelper.DataUser
+import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_user.DataClassHelper.Packages.PackagesResponse
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
@@ -26,7 +23,6 @@ import kotlinx.android.synthetic.main.activity_my_packages.errorText
 import kotlinx.android.synthetic.main.activity_my_packages.nav_back
 import okhttp3.ResponseBody
 import org.json.JSONException
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -90,9 +86,12 @@ class MyPackages : BaseCompatActivity() {
                             if (packagesResponse.status.equals("200")) {
                                 InitializeRecyclerview()
                             } else {
-                                val jsonObject = JSONObject(response.body()!!.string())
-                                val message = jsonObject.getString("message")
-                                helperMethods.AlertPopup(getString(R.string.alert), message)
+                                if (helperMethods.checkTokenValidation(packagesResponse.status, packagesResponse.message)) {
+                                    finish()
+                                    return
+                                }
+                                helperMethods.AlertPopup(getString(R.string.alert), packagesResponse.message)
+
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
