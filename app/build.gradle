@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-
+apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -91,9 +91,9 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer:2.12.2'
 
     //Firebase
-    implementation 'com.google.firebase:firebase-analytics:18.0.1'
+    implementation 'com.google.firebase:firebase-analytics:18.0.2'
     implementation 'com.google.firebase:firebase-messaging:21.0.1'
-    implementation 'com.google.firebase:firebase-firestore-ktx:22.0.1'
+    implementation 'com.google.firebase:firebase-firestore-ktx:22.0.2'
     implementation 'com.google.firebase:firebase-dynamic-links-ktx:19.1.1'
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
 
@@ -113,5 +113,4 @@ dependencies {
     implementation 'com.github.MikeOrtiz:TouchImageView:3.0.1'
 
 }
-apply plugin: 'com.google.gms.google-services'
 

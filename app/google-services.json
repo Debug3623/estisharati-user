@@ -8,36 +8,95 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:194276851086:android:b398ec0744bd1968bf38df",
+        "mobilesdk_app_id": "1:194276851086:android:77285f6683f9a205bf38df",
         "android_client_info": {
-          "package_name": "digital.upbeat.estisharati_user"
+          "package_name": "digital.upbeat.estisharati_consultant"
         }
       },
       "oauth_client": [
         {
-          "client_id": "194276851086-nh5lee0mrhbd34f5es52juqeh1v8bfqs.apps.googleusercontent.com",
+          "client_id": "194276851086-etjapkp7a5a3pou7fi9jdssb0eu7ju77.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "digital.upbeat.estisharati_user",
+            "package_name": "digital.upbeat.estisharati_consultant",
             "certificate_hash": "e85c9fceef467346c5a9f2be90d8d66b4c6fe52f"
           }
         },
         {
-          "client_id": "194276851086-r5hhgsiv79bd8t72gpk8qtb0ts7cvuvg.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "194276851086-p2t7eg5v78ip2n74kejuv2vdvpqp3c8n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "digital.upbeat.estisharati_consultant",
+            "certificate_hash": "2489b94f59d8b126e408f479985f33433fffb41a"
+          }
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB6tQlTIJohDHntySOjY41ToPB_y-K7RrY"
+          "current_key": "AIzaSyDSHxExBnMvFvnRYkB_fk1POblQmob85es"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "194276851086-r5hhgsiv79bd8t72gpk8qtb0ts7cvuvg.apps.googleusercontent.com",
+              "client_id": "194276851086-909gdqplqg1bkpi0j44dv0uuqi4kvbak.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "194276851086-6hqb7icq4ea5u7rujtmdpohngrolp476.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.upbeat.Estisharaty"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:194276851086:android:1e039157ad667d0dbf38df",
+        "android_client_info": {
+          "package_name": "digital.upbeat.estisharati_user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "194276851086-00gjiehjggsr1lk05is6ompdaku13i7u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "digital.upbeat.estisharati_user",
+            "certificate_hash": "5ff59f315e67036a4eb0dcaa0b0fa32e4a71e598"
+          }
+        },
+        {
+          "client_id": "194276851086-ud46eafshb44uvq8sg9flnv7s6048tnk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "digital.upbeat.estisharati_user",
+            "certificate_hash": "e85c9fceef467346c5a9f2be90d8d66b4c6fe52f"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSHxExBnMvFvnRYkB_fk1POblQmob85es"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "194276851086-909gdqplqg1bkpi0j44dv0uuqi4kvbak.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "194276851086-6hqb7icq4ea5u7rujtmdpohngrolp476.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.upbeat.Estisharaty"
+              }
             }
           ]
         }

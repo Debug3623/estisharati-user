@@ -50,7 +50,7 @@ class LoginAndRegistration : BaseCompatActivity() {
         preferencesHelper = SharedPreferencesHelper(this@LoginAndRegistration)
         helperMethods.setStatusBarColor(this, R.color.white)
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
-        googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().requestProfile().requestId().build()
+        googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().requestProfile().requestId().build()
     }
 
     fun clickEvents() {
@@ -416,6 +416,7 @@ class LoginAndRegistration : BaseCompatActivity() {
                 var familyName = ""
                 var email = ""
                 var photoUrl = ""
+                var idToken = ""
 
                 it.id?.let {
                     google_id = it
@@ -433,9 +434,11 @@ class LoginAndRegistration : BaseCompatActivity() {
                 it.photoUrl?.let {
                     photoUrl = it.toString()
                 }
-
+                it.idToken?.let {
+                    idToken=it
+                }
                 GoogleSignInApiCall(google_id, givenName, familyName, email, photoUrl, GlobalData.FcmToken)
-                Log.d("GoogleSignInResult", google_id + "  " + givenName + "  " + familyName + "  " + email + "  " + photoUrl)
+                Log.d("GoogleSignInResult", idToken+"   "+google_id + "  " + givenName + "  " + familyName + "  " + email + "  " + photoUrl)
             }
         }
     }
