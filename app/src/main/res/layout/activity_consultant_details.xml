@@ -64,10 +64,10 @@
                             android:id="@+id/actionBarTitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textAlignment="viewStart"
                             android:layout_marginStart="20dp"
                             android:fontFamily="@font/almarai_regular"
                             android:text="Sufyan Al-Nasr"
+                            android:textAlignment="viewStart"
                             android:textColor="@color/white"
                             android:textSize="18sp" />
                     </LinearLayout>
@@ -80,6 +80,7 @@
                         android:orientation="horizontal">
 
                         <LinearLayout
+                            android:id="@+id/chatLayout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="30dp"
@@ -103,6 +104,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/voiceLayout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="30dp"
@@ -126,6 +128,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/videoLayout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -191,51 +194,8 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/consultantPrice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:fontFamily="@font/almarai_regular"
-                            android:text="AUD 1.599"
-                            android:textColor="@color/green"
-                            android:textSize="14sp" />
 
-                        <TextView
-                            android:id="@+id/consultantOldPrice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/consultantPrice"
-                            android:layout_marginTop="5dp"
-                            android:fontFamily="@font/almarai_regular"
-                            android:text="AUD 1.599"
-                            android:textColor="@color/gray"
-                            android:textSize="14sp" />
 
-                        <LinearLayout
-                            android:id="@+id/offersEndDateLayout"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/consultantOldPrice"
-                            android:layout_marginTop="5dp"
-                            android:gravity="center_vertical">
-
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:layout_marginEnd="3dp"
-                                android:adjustViewBounds="true"
-                                android:src="@drawable/ic_end_date" />
-
-                            <TextView
-                                android:id="@+id/offersEndDate"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/almarai_regular"
-                                android:text="22/03/2020"
-                                android:textColor="@color/black"
-                                android:textSize="15sp" />
-                        </LinearLayout>
 
                         <RelativeLayout
                             android:layout_width="75dp"
@@ -320,7 +280,187 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/corner_redius_10dp_white"
+                    android:elevation="4dp"
+                    android:orientation="vertical"
+                    android:padding="15dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/almarai_regular"
+                            android:text="Consultant Price Details"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+                        <LinearLayout
+                            android:id="@+id/offersEndDateLayout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:layout_marginEnd="3dp"
+                                android:adjustViewBounds="true"
+                                android:src="@drawable/ic_end_date" />
+
+                            <TextView
+                                android:id="@+id/offersEndDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/almarai_regular"
+                                android:text="22/03/2020"
+                                android:textColor="@color/black"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+                    </RelativeLayout>
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/chatPriceLayout"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:fontFamily="@font/almarai_regular"
+                            android:text="Chat price"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="40dp"
+                            android:fontFamily="@font/almarai_regular"
+                            android:text="AED 100"
+                            android:id="@+id/chatPrice"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/green"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:fontFamily="@font/almarai_regular"
+                            android:text="AED 100"
+                            android:id="@+id/chatOldPrice"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/gray"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/voicePriceLayout"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:fontFamily="@font/almarai_regular"
+                            android:text="Voice price"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="40dp"
+                            android:fontFamily="@font/almarai_regular"
+                            android:text="AED 100"
+                            android:id="@+id/voicePrice"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/green"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:fontFamily="@font/almarai_regular"
+                            android:text="AED 100"
+                            android:id="@+id/voiceOldPrice"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/gray"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/videoPriceLayout"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+
+                            android:fontFamily="@font/almarai_regular"
+                            android:text="Video price"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="40dp"
+                            android:fontFamily="@font/almarai_regular"
+                            android:text="AED 100"
+                            android:id="@+id/videoPrice"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/green"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:fontFamily="@font/almarai_regular"
+                            android:text="AED 100"
+                            android:id="@+id/videoOldPrice"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/gray"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="20dp"
                     android:background="@drawable/corner_redius_10dp_white"
                     android:elevation="4dp"
                     android:orientation="vertical"
@@ -329,9 +469,9 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textAlignment="viewStart"
                         android:fontFamily="@font/almarai_regular"
                         android:text="@string/consultation_description"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
@@ -339,12 +479,12 @@
                         android:id="@+id/consultantQualification"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textAlignment="viewStart"
                         android:layout_marginTop="10dp"
                         android:fontFamily="@font/almarai_regular"
                         android:maxLines="2"
                         android:text="Learn about the tasks and functions of human tasks in the labor
  market and keep pace with development Modern society"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/black"
                         android:textSize="13sp" />
 

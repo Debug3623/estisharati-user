@@ -28,8 +28,8 @@ class ConsultationsCategoryAdapter(val context: Context, val consultantDetails: 
     override fun onBindViewHolder(holder: ConsultationsViewHolder, position: Int) {
         holder.consul_name.text = categoriesArrayList.get(position).category.name
         holder.parentLayout.setOnClickListener {
-            consultantDetails.dialog.dismiss()
-            consultantDetails.redirectToPayment(categoriesArrayList.get(position).category.category_id)
+            consultantDetails.categoryId = (categoriesArrayList.get(position).category.category_id)
+            consultantDetails.showConsultationPriceDetailsPopup()
         }
     }
 }

@@ -26,7 +26,7 @@ class ThanksPage : BaseCompatActivity() {
 
     fun clickEvents() {
         go_to_home_page.setOnClickListener {
-            GlobalData.packagesOptions = PackagesOptions("", "", "", "", "", "", "", "", "", "", "", "", "", "")
+            GlobalData.packagesOptions = PackagesOptions("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "")
             val intent = Intent(this@ThanksPage, UserDrawer::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
@@ -36,7 +36,7 @@ class ThanksPage : BaseCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        GlobalData.packagesOptions = PackagesOptions("", "", "", "", "", "", "", "", "", "", "", "", "", "")
+        GlobalData.packagesOptions = PackagesOptions("", "", "", "","", "", "", "", "", "", "", "", "", "", "", "", "")
         val intent = Intent(this@ThanksPage, UserDrawer::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)

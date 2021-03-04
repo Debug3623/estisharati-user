@@ -19,7 +19,7 @@ object GlobalData {
     lateinit var homeResponse: HomeResponse
      var homeResponseMain: HomeResponse?=null
     fun isThingInitialized() = ::homeResponse.isInitialized
-    var packagesOptions = PackagesOptions("", "", "", "", "", "", "", "", "", "", "", "", "", "")
+    var packagesOptions = PackagesOptions("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "")
     var FullScreen = false
     val mediaItemArrayList: ArrayList<MediaItem> = arrayListOf()
     val lessonArrayList: ArrayList<Lesson> = arrayListOf()

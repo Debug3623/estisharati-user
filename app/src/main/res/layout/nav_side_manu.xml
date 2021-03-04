@@ -391,6 +391,38 @@
                     android:background="@color/gainsboro" />
 
                 <LinearLayout
+                    android:id="@+id/nav_testimonials"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="13dp">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/ic_testimonials_icon" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:fontFamily="@font/almarai_regular"
+                        android:text="@string/testimonials"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="70dp"
+                    android:background="@color/gainsboro" />
+
+                <LinearLayout
                     android:id="@+id/nav_appointment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -519,68 +551,9 @@
                     android:background="@color/gainsboro" />
 
 
-                <LinearLayout
-                    android:id="@+id/nav_terms_condition"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="13dp">
-
-                    <ImageView
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/ic_connection" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:fontFamily="@font/almarai_regular"
-                        android:text="@string/terms_and_condition"
-                        android:textColor="@color/black"
-                        android:textSize="15sp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="70dp"
-                    android:background="@color/gainsboro" />
 
 
-                <LinearLayout
-                    android:id="@+id/nav_refund"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="13dp">
 
-                    <ImageView
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/ic_refund" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:fontFamily="@font/almarai_regular"
-                        android:text="@string/refund_policy"
-                        android:textColor="@color/black"
-                        android:textSize="15sp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="70dp"
-                    android:background="@color/gainsboro" />
 
                 <LinearLayout
                     android:id="@+id/nav_chat_home"
@@ -676,36 +649,7 @@
                     android:layout_marginEnd="70dp"
                     android:background="@color/gainsboro" />
 
-                <LinearLayout
-                    android:id="@+id/nav_faq"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="13dp">
 
-                    <ImageView
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/faq" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:fontFamily="@font/almarai_regular"
-                        android:text="@string/faq"
-                        android:textColor="@color/black"
-                        android:textSize="15sp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="70dp"
-                    android:background="@color/gainsboro" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -735,7 +679,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="45dp"
-                    android:layout_marginBottom="25dp"
+                    android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
 
                     <RadioButton
@@ -760,12 +704,65 @@
 
                 </RadioGroup>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="70dp"
+                    android:background="@color/gainsboro" />
+
+                <TextView
+                    android:id="@+id/nav_faq"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/almarai_regular"
+
+                    android:text="@string/faq"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/nav_terms_condition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/almarai_regular"
+                    android:text="@string/terms_and_condition"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/nav_privacy_policy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/almarai_regular"
+                    android:text="@string/privacy_policy"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/nav_refund"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/almarai_regular"
+                    android:text="@string/refund_policy"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
                 <TextView
                     android:id="@+id/nav_logout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="40dp"
                     android:layout_marginEnd="40dp"
+                    android:layout_marginTop="30dp"
                     android:layout_marginBottom="30dp"
                     android:background="@drawable/corner_redius_30dp_green"
                     android:fontFamily="@font/almarai_regular"

@@ -169,6 +169,9 @@ class UserDrawer : BaseCompatActivity() {
         nav_favorites.setOnClickListener {
             startActivity(Intent(this@UserDrawer, Favorites::class.java))
         }
+        nav_testimonials.setOnClickListener {
+            startActivity(Intent(this@UserDrawer, Testimonials::class.java))
+        }
         nav_appointment.setOnClickListener {
             startActivity(Intent(this@UserDrawer, MyAppointment::class.java))
         }
@@ -197,6 +200,15 @@ class UserDrawer : BaseCompatActivity() {
             if (helperMethods.isConnectingToInternet) {
                 val intent = Intent(this@UserDrawer, Pages::class.java)
                 intent.putExtra("page", "refund-policy")
+                startActivity(intent)
+            } else {
+                helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
+            }
+        }
+        nav_privacy_policy.setOnClickListener {
+            if (helperMethods.isConnectingToInternet) {
+                val intent = Intent(this@UserDrawer, Pages::class.java)
+                intent.putExtra("page", "privacy-policy")
                 startActivity(intent)
             } else {
                 helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))

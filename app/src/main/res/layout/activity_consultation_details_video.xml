@@ -253,6 +253,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:resize_mode="fit" />
+
+        <ImageView
+            android:id="@+id/placeHolder"
+            android:layout_width="match_parent"
+            android:scaleType="fitCenter"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_app_icon" />
     </RelativeLayout>
 
 

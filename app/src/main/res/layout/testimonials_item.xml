@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/holeLayout"
+        android:background="@drawable/corner_redius_10dp_white"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        android:elevation="4dp"
+        android:padding="10dp">
+
+        <digital.upbeat.estisharati_user.Utils.CircleImageView
+            android:id="@+id/profilePicture"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_temp_profile"
+            app:civ_border_color="@color/parrot_green"
+            app:civ_border_width="0dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="110dp"
+                    android:text="Taliha Al-Jaber"
+                    android:id="@+id/userName"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:src="@drawable/ic_reply_for_cmd" />
+
+                    <TextView
+                        android:id="@+id/commentsCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="45 comments"
+                        android:textColor="@color/gray"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Taliha Al-Jaber"
+                android:id="@+id/testimonialType"
+                android:textAlignment="viewStart"
+                android:textColor="@color/gray"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Taliha Al-Jaber"
+                android:textAlignment="viewStart"
+                android:singleLine="true"
+                android:id="@+id/testimonialsContent"
+                android:textColor="@color/black_light"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

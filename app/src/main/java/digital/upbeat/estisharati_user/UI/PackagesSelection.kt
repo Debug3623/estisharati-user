@@ -86,7 +86,7 @@ class PackagesSelection : BaseCompatActivity() {
         var totelDiscountAmount = 0.0
 
         TransactionAmount = GlobalData.packagesOptions.originalPrice.toDouble() - GlobalData.packagesOptions.discount.toDouble()
-        val referralAmount =  (TransactionAmount / 100.0f) * referralResponse.data.points.toDouble()
+        val referralAmount = (TransactionAmount / 100.0f) * referralResponse.data.points.toDouble()
         TransactionAmount -= referralAmount
         totelDiscountAmount += GlobalData.packagesOptions.discount.toDouble()
         totelDiscountAmount += referralAmount
@@ -238,7 +238,6 @@ class PackagesSelection : BaseCompatActivity() {
                                     return
                                 }
                                 helperMethods.showToastMessage(referralResponse.message)
-
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -281,7 +280,7 @@ class PackagesSelection : BaseCompatActivity() {
             else -> {
             }
         }
-        val responseBodyCall = retrofitInterface.USER_SUBSCRIPTION_API_CALL("Bearer ${dataUser.access_token}", GlobalData.packagesOptions.type, GlobalData.packagesOptions.category_id, subscription_id, course_id, consultant_id, GlobalData.packagesOptions.transaction_amount, GlobalData.packagesOptions.vat_amount, "1", UUID.randomUUID().toString(), GlobalData.packagesOptions.coupon_id, GlobalData.packagesOptions.coupon_code, GlobalData.packagesOptions.discount, GlobalData.packagesOptions.referral_code, GlobalData.packagesOptions.referral_discount, GlobalData.packagesOptions.referral_percent)
+        val responseBodyCall = retrofitInterface.USER_SUBSCRIPTION_API_CALL("Bearer ${dataUser.access_token}", GlobalData.packagesOptions.type, GlobalData.packagesOptions.category_id, GlobalData.packagesOptions.chat, GlobalData.packagesOptions.audio, GlobalData.packagesOptions.video, subscription_id, course_id, consultant_id, GlobalData.packagesOptions.transaction_amount, GlobalData.packagesOptions.vat_amount, "1", UUID.randomUUID().toString(), GlobalData.packagesOptions.coupon_id, GlobalData.packagesOptions.coupon_code, GlobalData.packagesOptions.discount, GlobalData.packagesOptions.referral_code, GlobalData.packagesOptions.referral_discount, GlobalData.packagesOptions.referral_percent)
 
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {

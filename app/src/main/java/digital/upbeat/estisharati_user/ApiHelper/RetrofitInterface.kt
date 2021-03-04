@@ -142,7 +142,7 @@ interface RetrofitInterface {
 
     @FormUrlEncoded
     @POST("user_subscription")
-    fun USER_SUBSCRIPTION_API_CALL(@Header("Authorization") token: String, @Field("type") type: String, @Field("category_id") category_id  : String, @Field("subscription_id") subscription_id: String, @Field("course_id") course_id: String, @Field("consultant_id") consultant_id: String,@Field("amount") amount: String, @Field("vat") vat: String, @Field("payment_method") payment_method: String, @Field("payment_reference_no") payment_reference_no: String, @Field("coupon_id") coupon_id: String, @Field("coupon_code") coupon_code: String, @Field("discount") discount: String,  @Field("referral_code") referral_code : String, @Field("referral_discount") referral_discount : String, @Field("referral_percent") referral_percent : String): Call<ResponseBody>
+    fun USER_SUBSCRIPTION_API_CALL(@Header("Authorization") token: String, @Field("type") type: String, @Field("category_id") category_id  : String, @Field("chat") chat  : String,@Field("audio") audio  : String,@Field("video") video  : String, @Field("subscription_id") subscription_id: String, @Field("course_id") course_id: String, @Field("consultant_id") consultant_id: String,@Field("amount") amount: String, @Field("vat") vat: String, @Field("payment_method") payment_method: String, @Field("payment_reference_no") payment_reference_no: String, @Field("coupon_id") coupon_id: String, @Field("coupon_code") coupon_code: String, @Field("discount") discount: String,  @Field("referral_code") referral_code : String, @Field("referral_discount") referral_discount : String, @Field("referral_percent") referral_percent : String): Call<ResponseBody>
 
 
     @GET("my-consultants")
@@ -190,12 +190,30 @@ interface RetrofitInterface {
 
     @FormUrlEncoded
     @POST("save_appointment")
-    fun SAVE_APPOINTMENT_API_CALL(@Header("Authorization") token: String,@Field("consultant_id") google_id: String, @Field("date") firstname: String, @Field("time") lastname: String, @Field("category_id") category_id: String): Call<ResponseBody>
+    fun SAVE_APPOINTMENT_API_CALL(@Header("Authorization") token: String,@Field("consultant_id") consultant_id: String, @Field("date") firstname: String, @Field("time") lastname: String, @Field("category_id") category_id: String): Call<ResponseBody>
 
     @GET("appointments")
     fun APPOINTMENTS_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
 
     @GET("categories")
     fun CATEGORIES_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("share_experience")
+    fun POST_SHARE_EXPERIENCE_CONSULTANT_API_CALL(@Header("Authorization") token: String,@Field("consultant_id") consultant_id: String, @Field("category_id") category_id: String, @Field("course_id") course_id : String): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("share_experience")
+    fun POST_SHARE_EXPERIENCE_COURSE_API_CALL(@Header("Authorization") token: String, @Field("course_id") course_id : String): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("share_experience_comments")
+    fun SHARE_EXPERIENCE_COMMENTS_API_CALL(@Header("Authorization") token: String,@Field("experience_id") experience_id: String, @Field("comment") comment: String): Call<ResponseBody>
+
+    @GET("share_experience")
+    fun GET_SHARE_EXPERIENCE_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
+
+    @GET("share_experience/{id}")
+    fun GET_SHARE_EXPERIENCE_BY_ID_API_CALL(@Header("Authorization") token: String,@Path("id")id:String): Call<ResponseBody>
 
 }

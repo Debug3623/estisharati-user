@@ -26,11 +26,24 @@ class LegalAdviceAdapter(val context: Context, val legalAdvice: LegalAdvice, var
     override fun onBindViewHolder(holder: LegalAdviceViewHolder, position: Int) {
         Glide.with(context).load(consultantsArrayList.get(position).user.image_path).apply(legalAdvice.helperMethods.requestOption).into(holder.consultantImage)
         holder.consultantName.text = consultantsArrayList.get(position).user.name
-        if (consultantsArrayList.get(position).user.offerprice.equals("0")) {
-            holder.consultantPrice.text = context.resources.getString(R.string.aed) + " " + consultantsArrayList.get(position).user.price
+        var price = 0.0
+        if (consultantsArrayList.get(position).user.offer_chat_fee.equals("0")) {
+            price += consultantsArrayList.get(position).user.chat_fee.toDouble()
         } else {
-            holder.consultantPrice.text = context.resources.getString(R.string.aed) + " " + consultantsArrayList.get(position).user.offerprice
+            price += consultantsArrayList.get(position).user.offer_chat_fee.toDouble()
         }
+        if (consultantsArrayList.get(position).user.offer_voice_fee.equals("0")) {
+            price += consultantsArrayList.get(position).user.voice_fee.toDouble()
+        } else {
+            price += consultantsArrayList.get(position).user.offer_voice_fee.toDouble()
+        }
+        if (consultantsArrayList.get(position).user.offer_video_fee.equals("0")) {
+            price += consultantsArrayList.get(position).user.video_fee.toDouble()
+        } else {
+            price += consultantsArrayList.get(position).user.offer_video_fee.toDouble()
+        }
+        holder.consultantPrice.text = context.resources.getString(R.string.aed) + " " + legalAdvice.helperMethods.convetDecimalFormat(price)
+
         holder.consultantJobTitle.text = consultantsArrayList.get(position).user.job_title
         holder.consultantRate.text = consultantsArrayList.get(position).user.rate
         if (legalAdvice.helperMethods.findConsultantIsOnline(consultantsArrayList.get(position).user.id)) holder.online_status.visibility = View.VISIBLE else holder.online_status.visibility = View.GONE

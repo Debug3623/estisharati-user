@@ -32,7 +32,7 @@ import java.io.IOException
 
 class ConsultationDetailsVideo : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
-    lateinit var simpleExoPlayer: SimpleExoPlayer
+    var simpleExoPlayer: SimpleExoPlayer? = null
     lateinit var myConsultation: Data
     lateinit var preferencesHelper: SharedPreferencesHelper
     lateinit var retrofitInterface: RetrofitInterface
@@ -89,7 +89,7 @@ class ConsultationDetailsVideo : BaseCompatActivity() {
         dialog.show()
         LayoutView.actionOk.setOnClickListener {
             if (validateAppointment(LayoutView)) {
-                saveAppointmentApiCall(myConsultation.consultant_id,LayoutView.appointmentData.text.toString(), LayoutView.appointmentTime.text.toString(),myConsultation.category_id)
+                saveAppointmentApiCall(myConsultation.consultant_id, LayoutView.appointmentData.text.toString(), LayoutView.appointmentTime.text.toString(), myConsultation.category_id)
                 dialog.dismiss()
             }
         }
@@ -136,13 +136,21 @@ class ConsultationDetailsVideo : BaseCompatActivity() {
     }
 
     fun setUpPlayer() {
-        simpleExoPlayer = SimpleExoPlayer.Builder(this@ConsultationDetailsVideo).build()
-        val uri = Uri.parse(myConsultation.preview_video)
-        val mediaItem: MediaItem = MediaItem.fromUri(uri)
-        exoPlayer.setPlayer(simpleExoPlayer)
-        simpleExoPlayer.setMediaItem(mediaItem)
-        simpleExoPlayer.prepare()
-        simpleExoPlayer.play()
+        if (myConsultation.preview_video.equals("")) {
+            exoPlayer.visibility = View.GONE
+            placeHolder.visibility = View.VISIBLE
+        } else {
+            exoPlayer.visibility = View.VISIBLE
+            placeHolder.visibility = View.GONE
+
+            simpleExoPlayer = SimpleExoPlayer.Builder(this@ConsultationDetailsVideo).build()
+            val uri = Uri.parse(myConsultation.preview_video)
+            val mediaItem: MediaItem = MediaItem.fromUri(uri)
+            exoPlayer.setPlayer(simpleExoPlayer)
+            simpleExoPlayer?.setMediaItem(mediaItem)
+            simpleExoPlayer?.prepare()
+            simpleExoPlayer?.play()
+        }
     }
 
     fun getConsultationSecondsApiCall(consultant_id: String) {
@@ -195,9 +203,9 @@ class ConsultationDetailsVideo : BaseCompatActivity() {
         })
     }
 
-    fun saveAppointmentApiCall(consultant_id: String,data: String, time: String, categoryId: String) {
+    fun saveAppointmentApiCall(consultant_id: String, data: String, time: String, categoryId: String) {
         helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
-        val responseBodyCall = retrofitInterface.SAVE_APPOINTMENT_API_CALL("Bearer ${dataUser.access_token}", consultant_id,data,time,categoryId)
+        val responseBodyCall = retrofitInterface.SAVE_APPOINTMENT_API_CALL("Bearer ${dataUser.access_token}", consultant_id, data, time, categoryId)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()
@@ -273,7 +281,9 @@ class ConsultationDetailsVideo : BaseCompatActivity() {
     }
 
     override fun onStop() {
-        simpleExoPlayer.stop()
+        simpleExoPlayer?.let {
+            it.stop()
+        }
         super.onStop()
     }
 }

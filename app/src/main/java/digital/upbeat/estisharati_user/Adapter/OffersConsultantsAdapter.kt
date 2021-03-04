@@ -27,10 +27,12 @@ class OffersConsultantsAdapter(val context: Context, val offers: Offers, val con
     override fun onBindViewHolder(holder: OffersConsultantsViewHolder, position: Int) {
         Glide.with(context).load(consultantsArrayList.get(position).consultant.image_path).apply(offers.helperMethods.profileRequestOption).into(holder.offersConsultantImage)
         holder.offersConsultantName.text = consultantsArrayList.get(position).consultant.name
-        holder.offersNewConsultantPrice.text = context.getString(R.string.aed) + " " + consultantsArrayList.get(position).offerprice
         holder.offersConsultantRate.text = consultantsArrayList.get(position).consultant.rate
         holder.offersConsultantJobTitle.text = consultantsArrayList.get(position).consultant.job_title
         holder.offersConsultantEndDate.text = consultantsArrayList.get(position).enddate
+
+
+        holder.offersNewConsultantPrice.text = context.getString(R.string.aed) + " " + consultantsArrayList.get(position).offerprice
         holder.offersOldConsultantPrice.text = consultantsArrayList.get(position).consultant.price
         holder.offersOldConsultantPrice.setPaintFlags(holder.offersOldConsultantPrice.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
         if (offers.helperMethods.findConsultantIsOnline(consultantsArrayList.get(position).consultant_id)) holder.onlineStatus.visibility = View.VISIBLE else holder.onlineStatus.visibility = View.GONE

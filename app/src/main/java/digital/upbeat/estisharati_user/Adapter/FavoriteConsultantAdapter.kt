@@ -28,11 +28,25 @@ class FavoriteConsultantAdapter(val context: Context, val favorites: Favorites, 
         holder.consultantName.text = consultantsArrayList.get(position).consultant.name
         holder.consultantJobTitle.text = consultantsArrayList.get(position).consultant.job_title
         holder.consultantRate.text = consultantsArrayList.get(position).consultant.rate
-        if (consultantsArrayList.get(position).consultant.offerprice.equals("0")) {
-            holder.consultantPrice.text = "${context.getString(R.string.aed)} ${consultantsArrayList.get(position).consultant.price}"
+
+        var price = 0.0
+        if (consultantsArrayList.get(position).consultant.offer_chat_fee.equals("0")) {
+            price += consultantsArrayList.get(position).consultant.chat_fee.toDouble()
         } else {
-            holder.consultantPrice.text = "${context.getString(R.string.aed)} ${consultantsArrayList.get(position).consultant.offerprice}"
+            price += consultantsArrayList.get(position).consultant.offer_chat_fee.toDouble()
         }
+        if (consultantsArrayList.get(position).consultant.offer_voice_fee.equals("0")) {
+            price += consultantsArrayList.get(position).consultant.voice_fee.toDouble()
+        } else {
+            price += consultantsArrayList.get(position).consultant.offer_voice_fee.toDouble()
+        }
+        if (consultantsArrayList.get(position).consultant.offer_video_fee.equals("0")) {
+            price += consultantsArrayList.get(position).consultant.video_fee.toDouble()
+        } else {
+            price += consultantsArrayList.get(position).consultant.offer_video_fee.toDouble()
+        }
+        holder.consultantPrice.text = context.resources.getString(R.string.aed) + " " + favorites.helperMethods.convetDecimalFormat(price)
+
         if (favorites.helperMethods.findConsultantIsOnline(consultantsArrayList.get(position).consultant_id)) holder.onlineStatus.visibility = View.VISIBLE else holder.onlineStatus.visibility = View.GONE
 
         holder.parentLayout.setOnClickListener {

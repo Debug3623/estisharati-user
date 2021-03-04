@@ -20,7 +20,8 @@
                 android:id="@+id/exoPlayer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:resize_mode="fit" />
+
+              android:visibility="visible"  app:resize_mode="fit" />
 
             <ImageView
                 android:id="@+id/nav_back"

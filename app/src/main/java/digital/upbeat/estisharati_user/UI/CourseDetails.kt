@@ -53,7 +53,6 @@ class CourseDetails : BaseCompatActivity() {
     lateinit var dataUser: DataUser
     lateinit var responseCoursesDetails: ResponseCourseDetails
     var courseInvitationUrl = ""
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_course_details)
@@ -72,8 +71,6 @@ class CourseDetails : BaseCompatActivity() {
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
         sharedPreferencesHelper = SharedPreferencesHelper(this@CourseDetails)
         dataUser = sharedPreferencesHelper.logInUser
-
-
     }
 
     fun clickEvents() {
@@ -82,7 +79,9 @@ class CourseDetails : BaseCompatActivity() {
             helperMethods.AlertPopup(getString(R.string.course_description), responseCoursesDetails.description)
         }
         previewCourse.setOnClickListener {
-            showCoursePreviewPopup()
+            if (!responseCoursesDetails.preview_video.equals("")) {
+                showCoursePreviewPopup()
+            }
         }
 
 
@@ -97,9 +96,9 @@ class CourseDetails : BaseCompatActivity() {
                 } else {
                     responseCoursesDetails.offerprice
                 }
-//                val vatAmount = price.toDouble() * 0.05
-//                val priceIncludedVat = vatAmount + price.toDouble()
-                GlobalData.packagesOptions = PackagesOptions(responseCoursesDetails.id, responseCoursesDetails.name, "course", "", price, "0","0", "", "", "0", "0", "", "0", "0")
+                //                val vatAmount = price.toDouble() * 0.05
+                //                val priceIncludedVat = vatAmount + price.toDouble()
+                GlobalData.packagesOptions = PackagesOptions(responseCoursesDetails.id, responseCoursesDetails.name, "course", "", "0", "0", "0", price, "0", "0", "", "", "0", "0", "", "0", "0")
 
                 startActivity(Intent(this@CourseDetails, PackagesSelection::class.java))
             }
@@ -113,7 +112,7 @@ class CourseDetails : BaseCompatActivity() {
         }
         shareCourse.setOnClickListener {
             val sendIntent = Intent(Intent.ACTION_SEND)
-            sendIntent.putExtra(Intent.EXTRA_TEXT, responseCoursesDetails.name+" Clicking link to view the course  "+"     " + courseInvitationUrl)
+            sendIntent.putExtra(Intent.EXTRA_TEXT, responseCoursesDetails.name + " Clicking link to view the course  " + "     " + courseInvitationUrl)
             sendIntent.setType("text/plain")
             startActivity(sendIntent)
         }
@@ -155,7 +154,13 @@ class CourseDetails : BaseCompatActivity() {
         buyTheCourse.text = if (responseCoursesDetails.is_subscribed) resources.getString(R.string.start_course) else {
             resources.getString(R.string.buy_now)
         }
-
+        if (responseCoursesDetails.preview_video.equals("")) {
+            previewCourseIcon.visibility = View.GONE
+            previewCourseLabel.visibility = View.GONE
+        } else {
+            previewCourseIcon.visibility = View.VISIBLE
+            previewCourseLabel.visibility = View.VISIBLE
+        }
         val invitationLink = "https://upbeat.digital/en?courseId=${responseCoursesDetails.id}"
         Firebase.dynamicLinks.shortLinkAsync {
             link = Uri.parse(invitationLink)
@@ -163,7 +168,7 @@ class CourseDetails : BaseCompatActivity() {
             androidParameters("digital.upbeat.estisharati_user") {}
             iosParameters("com.upbeat.Estisharaty") {}
         }.addOnSuccessListener { shortDynamicLink ->
-            courseInvitationUrl = shortDynamicLink.shortLink.toString()+"?courseId=${responseCoursesDetails.id}"
+            courseInvitationUrl = shortDynamicLink.shortLink.toString() + "?courseId=${responseCoursesDetails.id}"
         }
     }
 
@@ -177,7 +182,7 @@ class CourseDetails : BaseCompatActivity() {
         dialog.show()
         layoutView.courseName.text = responseCoursesDetails.name
         val simpleExoPlayer = SimpleExoPlayer.Builder(this@CourseDetails).build()
-        val uri = Uri.parse(responseCoursesDetails.video_path)
+        val uri = Uri.parse(responseCoursesDetails.preview_video)
         val mediaItem: MediaItem = MediaItem.fromUri(uri)
         layoutView.exoPlayer.setPlayer(simpleExoPlayer)
         simpleExoPlayer.setMediaItem(mediaItem)

@@ -310,4 +310,11 @@
     <string name="hh_mm">HH:MM</string>
     <string name="consultation_balance">Consultation Balance</string>
     <string name="no_user_found">No user found!</string>
+    <string name="please_select_your_consultation_type">Please select your consultation type !</string>
+    <string name="proceed">PROCEED</string>
+    <string name="consulation_price">Consulation Price</string>
+    <string name="testimonials">Testimonials</string>
+    <string name="there_is_no_testimonials_available">There is no testimonials available !</string>
+    <string name="please_wait_while_fetching_testimonials">Please wait while fetching testimonials...</string>
+    <string name="privacy_policy">Privacy Policy</string>
 </resources>

@@ -7,7 +7,11 @@ data class User(
     val image_path: String,
     val job_title: String,
     val name: String,
-    val price: String,
-    val offerprice: String?,
+    val chat_fee: String,
+    val voice_fee: String,
+    val video_fee: String,
+    var offer_chat_fee: String,
+    var offer_voice_fee: String,
+    var offer_video_fee: String,
     val rate: String
 )

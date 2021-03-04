@@ -16,10 +16,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.gson.Gson
-import digital.upbeat.estisharati_user.Adapter.ExpConsultationsAdapter
-import digital.upbeat.estisharati_user.Adapter.ExpCoursesAdapter
-import digital.upbeat.estisharati_user.Adapter.HomePagerAdapter
-import digital.upbeat.estisharati_user.Adapter.OnlineUserAdapter
+import digital.upbeat.estisharati_user.Adapter.*
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
 import digital.upbeat.estisharati_user.DataClassHelper.Chat.DataCallsFireStore
@@ -82,8 +79,8 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
         clickEvents()
         if (GlobalData.homeResponseMain!=null) {
             ShowViewPager()
-            InitializeRecyclerview()
             firestoreLisiner()
+            InitializeRecyclerview()
         } else {
             if (helperMethods.isConnectingToInternet) {
                 homeDetailsApiCall()
@@ -91,6 +88,9 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
                 helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
             }
         }
+        Log.e("access_token",preferencesHelper.logInUser.access_token)
+        initializeTestimonialsRecyclerview()
+
     }
 
     fun initViews() {
@@ -122,6 +122,9 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
         }
         exp_courses_all.setOnClickListener {
             startActivity(Intent(requireContext(), OnlineCourses::class.java))
+        }
+        testimonials_all.setOnClickListener {
+            startActivity(Intent(requireContext(), Testimonials::class.java))
         }
     }
 
@@ -301,9 +304,31 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
             online_user_recycler.setHasFixedSize(true)
             online_user_recycler.removeAllViews()
             online_user_recycler.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            online_user_recycler.adapter = OnlineUserAdapter(requireContext(), this, onlineUserArraylist)
+            online_user_recycler.adapter = OnlineUserAdapter(requireContext(), this@Home, onlineUserArraylist)
         } else {
             online_now_layout.visibility = View.GONE
+        }
+    }
+
+    fun initializeTestimonialsRecyclerview() {
+        val string: ArrayList<String> = arrayListOf()
+        string.add("")
+        string.add("")
+        string.add("")
+        string.add("")
+        string.add("")
+        string.add("")
+        string.add("")
+        if (!string.isEmpty()) {
+            testimonialsHeaderLayout.visibility = View.VISIBLE
+            testimonialsHorizRecycler.visibility = View.VISIBLE
+            testimonialsHorizRecycler.setHasFixedSize(true)
+            testimonialsHorizRecycler.removeAllViews()
+            testimonialsHorizRecycler.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            testimonialsHorizRecycler.adapter = TestimonialsHorizAdapter(requireContext(), this@Home, string)
+        } else {
+            testimonialsHeaderLayout.visibility = View.GONE
+            testimonialsHorizRecycler.visibility = View.GONE
         }
     }
 }

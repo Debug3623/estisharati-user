@@ -5,6 +5,6 @@ data class Data(
     val id: String,
     val image: String,
     val image_path: String,
-    val questions: List<Question>,
+    val questions: ArrayList<Question>,
     val title: String
 )

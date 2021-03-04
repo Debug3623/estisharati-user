@@ -44,9 +44,9 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.firestore.FirebaseFirestore
-import digital.upbeat.estisharati_user.DataClassHelper.Utils.DataTextsAndColors
 import digital.upbeat.estisharati_user.DataClassHelper.Chat.DataUserMessageFireStore
 import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
+import digital.upbeat.estisharati_user.DataClassHelper.Utils.DataTextsAndColors
 import digital.upbeat.estisharati_user.R
 import digital.upbeat.estisharati_user.UI.SplashScreen
 import digital.upbeat.estisharati_user.Utils.alertActionClickListner
@@ -54,6 +54,7 @@ import kotlinx.android.synthetic.main.alert_popup.view.*
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.text.DecimalFormat
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern
@@ -101,9 +102,15 @@ class HelperMethods(val context: Context) {
         return pattern.matcher(password).matches()
     }
 
+    fun englishFormat(amount: Double): String {
+        val nf: NumberFormat = NumberFormat.getInstance(Locale.ENGLISH)
+        return nf.format(amount)
+    }
+
     fun convetDecimalFormat(amount: Double): String {
         val df = DecimalFormat("#.##")
-        return df.format(amount)
+        val nf: NumberFormat = NumberFormat.getInstance(Locale.ENGLISH)
+        return nf.format(df.format(amount).toDouble())
     }
 
     fun ShowDateTimePicker(date: TextView, time: TextView) {

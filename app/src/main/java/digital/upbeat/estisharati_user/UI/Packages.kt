@@ -61,7 +61,7 @@ class Packages : BaseCompatActivity() {
             val packages = packagesResponse.data.get(layoutManager.centerItemPosition)
             //            val vatAmount = packages.price.toDouble() * 0.05
             //            val priceIncludedVat = vatAmount + packages.price.toDouble()
-            GlobalData.packagesOptions = PackagesOptions(packages.id, packages.name, "subscription", "", packages.price, "0", "0", "", "", "0", "0", "", "0", "0")
+            GlobalData.packagesOptions = PackagesOptions(packages.id, packages.name, "subscription", "", "0","0","0",packages.price, "0", "0", "", "", "0", "0", "", "0", "0")
             if (viaFrom.equals("Home")) {
                 startActivity(Intent(this@Packages, PackagesSelection::class.java))
             } else {

@@ -20,6 +20,8 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".UI.TestimonialsDetails"></activity>
+        <activity android:name=".UI.Testimonials" />
         <activity
             android:name=".UI.MyAppointment"
             android:screenOrientation="portrait" />

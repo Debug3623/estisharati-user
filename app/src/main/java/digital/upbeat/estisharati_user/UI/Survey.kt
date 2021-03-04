@@ -1,5 +1,6 @@
 package digital.upbeat.estisharati_user.UI
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -8,6 +9,9 @@ import android.widget.RadioGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.google.gson.Gson
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
@@ -148,7 +152,21 @@ class Survey : AppCompatActivity() {
             params.setMargins(0, 15, 0, 0)
             rdbtn.setLayoutParams(params)
             //            rdbtn.compoundDrawablePadding=20
-            rdbtn.setText(option.name)
+            if (option.image_path.equals("")) {
+                rdbtn.setText(option.name)
+            } else {
+                rdbtn.setText(option.name)
+                rdbtn.compoundDrawablePadding = 20
+                Glide.with(this@Survey).load(option.image_path).apply(helperMethods.requestOption).into(object : CustomTarget<Drawable>(200, 150) {
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                        rdbtn.setCompoundDrawablesWithIntrinsicBounds(placeholder, null, null, null)
+                    }
+
+                    override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                        rdbtn.setCompoundDrawablesWithIntrinsicBounds(resource, null, null, null)
+                    }
+                })
+            }
             questionRadioGroup.addView(rdbtn)
         }
         questionRadioGroup.setOnCheckedChangeListener { group, checkedId ->
@@ -212,10 +230,11 @@ class Survey : AppCompatActivity() {
                             val jsonObject = JSONObject(response.body()!!.string())
                             val status = jsonObject.getString("status")
                             val message = jsonObject.getString("message")
+                            val data = jsonObject.getString("data")
                             if (status.equals("200")) {
                                 completeSurvey.visibility = View.VISIBLE
                                 surveyQuestionPage.visibility = View.GONE
-                                messageSuccess.text = message
+                                messageSuccess.text = data
                                 helperMethods.showToastMessage(message)
                             } else {
                                 if (helperMethods.checkTokenValidation(status, message)) {
