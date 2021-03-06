@@ -86,6 +86,7 @@ class Testimonials : AppCompatActivity() {
                     if (response.body() != null) {
                         try {
                              testimonialsResponse  = Gson().fromJson(response.body()!!.string(), TestimonialsResponse::class.java)
+                            GlobalData.testimonialsResponse=testimonialsResponse
                             if (testimonialsResponse.status.equals("200")) {
                                 InitializeRecyclerview()
                             } else {

@@ -38,6 +38,7 @@
                     android:layout_marginEnd="110dp"
                     android:text="Taliha Al-Jaber"
                     android:id="@+id/userName"
+                    android:singleLine="true"
                     android:textAlignment="viewStart"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
@@ -73,6 +74,7 @@
                 android:layout_marginTop="5dp"
                 android:text="Taliha Al-Jaber"
                 android:id="@+id/testimonialType"
+                android:singleLine="true"
                 android:textAlignment="viewStart"
                 android:textColor="@color/gray"
                 android:textSize="12sp" />

@@ -5,6 +5,7 @@ import digital.upbeat.estisharati_user.DataClassHelper.Chat.DataUserFireStore
 import digital.upbeat.estisharati_user.DataClassHelper.Home.HomeResponse
 import digital.upbeat.estisharati_user.DataClassHelper.PackagesOptions.PackagesOptions
 import digital.upbeat.estisharati_user.DataClassHelper.StartCourse.Lesson
+import digital.upbeat.estisharati_user.DataClassHelper.Testimonials.TestimonialsResponse
 
 object GlobalData {
     const val PICK_IMAGE_GALLERY = 1
@@ -26,5 +27,7 @@ object GlobalData {
     var lessonsPlayingPosition = 0
     var lessonsPlayingDuration: Long = 0
     var allUserArraylist = arrayListOf<DataUserFireStore>()
+
+     var testimonialsResponse: TestimonialsResponse?=null
 
 }

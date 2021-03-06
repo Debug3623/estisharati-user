@@ -25,9 +25,6 @@ class MyConsultationsAdapter(val context: Context, val myConsultations: MyConsul
     }
 
     override fun onBindViewHolder(holder: MyConsultationsViewHolder, position: Int) {
-        myConsultationArrayList.get(position).audio = true
-        myConsultationArrayList.get(position).video = true
-        myConsultationArrayList.get(position).chat = true
 
         if (myConsultations.helperMethods.findConsultantIsOnline(myConsultationArrayList.get(position).consultant_id)) holder.online_status.visibility = View.VISIBLE else holder.online_status.visibility = View.GONE
 

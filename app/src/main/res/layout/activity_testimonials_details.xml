@@ -126,13 +126,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
                             android:fontFamily="@font/almarai_regular"
-                            android:text="pariatur. risus in aliquet, adipiscing mollis quis proident,
-proident, commodo proident. \n\n tincidunt felis elit,
-sapien aliquip laboris a felis consectetur proident, tincidunt
-nulla nibh laborispariatur. risus in aliquet, \n\n mollis quis proident,
-proident, commodo proident, qui nunc. tincidunt felis elit,
-sapien aliquip laboris a felis consectetur proident, tincidunt
-nulla nibh laboris"
+                            android:text=""
                             android:textAlignment="viewStart"
                             android:textColor="@color/black_light"
                             android:textSize="15sp" />

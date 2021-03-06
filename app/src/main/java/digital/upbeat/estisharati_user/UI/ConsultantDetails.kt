@@ -165,12 +165,7 @@ class ConsultantDetails : BaseCompatActivity() {
     }
 
     fun redirectToPayment() {
-        //        val price = if (consultantDetailsResponse.offerprice.equals("0")) {
-        //            consultantDetailsResponse.consultant_cost
-        //        } else {
-        //            consultantDetailsResponse.offerprice
-        //        }
-        GlobalData.packagesOptions = PackagesOptions(consultantDetailsResponse.id, consultantDetailsResponse.name, "consultation", categoryId, chat, audio, video, price.toString(), "0", "0", "", "", "0", "0", "", "0", "0")
+       GlobalData.packagesOptions = PackagesOptions(consultantDetailsResponse.id, consultantDetailsResponse.name, "consultation", categoryId, chat, audio, video, price.toString(), "0", "0", "", "", "0", "0", "", "0", "0")
         startActivity(Intent(this@ConsultantDetails, PackagesSelection::class.java))
     }
 
@@ -217,9 +212,9 @@ class ConsultantDetails : BaseCompatActivity() {
         popup_view.consultationPriceLayout.visibility = View.VISIBLE
         popup_view.actionProceedBtn.visibility = View.VISIBLE
         popup_view.consultationsRecycler.visibility = View.GONE
-        //        popup_view.chatLayout.visibility  =  if (consultantDetailsResponse.chat) View.VISIBLE else View.GONE
-        //        popup_view.voiceLayout.visibility = if (consultantDetailsResponse.voice) View.VISIBLE else View.GONE
-        //        popup_view.videoLayout.visibility = if (consultantDetailsResponse.video) View.VISIBLE else View.GONE
+        popup_view.chatLayout.visibility = if (!consultantDetailsResponse.chat) View.VISIBLE else View.GONE
+        popup_view.voiceLayout.visibility = if (!consultantDetailsResponse.voice) View.VISIBLE else View.GONE
+        popup_view.videoLayout.visibility = if (!consultantDetailsResponse.video) View.VISIBLE else View.GONE
         if (chat.equals("1")) {
             popup_view.chatImage.clearColorFilter()
             popup_view.chatText.setTextColor(ContextCompat.getColor(this@ConsultantDetails, R.color.black))

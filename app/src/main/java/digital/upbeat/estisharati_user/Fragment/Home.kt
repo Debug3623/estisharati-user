@@ -24,6 +24,7 @@ import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_user.DataClassHelper.Chat.DataUserFireStore
 import digital.upbeat.estisharati_user.DataClassHelper.Home.Category
 import digital.upbeat.estisharati_user.DataClassHelper.Home.HomeResponse
+import digital.upbeat.estisharati_user.DataClassHelper.Testimonials.TestimonialsResponse
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
@@ -89,7 +90,6 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
             }
         }
         Log.e("access_token",preferencesHelper.logInUser.access_token)
-        initializeTestimonialsRecyclerview()
 
     }
 
@@ -134,6 +134,20 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
         viewpager.adapter = homePagerAdapter
         indicator.setViewPager(viewpager)
         viewpager.startAnimation(rotateimage)
+    }
+
+    override fun onStart() {
+
+        if(GlobalData.testimonialsResponse==null){
+            if (helperMethods.isConnectingToInternet) {
+                experiencApiCall()
+            } else {
+                helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
+            }
+        }else{
+            initializeTestimonialsRecyclerview()
+        }
+        super.onStart()
     }
 
     override fun onResume() {
@@ -311,24 +325,62 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
     }
 
     fun initializeTestimonialsRecyclerview() {
-        val string: ArrayList<String> = arrayListOf()
-        string.add("")
-        string.add("")
-        string.add("")
-        string.add("")
-        string.add("")
-        string.add("")
-        string.add("")
-        if (!string.isEmpty()) {
-            testimonialsHeaderLayout.visibility = View.VISIBLE
-            testimonialsHorizRecycler.visibility = View.VISIBLE
-            testimonialsHorizRecycler.setHasFixedSize(true)
-            testimonialsHorizRecycler.removeAllViews()
-            testimonialsHorizRecycler.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            testimonialsHorizRecycler.adapter = TestimonialsHorizAdapter(requireContext(), this@Home, string)
-        } else {
-            testimonialsHeaderLayout.visibility = View.GONE
-            testimonialsHorizRecycler.visibility = View.GONE
+        GlobalData.testimonialsResponse?.let {
+            if (!it.data.isEmpty()) {
+                testimonialsHeaderLayout.visibility = View.VISIBLE
+                testimonialsHorizRecycler.visibility = View.VISIBLE
+                testimonialsHorizRecycler.setHasFixedSize(true)
+                testimonialsHorizRecycler.removeAllViews()
+                testimonialsHorizRecycler.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                testimonialsHorizRecycler.adapter = TestimonialsHorizAdapter(requireContext(), this@Home, it.data)
+            } else {
+                testimonialsHeaderLayout.visibility = View.GONE
+                testimonialsHorizRecycler.visibility = View.GONE
+            }
         }
+
+    }
+
+    fun experiencApiCall() {
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
+        val responseBodyCall = retrofitInterface.GET_SHARE_EXPERIENCE_API_CALL("Bearer ${dataUser.access_token}")
+        responseBodyCall.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                helperMethods.dismissProgressDialog()
+
+                if (response.isSuccessful) {
+                    if (response.body() != null) {
+                        try {
+                            GlobalData.testimonialsResponse = Gson().fromJson(response.body()!!.string(), TestimonialsResponse::class.java)
+                            if (GlobalData.testimonialsResponse?.status.equals("200")) {
+                                initializeTestimonialsRecyclerview()
+                            } else {
+                                if (helperMethods.checkTokenValidation(GlobalData.testimonialsResponse!!.status, GlobalData.testimonialsResponse!!.message)) {
+                                    requireActivity().finish()
+                                    return
+                                }
+                                helperMethods.AlertPopup(getString(R.string.alert), GlobalData.testimonialsResponse!!.message)
+                            }
+                        } catch (e: JSONException) {
+                            helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
+                            e.printStackTrace()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    } else {
+                        Log.d("body", "Body Empty")
+                    }
+                } else {
+                    helperMethods.showToastMessage(getString(R.string.something_went_wrong))
+                    Log.d("body", "Not Successful")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                helperMethods.dismissProgressDialog()
+                t.printStackTrace()
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
+            }
+        })
     }
 }

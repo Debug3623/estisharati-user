@@ -305,11 +305,13 @@
     <string name="hh_mm">دقائق:ساعات</string>
     <string name="consultation_balance">رصيد الاستشارة</string>
     <string name="no_user_found">لم يتم العثور علي المستخدم!</string>
-    <string name="please_select_your_consultation_type">Please select your consultation type !</string>
-    <string name="proceed">PROCEED</string>
-    <string name="consulation_price">Consulation Price</string>
-    <string name="testimonials">Testimonials</string>
-    <string name="there_is_no_testimonials_available">There is no testimonials available !</string>
-    <string name="please_wait_while_fetching_testimonials">Please wait while fetching testimonials...</string>
-    <string name="privacy_policy">Privacy Policy</string>
+    <string name="please_select_your_consultation_type">الرجاء تحديد نوع الاستشارة الخاص بك!</string>
+    <string name="proceed">أكمل</string>
+    <string name="consulation_price">تكلفة الاستشارة</string>
+    <string name="testimonials">التوصيات</string>
+    <string name="there_is_no_testimonials_available">لا توجد آراء متاحة!</string>
+    <string name="please_wait_while_fetching_testimonials">الرجاء الانتظار أثناء تحميل الآراء...</string>
+    <string name="privacy_policy">سياسة الخصوصية</string>
+    <string name="share_your_testimonial">شارك بتجربتك</string>
+    <string name="write_your_experience_about_this_course">اكتب تجربتك حول هذه الدورة!</string>
 </resources>

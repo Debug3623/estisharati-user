@@ -200,11 +200,11 @@ interface RetrofitInterface {
 
     @FormUrlEncoded
     @POST("share_experience")
-    fun POST_SHARE_EXPERIENCE_CONSULTANT_API_CALL(@Header("Authorization") token: String,@Field("consultant_id") consultant_id: String, @Field("category_id") category_id: String, @Field("course_id") course_id : String): Call<ResponseBody>
+    fun POST_SHARE_EXPERIENCE_CONSULTANT_API_CALL(@Header("Authorization") token: String,@Field("consultant_id") consultant_id: String, @Field("category_id") category_id: String, @Field("experience") experience : String): Call<ResponseBody>
 
     @FormUrlEncoded
     @POST("share_experience")
-    fun POST_SHARE_EXPERIENCE_COURSE_API_CALL(@Header("Authorization") token: String, @Field("course_id") course_id : String): Call<ResponseBody>
+    fun POST_SHARE_EXPERIENCE_COURSE_API_CALL(@Header("Authorization") token: String, @Field("course_id") course_id : String, @Field("experience") experience : String): Call<ResponseBody>
 
     @FormUrlEncoded
     @POST("share_experience_comments")

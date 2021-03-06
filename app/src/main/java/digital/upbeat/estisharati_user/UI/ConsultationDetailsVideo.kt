@@ -8,6 +8,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
+import android.widget.EditText
+import android.widget.RatingBar
+import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.*
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
@@ -73,6 +77,9 @@ class ConsultationDetailsVideo : BaseCompatActivity() {
         }
         balanceBTN.setOnClickListener {
             getConsultationSecondsApiCall(myConsultation.consultant_id)
+        }
+        postTestimonials.setOnClickListener {
+            showPostTestimonialPopup(myConsultation)
         }
         appointmentImage.setOnClickListener {
             showAppointmentPopup()
@@ -278,6 +285,86 @@ class ConsultationDetailsVideo : BaseCompatActivity() {
         LayoutView.chatBalance.text = chat_balance.toString() + " " + getString(R.string.count)
         LayoutView.voiceBalance.text = (((audio_balance % 3600) / 60).toString() + "." + (audio_balance % 3600) % 60) + " " + getString(R.string.minutes)
         LayoutView.videoBalance.text = (((video_balance % 3600) / 60).toString() + "." + (video_balance % 3600) % 60) + " " + getString(R.string.minutes)
+    }
+
+    fun showPostTestimonialPopup(ConsultationItem: Data) {
+        val LayoutView = LayoutInflater.from(this@ConsultationDetailsVideo).inflate(R.layout.rating_popup, null)
+        val aleatdialog = android.app.AlertDialog.Builder(this@ConsultationDetailsVideo)
+        aleatdialog.setView(LayoutView)
+        aleatdialog.setCancelable(false)
+        val dialog = aleatdialog.create()
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+        val rating_bar = LayoutView.findViewById(R.id.rating_bar) as RatingBar
+        val rating_based_cmd = LayoutView.findViewById(R.id.rating_based_cmd) as TextView
+        val comments = LayoutView.findViewById(R.id.comments) as EditText
+        val send = LayoutView.findViewById(R.id.send) as Button
+        val mayBeLater = LayoutView.findViewById(R.id.mayBeLater) as TextView
+        val title = LayoutView.findViewById(R.id.title) as TextView
+        title.text = ConsultationItem.name
+        rating_bar.visibility = View.GONE
+        rating_based_cmd.visibility = View.GONE
+        mayBeLater.setOnClickListener {
+            dialog.dismiss()
+        }
+        send.setOnClickListener {
+            if (comments.text.toString().equals("")) {
+                helperMethods.showToastMessage(getString(R.string.write_your_experience_about_this_course))
+                return@setOnClickListener
+            }
+            if (!helperMethods.isConnectingToInternet) {
+                helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
+                return@setOnClickListener
+            }
+            dialog.dismiss()
+            shareExperienceApiCall(ConsultationItem.consultant_id,ConsultationItem.category_id,comments.text.toString())
+        }
+    }
+    fun shareExperienceApiCall(consultant_id: String, category_id: String, comments: String) {
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
+        val responseBodyCall = retrofitInterface.POST_SHARE_EXPERIENCE_CONSULTANT_API_CALL("Bearer ${dataUser.access_token}", consultant_id, category_id, comments)
+        responseBodyCall.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                helperMethods.dismissProgressDialog()
+
+                if (response.isSuccessful) {
+                    if (response.body() != null) {
+                        try {
+                            val jsonObject = JSONObject(response.body()!!.string())
+                            val status = jsonObject.getString("status")
+                            if (status.equals("200")) {
+                                val message = jsonObject.getString("message")
+                                helperMethods.showToastMessage(message)
+                                GlobalData.testimonialsResponse=null
+                            } else {
+                                val message = jsonObject.getString("message")
+                                if (helperMethods.checkTokenValidation(status, message)) {
+                                    finish()
+                                    return
+                                }
+                                helperMethods.AlertPopup(getString(R.string.alert), message)
+                            }
+                        } catch (e: JSONException) {
+                            helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
+                            e.printStackTrace()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    } else {
+                        Log.d("body", "Body Empty")
+                    }
+                } else {
+                    helperMethods.showToastMessage(getString(R.string.something_went_wrong))
+                    Log.d("body", "Not Successful")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                helperMethods.dismissProgressDialog()
+                t.printStackTrace()
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
+            }
+        })
     }
 
     override fun onStop() {

@@ -1,7 +1,9 @@
 package digital.upbeat.estisharati_user.UI
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -63,7 +65,19 @@ class TestimonialsDetails : AppCompatActivity() {
                 helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
                 return@setOnClickListener
             }
-            experiencByIdApiCall(writeComment.text.toString())
+            experiencCommentsApiCall(writeComment.text.toString())
+        }
+        testimonialType.setOnClickListener {
+            if (testimonialsDetailsResponse.data.type.equals("consultant")) {
+                val intent = Intent(this@TestimonialsDetails, ConsultantDetails::class.java)
+                intent.putExtra("consultant_id", testimonialsDetailsResponse.data.consultant_id)
+                intent.putExtra("category_id",  "")
+                startActivity(intent)
+            } else {
+                val intent = Intent(this@TestimonialsDetails, CourseDetails::class.java)
+                intent.putExtra("courseId", testimonialsDetailsResponse.data.course_id)
+                startActivity(intent)
+            }
         }
     }
 
@@ -76,7 +90,7 @@ class TestimonialsDetails : AppCompatActivity() {
         Glide.with(this@TestimonialsDetails).load(testimonialsDetailsResponse.data.user.image_path).apply(helperMethods.requestOption).into(profilePicture)
         userName.text = testimonialsDetailsResponse.data.user.name
         commentsCount.text = testimonialsDetailsResponse.data.comments_count + " " + getString(R.string.comments)
-        testimonialsContent.text = testimonialsDetailsResponse.data.experience
+        testimonialsContent.text = helperMethods.getHtmlText(testimonialsDetailsResponse.data.experience)
         Glide.with(this@TestimonialsDetails).load(dataUser.image).apply(helperMethods.requestOption).into(myProfileImage)
 
         InitializeRecyclerview()
@@ -131,8 +145,7 @@ class TestimonialsDetails : AppCompatActivity() {
             }
         })
     }
-
-    fun experiencByIdApiCall(comment: String) {
+    fun experiencCommentsApiCall(comment: String) {
         helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
         val responseBodyCall = retrofitInterface.SHARE_EXPERIENCE_COMMENTS_API_CALL("Bearer ${dataUser.access_token}", testimonialId, comment)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
@@ -149,6 +162,9 @@ class TestimonialsDetails : AppCompatActivity() {
                             if (status.equals("200")) {
                                 helperMethods.showToastMessage(message)
                                 experiencByIdApiCall()
+                                GlobalData.testimonialsResponse = null
+                                helperMethods.hideSoftKeyboard(writeComment)
+                                writeComment.text = "".toEditable()
                             } else {
                                 if (helperMethods.checkTokenValidation(status, message)) {
                                     finish()
@@ -178,4 +194,6 @@ class TestimonialsDetails : AppCompatActivity() {
             }
         })
     }
+
+    fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
 }
