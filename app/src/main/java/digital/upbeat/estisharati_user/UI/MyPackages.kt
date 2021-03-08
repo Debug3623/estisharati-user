@@ -62,7 +62,7 @@ class MyPackages : BaseCompatActivity() {
         myPackageRecycler.setHasFixedSize(true)
         myPackageRecycler.removeAllViews()
         myPackageRecycler.layoutManager = LinearLayoutManager(this@MyPackages)
-        myPackageRecycler.adapter = PackageAdapter(this@MyPackages, null, this@MyPackages, packagesResponse.data)
+        myPackageRecycler.adapter = PackageAdapter(this@MyPackages, null, this@MyPackages,null, packagesResponse.data, arrayListOf())
         if (packagesResponse.data.size > 0) {
             emptyLayout.visibility = View.GONE
             myPackageRecycler.visibility = View.VISIBLE

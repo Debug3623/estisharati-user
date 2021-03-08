@@ -114,9 +114,9 @@ class ConsultantDetails : BaseCompatActivity() {
         }
 
 
-        if (!consultantDetailsResponse.chat) {
-            chatLayout.visibility = View.VISIBLE
-            chatPriceLayout.visibility = View.VISIBLE
+//        if (consultantDetailsResponse.chat) {
+//            chatLayout.visibility = View.VISIBLE
+//            chatPriceLayout.visibility = View.VISIBLE
             if (consultantDetailsResponse.offer_chat_fee.equals("0")) {
                 chatPrice.text = "${getString(R.string.aed)} ${consultantDetailsResponse.chat_fee}"
                 chatOldPrice.visibility = View.GONE
@@ -126,13 +126,13 @@ class ConsultantDetails : BaseCompatActivity() {
                 chatOldPrice.setPaintFlags(chatOldPrice.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
                 chatOldPrice.visibility = View.VISIBLE
             }
-        } else {
-            chatLayout.visibility = View.GONE
-            chatPriceLayout.visibility = View.GONE
-        }
-        if (!consultantDetailsResponse.voice) {
-            voiceLayout.visibility = View.VISIBLE
-            voicePriceLayout.visibility = View.VISIBLE
+//        } else {
+//            chatLayout.visibility = View.GONE
+//            chatPriceLayout.visibility = View.GONE
+//        }
+//        if (consultantDetailsResponse.voice) {
+//            voiceLayout.visibility = View.VISIBLE
+//            voicePriceLayout.visibility = View.VISIBLE
             if (consultantDetailsResponse.offer_voice_fee.equals("0")) {
                 voicePrice.text = "${getString(R.string.aed)} ${consultantDetailsResponse.voice_fee}"
                 voiceOldPrice.visibility = View.GONE
@@ -142,13 +142,13 @@ class ConsultantDetails : BaseCompatActivity() {
                 voiceOldPrice.setPaintFlags(voiceOldPrice.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
                 voiceOldPrice.visibility = View.VISIBLE
             }
-        } else {
-            voiceLayout.visibility = View.GONE
-            voicePriceLayout.visibility = View.GONE
-        }
-        if (!consultantDetailsResponse.video) {
-            videoLayout.visibility = View.VISIBLE
-            videoPriceLayout.visibility = View.VISIBLE
+//        } else {
+//            voiceLayout.visibility = View.GONE
+//            voicePriceLayout.visibility = View.GONE
+//        }
+//        if (consultantDetailsResponse.video) {
+//            videoLayout.visibility = View.VISIBLE
+//            videoPriceLayout.visibility = View.VISIBLE
             if (consultantDetailsResponse.offer_video_fee.equals("0")) {
                 videoPrice.text = "${getString(R.string.aed)} ${consultantDetailsResponse.video_fee}"
                 videoOldPrice.visibility = View.GONE
@@ -158,10 +158,10 @@ class ConsultantDetails : BaseCompatActivity() {
                 videoOldPrice.setPaintFlags(videoOldPrice.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
                 videoOldPrice.visibility = View.VISIBLE
             }
-        } else {
-            videoLayout.visibility = View.GONE
-            videoPriceLayout.visibility = View.GONE
-        }
+//        } else {
+//            videoLayout.visibility = View.GONE
+//            videoPriceLayout.visibility = View.GONE
+//        }
     }
 
     fun redirectToPayment() {
@@ -212,9 +212,9 @@ class ConsultantDetails : BaseCompatActivity() {
         popup_view.consultationPriceLayout.visibility = View.VISIBLE
         popup_view.actionProceedBtn.visibility = View.VISIBLE
         popup_view.consultationsRecycler.visibility = View.GONE
-        popup_view.chatLayout.visibility = if (!consultantDetailsResponse.chat) View.VISIBLE else View.GONE
-        popup_view.voiceLayout.visibility = if (!consultantDetailsResponse.voice) View.VISIBLE else View.GONE
-        popup_view.videoLayout.visibility = if (!consultantDetailsResponse.video) View.VISIBLE else View.GONE
+//        popup_view.chatLayout.visibility = if (!consultantDetailsResponse.chat) View.VISIBLE else View.GONE
+//        popup_view.voiceLayout.visibility = if (!consultantDetailsResponse.voice) View.VISIBLE else View.GONE
+//        popup_view.videoLayout.visibility = if (!consultantDetailsResponse.video) View.VISIBLE else View.GONE
         if (chat.equals("1")) {
             popup_view.chatImage.clearColorFilter()
             popup_view.chatText.setTextColor(ContextCompat.getColor(this@ConsultantDetails, R.color.black))

@@ -94,6 +94,9 @@ class MyProfile : AppCompatActivity() {
                 change_password_layot.visibility = View.GONE
                 change_password_arrow.setImageResource(R.drawable.ic_up_arrow_white)
             } else {
+                currentPassword.text = "".toEditable()
+                newPassword.text = "".toEditable()
+                confirmPassword.text = "".toEditable()
                 change_password_layot.visibility = View.VISIBLE
                 change_password_arrow.setImageResource(R.drawable.ic_down_arrow_white)
                 scrollView.post {

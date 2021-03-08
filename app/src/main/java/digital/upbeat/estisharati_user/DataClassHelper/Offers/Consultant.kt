@@ -7,7 +7,7 @@ data class Consultant(
     val discount_rate: String,
     val enddate: String,
     val id: Int,
-    val offerprice: Double,
+    val offerprice: String,
     val startdate: String,
     val type: String
 )

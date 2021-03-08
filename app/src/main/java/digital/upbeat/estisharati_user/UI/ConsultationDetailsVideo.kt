@@ -267,21 +267,21 @@ class ConsultationDetailsVideo : BaseCompatActivity() {
         LayoutView.actionOkBtn.setOnClickListener {
             dialog.dismiss()
         }
-        if (myConsultation.chat) {
-            LayoutView.chatLayout.visibility = View.VISIBLE
-        } else {
-            LayoutView.chatLayout.visibility = View.GONE
-        }
-        if (myConsultation.audio) {
-            LayoutView.voiceLayout.visibility = View.VISIBLE
-        } else {
-            LayoutView.voiceLayout.visibility = View.GONE
-        }
-        if (myConsultation.video) {
-            LayoutView.videoLayout.visibility = View.VISIBLE
-        } else {
-            LayoutView.videoLayout.visibility = View.GONE
-        }
+//        if (myConsultation.chat) {
+//            LayoutView.chatLayout.visibility = View.VISIBLE
+//        } else {
+//            LayoutView.chatLayout.visibility = View.GONE
+//        }
+//        if (myConsultation.audio) {
+//            LayoutView.voiceLayout.visibility = View.VISIBLE
+//        } else {
+//            LayoutView.voiceLayout.visibility = View.GONE
+//        }
+//        if (myConsultation.video) {
+//            LayoutView.videoLayout.visibility = View.VISIBLE
+//        } else {
+//            LayoutView.videoLayout.visibility = View.GONE
+//        }
         LayoutView.chatBalance.text = chat_balance.toString() + " " + getString(R.string.count)
         LayoutView.voiceBalance.text = (((audio_balance % 3600) / 60).toString() + "." + (audio_balance % 3600) % 60) + " " + getString(R.string.minutes)
         LayoutView.videoBalance.text = (((video_balance % 3600) / 60).toString() + "." + (video_balance % 3600) % 60) + " " + getString(R.string.minutes)

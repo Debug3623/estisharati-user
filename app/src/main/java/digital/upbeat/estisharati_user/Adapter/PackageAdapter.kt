@@ -2,11 +2,13 @@ package digital.upbeat.estisharati_user.Adapter
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import digital.upbeat.estisharati_user.DataClassHelper.Offers.Package
 import digital.upbeat.estisharati_user.DataClassHelper.Packages.Data
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.R
@@ -17,9 +19,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class PackageAdapter(val context: Context, val packages: Packages?, val myPackages: MyPackages?, val packagesArrayList: ArrayList<Data>) : RecyclerView.Adapter<PackageViewHolder>() {
-    lateinit var helperMethods: HelperMethods
-    var purchased = false
+class PackageAdapter(val context: Context, val packages: Packages?, val myPackages: MyPackages?, val offers: Offers?, val packagesArrayList: ArrayList<Data>, val offersPackagesArrayList: ArrayList<Package>) : RecyclerView.Adapter<PackageViewHolder>() {
+    var helperMethods: HelperMethods
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PackageViewHolder {
         val layoutView = LayoutInflater.from(context).inflate(R.layout.package_item, parent, false)
         return PackageViewHolder(layoutView)
@@ -30,19 +33,31 @@ class PackageAdapter(val context: Context, val packages: Packages?, val myPackag
     }
 
     override fun getItemCount(): Int {
-        return packagesArrayList.size
+        return if (offers != null) offersPackagesArrayList.size else packagesArrayList.size
     }
 
     override fun onBindViewHolder(holder: PackageViewHolder, position: Int) {
-        val packagesItems = packagesArrayList.get(position)
+        lateinit var packagesItems :Data
+        if (offers != null) {
+             packagesItems = offersPackagesArrayList.get(position).subscription
 
-        if (packages != null) {
-            purchased = false
+            holder.OldPrice.text = packagesItems.price
+            holder.offersEndDate.text = offersPackagesArrayList.get(position).enddate
+            holder.packagePrice.text = offersPackagesArrayList.get(position).offerprice
+            holder.offerLayout.visibility = View.VISIBLE
+            holder.OldPrice.setPaintFlags( holder.OldPrice.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
+
+        } else if (packages != null) {
+             packagesItems = packagesArrayList.get(position)
+
             holder.packagePrice.text = packagesItems.price
+            holder.offerLayout.visibility = View.GONE
         } else if (myPackages != null) {
-            purchased = true
+             packagesItems = packagesArrayList.get(position)
             holder.packagePrice.text = packagesItems.amount
+            holder.offerLayout.visibility = View.GONE
         }
+
         holder.showExisitingCourses.setOnClickListener {
             val intent = Intent(context, ExistingCourses::class.java)
             intent.putExtra("courses", packagesItems.courses)
@@ -71,7 +86,7 @@ class PackageAdapter(val context: Context, val packages: Packages?, val myPackag
             holder.writtenLayout.visibility = View.GONE
         } else {
             holder.writtenLayout.visibility = View.VISIBLE
-            holder.writtenHourse.text = context.getString(R.string.written_chat) + " " + formatToMinute(packagesItems.features.written.time)
+            holder.writtenHourse.text = context.getString(R.string.written_chat) + " " + packagesItems.features.written.time
         }
         if (packagesItems.courses.size > 0) {
             holder.courseLayout.visibility = View.VISIBLE
@@ -111,6 +126,12 @@ class PackageAdapter(val context: Context, val packages: Packages?, val myPackag
             if (consultantIndex == 4) {
                 holder.consultantImage5.visibility = View.VISIBLE
                 Glide.with(context).load(packagesItems.consultants.get(consultantIndex).image_path).apply(helperMethods.requestOption).into(holder.consultantImage5)
+            }
+        }
+
+        holder.packageLayout.setOnClickListener {
+            offers?.let {
+                offers.choosePackage(packagesItems)
             }
         }
     }

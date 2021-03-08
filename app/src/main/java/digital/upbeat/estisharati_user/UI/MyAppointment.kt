@@ -80,7 +80,7 @@ class MyAppointment : AppCompatActivity() {
     }
     fun appointmentsApiCall() {
         helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
-        val responseBodyCall = retrofitInterface.APPOINTMENTS_API_CALL("Bearer 1${dataUser.access_token}")
+        val responseBodyCall = retrofitInterface.APPOINTMENTS_API_CALL("Bearer ${dataUser.access_token}")
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()

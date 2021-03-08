@@ -58,15 +58,16 @@ class ContactUs : BaseCompatActivity() {
     fun setUserDetails() {
         contactusName.text = (dataUserObject.fname + " " + dataUserObject.lname).toEditable()
         contactusEmail.text = dataUserObject.email.toEditable()
-        contactusPhone.text = dataUserObject.phone.toEditable()
-        val messageTypesArrayList : ArrayList<String> = arrayListOf()
+        var phone = dataUserObject.phone
+        phone = phone.replace(" ", "")
+        contactusPhone.text = phone.toEditable()
+        val messageTypesArrayList: ArrayList<String> = arrayListOf()
         for (types in GlobalData.homeResponse.message_types) {
             messageTypesArrayList.add(types.title)
         }
         val adapter = ArrayAdapter(this@ContactUs, R.layout.support_simple_spinner_dropdown_item, messageTypesArrayList)
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         messageTypeSpinner.adapter = adapter
-
     }
 
     fun contactusValidation(): Boolean {

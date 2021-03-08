@@ -149,24 +149,26 @@ class Survey : AppCompatActivity() {
             rdbtn.setTextColor(ContextCompat.getColor(this@Survey, R.color.black))
             rdbtn.textSize = 16f
             val params = RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT)
-            params.setMargins(0, 15, 0, 0)
-            rdbtn.setLayoutParams(params)
-            //            rdbtn.compoundDrawablePadding=20
             if (option.image_path.equals("")) {
                 rdbtn.setText(option.name)
+                params.setMargins(0, 15, 0, 0)
             } else {
+                params.setMargins(0, 25, 0, 0)
                 rdbtn.setText(option.name)
-                rdbtn.compoundDrawablePadding = 20
+                rdbtn.compoundDrawablePadding = 10
                 Glide.with(this@Survey).load(option.image_path).apply(helperMethods.requestOption).into(object : CustomTarget<Drawable>(200, 150) {
                     override fun onLoadCleared(placeholder: Drawable?) {
-                        rdbtn.setCompoundDrawablesWithIntrinsicBounds(placeholder, null, null, null)
+                        rdbtn.setCompoundDrawablesWithIntrinsicBounds(null, placeholder, null, null)
                     }
 
                     override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                        rdbtn.setCompoundDrawablesWithIntrinsicBounds(resource, null, null, null)
+                        rdbtn.setCompoundDrawablesWithIntrinsicBounds(null, resource, null, null)
                     }
                 })
             }
+            rdbtn.setLayoutParams(params)
+
+
             questionRadioGroup.addView(rdbtn)
         }
         questionRadioGroup.setOnCheckedChangeListener { group, checkedId ->

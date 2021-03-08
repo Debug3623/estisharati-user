@@ -5,6 +5,10 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.package_item.view.*
 
 class PackageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    val offerLayout = itemView.offerLayout
+    val OldPrice = itemView.OldPrice
+    val offersEndDate = itemView.offersEndDate
+    val packageLayout = itemView.packageLayout
     val packageName = itemView.packageName
     val packagePrice = itemView.packagePrice
     val packagePeriod = itemView.packagePeriod

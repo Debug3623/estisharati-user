@@ -85,7 +85,7 @@
             android:background="@color/orange"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="3">
 
             <TextView
                 android:id="@+id/offersConsultants"
@@ -111,7 +111,22 @@
                 android:gravity="center"
                 android:padding="15dp"
                 android:text="@string/courses"
-                android:textColor="@color/white"
+                android:textColor="@color/transparent_white"
+                android:textSize="16sp" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/orange_light" />
+
+            <TextView
+                android:id="@+id/offersPackages"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="@string/packages"
+                android:textColor="@color/transparent_white"
                 android:textSize="16sp" />
 
         </LinearLayout>

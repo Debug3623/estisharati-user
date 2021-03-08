@@ -110,7 +110,9 @@ class HelperMethods(val context: Context) {
     fun convetDecimalFormat(amount: Double): String {
         val df = DecimalFormat("#.##")
         val nf: NumberFormat = NumberFormat.getInstance(Locale.ENGLISH)
-        return nf.format(df.format(amount).toDouble())
+        var engFormat = nf.format(df.format(amount).toDouble())
+        engFormat = engFormat.replace(",", "")
+        return engFormat
     }
 
     fun ShowDateTimePicker(date: TextView, time: TextView) {

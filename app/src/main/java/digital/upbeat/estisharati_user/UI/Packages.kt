@@ -76,7 +76,7 @@ class Packages : BaseCompatActivity() {
         package_recycler.setHasFixedSize(true)
         package_recycler.removeAllViews()
         package_recycler.layoutManager = layoutManager
-        package_recycler.adapter = PackageAdapter(this@Packages, this@Packages, null, packagesResponse.data)
+        package_recycler.adapter = PackageAdapter(this@Packages, this@Packages, null,null, packagesResponse.data, arrayListOf())
         if (packagesResponse.data.size > 0) {
             emptyLayout.visibility = View.GONE
             package_recycler.visibility = View.VISIBLE

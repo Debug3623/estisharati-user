@@ -9,10 +9,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import digital.upbeat.estisharati_user.Adapter.OffersConsultantsAdapter
 import digital.upbeat.estisharati_user.Adapter.OffersCoursesAdapter
+import digital.upbeat.estisharati_user.Adapter.PackageAdapter
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
 import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_user.DataClassHelper.Offers.OffersResponse
+import digital.upbeat.estisharati_user.DataClassHelper.Packages.Data
+import digital.upbeat.estisharati_user.DataClassHelper.PackagesOptions.PackagesOptions
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
@@ -33,7 +36,7 @@ class Offers : BaseCompatActivity() {
     lateinit var dataUser: DataUser
     lateinit var sharedPreferencesHelper: SharedPreferencesHelper
     var currentTab = "consultant"
-    var offersresponse: OffersResponse = OffersResponse(arrayListOf(), arrayListOf())
+    var offersresponse: OffersResponse = OffersResponse(arrayListOf(), arrayListOf(), arrayListOf())
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_offers)
@@ -46,13 +49,18 @@ class Offers : BaseCompatActivity() {
         nav_back.setOnClickListener { finish() }
         offersConsultants.setTextColor(ContextCompat.getColor(this@Offers, R.color.white))
         offersCourses.setTextColor(ContextCompat.getColor(this@Offers, R.color.transparent_white))
+        offersPackages.setTextColor(ContextCompat.getColor(this@Offers, R.color.transparent_white))
         offersConsultants.setOnClickListener {
             currentTab = "consultant"
-            initializeOffersConsultantRecyclerview()
+            initializeOffersRecyclerview()
         }
         offersCourses.setOnClickListener {
             currentTab = "courses"
-            initializeOffersConsultantRecyclerview()
+            initializeOffersRecyclerview()
+        }
+        offersPackages.setOnClickListener {
+            currentTab = "packages"
+            initializeOffersRecyclerview()
         }
         notificationLayout.setOnClickListener {
             startActivity(Intent(this@Offers, Notifications::class.java))
@@ -60,7 +68,6 @@ class Offers : BaseCompatActivity() {
     }
 
     private fun initViews() {
-        helperMethods = HelperMethods(this@Offers)
         helperMethods = HelperMethods(this@Offers)
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
         sharedPreferencesHelper = SharedPreferencesHelper(this@Offers)
@@ -87,6 +94,7 @@ class Offers : BaseCompatActivity() {
             }
             offersConsultants.setTextColor(ContextCompat.getColor(this@Offers, R.color.white))
             offersCourses.setTextColor(ContextCompat.getColor(this@Offers, R.color.transparent_white))
+            offersPackages.setTextColor(ContextCompat.getColor(this@Offers, R.color.transparent_white))
         }
     }
 
@@ -102,10 +110,27 @@ class Offers : BaseCompatActivity() {
             }
             offersCourses.setTextColor(ContextCompat.getColor(this@Offers, R.color.white))
             offersConsultants.setTextColor(ContextCompat.getColor(this@Offers, R.color.transparent_white))
+            offersPackages.setTextColor(ContextCompat.getColor(this@Offers, R.color.transparent_white))
         }
     }
 
-    fun initializeOffersConsultantRecyclerview() {
+    fun setTabPackages() {
+        if (currentTab.equals("packages")) {
+            if (offersresponse.packages.size > 0) {
+                offersRecycler.visibility = View.VISIBLE
+                offersEmptyLayout.visibility = View.GONE
+            } else {
+                offersRecycler.visibility = View.GONE
+                offersEmptyLayout.visibility = View.VISIBLE
+                offer_errorText.text = getString(R.string.there_is_no_packages_available)
+            }
+            offersPackages.setTextColor(ContextCompat.getColor(this@Offers, R.color.white))
+            offersCourses.setTextColor(ContextCompat.getColor(this@Offers, R.color.transparent_white))
+            offersConsultants.setTextColor(ContextCompat.getColor(this@Offers, R.color.transparent_white))
+        }
+    }
+
+    fun initializeOffersRecyclerview() {
         offersRecycler.setHasFixedSize(true)
         offersRecycler.removeAllViews()
         offersRecycler.layoutManager = LinearLayoutManager(this@Offers)
@@ -115,6 +140,9 @@ class Offers : BaseCompatActivity() {
         } else if (currentTab.equals("courses")) {
             offersRecycler.adapter = OffersCoursesAdapter(this@Offers, this@Offers, offersresponse.courses)
             setTabCourse()
+        } else if (currentTab.equals("packages")) {
+            offersRecycler.adapter = PackageAdapter(this@Offers, null, null, this@Offers, arrayListOf(), offersresponse.packages)
+            setTabPackages()
         }
     }
 
@@ -132,7 +160,7 @@ class Offers : BaseCompatActivity() {
                             if (status.equals("200")) {
                                 val data = jsonObject.getString("data")
                                 offersresponse = Gson().fromJson(data, OffersResponse::class.java)
-                                initializeOffersConsultantRecyclerview()
+                                initializeOffersRecyclerview()
                             } else {
                                 val message = jsonObject.getString("message")
                                 if (helperMethods.checkTokenValidation(status, message)) {
@@ -140,7 +168,6 @@ class Offers : BaseCompatActivity() {
                                     return
                                 }
                                 helperMethods.AlertPopup(getString(R.string.alert), message)
-                                initializeOffersConsultantRecyclerview()
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -156,12 +183,16 @@ class Offers : BaseCompatActivity() {
                     Log.d("body", "Not Successful")
                 }
             }
-
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
                 helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
+    }
+
+    fun choosePackage(packages: Data) {
+        GlobalData.packagesOptions = PackagesOptions(packages.id, packages.name, "subscription", "", "0", "0", "0", packages.price, "0", "0", "", "", "0", "0", "", "0", "0")
+        startActivity(Intent(this@Offers, PackagesSelection::class.java))
     }
 }
