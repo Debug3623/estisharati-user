@@ -56,7 +56,9 @@ class Help : BaseCompatActivity() {
     fun setUserDetails() {
         contactusName.text = (dataUserObject.fname + " " + dataUserObject.lname).toEditable()
         contactusEmail.text = dataUserObject.email.toEditable()
-        contactusPhone.text = dataUserObject.phone.toEditable()
+        var phone = dataUserObject.phone
+        phone = phone.replace(" ", "")
+        contactusPhone.text = phone.toEditable()
         val messageTypesArrayList : ArrayList<String> = arrayListOf()
 
         for (types in GlobalData.mySubscriberResponse.message_types) {

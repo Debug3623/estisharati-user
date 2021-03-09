@@ -166,8 +166,8 @@ class MyAppointment : AppCompatActivity() {
                         try {
                             appointmentsResponse = Gson().fromJson(response.body()!!.string(), AppointmentResponse::class.java)
                             if (appointmentsResponse.status.equals("200")) {
-                                appointmentArrayList = appointmentsResponse.data.appointments
-                                InitializeRecyclerview()
+                                helperMethods.showToastMessage(appointmentsResponse.message)
+                                appointmentsApiCall()
                             } else {
                                 if (helperMethods.checkTokenValidation(appointmentsResponse.status,appointmentsResponse.message)) {
                                     finish()
