@@ -14,6 +14,7 @@ import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
 import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_user.DataClassHelper.Offers.OffersResponse
+import digital.upbeat.estisharati_user.DataClassHelper.Offers.Package
 import digital.upbeat.estisharati_user.DataClassHelper.Packages.Data
 import digital.upbeat.estisharati_user.DataClassHelper.PackagesOptions.PackagesOptions
 import digital.upbeat.estisharati_user.Helper.GlobalData
@@ -191,8 +192,8 @@ class Offers : BaseCompatActivity() {
         })
     }
 
-    fun choosePackage(packages: Data) {
-        GlobalData.packagesOptions = PackagesOptions(packages.id, packages.name, "subscription", "", "0", "0", "0", packages.price, "0", "0", "", "", "0", "0", "", "0", "0")
+    fun choosePackage(packages: Package) {
+        GlobalData.packagesOptions = PackagesOptions(packages.subscription.id, packages.subscription.name, "subscription", "", "0", "0", "0", packages.offerprice, "0", "0", "", "", "0", "0", "", "0", "0")
         startActivity(Intent(this@Offers, PackagesSelection::class.java))
     }
 }

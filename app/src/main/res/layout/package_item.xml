@@ -79,7 +79,7 @@
                     android:fontFamily="@font/almarai_regular"
                     android:text="1.700"
                     android:textColor="@color/dark_gray"
-                    android:textSize="14sp" />
+                    android:textSize="15sp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -87,8 +87,8 @@
                     android:gravity="center">
 
                     <ImageView
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
                         android:adjustViewBounds="true"
                         android:src="@drawable/ic_end_date" />
 
@@ -100,7 +100,7 @@
                         android:fontFamily="@font/almarai_regular"
                         android:text="22/03/2020"
                         android:textColor="@color/black"
-                        android:textSize="13sp" />
+                        android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
 

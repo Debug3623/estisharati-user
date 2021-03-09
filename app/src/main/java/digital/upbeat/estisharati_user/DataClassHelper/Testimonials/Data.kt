@@ -3,6 +3,7 @@ package digital.upbeat.estisharati_user.DataClassHelper.Testimonials
 data class Data(
     val comments_count: String,
     val consultant_category: String,
+    val category_id: String,
     val consultant_id: String,
     val course_id: String,
     val experience: String,

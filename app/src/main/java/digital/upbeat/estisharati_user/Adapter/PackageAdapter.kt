@@ -49,9 +49,16 @@ class PackageAdapter(val context: Context, val packages: Packages?, val myPackag
 
         } else if (packages != null) {
              packagesItems = packagesArrayList.get(position)
-
-            holder.packagePrice.text = packagesItems.price
+        if (packagesItems.offerprice.equals("0")) {
             holder.offerLayout.visibility = View.GONE
+            holder.packagePrice.text = packagesItems.price
+        } else {
+            holder.offerLayout.visibility = View.VISIBLE
+            holder.packagePrice.text = packagesItems.offerprice
+            holder.OldPrice.text = packagesItems.price
+            holder.offersEndDate.text = packagesItems.offer_end
+            holder.OldPrice.setPaintFlags(holder.OldPrice.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
+        }
         } else if (myPackages != null) {
              packagesItems = packagesArrayList.get(position)
             holder.packagePrice.text = packagesItems.amount
@@ -74,13 +81,13 @@ class PackageAdapter(val context: Context, val packages: Packages?, val myPackag
             holder.videoLayout.visibility = View.GONE
         } else {
             holder.videoLayout.visibility = View.VISIBLE
-            holder.videoHourse.text = context.getString(R.string.video_call) + " " + formatToMinute(packagesItems.features.video.time)
+            holder.videoHourse.text = context.getString(R.string.video_call) + " " + helperMethods.formatToMinute(packagesItems.features.video.time)
         }
         if (packagesItems.features.audio.time.equals("0")) {
             holder.voiceLayout.visibility = View.GONE
         } else {
             holder.voiceLayout.visibility = View.VISIBLE
-            holder.voiceHourse.text = context.getString(R.string.voice_call) + " " + formatToMinute(packagesItems.features.audio.time)
+            holder.voiceHourse.text = context.getString(R.string.voice_call) + " " + helperMethods.formatToMinute(packagesItems.features.audio.time)
         }
         if (packagesItems.features.written.time.equals("0")) {
             holder.writtenLayout.visibility = View.GONE
@@ -131,23 +138,12 @@ class PackageAdapter(val context: Context, val packages: Packages?, val myPackag
 
         holder.packageLayout.setOnClickListener {
             offers?.let {
-                offers.choosePackage(packagesItems)
+                offers.choosePackage(offersPackagesArrayList.get(position))
             }
         }
     }
 
-    fun formatToMinute(minute: String): String {
-        var sdf = SimpleDateFormat("mm", Locale.US)
 
-        try {
-            val dt: Date = sdf.parse(minute)
-            sdf = SimpleDateFormat("HH:mm", Locale.US)
-            return sdf.format(dt)
-        } catch (e: ParseException) {
-            e.printStackTrace()
-            return ""
-        }
-    }
 }
 
 

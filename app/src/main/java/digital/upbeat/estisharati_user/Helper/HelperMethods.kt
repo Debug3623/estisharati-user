@@ -55,6 +55,7 @@ import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.text.DecimalFormat
 import java.text.NumberFormat
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern
@@ -73,12 +74,18 @@ class HelperMethods(val context: Context) {
     }
 
     fun ShowDatePickerDialog(date_picker_text: TextView) {
-        DatePickerDialog(context, OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-            val newDate = Calendar.getInstance()
-            newDate[year, monthOfYear] = dayOfMonth
-            val targetFormat = SimpleDateFormat("MM-dd-yyyy", Locale.US)
-            date_picker_text.text = targetFormat.format(newDate.time)
-        }, calendarInstance[Calendar.YEAR], calendarInstance[Calendar.MONTH], calendarInstance[Calendar.DAY_OF_MONTH]).show()
+        DatePickerDialog(
+            context,
+            OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                val newDate = Calendar.getInstance()
+                newDate[year, monthOfYear] = dayOfMonth
+                val targetFormat = SimpleDateFormat("MM-dd-yyyy", Locale.US)
+                date_picker_text.text = targetFormat.format(newDate.time)
+            },
+            calendarInstance[Calendar.YEAR],
+            calendarInstance[Calendar.MONTH],
+            calendarInstance[Calendar.DAY_OF_MONTH]
+        ).show()
     }
 
     fun ShowTimePickerDialog(time_picker_text: TextView) {
@@ -86,11 +93,18 @@ class HelperMethods(val context: Context) {
         val hour = mcurrentTime[Calendar.HOUR_OF_DAY]
         val minute = mcurrentTime[Calendar.MINUTE]
         val SelectedTime = Calendar.getInstance()
-        val mTimePicker = TimePickerDialog(context, OnTimeSetListener { timePicker, selectedHour, selectedMinute ->
-            SelectedTime[Calendar.HOUR_OF_DAY] = selectedHour
-            SelectedTime[Calendar.MINUTE] = selectedMinute
-            time_picker_text.text = SimpleDateFormat("hh:mm a", Locale.US).format(SelectedTime.time)
-        }, hour, minute, false) //Yes 24 hour time
+        val mTimePicker = TimePickerDialog(
+            context,
+            OnTimeSetListener { timePicker, selectedHour, selectedMinute ->
+                SelectedTime[Calendar.HOUR_OF_DAY] = selectedHour
+                SelectedTime[Calendar.MINUTE] = selectedMinute
+                time_picker_text.text =
+                    SimpleDateFormat("hh:mm a", Locale.US).format(SelectedTime.time)
+            },
+            hour,
+            minute,
+            false
+        ) //Yes 24 hour time
         mTimePicker.setTitle("Select time")
         mTimePicker.show()
     }
@@ -119,15 +133,21 @@ class HelperMethods(val context: Context) {
         val nextDate = Calendar.getInstance()
         nextDate.add(Calendar.DAY_OF_YEAR, 1);
         val dateTime = Calendar.getInstance()
-        val datePickerDialog = DatePickerDialog(context, OnDateSetListener { datePicker, year, monthOfYear, dayOfMonth ->
-            dateTime[year, monthOfYear] = dayOfMonth
-            TimePickerDialog(context, OnTimeSetListener { view, hourOfDay, minute ->
-                dateTime[Calendar.HOUR_OF_DAY] = hourOfDay
-                dateTime[Calendar.MINUTE] = minute
-                date.text = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(dateTime.time)
-                time.text = SimpleDateFormat("HH:mm", Locale.US).format(dateTime.time)
-            }, nextDate[Calendar.HOUR_OF_DAY], nextDate[Calendar.MINUTE], false).show()
-        }, nextDate[Calendar.YEAR], nextDate[Calendar.MONTH], nextDate[Calendar.DATE])
+        val datePickerDialog = DatePickerDialog(
+            context,
+            OnDateSetListener { datePicker, year, monthOfYear, dayOfMonth ->
+                dateTime[year, monthOfYear] = dayOfMonth
+                TimePickerDialog(context, OnTimeSetListener { view, hourOfDay, minute ->
+                    dateTime[Calendar.HOUR_OF_DAY] = hourOfDay
+                    dateTime[Calendar.MINUTE] = minute
+                    date.text = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(dateTime.time)
+                    time.text = SimpleDateFormat("HH:mm", Locale.US).format(dateTime.time)
+                }, nextDate[Calendar.HOUR_OF_DAY], nextDate[Calendar.MINUTE], false).show()
+            },
+            nextDate[Calendar.YEAR],
+            nextDate[Calendar.MONTH],
+            nextDate[Calendar.DATE]
+        )
         datePickerDialog.getDatePicker().setMinDate(nextDate.getTimeInMillis());
         datePickerDialog.show()
     }
@@ -223,8 +243,24 @@ class HelperMethods(val context: Context) {
     }
 
     fun selfPermission(activity: Activity?) {
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO), 123)
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.RECORD_AUDIO
+            ) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(
+                activity!!, arrayOf(
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.RECORD_AUDIO
+                ), 123
+            )
         }
     }
 
@@ -250,11 +286,23 @@ class HelperMethods(val context: Context) {
 
     fun ChangeProfilePhotoPopup(activity: Activity) {
         if (!isConnectingToInternet) {
-            AlertPopup(context.getString(R.string.internet_connection_failed), context.getString(R.string.please_check_your_internet_connection_and_try_again))
+            AlertPopup(
+                context.getString(R.string.internet_connection_failed),
+                context.getString(R.string.please_check_your_internet_connection_and_try_again)
+            )
             return
         }
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            val file_upload_camera_gallery = LayoutInflater.from(context).inflate(R.layout.pick_picture_gallery_camera, null)
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED) {
+            val file_upload_camera_gallery = LayoutInflater.from(context).inflate(
+                R.layout.pick_picture_gallery_camera,
+                null
+            )
             val aleatdialog = AlertDialog.Builder(context)
             aleatdialog.setView(file_upload_camera_gallery)
             aleatdialog.setCancelable(true)
@@ -267,13 +315,19 @@ class HelperMethods(val context: Context) {
                 val intent = Intent()
                 intent.type = "image/*"
                 intent.action = Intent.ACTION_GET_CONTENT
-                activity.startActivityForResult(Intent.createChooser(intent, "Select picture"), GlobalData.PICK_IMAGE_GALLERY)
+                activity.startActivityForResult(
+                    Intent.createChooser(intent, "Select picture"),
+                    GlobalData.PICK_IMAGE_GALLERY
+                )
                 dialog.dismiss()
             }
             upload_from_camera.setOnClickListener {
                 val intent = Intent()
                 intent.action = MediaStore.ACTION_IMAGE_CAPTURE
-                activity.startActivityForResult(Intent.createChooser(intent, "Select picture"), GlobalData.PICK_IMAGE_CAMERA)
+                activity.startActivityForResult(
+                    Intent.createChooser(intent, "Select picture"),
+                    GlobalData.PICK_IMAGE_CAMERA
+                )
                 dialog.dismiss()
             }
         } else {
@@ -291,11 +345,28 @@ class HelperMethods(val context: Context) {
     fun MillisUntilToTime(millisUntilFinished: Long): String {
         val minutes = millisUntilFinished / 1000 / 60
         val seconds = (millisUntilFinished / 1000 % 60).toInt()
-        Log.d("timier", "seconds remaining: " + DecimalFormat("00").format(minutes) + "." + DecimalFormat("00").format(seconds.toLong()))
+        Log.d(
+            "timier",
+            "seconds remaining: " + DecimalFormat("00").format(minutes) + "." + DecimalFormat(
+                "00"
+            ).format(seconds.toLong())
+        )
         return DecimalFormat("00").format(minutes) + "." + DecimalFormat("00").format(seconds.toLong())
     }
+    fun formatToMinute(minute: String): String {
+        var sdf = SimpleDateFormat("mm", Locale.US)
 
+        try {
+            val dt: Date = sdf.parse(minute)
+            sdf = SimpleDateFormat("HH:mm:ss", Locale.US)
+            return sdf.format(dt)
+        } catch (e: ParseException) {
+            e.printStackTrace()
+            return ""
+        }
+    }
     fun sendPushNotification(title: String, text: String) {
+
         //        Intent intent=null;
         //        if(BaseIntent!=null||!BaseIntent.equalsIgnoreCase("")){
         //            intent=new Intent(BaseIntent);
@@ -305,15 +376,49 @@ class HelperMethods(val context: Context) {
         //        }
         val num = System.currentTimeMillis().toInt()
         val CHANNEL_ID = "EstisharatiUser"
-        val pendingIntent = PendingIntent.getActivity(context, num, Intent(), PendingIntent.FLAG_UPDATE_CURRENT)
-        val notification = NotificationCompat.Builder(context, CHANNEL_ID).setTicker(context.getString(R.string.app_name)).setContentTitle(title).setContentText(text).setStyle(NotificationCompat.BigTextStyle().bigText(text)).setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)).setColor(ContextCompat.getColor(context, R.color.orange)).setSmallIcon(R.drawable.ic_logo).setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_logo)).setVibrate(longArrayOf(100, 100, 100, 100, 100)).setChannelId(CHANNEL_ID).setContentIntent(pendingIntent)
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            num,
+            Intent(),
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        val notification = NotificationCompat.Builder(context, CHANNEL_ID).setTicker(
+            context.getString(
+                R.string.app_name
+            )
+        ).setContentTitle(title).setContentText(text).setStyle(
+            NotificationCompat.BigTextStyle().bigText(
+                text
+            )
+        ).setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)).setColor(
+            ContextCompat.getColor(
+                context,
+                R.color.orange
+            )
+        ).setSmallIcon(R.drawable.ic_logo).setLargeIcon(
+            BitmapFactory.decodeResource(
+                context.resources,
+                R.drawable.ic_logo
+            )
+        ).setVibrate(longArrayOf(100, 100, 100, 100, 100)).setChannelId(CHANNEL_ID).setContentIntent(
+            pendingIntent
+        )
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val audioAttributes = AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).setUsage(AudioAttributes.USAGE_NOTIFICATION).build()
+            val audioAttributes = AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).setUsage(
+                AudioAttributes.USAGE_NOTIFICATION
+            ).build()
             val importance = NotificationManager.IMPORTANCE_HIGH
-            val mChannel = NotificationChannel(CHANNEL_ID, context.getString(R.string.app_name), importance)
+            val mChannel = NotificationChannel(
+                CHANNEL_ID,
+                context.getString(R.string.app_name),
+                importance
+            )
             mChannel.description = context.getString(R.string.estisharati_notification_settings)
-            mChannel.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION), audioAttributes)
+            mChannel.setSound(
+                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION),
+                audioAttributes
+            )
             mChannel.enableLights(true)
             mChannel.lightColor = ContextCompat.getColor(context, R.color.orange)
             mChannel.enableVibration(true)
@@ -497,12 +602,19 @@ class HelperMethods(val context: Context) {
             geocoder.getFromLocation(latitude, longitude, 1).also { addresses = it }
         } catch (e: IOException) {
             e.printStackTrace()
-            Toast.makeText(context, "Could not get your Location and check your internet connection", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                context,
+                "Could not get your Location and check your internet connection",
+                Toast.LENGTH_LONG
+            ).show()
             addresses
         }
     }
 
-    fun containsUserIdForChat(userMessageFireStore: ArrayList<DataUserMessageFireStore>, useId: String): Boolean {
+    fun containsUserIdForChat(
+        userMessageFireStore: ArrayList<DataUserMessageFireStore>,
+        useId: String
+    ): Boolean {
         for (data in userMessageFireStore) {
             if (data.dataUserFireStore.user_id.equals(useId)) {
                 return false
@@ -531,7 +643,15 @@ class HelperMethods(val context: Context) {
         actionOkBtn.setOnClickListener { dialog.dismiss() }
     }
 
-    fun showAlertDialog(context: Context, alertActionClickListner: alertActionClickListner, title: String, message: String, ifAlert: Boolean, okBtn: String, cancelBtn: String) {
+    fun showAlertDialog(
+        context: Context,
+        alertActionClickListner: alertActionClickListner,
+        title: String,
+        message: String,
+        ifAlert: Boolean,
+        okBtn: String,
+        cancelBtn: String
+    ) {
         val layoutView = LayoutInflater.from(context).inflate(R.layout.alert_popup, null)
         val aleatdialog = AlertDialog.Builder(context)
         aleatdialog.setView(layoutView)
@@ -569,7 +689,12 @@ class HelperMethods(val context: Context) {
     fun getImageUriFromBitmap(inImage: Bitmap): Uri {
         val bytes = ByteArrayOutputStream()
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-        val path = MediaStore.Images.Media.insertImage(context.contentResolver, inImage, "Title", null)
+        val path = MediaStore.Images.Media.insertImage(
+            context.contentResolver,
+            inImage,
+            "Title",
+            null
+        )
         return Uri.parse(path)
     }
 
@@ -600,7 +725,11 @@ class HelperMethods(val context: Context) {
                 }
             } else if (isDownloadsDocument(uri)) {
                 val id = DocumentsContract.getDocumentId(uri)
-                val contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), java.lang.Long.valueOf(id))
+                val contentUri = ContentUris.withAppendedId(
+                    Uri.parse("content://downloads/public_downloads"), java.lang.Long.valueOf(
+                        id
+                    )
+                )
                 return getDataColumn(context, contentUri, null, null)
             } else if (isMediaDocument(uri)) {
                 val docId = DocumentsContract.getDocumentId(uri)
@@ -635,19 +764,34 @@ class HelperMethods(val context: Context) {
      * @param selectionArgs (Optional) Selection arguments used in the query.
      * @return The value of the _data column, which is typically a file path.
      */
-    fun getDataColumn(context: Context, uri: Uri?, selection: String?, selectionArgs: Array<String>?): String? {
+    fun getDataColumn(
+        context: Context,
+        uri: Uri?,
+        selection: String?,
+        selectionArgs: Array<String>?
+    ): String? {
         var cursor: Cursor? = null
         val column = "_data"
         val projection = arrayOf(column)
         try {
-            cursor = context.contentResolver.query(uri!!, projection, selection, selectionArgs, null)
+            cursor = context.contentResolver.query(
+                uri!!,
+                projection,
+                selection,
+                selectionArgs,
+                null
+            )
             if (cursor != null && cursor.moveToFirst()) {
                 val column_index = cursor.getColumnIndexOrThrow(column)
                 return cursor.getString(column_index)
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(context, context.getString(R.string.unable_to_get_the_image_please_try_different_folder), Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                context,
+                context.getString(R.string.unable_to_get_the_image_please_try_different_folder),
+                Toast.LENGTH_LONG
+            ).show()
             //            ShowCustomToast( "Orofile update failed", "Unable to get the profile please try different folder");
         } finally {
             cursor?.close()

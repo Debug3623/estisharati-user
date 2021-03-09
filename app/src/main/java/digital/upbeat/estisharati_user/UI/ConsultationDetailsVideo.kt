@@ -175,9 +175,9 @@ class ConsultationDetailsVideo : BaseCompatActivity() {
                             if (status.equals("200")) {
                                 val dataString = jsonObject.getString("data")
                                 val dataObject = JSONObject(dataString)
-                                val chat_balance = dataObject.getInt("chat_balance")
-                                val audio_balance = dataObject.getInt("audio_balance")
-                                val video_balance = dataObject.getInt("video_balance")
+                                val chat_balance = dataObject.getString("chat_balance")
+                                val audio_balance = dataObject.getString("audio_balance")
+                                val video_balance = dataObject.getString("video_balance")
                                 AlertPopup(chat_balance, audio_balance, video_balance)
                             } else {
                                 val message = jsonObject.getString("message")
@@ -256,7 +256,7 @@ class ConsultationDetailsVideo : BaseCompatActivity() {
         })
     }
 
-    fun AlertPopup(chat_balance: Int, audio_balance: Int, video_balance: Int) {
+    fun AlertPopup(chat_balance: String, audio_balance: String, video_balance: String) {
         val LayoutView = LayoutInflater.from(this@ConsultationDetailsVideo).inflate(R.layout.consultant_balance_popup, null)
         val aleatdialog = android.app.AlertDialog.Builder(this@ConsultationDetailsVideo)
         aleatdialog.setView(LayoutView)
@@ -282,9 +282,9 @@ class ConsultationDetailsVideo : BaseCompatActivity() {
 //        } else {
 //            LayoutView.videoLayout.visibility = View.GONE
 //        }
-        LayoutView.chatBalance.text = chat_balance.toString() + " " + getString(R.string.count)
-        LayoutView.voiceBalance.text = (((audio_balance % 3600) / 60).toString() + "." + (audio_balance % 3600) % 60) + " " + getString(R.string.minutes)
-        LayoutView.videoBalance.text = (((video_balance % 3600) / 60).toString() + "." + (video_balance % 3600) % 60) + " " + getString(R.string.minutes)
+        LayoutView.chatBalance.text = chat_balance + " " + getString(R.string.count)
+        LayoutView.voiceBalance.text = helperMethods.formatToMinute(audio_balance)
+        LayoutView.videoBalance.text = helperMethods.formatToMinute(video_balance)
     }
 
     fun showPostTestimonialPopup(ConsultationItem: Data) {

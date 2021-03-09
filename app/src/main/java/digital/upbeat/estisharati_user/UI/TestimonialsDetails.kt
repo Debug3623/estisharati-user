@@ -71,7 +71,7 @@ class TestimonialsDetails : AppCompatActivity() {
             if (testimonialsDetailsResponse.data.type.equals("consultant")) {
                 val intent = Intent(this@TestimonialsDetails, ConsultantDetails::class.java)
                 intent.putExtra("consultant_id", testimonialsDetailsResponse.data.consultant_id)
-                intent.putExtra("category_id",  "")
+                intent.putExtra("category_id",  testimonialsDetailsResponse.data.category_id)
                 startActivity(intent)
             } else {
                 val intent = Intent(this@TestimonialsDetails, CourseDetails::class.java)
