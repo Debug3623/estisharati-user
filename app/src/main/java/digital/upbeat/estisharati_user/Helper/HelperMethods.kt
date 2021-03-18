@@ -376,44 +376,15 @@ class HelperMethods(val context: Context) {
         //        }
         val num = System.currentTimeMillis().toInt()
         val CHANNEL_ID = "EstisharatiUser"
-        val pendingIntent = PendingIntent.getActivity(
-            context,
-            num,
-            Intent(),
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
-        val notification = NotificationCompat.Builder(context, CHANNEL_ID).setTicker(
-            context.getString(
-                R.string.app_name
-            )
-        ).setContentTitle(title).setContentText(text).setStyle(
-            NotificationCompat.BigTextStyle().bigText(
-                text
-            )
-        ).setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)).setColor(
-            ContextCompat.getColor(
-                context,
-                R.color.orange
-            )
-        ).setSmallIcon(R.drawable.ic_logo).setLargeIcon(
-            BitmapFactory.decodeResource(
-                context.resources,
-                R.drawable.ic_logo
-            )
-        ).setVibrate(longArrayOf(100, 100, 100, 100, 100)).setChannelId(CHANNEL_ID).setContentIntent(
-            pendingIntent
-        )
+        val pendingIntent = PendingIntent.getActivity(context, num, Intent(), PendingIntent.FLAG_UPDATE_CURRENT)
+        val notification = NotificationCompat.Builder(context, CHANNEL_ID).setTicker(context.getString(R.string.app_name)).setContentTitle(title).setContentText(text).setStyle(NotificationCompat.BigTextStyle().bigText(text)).setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)).setColor(ContextCompat.getColor(context, R.color.orange)).setSmallIcon(R.drawable.ic_logo).setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_logo)).setVibrate(longArrayOf(100, 100, 100, 100, 100)).setChannelId(CHANNEL_ID).setContentIntent(pendingIntent)
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val audioAttributes = AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).setUsage(
                 AudioAttributes.USAGE_NOTIFICATION
             ).build()
             val importance = NotificationManager.IMPORTANCE_HIGH
-            val mChannel = NotificationChannel(
-                CHANNEL_ID,
-                context.getString(R.string.app_name),
-                importance
-            )
+            val mChannel = NotificationChannel(CHANNEL_ID, context.getString(R.string.app_name), importance)
             mChannel.description = context.getString(R.string.estisharati_notification_settings)
             mChannel.setSound(
                 RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION),
