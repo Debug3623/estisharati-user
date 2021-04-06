@@ -108,7 +108,9 @@ class Subscribers : Fragment() {
             forward_layout.visibility = View.GONE
             helperMethods.showToastMessage(getString(R.string.forward_cancel))
         }
-
+        swipeRefresh.setOnRefreshListener {
+            mySubsribersApiCall()
+        }
         incomingCallListener = firestore.collection("Users").document(dataUser.id).addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
             documentSnapshot?.let {
                 val dataUserFireStore = documentSnapshot.toObject(DataUserFireStore::class.java)!!
@@ -399,6 +401,9 @@ class Subscribers : Fragment() {
         if (!GlobalData.forwardContent.isEmpty()) {
             forward_layout.visibility = View.VISIBLE
         }
+        if (GlobalData.isInitialized()) {
+            requireActivity().notificationCount.text = GlobalData.mySubscriberResponse.notification_count
+        }
     }
 
     override fun onStop() {
@@ -476,7 +481,7 @@ class Subscribers : Fragment() {
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()
-
+                swipeRefresh.isRefreshing = false
                 if (response.isSuccessful) {
                     if (response.body() != null) {
                         try {
@@ -508,6 +513,7 @@ class Subscribers : Fragment() {
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
+                swipeRefresh.isRefreshing = false
                 t.printStackTrace()
                 helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }

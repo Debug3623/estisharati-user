@@ -53,7 +53,7 @@ class Notifications : BaseCompatActivity() {
         notificationsRecycler.removeAllViews()
         notificationsRecycler.layoutManager = LinearLayoutManager(this@Notifications)
         notificationsRecycler.adapter = NotificationsAdapter(this@Notifications, this@Notifications, GlobalData.notificationResponse.data)
-
+        GlobalData.mySubscriberResponse.notification_count = GlobalData.notificationResponse.data.size.toString()
         if (GlobalData.notificationResponse.data.size > 0) {
             notificationsRecycler.visibility = View.VISIBLE
             emptyLayout.visibility = View.GONE

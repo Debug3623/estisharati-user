@@ -5,7 +5,7 @@ data class MySubscriberResponse(
     val message: String,
     val `data`: ArrayList<Data>,
     val course_count: String,
-    val notification_count: String,
+    var notification_count: String,
     val consultation_count: String,
     val message_types: ArrayList<MessageTypes>,
 )

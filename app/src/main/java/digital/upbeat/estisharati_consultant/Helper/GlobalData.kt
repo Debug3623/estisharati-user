@@ -21,6 +21,7 @@ object GlobalData {
     var forwardType = ""
     var forwardContent = ""
     lateinit var mySubscriberResponse: MySubscriberResponse
+    fun isInitialized() = ::mySubscriberResponse.isInitialized
     var notificationResponse: NotificationsResponse = NotificationsResponse("","", arrayListOf())
 
 }
