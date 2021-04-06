@@ -1,11 +1,8 @@
 package digital.upbeat.estisharati_user.UI
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import digital.upbeat.estisharati_user.Adapter.ExistingCoursesAdapter
-import digital.upbeat.estisharati_user.Adapter.MyCoursesAdapter
 import digital.upbeat.estisharati_user.DataClassHelper.Packages.Course
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.R
