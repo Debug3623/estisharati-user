@@ -132,7 +132,7 @@ class ForgotPassword : BaseCompatActivity() {
         if (resendTimer != null) {
             resendTimer?.cancel()
         }
-        resendTimer = object : CountDownTimer(20 * 1000, 1000) {
+        resendTimer = object : CountDownTimer(120000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 retry_on.text = getString(R.string.retry_on) + " " + helperMethods.MillisUntilToTime(millisUntilFinished)
             }
