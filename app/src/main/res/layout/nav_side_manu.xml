@@ -757,6 +757,17 @@
                     android:textSize="15sp" />
 
                 <TextView
+                    android:id="@+id/nav_payment_policy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/almarai_regular"
+                    android:text="@string/payment_policy"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <TextView
                     android:id="@+id/nav_logout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

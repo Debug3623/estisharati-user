@@ -212,6 +212,14 @@ class UserDrawer : BaseCompatActivity() {
                 startActivity(intent)
             } else {
                 helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
+            }}
+        nav_payment_policy.setOnClickListener {
+            if (helperMethods.isConnectingToInternet) {
+                val intent = Intent(this@UserDrawer, Pages::class.java)
+                intent.putExtra("page", "payment-policy")
+                startActivity(intent)
+            } else {
+                helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
             }
         }
         nav_chat_home.setOnClickListener {
