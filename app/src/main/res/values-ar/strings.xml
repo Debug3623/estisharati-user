@@ -314,4 +314,6 @@
     <string name="share_your_testimonial">شارك بتجربتك</string>
     <string name="write_your_experience_about_this_course">اكتب تجربتك حول هذه الدورة!</string>
     <string name="payment_policy">سياسة الدفع</string>
+    <string name="company_address">عنوان الشركة: خليفه أ - شارع الابتكار - فيلا ١١</string>
+    <string name="company_name">إسم الشركة: Estisharaticom</string>
 </resources>

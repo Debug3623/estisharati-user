@@ -6,6 +6,7 @@ import android.app.*
 import android.app.DatePickerDialog.OnDateSetListener
 import android.app.TimePickerDialog.OnTimeSetListener
 import android.content.ContentUris
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -657,17 +658,40 @@ class HelperMethods(val context: Context) {
         }
     }
 
-    fun getImageUriFromBitmap(inImage: Bitmap): Uri {
-        val bytes = ByteArrayOutputStream()
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-        val path = MediaStore.Images.Media.insertImage(
-            context.contentResolver,
-            inImage,
-            "Title",
-            null
-        )
-        return Uri.parse(path)
+    @Throws(IOException::class) fun getImageUriFromBitmap(bitmap: Bitmap): Uri {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val values = ContentValues().apply {
+                put(MediaStore.MediaColumns.DISPLAY_NAME, UUID.randomUUID().toString())
+                put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+                put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DCIM)
+            }
+            var uri: Uri? = null
+
+            return runCatching {
+                with(context.contentResolver) {
+                    insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)?.also {
+                        uri = it // Keep uri reference so it can be removed on failure
+                        openOutputStream(it)?.use { stream ->
+                            if (!bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)) throw IOException("Failed to save bitmap.")
+                        } ?: throw IOException("Failed to open output stream.")
+                    } ?: throw IOException("Failed to create new MediaStore record.")
+                }
+            }.getOrElse {
+                uri?.let { orphanUri ->
+                    // Don't leave an orphan entry in the MediaStore
+                    context.contentResolver.delete(orphanUri, null, null)
+                }
+
+                throw it
+            }
+        } else {
+            val bytes = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+            val path = MediaStore.Images.Media.insertImage(context.contentResolver, bitmap, "Title", null)
+            return Uri.parse(path)
+        }
     }
+
 
     fun checkTokenValidation(status: String, message: String): Boolean {
         if (status.equals("401")) {

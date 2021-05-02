@@ -65,7 +65,7 @@ class CourseDetails : BaseCompatActivity() {
         clickEvents()
 
         if (helperMethods.isConnectingToInternet) {
-            onlineCoursesApiCall(intent.getStringExtra("courseId"))
+            intent.getStringExtra("courseId")?.let { onlineCoursesApiCall(it) }
         } else {
             helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
         }
@@ -273,9 +273,10 @@ class CourseDetails : BaseCompatActivity() {
         dialog.show()
         layoutView.courseName.text = responseCoursesDetails.name
         val simpleExoPlayer = SimpleExoPlayer.Builder(this@CourseDetails).build()
-        val uri = Uri.parse(responseCoursesDetails.preview_video)
+        val uri = Uri.parse(responseCoursesDetails.video_path)
+        Log.d("preview_video",uri.toString());
         val mediaItem: MediaItem = MediaItem.fromUri(uri)
-        layoutView.exoPlayer.setPlayer(simpleExoPlayer)
+        layoutView.exoPlayer.player =simpleExoPlayer
         simpleExoPlayer.setMediaItem(mediaItem)
         simpleExoPlayer.prepare()
         simpleExoPlayer.play()

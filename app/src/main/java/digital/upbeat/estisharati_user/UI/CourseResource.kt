@@ -68,7 +68,7 @@ class CourseResource() : BaseCompatActivity() {
         initViews()
         clickEvents()
         if (helperMethods.isConnectingToInternet) {
-            startCourseApiCall(intent.getStringExtra("courseId"))
+            intent.getStringExtra("courseId")?.let { startCourseApiCall(it) }
         } else {
             helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
         }

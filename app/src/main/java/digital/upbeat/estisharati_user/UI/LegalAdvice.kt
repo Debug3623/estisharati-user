@@ -48,7 +48,7 @@ LegalAdvice : BaseCompatActivity() {
 
         initViews()
         clickEvents()
-        category_id = intent.getStringExtra("category_id")
+        category_id = intent.getStringExtra("category_id").toString()
         if (helperMethods.isConnectingToInternet) {
             allConsultantsApiCall(category_id, "Default")
         } else {

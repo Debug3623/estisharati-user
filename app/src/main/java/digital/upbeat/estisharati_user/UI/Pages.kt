@@ -38,7 +38,7 @@ class Pages : BaseCompatActivity() {
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
         sharedPreferencesHelper = SharedPreferencesHelper(this@Pages)
         dataUser = sharedPreferencesHelper.logInUser
-        pagesApiCall(intent.getStringExtra("page"))
+        intent.getStringExtra("page")?.let { pagesApiCall(it) }
     }
 
     fun clickEvents() {

@@ -57,7 +57,7 @@ class ConsultantDetails : BaseCompatActivity() {
         clickEvents()
 
         if (helperMethods.isConnectingToInternet) {
-            consultantDetailsApiCall(intent.getStringExtra("consultant_id"))
+            intent.getStringExtra("consultant_id")?.let { consultantDetailsApiCall(it) }
         } else {
             helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
         }
@@ -68,7 +68,7 @@ class ConsultantDetails : BaseCompatActivity() {
         sharedPreferencesHelper = SharedPreferencesHelper(this@ConsultantDetails)
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
         dataUser = sharedPreferencesHelper.logInUser
-        categoryId = intent.getStringExtra("category_id")
+        intent.getStringExtra("category_id")?.let { categoryId = it }
     }
 
     fun clickEvents() {

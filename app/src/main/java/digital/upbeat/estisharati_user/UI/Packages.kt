@@ -45,7 +45,7 @@ class Packages : BaseCompatActivity() {
         } else {
             helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
         }
-        viaFrom = intent.getStringExtra("viaFrom")
+        viaFrom = intent.getStringExtra("viaFrom").toString()
     }
 
     fun initViews() {
