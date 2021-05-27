@@ -2,11 +2,21 @@ package digital.upbeat.estisharati_user.UI
 
 import android.Manifest
 import android.content.Intent
+import android.content.IntentSender.SendIntentException
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
+import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.google.android.play.core.appupdate.AppUpdateInfo
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.model.ActivityResult
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.android.play.core.tasks.OnFailureListener
+import com.google.android.play.core.tasks.OnSuccessListener
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
@@ -20,6 +30,8 @@ import digital.upbeat.estisharati_user.Utils.alertActionClickListner
 class SplashScreen : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var preferencesHelper: SharedPreferencesHelper
+    var appUpdateManager: AppUpdateManager? = null
+    var UPDATE_REQUEST = 1234
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
@@ -30,9 +42,72 @@ class SplashScreen : BaseCompatActivity() {
                 Log.e("FirebaseInstanceId", GlobalData.FcmToken)
             }
         }
+        checkUpdateAvailable()
+    }
+
+    fun checkUpdateAvailable() {
+        appUpdateManager = AppUpdateManagerFactory.create(this@SplashScreen)
+        appUpdateManager!!.appUpdateInfo.addOnSuccessListener(OnSuccessListener { appUpdateInfo: AppUpdateInfo ->
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                try {
+                    appUpdateManager!!.startUpdateFlowForResult(appUpdateInfo, AppUpdateType.IMMEDIATE, this@SplashScreen, UPDATE_REQUEST)
+                } catch (e: SendIntentException) {
+                    e.printStackTrace()
+                    launchPage()
+                    Log.d("inAppUpdate", "SendIntentException")
+                }
+            } else {
+                launchPage()
+                Log.d("inAppUpdate", "No update available")
+            }
+        }).addOnFailureListener(OnFailureListener { e ->
+            e.printStackTrace()
+            launchPage()
+            Log.d("inAppUpdate", "addOnFailureListener")
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        appUpdateManager!!.appUpdateInfo.addOnSuccessListener(OnSuccessListener { appUpdateInfo: AppUpdateInfo ->
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
+                try {
+                    appUpdateManager!!.startUpdateFlowForResult(appUpdateInfo, AppUpdateType.IMMEDIATE, this@SplashScreen, UPDATE_REQUEST)
+                } catch (e: SendIntentException) {
+                    e.printStackTrace()
+                    Log.d("inAppUpdate", "SendIntentException")
+                }
+            } else {
+                Log.d("inAppUpdate", "No update available")
+            }
+        }).addOnFailureListener(OnFailureListener { e ->
+            e.printStackTrace()
+            Log.d("inAppUpdate", "addOnFailureListener")
+        })
+    }
+
+    fun launchPage() {
         initViews()
         handleDynamicLink()
         startCountDownTimer()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == UPDATE_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(this@SplashScreen, getString(R.string.app_update_start), Toast.LENGTH_LONG).show()
+                Log.d("inAppUpdate", getString(R.string.app_update_start))
+            } else if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(this@SplashScreen, getString(R.string.app_update_canceled), Toast.LENGTH_LONG).show()
+                Log.d("inAppUpdate", getString(R.string.app_update_canceled))
+                finish()
+            } else if (resultCode == ActivityResult.RESULT_IN_APP_UPDATE_FAILED) {
+                Toast.makeText(this@SplashScreen, getString(R.string.app_update_failed), Toast.LENGTH_LONG).show()
+                Log.d("inAppUpdate", getString(R.string.app_update_failed))
+                finish()
+            }
+        }
     }
 
     fun initViews() {
@@ -114,7 +189,11 @@ class SplashScreen : BaseCompatActivity() {
         finish()
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray,
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         loginProcess()
     }

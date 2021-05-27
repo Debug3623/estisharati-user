@@ -123,12 +123,22 @@ class HelperMethods(val context: Context) {
     }
 
     fun convetDecimalFormat(amount: Double): String {
-        val df = DecimalFormat("#.##")
-        val nf: NumberFormat = NumberFormat.getInstance(Locale.ENGLISH)
-        var engFormat = nf.format(df.format(amount).toDouble())
+        val df = DecimalFormat("0.00")
+        val nf: NumberFormat = NumberFormat.getNumberInstance(Locale.US)
+        var engFormat = nf.format(amount)
         engFormat = engFormat.replace(",", "")
-        return engFormat
+        val decimal = df.format(engFormat.toDouble())
+        return decimal
     }
+
+//    fun convetEnglishFormat(amount: Double): String {
+//        val df = DecimalFormat("0.00")
+//        val nf: NumberFormat = NumberFormat.getNumberInstance(Locale.US)
+//        var engFormat = nf.format(amount)
+//        engFormat = engFormat.replace(",", "")
+//        val decimal = df.format(engFormat.toDouble())
+//        return decimal
+//    }
 
     fun ShowDateTimePicker(date: TextView, time: TextView) {
         val nextDate = Calendar.getInstance()

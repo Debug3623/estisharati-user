@@ -321,4 +321,12 @@
     <string name="payment_policy">Payment Policy</string>
     <string name="company_address">Company Address: Abu Dhabi City -Ebtikar Streat - Villa 11</string>
     <string name="company_name">Company Name: Estisharaticom</string>
+    <string name="payment_">Payment</string>
+    <string name="payment_failed">Payment Failed</string>
+    <string name="payment_success">Payment Success</string>
+    <string name="Payment_generic_error">Payment Generic Error</string>
+
+    <string name="app_update_start">App update start !</string>
+    <string name="app_update_canceled">App update Canceled !</string>
+    <string name="app_update_failed">App update Failed !</string>
 </resources>

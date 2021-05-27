@@ -97,14 +97,14 @@
                     <LinearLayout
                         android:id="@+id/change_packages"
                         android:layout_width="0dp"
-                        android:layout_height="150dp"
+                        android:layout_height="130dp"
                         android:layout_margin="10dp"
-                        android:layout_weight="4.5"
+                        android:layout_weight="3.5"
                         android:background="@drawable/corner_redius_15dp_white"
                         android:elevation="3dp"
                         android:gravity="center"
                         android:orientation="vertical"
-                        android:padding="20dp">
+                        android:padding="10dp">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -130,11 +130,11 @@
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="5.5">
+                        android:layout_weight="6.5">
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="150dp"
+                            android:layout_height="wrap_content"
                             android:layout_margin="10dp"
                             android:background="@drawable/corner_redius_15dp_parrot_green"
                             android:elevation="3dp"
@@ -145,6 +145,7 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
                                 android:gravity="center_horizontal"
                                 android:orientation="horizontal">
 
@@ -161,7 +162,6 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="5dp"
-                                    android:singleLine="true"
                                     android:text="0.0"
                                     android:textColor="@color/light_green"
                                     android:textSize="25sp"
@@ -178,7 +178,7 @@
                                 android:text="-AED 20"
                                 android:textColor="@color/orange"
                                 android:textSize="13sp"
-                                android:visibility="gone" />
+                                android:visibility="invisible" />
 
                             <TextView
                                 android:id="@+id/vatAmountTxt"

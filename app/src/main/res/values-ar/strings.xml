@@ -316,4 +316,11 @@
     <string name="payment_policy">سياسة الدفع</string>
     <string name="company_address">عنوان الشركة: خليفه أ - شارع الابتكار - فيلا ١١</string>
     <string name="company_name">إسم الشركة: Estisharaticom</string>
+    <string name="payment_failed">فشل الدفع</string>
+    <string name="payment_success">تم الدفع بنجاح</string>
+    <string name="Payment_generic_error">خطأ عام في الدفع</string>
+    <string name="payment_">الدفع</string>
+    <string name="app_update_start">بدء تحديث التطبيق !</string>
+    <string name="app_update_canceled">تم إلغاء تحديث التطبيق !</string>
+    <string name="app_update_failed">فشل تحديث التطبيق !</string>
 </resources>

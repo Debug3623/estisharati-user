@@ -1,5 +1,6 @@
 package digital.upbeat.estisharati_user.UI
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -19,6 +20,9 @@ import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
 import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
+import digital.upbeat.estisharati_user.Utils.alertActionClickListner
+import digital.upbeat.estisharati_user.networkPayment.NetworkModel.NetworkResponse
+import digital.upbeat.estisharati_user.networkPayment.NetwrokPayment
 import kotlinx.android.synthetic.main.activity_course_details.*
 import kotlinx.android.synthetic.main.activity_packages_selection.*
 import kotlinx.android.synthetic.main.activity_packages_selection.nav_back
@@ -26,11 +30,16 @@ import kotlinx.android.synthetic.main.add_coupon_layout.view.*
 import okhttp3.ResponseBody
 import org.json.JSONException
 import org.json.JSONObject
+import payment.sdk.android.PaymentClient
+import payment.sdk.android.cardpayment.CardPaymentData
+import payment.sdk.android.cardpayment.CardPaymentRequest
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 import java.io.IOException
 import java.util.*
+
 
 class PackagesSelection : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
@@ -38,6 +47,8 @@ class PackagesSelection : BaseCompatActivity() {
     lateinit var sharedPreferencesHelper: SharedPreferencesHelper
     lateinit var dataUser: DataUser
     lateinit var referralResponse: ReferralResponse
+    lateinit var paymentNetworkResponse: NetworkResponse
+    val PaymentResponseCode = 1996;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_packages_selection)
@@ -61,14 +72,93 @@ class PackagesSelection : BaseCompatActivity() {
         }
         proceed.setOnClickListener {
             if (helperMethods.isConnectingToInternet) {
-                Log.d("Subscription", Gson().toJson(GlobalData.packagesOptions))
-                subscriptionApiCall()
+                //                Log.d("Subscription", Gson().toJson(GlobalData.packagesOptions))
+                //                subscriptionApiCall()
+                helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
+                NetwrokPayment().getToken(this@PackagesSelection)
             } else {
                 helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
             }
         }
         addCouponLayout.setOnClickListener {
             showCouponAddPopup()
+        }
+    }
+
+    fun tokenError(error: String) {
+        helperMethods.dismissProgressDialog()
+        helperMethods.showToastMessage(error)
+    }
+
+    fun callOrderFroPaymentAPI(token: String) {
+        NetwrokPayment().createOrder(this, token, GlobalData.packagesOptions.transaction_amount, sharedPreferencesHelper.appLang)
+    }
+
+    fun lunchPaymentGateway(Response: String) {
+        helperMethods.dismissProgressDialog()
+
+      try {
+          paymentNetworkResponse = Gson().fromJson(Response, NetworkResponse::class.java)
+          Log.d("getOrderReference", paymentNetworkResponse._embedded.payment.get(0).orderReference)
+
+          Log.d("herew", paymentNetworkResponse._links.payment.href)
+          val builder: CardPaymentRequest.Builder = CardPaymentRequest.builder()
+          Log.d("Auth", paymentNetworkResponse._links.paymentAuthorization.href)
+          builder.gatewayUrl(paymentNetworkResponse._links.paymentAuthorization.href)
+          val codeSpliter = paymentNetworkResponse._links.payment.href.split("=")
+          Log.d("AuthCode", codeSpliter[1])
+          builder.code(codeSpliter[1])
+          val req: CardPaymentRequest = builder.build()
+          val p = PaymentClient(this@PackagesSelection, "")
+          p.launchCardPayment(req, PaymentResponseCode)
+      }  catch (e :Exception){
+          e.printStackTrace()
+      }
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            PaymentResponseCode -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    onCardPaymentResponse(CardPaymentData.getFromIntent(data!!))
+                } else if (requestCode == Activity.RESULT_CANCELED) {
+                    Log.d("CardPaymentData", "RESULT_CANCELED")
+                }
+            }
+        }
+    }
+
+    fun onCardPaymentResponse(data: CardPaymentData) {
+        when (data.code) {
+            CardPaymentData.STATUS_PAYMENT_AUTHORIZED, CardPaymentData.STATUS_PAYMENT_CAPTURED -> {
+                Log.d("CardPaymentData", "STATUS_PAYMENT_CAPTURED")
+                Log.d("Subscription", Gson().toJson(GlobalData.packagesOptions))
+                helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
+                subscriptionApiCall()
+            }
+            CardPaymentData.STATUS_PAYMENT_FAILED -> {
+                Log.d("CardPaymentData", "STATUS_PAYMENT_FAILED")
+                helperMethods.showAlertDialog(this, object : alertActionClickListner {
+                    override fun onActionOk() {
+                    }
+                    override fun onActionCancel() {
+                    }
+                }, getString(R.string.payment_), getString(R.string.payment_failed), true, getString(R.string.ok), "")
+            }
+            CardPaymentData.STATUS_GENERIC_ERROR -> {
+                Log.d("CardPaymentData", "STATUS_GENERIC_ERROR")
+                helperMethods.showAlertDialog(this, object : alertActionClickListner {
+                    override fun onActionOk() {
+                    }
+                    override fun onActionCancel() {
+                    }
+                }, getString(R.string.payment_), getString(R.string.Payment_generic_error), true, getString(R.string.ok), "")
+            }
+            else -> {
+                Log.d("CardPaymentData", "unknown")
+            }
         }
     }
 
@@ -121,17 +211,17 @@ class PackagesSelection : BaseCompatActivity() {
         if (totelDiscountAmount > 0) {
             chooseDiscount.visibility = View.VISIBLE
         } else {
-            chooseDiscount.visibility = View.GONE
+            chooseDiscount.visibility = View.INVISIBLE
         }
         chooseType.text = when (GlobalData.packagesOptions.type) {
             "course" -> {
-                "Course"
+                getString(R.string.courses)
             }
             "consultation" -> {
-                "Consultation"
+                getString(R.string.consultants)
             }
             "subscription" -> {
-                "Package"
+                getString(R.string.packages)
             }
             else -> ""
         }
@@ -141,6 +231,8 @@ class PackagesSelection : BaseCompatActivity() {
         } else {
             referralDiscountLayout.visibility = View.GONE
         }
+        Log.d("payment amount",GlobalData.packagesOptions.transaction_amount+"  "+GlobalData.packagesOptions.vat_amount+"  "+GlobalData.packagesOptions.discount+"  "+GlobalData.packagesOptions.referral_discount);
+
     }
 
     fun showCouponAddPopup() {
@@ -280,7 +372,7 @@ class PackagesSelection : BaseCompatActivity() {
             else -> {
             }
         }
-        val responseBodyCall = retrofitInterface.USER_SUBSCRIPTION_API_CALL("Bearer ${dataUser.access_token}", GlobalData.packagesOptions.type, GlobalData.packagesOptions.category_id, GlobalData.packagesOptions.chat, GlobalData.packagesOptions.audio, GlobalData.packagesOptions.video, subscription_id, course_id, consultant_id, GlobalData.packagesOptions.transaction_amount, GlobalData.packagesOptions.vat_amount, "1", UUID.randomUUID().toString(), GlobalData.packagesOptions.coupon_id, GlobalData.packagesOptions.coupon_code, GlobalData.packagesOptions.discount, GlobalData.packagesOptions.referral_code, GlobalData.packagesOptions.referral_discount, GlobalData.packagesOptions.referral_percent)
+        val responseBodyCall = retrofitInterface.USER_SUBSCRIPTION_API_CALL("Bearer ${dataUser.access_token}", GlobalData.packagesOptions.type, GlobalData.packagesOptions.category_id, GlobalData.packagesOptions.chat, GlobalData.packagesOptions.audio, GlobalData.packagesOptions.video, subscription_id, course_id, consultant_id, GlobalData.packagesOptions.transaction_amount, GlobalData.packagesOptions.vat_amount, "1", paymentNetworkResponse._embedded.payment.get(0).orderReference, GlobalData.packagesOptions.coupon_id, GlobalData.packagesOptions.coupon_code, GlobalData.packagesOptions.discount, GlobalData.packagesOptions.referral_code, GlobalData.packagesOptions.referral_discount, GlobalData.packagesOptions.referral_percent)
 
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
