@@ -113,6 +113,8 @@
     <string name="enter_first_name">Enter first name</string>
     <string name="enter_last_name">Enter last name</string>
     <string name="enter_email_address">Enter email address</string>
+
+
     <string name="enter_valid_email_address">Enter valid email address</string>
     <string name="profile_is_updating">Profile is updating...</string>
     <string name="enter_your_current_password">Enter your current password !</string>

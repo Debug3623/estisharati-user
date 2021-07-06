@@ -10,8 +10,8 @@ android {
         applicationId "digital.upbeat.estisharati_user"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 4
-        versionName "1.4"
+        versionCode 5
+        versionName "1.5"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -63,10 +63,10 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.annotation:annotation:1.2.0'
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    implementation 'androidx.recyclerview:recyclerview:1.2.0'
-    implementation 'com.google.android.material:material:1.3.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.multidex:multidex:2.0.1'
 
@@ -79,27 +79,27 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.5.0'
 
     //Image Loader
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
 
     //Rest Api
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
     //Exo Player
-    implementation 'com.google.android.exoplayer:exoplayer:2.14.0'
+    implementation 'com.google.android.exoplayer:exoplayer:2.14.1'
 
     //Firebase
     implementation 'com.google.firebase:firebase-analytics-ktx:19.0.0'
     implementation 'com.google.firebase:firebase-messaging:22.0.0'
-    implementation 'com.google.firebase:firebase-firestore-ktx:23.0.0'
-    implementation 'com.google.firebase:firebase-dynamic-links-ktx:20.0.0'
+    implementation 'com.google.firebase:firebase-firestore-ktx:23.0.1'
+    implementation 'com.google.firebase:firebase-dynamic-links-ktx:20.1.0'
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
 
     //Agora
     implementation 'io.agora.rtc:full-sdk:3.2.1'
 
     // Country Picker
-    implementation 'com.hbb20:ccp:2.4.0'
+    implementation 'com.hbb20:ccp:2.4.2'
 
     //Shimmer
     implementation 'com.facebook.shimmer:shimmer:0.5.0'

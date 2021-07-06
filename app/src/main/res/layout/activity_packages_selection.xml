@@ -92,7 +92,7 @@
                     android:layout_marginRight="15dp"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:weightSum="10">
+                   >
 
                     <LinearLayout
                         android:id="@+id/change_packages"
@@ -103,6 +103,7 @@
                         android:background="@drawable/corner_redius_15dp_white"
                         android:elevation="3dp"
                         android:gravity="center"
+                        android:visibility="gone"
                         android:orientation="vertical"
                         android:padding="10dp">
 

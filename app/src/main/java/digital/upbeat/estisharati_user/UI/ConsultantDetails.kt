@@ -256,6 +256,8 @@ class ConsultantDetails : BaseCompatActivity() {
                 chat = "0"
             } else {
                 chat = "1"
+                audio = "0"
+                video = "0"
             }
             showConsultationPriceDetailsPopup()
         }
@@ -264,6 +266,8 @@ class ConsultantDetails : BaseCompatActivity() {
                 audio = "0"
             } else {
                 audio = "1"
+                chat = "0"
+                video = "0"
             }
             showConsultationPriceDetailsPopup()
         }
@@ -272,6 +276,8 @@ class ConsultantDetails : BaseCompatActivity() {
                 video = "0"
             } else {
                 video = "1"
+                audio = "0"
+                chat = "0"
             }
             showConsultationPriceDetailsPopup()
         }

@@ -126,6 +126,14 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
         testimonials_all.setOnClickListener {
             startActivity(Intent(requireContext(), Testimonials::class.java))
         }
+        packageImage.setOnClickListener {
+            val intent = Intent(requireContext(), Packages::class.java)
+            intent.putExtra("viaFrom", "Home")
+            startActivity(intent)
+        }
+        surveyImage.setOnClickListener {
+            startActivity(Intent(requireContext(), Survey::class.java))
+        }
     }
 
     private fun ShowViewPager() {
@@ -170,31 +178,37 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
     fun InitializeRecyclerview() {
         requireActivity().notificationCount.text = GlobalData.homeResponse.notification_count
         sideNavBackgroundColorBasedOnPackage()
-        val splitCount = GlobalData.homeResponse.categories.size / 2
-        var categoriesArrayList1: ArrayList<Category> = arrayListOf()
-        var categoriesArrayList2: ArrayList<Category> = arrayListOf()
 
-        if (GlobalData.homeResponse.categories.size > 1) {
-            categoriesArrayList1 = ArrayList<Category>(GlobalData.homeResponse.categories.subList(0, splitCount))
-            categoriesArrayList2 = ArrayList<Category>(GlobalData.homeResponse.categories.subList(splitCount, GlobalData.homeResponse.categories.size))
-        } else {
-            categoriesArrayList1 = GlobalData.homeResponse.categories
-        }
-
-        exp_consultations_recycler.setHasFixedSize(true)
-        exp_consultations_recycler.removeAllViews()
-        exp_consultations_recycler.layoutManager = GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false)
-        exp_consultations_recycler.adapter = ExpConsultationsAdapter(requireContext(), this, categoriesArrayList1)
-
-        exp_consultations_recycler1.setHasFixedSize(true)
-        exp_consultations_recycler1.removeAllViews()
-        exp_consultations_recycler1.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        exp_consultations_recycler1.adapter = ExpConsultationsAdapter(requireContext(), this, categoriesArrayList2)
+//        val splitCount = GlobalData.homeResponse.categories.size / 2
+//        var categoriesArrayList1: ArrayList<Category> = arrayListOf()
+//        var categoriesArrayList2: ArrayList<Category> = arrayListOf()
+//
+//        if (GlobalData.homeResponse.categories.size > 1) {
+//            categoriesArrayList1 = ArrayList<Category>(GlobalData.homeResponse.categories.subList(0, splitCount))
+//            categoriesArrayList2 = ArrayList<Category>(GlobalData.homeResponse.categories.subList(splitCount, GlobalData.homeResponse.categories.size))
+//        } else {
+//            categoriesArrayList1 = GlobalData.homeResponse.categories
+//        }
+//
+//        exp_consultations_recycler.setHasFixedSize(true)
+//        exp_consultations_recycler.removeAllViews()
+//        exp_consultations_recycler.layoutManager = GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false)
+//        exp_consultations_recycler.adapter = ExpConsultationsAdapter(requireContext(), this, categoriesArrayList1)
+//
+//        exp_consultations_recycler1.setHasFixedSize(true)
+//        exp_consultations_recycler1.removeAllViews()
+//        exp_consultations_recycler1.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+//        exp_consultations_recycler1.adapter = ExpConsultationsAdapter(requireContext(), this, categoriesArrayList2)
 
         exp_courses_recycler.setHasFixedSize(true)
         exp_courses_recycler.removeAllViews()
         exp_courses_recycler.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         exp_courses_recycler.adapter = ExpCoursesAdapter(requireContext(), this, GlobalData.homeResponse.courses)
+        if (GlobalData.homeResponse.courses.isEmpty()) {
+            courseLayout.visibility = View.GONE
+        } else {
+            courseLayout.visibility = View.VISIBLE
+        }
     }
 
     fun sideNavBackgroundColorBasedOnPackage() {
@@ -263,7 +277,7 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
             consultantIdArrayList.add(consultant.id)
         }
         Log.d("consultantIdArrayList", consultantIdArrayList.toString())
-        if (GlobalData.homeResponse.consultants.size > 0) {
+//        if (GlobalData.homeResponse.consultants.size > 0) {
             //            .whereIn("user_id", consultantIdArrayList)
             onlineUserListener = firestore.collection("Users").orderBy("fname", Query.Direction.ASCENDING).addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 querySnapshot?.let {
@@ -279,9 +293,9 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
                     initializeOnlineUserRecyclerview()
                 }
             }
-        } else {
-            initializeOnlineUserRecyclerview()
-        }
+//        } else {
+//            initializeOnlineUserRecyclerview()
+//        }
 
         incomingCallListener = firestore.collection("Users").document(dataUser.id).addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
             documentSnapshot?.let {

@@ -53,7 +53,7 @@
                         android:id="@+id/consultantJobTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
+                        android:layout_marginTop="5dp"
                         android:fontFamily="@font/almarai_regular"
                         android:maxLines="2"
                         android:text="Administrative Law Doctor"
@@ -65,7 +65,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:layout_marginTop="3dp"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <LinearLayout
@@ -96,6 +96,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/almarai_regular"
                             android:gravity="end"
+                            android:visibility="gone"
                             android:layout_gravity="end"
                             android:text="AUD 1.200"
                             android:textColor="@color/green"

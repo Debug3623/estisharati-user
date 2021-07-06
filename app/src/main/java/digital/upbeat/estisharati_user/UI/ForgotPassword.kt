@@ -24,8 +24,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 
-class
-ForgotPassword : BaseCompatActivity() {
+class ForgotPassword : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var preferencesHelper: SharedPreferencesHelper

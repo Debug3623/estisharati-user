@@ -124,7 +124,7 @@ class ChatHome : BaseCompatActivity() {
         }
 
         Log.d("consultantIdArrayList", consultantIdArrayList.toString())
-        if (GlobalData.homeResponse.consultants.size > 0) {
+//        if (GlobalData.homeResponse.consultants.size > 0) {
             consultantListener = firestore.collection("Users").orderBy("fname", Query.Direction.ASCENDING).addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 querySnapshot?.let {
                     onlineConsultationArraylist = arrayListOf<DataUserFireStore>()
@@ -139,7 +139,7 @@ class ChatHome : BaseCompatActivity() {
                     onlineConsultationsRecycler()
                 }
             }
-        }
+//        }
         firestore.collection("Group").addSnapshotListener { value, error ->
             value?.let {
                 groupItemsArrayList.clear()

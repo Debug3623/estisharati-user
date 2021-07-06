@@ -45,12 +45,20 @@ class SplashScreen : BaseCompatActivity() {
         checkUpdateAvailable()
     }
 
-    fun checkUpdateAvailable() {
+    private fun checkUpdateAvailable() {
         appUpdateManager = AppUpdateManagerFactory.create(this@SplashScreen)
         appUpdateManager!!.appUpdateInfo.addOnSuccessListener(OnSuccessListener { appUpdateInfo: AppUpdateInfo ->
-            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(
+                    AppUpdateType.IMMEDIATE
+                )
+            ) {
                 try {
-                    appUpdateManager!!.startUpdateFlowForResult(appUpdateInfo, AppUpdateType.IMMEDIATE, this@SplashScreen, UPDATE_REQUEST)
+                    appUpdateManager!!.startUpdateFlowForResult(
+                        appUpdateInfo,
+                        AppUpdateType.IMMEDIATE,
+                        this@SplashScreen,
+                        UPDATE_REQUEST
+                    )
                 } catch (e: SendIntentException) {
                     e.printStackTrace()
                     launchPage()
@@ -86,7 +94,7 @@ class SplashScreen : BaseCompatActivity() {
         })
     }
 
-    fun launchPage() {
+    private fun launchPage() {
         initViews()
         handleDynamicLink()
         startCountDownTimer()

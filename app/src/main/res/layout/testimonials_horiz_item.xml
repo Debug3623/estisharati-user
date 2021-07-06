@@ -13,7 +13,7 @@
         android:id="@+id/holeLayout"
         android:layout_marginBottom="35dp"
         android:background="@drawable/corner_redius_10dp_white"
-        android:elevation="4dp"
+        android:elevation="3dp"
         android:orientation="horizontal"
         android:padding="10dp">
 
