@@ -332,6 +332,7 @@ class VideoCall : BaseCompatActivity() {
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (ContextCompat.checkSelfPermission(this@VideoCall, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this@VideoCall, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             initAgoraEngineAndJoinChannel()
         } else {
