@@ -48,11 +48,11 @@ import okhttp3.ResponseBody
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
-import java.io.IOException
-import java.util.*
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
+import java.io.IOException
+import java.util.*
 
 class ChatPage : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
@@ -257,9 +257,9 @@ class ChatPage : BaseCompatActivity() {
                             val hashMap = hashMapOf<String, Any>("channel_unique_id" to channelUniqueId, "availability" to false)
                             helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
                             helperMethods.updateUserDetailsToFirestore(dataUser.id, hashMap)
-                            val data = data(getString(R.string.incoming_call), "${getString(R.string.you_are_receiving_voice_call_from)} ${dataUser.fname} ${dataUser.lname}", "incoming_voice_call", dataUser.id, dataUserFireStore.user_id, channelUniqueId)
+                            val data = data(getString(R.string.incoming_call), "${getString(R.string.you_are_receiving_voice_call_from)} ${dataUser.fname} ${dataUser.lname}", "incoming_voice_call", dataUser.id, dataUserFireStore.user_id, channelUniqueId,"")
                             val dataFcmBody = DataFcmBody(dataUserFireStore.fire_base_token, data)
-                            sendPushNotification(dataFcmBody)
+                            sendPushNotification(dataFcmBody,true)
                         } else {
                             helperMethods.showToastMessage(getString(R.string.the_person_you_are_calling_is_busy_please_try_again_later))
                         }
@@ -284,9 +284,9 @@ class ChatPage : BaseCompatActivity() {
                             val hashMap = hashMapOf<String, Any>("channel_unique_id" to channelUniqueId, "availability" to false)
                             helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
                             helperMethods.updateUserDetailsToFirestore(dataUser.id, hashMap)
-                            val data = data(getString(R.string.incoming_call), "${getString(R.string.you_are_receiving_video_call_from)} ${dataUser.fname} ${dataUser.lname}", "incoming_video_call", dataUser.id, dataUserFireStore.user_id, channelUniqueId)
+                            val data = data(getString(R.string.incoming_call), "${getString(R.string.you_are_receiving_video_call_from)} ${dataUser.fname} ${dataUser.lname}", "incoming_video_call", dataUser.id, dataUserFireStore.user_id, channelUniqueId,"")
                             val dataFcmBody = DataFcmBody(dataUserFireStore.fire_base_token, data)
-                            sendPushNotification(dataFcmBody)
+                            sendPushNotification(dataFcmBody,true)
                         } else {
                             helperMethods.showToastMessage(getString(R.string.the_person_you_are_calling_is_busy_please_try_again_later))
                         }
@@ -318,6 +318,9 @@ class ChatPage : BaseCompatActivity() {
                         inside_reply.put("message_content", "")
                         inside_reply.put("sender_id", "")
                         inside_reply.put("position", "")
+                        val data = data("New message", "${dataUser.fname} send message : ${message.toText()}", "incoming_message", dataUser.id, dataUserFireStore.user_id, "","")
+                        val dataFcmBody = DataFcmBody(dataUserFireStore.fire_base_token, data)
+                        sendPushNotification(dataFcmBody, false)
                         updateUserSecondsApiCall(userId, "1",message.toText(),"")
                         message.text = "".toEditable()
 
@@ -411,6 +414,9 @@ class ChatPage : BaseCompatActivity() {
                                     inside_reply.put("message_content", "")
                                     inside_reply.put("sender_id", "")
                                     inside_reply.put("position", "")
+                                    val data = data("New message", "${dataUser.fname} send image", "incoming_message", dataUser.id, dataUserFireStore.user_id, "",image_path)
+                                    val dataFcmBody = DataFcmBody(dataUserFireStore.fire_base_token, data)
+                                    sendPushNotification(dataFcmBody, false)
                                     updateUserSecondsApiCall(userId, "1","",image_path)
 
                                 }.addOnFailureListener {
@@ -477,13 +483,17 @@ class ChatPage : BaseCompatActivity() {
                                         inside_reply.put("position", "")
                                         var itsMessage=""
                                         var itsImageUrl=""
+                                        var messageBody: data? = null
                                         if (forward_type.equals("image")) {
                                             itsImageUrl =forward_content
+                                            messageBody = data("New message", "${dataUser.fname} send image", "incoming_message", dataUser.id, dataUserFireStore.user_id, "",itsImageUrl)
                                         } else if (forward_type.equals("text")) {
                                             itsMessage=forward_content
+                                            messageBody = data("New message", "${dataUser.fname} send message : ${itsMessage}", "incoming_message", dataUser.id, dataUserFireStore.user_id, "","")
                                         }
                                         forward_content=""
-
+                                        val dataFcmBody = DataFcmBody(dataUserFireStore.fire_base_token, messageBody!!)
+                                        sendPushNotification(dataFcmBody, false)
                                         updateUserSecondsApiCall(userId, "1",itsMessage,itsImageUrl)
 
 
@@ -524,15 +534,20 @@ class ChatPage : BaseCompatActivity() {
         })
     }
 
-    fun sendPushNotification(dataFcmBody: DataFcmBody) {
+    fun sendPushNotification(dataFcmBody: DataFcmBody, showLoader: Boolean) {
         val body = Gson().toJson(dataFcmBody.data)
-        helperMethods.showProgressDialog(getString(R.string.please_wait_while_preparing_to_call))
+        if (showLoader) {
+            helperMethods.showProgressDialog(getString(R.string.please_wait_while_preparing_to_call))
+        }
         val responseBodyCall = retrofitInterface.NOTIFY_API_CALL("Bearer ${dataUser.access_token}", dataFcmBody.data.receiver_id, dataFcmBody.data.title, dataFcmBody.data.message, body)
         responseBodyCall.enqueue(object : Callback<okhttp3.ResponseBody> {
-            override fun onResponse(                call: Call<okhttp3.ResponseBody>,                response: retrofit2.Response<okhttp3.ResponseBody>,
+            override fun onResponse(
+                call: Call<okhttp3.ResponseBody>,
+                response: retrofit2.Response<okhttp3.ResponseBody>,
             ) {
-                helperMethods.dismissProgressDialog()
-
+                if (showLoader) {
+                    helperMethods.dismissProgressDialog()
+                }
                 if (response.isSuccessful) {
                     if (response.body() != null) {
                         try {
@@ -578,7 +593,9 @@ class ChatPage : BaseCompatActivity() {
             }
 
             override fun onFailure(call: Call<okhttp3.ResponseBody>, t: Throwable) {
-                helperMethods.dismissProgressDialog()
+                if (showLoader) {
+                    helperMethods.dismissProgressDialog()
+                }
                 t.printStackTrace()
                 if (dataFcmBody.data.type.equals("incoming_voice_call")) {
                     val intent = Intent(this@ChatPage, VoiceCall::class.java)

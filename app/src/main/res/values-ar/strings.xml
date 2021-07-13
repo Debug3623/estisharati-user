@@ -169,4 +169,10 @@
     <string name="enter_group_name">أدخل اسم المجموعة</string>
     <string name="upload_group_profile_picture">تحميل صورة الملف الشخصي للمجموعة</string>
     <string name="select_group_members">حدد أعضاء المجموعة</string>
+
+    <string name="code_send_successfully">تم إرسال الكود بنجاح</string>
+    <string name="code_verified">تم التحقق من الكود</string>
+    <string name="invalid_verification_code">كود التحقق غير صالح</string>
+    <string name="verification_failed">فشل التحقق من الكود</string>
+    <string name="please_wait_while_send_code">يرجى الانتظار أثناء إرسال الكود</string>
 </resources>

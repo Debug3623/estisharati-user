@@ -6,6 +6,7 @@ import android.app.*
 import android.app.DatePickerDialog.OnDateSetListener
 import android.app.TimePickerDialog.OnTimeSetListener
 import android.content.ContentUris
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -42,13 +43,15 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.firestore.FirebaseFirestore
 import digital.upbeat.estisharati_consultant.DataClassHelper.Login.DataUser
-import digital.upbeat.estisharati_consultant.DataClassHelper.Utils.DataTextsAndColors
 import digital.upbeat.estisharati_consultant.DataClassHelper.RecentChat.DataUserMessageFireStore
+import digital.upbeat.estisharati_consultant.DataClassHelper.Utils.DataTextsAndColors
 import digital.upbeat.estisharati_consultant.R
 import digital.upbeat.estisharati_consultant.UI.SplashScreen
+import digital.upbeat.estisharati_consultant.UI.SplashTemp
 import digital.upbeat.estisharati_consultant.Utils.alertActionClickListner
 import kotlinx.android.synthetic.main.alert_popup.view.*
 import java.io.ByteArrayOutputStream
@@ -432,18 +435,23 @@ class HelperMethods(var context: Context) {
         return DecimalFormat("00").format(minutes) + ":" + DecimalFormat("00").format(seconds.toLong())
     }
 
-    fun sendPushNotification(title: String, text: String) {
-        //        Intent intent=null;
-        //        if(BaseIntent!=null||!BaseIntent.equalsIgnoreCase("")){
-        //            intent=new Intent(BaseIntent);
-        //            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        //        }else{
-        //            intent=new Intent();
-        //        }
+    fun sendPushNotification(title: String, text: String, type: String, image_url: String) {
+        var bitmap: Bitmap? = null
+        if (image_url.isNotEmpty()) {
+            try {
+                bitmap = Glide.with(context).asBitmap().load(image_url).submit().get()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        val intent = Intent(context, SplashTemp::class.java);
+        intent.putExtra("notFromNotification", false)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
         val num = System.currentTimeMillis().toInt()
         val CHANNEL_ID = "EstisharatiConsultant"
         val pendingIntent =
-            PendingIntent.getActivity(context, num, Intent(), PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getActivity(context, num, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
             .setTicker(context.getString(R.string.app_name)).setContentTitle(title)
             .setContentText(text).setStyle(NotificationCompat.BigTextStyle().bigText(text))
@@ -453,6 +461,9 @@ class HelperMethods(var context: Context) {
             .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_logo))
             .setVibrate(longArrayOf(100, 100, 100, 100, 100)).setChannelId(CHANNEL_ID)
             .setContentIntent(pendingIntent)
+        bitmap?.let {
+            notification.setStyle(NotificationCompat.BigPictureStyle().bigPicture(it))
+        }
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -669,13 +680,47 @@ class HelperMethods(var context: Context) {
         return false
     }
 
-    fun getImageUriFromBitmap(inImage: Bitmap): Uri {
-        val bytes = ByteArrayOutputStream()
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-        val path =
-            MediaStore.Images.Media.insertImage(context.contentResolver, inImage, "Title", null)
-        return Uri.parse(path)
+    @Throws(IOException::class)
+    fun getImageUriFromBitmap(bitmap: Bitmap): Uri {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val values = ContentValues().apply {
+                put(MediaStore.MediaColumns.DISPLAY_NAME, UUID.randomUUID().toString())
+                put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+                put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DCIM)
+            }
+            var uri: Uri? = null
+
+            return runCatching {
+                with(context.contentResolver) {
+                    insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)?.also {
+                        uri = it // Keep uri reference so it can be removed on failure
+                        openOutputStream(it)?.use { stream ->
+                            if (!bitmap.compress(
+                                    Bitmap.CompressFormat.JPEG,
+                                    100,
+                                    stream
+                                )
+                            ) throw IOException("Failed to save bitmap.")
+                        } ?: throw IOException("Failed to open output stream.")
+                    } ?: throw IOException("Failed to create new MediaStore record.")
+                }
+            }.getOrElse {
+                uri?.let { orphanUri ->
+                    // Don't leave an orphan entry in the MediaStore
+                    context.contentResolver.delete(orphanUri, null, null)
+                }
+
+                throw it
+            }
+        } else {
+            val bytes = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+            val path =
+                MediaStore.Images.Media.insertImage(context.contentResolver, bitmap, "Title", null)
+            return Uri.parse(path)
+        }
     }
+
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     fun getFilePath(uri: Uri): String? {

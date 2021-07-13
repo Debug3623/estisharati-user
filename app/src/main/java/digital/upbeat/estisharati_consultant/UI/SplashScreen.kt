@@ -1,40 +1,36 @@
 package digital.upbeat.estisharati_consultant.UI
 
 import android.Manifest
-import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
-import android.view.LayoutInflater
-import android.widget.TextView
 import androidx.core.content.ContextCompat
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
+import digital.upbeat.estisharati_consultant.Helper.GlobalData
 import digital.upbeat.estisharati_consultant.Helper.HelperMethods
 import digital.upbeat.estisharati_consultant.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_consultant.R
-import digital.upbeat.estisharati_consultant.CommonApiHelper.SendDeviceTokenHelper
-import digital.upbeat.estisharati_consultant.Helper.GlobalData
 import digital.upbeat.estisharati_consultant.Utils.BaseCompatActivity
 import digital.upbeat.estisharati_consultant.Utils.alertActionClickListner
 
 class SplashScreen : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var preferencesHelper: SharedPreferencesHelper
+    var notFromNotification = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener {
-            if (it.isComplete) {
-                GlobalData.FcmToken = it.result.toString()
-                Log.e("FirebaseInstanceId", GlobalData.FcmToken)
+            try {
+                if (it.isComplete) {
+                    GlobalData.FcmToken = it.result.toString()
+                    Log.e("FirebaseInstanceId", GlobalData.FcmToken)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
         initViews()
@@ -44,10 +40,14 @@ class SplashScreen : BaseCompatActivity() {
     fun initViews() {
         helperMethods = HelperMethods(this@SplashScreen)
         preferencesHelper = SharedPreferencesHelper(this@SplashScreen)
+        notFromNotification = intent.getBooleanExtra("notFromNotification", true)
         helperMethods.setStatusBarColor(this, R.color.white)
-        if (preferencesHelper.isConsultantLogIn) {
+        if (preferencesHelper.isConsultantLogIn && notFromNotification) {
             val hashMap = hashMapOf<String, Any>("availability" to true, "channel_unique_id" to "")
-            helperMethods.updateUserDetailsToFirestore(preferencesHelper.logInConsultant.id, hashMap)
+            helperMethods.updateUserDetailsToFirestore(
+                preferencesHelper.logInConsultant.id,
+                hashMap
+            )
         }
     }
 
@@ -88,8 +88,9 @@ class SplashScreen : BaseCompatActivity() {
 
     fun loginProcess() {
         GlobalData.BaseUrl = "https://super-servers.com/estisharati/api/v1/${preferencesHelper.appLang}/"
-        Log.d("BaseURL", GlobalData.BaseUrl)
+        Log.d("BaseURL", GlobalData.BaseUrl+"     "+preferencesHelper.logInConsultant.access_token)
         if (preferencesHelper.isConsultantLogIn) {
+            Log.d("BaseURL", preferencesHelper.logInConsultant.access_token)
             startActivity(Intent(this@SplashScreen, ConsultantDrawer::class.java))
         } else {
             startActivity(Intent(this@SplashScreen, Login::class.java))

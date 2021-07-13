@@ -183,4 +183,10 @@
     <string name="enter_group_name">Enter group name</string>
     <string name="upload_group_profile_picture">Upload group profile picture</string>
     <string name="select_group_members">Select group members</string>
+
+    <string name="code_send_successfully">Code send successfully</string>
+    <string name="code_verified">Code verified</string>
+    <string name="invalid_verification_code">Invalid verification code</string>
+    <string name="verification_failed">Verification failed</string>
+    <string name="please_wait_while_send_code">Please wait while send code</string>
 </resources>
