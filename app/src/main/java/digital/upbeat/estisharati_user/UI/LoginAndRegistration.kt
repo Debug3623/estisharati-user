@@ -244,7 +244,8 @@ class LoginAndRegistration : BaseCompatActivity() {
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()
-                if (response.isSuccessful) {
+
+               if (response.isSuccessful) {
                     if (response.body() != null) {
                         try {
                             val jsonObject = JSONObject(response.body()!!.string())
@@ -287,7 +288,7 @@ class LoginAndRegistration : BaseCompatActivity() {
                     }
                 } else {
                     helperMethods.showToastMessage(getString(R.string.something_went_wrong))
-                    Log.d("body", "Not Successful")
+                    Log.d("body", "Not Successful  "+response.errorBody()!!.string())
                 }
             }
 

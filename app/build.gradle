@@ -76,7 +76,7 @@ dependencies {
 
     //Kotlin Plugin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.5.0'
+    implementation 'androidx.core:core-ktx:1.6.0'
 
     //Image Loader
     implementation 'com.github.bumptech.glide:glide:4.12.0'
@@ -94,9 +94,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore-ktx:23.0.1'
     implementation 'com.google.firebase:firebase-dynamic-links-ktx:20.1.0'
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
+    implementation 'com.google.firebase:firebase-auth:21.0.1'
 
     //Agora
-    implementation 'io.agora.rtc:full-sdk:3.2.1'
+//    implementation 'io.agora.rtc:full-sdk:3.2.1'
+    implementation 'com.github.agorabuilder:native-full-sdk:3.4.5'
 
     // Country Picker
     implementation 'com.hbb20:ccp:2.4.2'

@@ -235,6 +235,7 @@
                 <View
                     android:layout_width="15dp"
                     android:layout_height="15dp"
+                    android:id="@+id/online_status"
                     android:layout_alignParentEnd="true"
                     android:background="@drawable/round_parrot_green"
                     android:elevation="2dp" />

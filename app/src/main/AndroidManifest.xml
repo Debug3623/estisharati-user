@@ -20,10 +20,21 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".UI.TestimonialsDetails"
+        <activity
+            android:name=".UI.SplashTemp"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="OPEN_ACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".UI.TestimonialsDetails"
             android:screenOrientation="portrait" />
-        <activity android:name=".UI.Testimonials"
-            android:screenOrientation="portrait"  />
+        <activity
+            android:name=".UI.Testimonials"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UI.MyAppointment"
             android:screenOrientation="portrait" />

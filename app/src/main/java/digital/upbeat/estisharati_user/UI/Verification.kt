@@ -6,6 +6,9 @@ import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import com.google.firebase.FirebaseException
+import com.google.firebase.FirebaseTooManyRequestsException
+import com.google.firebase.auth.*
 import com.google.firebase.firestore.FieldValue
 import com.google.gson.Gson
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
@@ -26,11 +29,16 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 class Verification : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var preferencesHelper: SharedPreferencesHelper
+
+    var vrCode: String? = null
+    lateinit var firebaseAuth: FirebaseAuth
+    lateinit var mCallbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
     var come_from = ""
     var phone = ""
     var email = ""
@@ -48,6 +56,32 @@ class Verification : BaseCompatActivity() {
         helperMethods = HelperMethods(this@Verification)
         preferencesHelper = SharedPreferencesHelper(this@Verification)
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
+        firebaseAuth = FirebaseAuth.getInstance()
+        firebaseAuth.setLanguageCode(preferencesHelper.appLang)
+        mCallbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+            override fun onVerificationCompleted(credential: PhoneAuthCredential) {
+                signInWithPhoneAuthCredential(credential)
+            }
+
+            override fun onVerificationFailed(e: FirebaseException) {
+                if (e is FirebaseAuthInvalidCredentialsException) {
+                    Log.d("FirebaseException", e.message!!)
+                    helperMethods.showToastMessage("" + e.message)
+                } else if (e is FirebaseTooManyRequestsException) {
+                    Log.d("FirebaseException", e.message!!)
+                    helperMethods.showToastMessage("" + e.message)
+                }
+            }
+
+            override fun onCodeSent(verificationId: String, token: PhoneAuthProvider.ForceResendingToken) {
+                Log.d("onCodeSent", verificationId)
+                vrCode = verificationId
+                helperMethods.showToastMessage(getString(R.string.code_send_successfully))
+                ResendCountdown()
+
+
+            }
+        }
 
         if (intent.extras != null) {
             come_from = intent.getStringExtra("come_from")!!
@@ -57,9 +91,9 @@ class Verification : BaseCompatActivity() {
                 password = intent.getStringExtra("password")!!
                 verified = intent.getStringExtra("verified")!!
                 if (verified.equals("false")) {
-                    resendApiCall(phone)
+                    sendCodeFromFirebase(phone)
                 } else {
-                    ResendCountdown()
+                    sendCodeFromFirebase(phone)
                 }
             }
             Log.d("come_from", come_from + "  " + phone + "   " + verified)
@@ -70,29 +104,35 @@ class Verification : BaseCompatActivity() {
         nav_back.setOnClickListener {
             finish()
         }
-        val editTexts = arrayOf(code_1, code_2, code_3, code_4)
+        val editTexts = arrayOf(code_1, code_2, code_3, code_4 ,code_5, code_6)
 
         code_1.addTextChangedListener(PinTextWatcher(this@Verification, 0, editTexts))
         code_2.addTextChangedListener(PinTextWatcher(this@Verification, 1, editTexts))
         code_3.addTextChangedListener(PinTextWatcher(this@Verification, 2, editTexts))
         code_4.addTextChangedListener(PinTextWatcher(this@Verification, 3, editTexts))
+        code_5.addTextChangedListener(PinTextWatcher(this@Verification, 4, editTexts))
+        code_6.addTextChangedListener(PinTextWatcher(this@Verification, 5, editTexts))
 
         code_1.setOnKeyListener(PinOnKeyListener(this@Verification, 0, editTexts))
         code_2.setOnKeyListener(PinOnKeyListener(this@Verification, 1, editTexts))
         code_3.setOnKeyListener(PinOnKeyListener(this@Verification, 2, editTexts))
         code_4.setOnKeyListener(PinOnKeyListener(this@Verification, 3, editTexts))
+        code_5.setOnKeyListener(PinOnKeyListener(this@Verification, 4, editTexts))
+        code_6.setOnKeyListener(PinOnKeyListener(this@Verification, 5, editTexts))
 
         btn_proceed.setOnClickListener {
 
             if (codeValidation()) {
-                val code = "${code_1.toText()}${code_2.toText()}${code_3.toText()}${code_4.toText()}"
-                verifyPhoneApiCall(phone, code)
+                val code = "${code_1.toText()}${code_2.toText()}${code_3.toText()}${code_4.toText()}${code_5.toText()}${code_6.toText()}"
+                val credential = PhoneAuthProvider.getCredential(vrCode!!, code)
+                signInWithPhoneAuthCredential(credential)
+
             }
         }
 
         retry.setOnClickListener {
             if (helperMethods.isConnectingToInternet) {
-                resendApiCall(phone)
+                sendCodeFromFirebase(phone)
             } else {
                 helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
             }
@@ -137,6 +177,30 @@ class Verification : BaseCompatActivity() {
         super.onStop()
         if (resendTimer != null) {
             resendTimer?.cancel()
+        }
+    }
+
+    private fun sendCodeFromFirebase(phone:String) {
+        val options = PhoneAuthOptions.newBuilder(firebaseAuth).setPhoneNumber(phone) // Phone number to verify
+            .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+            .setActivity(this) // Activity (for callback binding)
+            .setCallbacks(mCallbacks) // OnVerificationStateChangedCallbacks
+            .build()
+        PhoneAuthProvider.verifyPhoneNumber(options)
+    }
+
+    private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
+        FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener(this) { task ->
+            if (task.isSuccessful) {
+                helperMethods.showToastMessage(getString(R.string.code_verified))
+                verifyPhoneApiCall(phone, "")
+            } else {
+                if (task.exception is FirebaseAuthInvalidCredentialsException) {
+                    helperMethods.showToastMessage(getString(R.string.invalid_verification_code))
+                } else {
+                    helperMethods.showToastMessage(getString(R.string.verification_failed))
+                }
+            }
         }
     }
 

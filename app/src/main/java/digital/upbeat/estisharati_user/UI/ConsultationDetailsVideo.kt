@@ -124,6 +124,7 @@ class ConsultationDetailsVideo : BaseCompatActivity() {
         consultantName.text = myConsultation.name
         consultantCategory.text = myConsultation.category_name
         Glide.with(this@ConsultationDetailsVideo).load(myConsultation.image_path).apply(helperMethods.requestOption).into(consultantImage)
+        if (helperMethods.findConsultantIsOnline(myConsultation.consultant_id)) online_status.visibility = View.VISIBLE else online_status.visibility = View.GONE
         if (myConsultation.chat) {
             chatOption.visibility = View.VISIBLE
         } else {
@@ -283,8 +284,8 @@ class ConsultationDetailsVideo : BaseCompatActivity() {
 //            LayoutView.videoLayout.visibility = View.GONE
 //        }
         LayoutView.chatBalance.text = chat_balance + " " + getString(R.string.count)
-        LayoutView.voiceBalance.text = helperMethods.formatToMinute(audio_balance)
-        LayoutView.videoBalance.text = helperMethods.formatToMinute(video_balance)
+        LayoutView.voiceBalance.text = helperMethods.formatToSecond(audio_balance)
+        LayoutView.videoBalance.text = helperMethods.formatToSecond(video_balance)
     }
 
     fun showPostTestimonialPopup(ConsultationItem: Data) {

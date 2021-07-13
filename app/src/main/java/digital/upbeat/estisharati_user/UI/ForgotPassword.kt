@@ -6,6 +6,9 @@ import android.text.Editable
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import com.google.firebase.FirebaseException
+import com.google.firebase.FirebaseTooManyRequestsException
+import com.google.firebase.auth.*
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
 import digital.upbeat.estisharati_user.Helper.GlobalData
@@ -23,12 +26,16 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 class ForgotPassword : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var preferencesHelper: SharedPreferencesHelper
     var resendTimer: CountDownTimer? = null
+    var vrCode: String? = null
+    lateinit var firebaseAuth: FirebaseAuth
+    lateinit var mCallbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forgot_password)
@@ -42,10 +49,38 @@ class ForgotPassword : BaseCompatActivity() {
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
 
         helperMethods.setStatusBarColor(this, R.color.white)
+        firebaseAuth = FirebaseAuth.getInstance()
+        firebaseAuth.setLanguageCode(preferencesHelper.appLang)
+        mCallbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+            override fun onVerificationCompleted(credential: PhoneAuthCredential) {
+                signInWithPhoneAuthCredential(credential)
+            }
+
+            override fun onVerificationFailed(e: FirebaseException) {
+                if (e is FirebaseAuthInvalidCredentialsException) {
+                    Log.d("FirebaseException", e.message!!)
+                    helperMethods.showToastMessage("" + e.message)
+                } else if (e is FirebaseTooManyRequestsException) {
+                    Log.d("FirebaseException", e.message!!)
+                    helperMethods.showToastMessage("" + e.message)
+                }
+            }
+
+            override fun onCodeSent(verificationId: String, token: PhoneAuthProvider.ForceResendingToken) {
+                Log.d("onCodeSent", verificationId)
+                vrCode = verificationId
+                helperMethods.showToastMessage(getString(R.string.code_send_successfully))
+                ResendCountdown()
+
+                helperMethods.setStatusBarColor(this@ForgotPassword, R.color.orange)
+                forgot_password_layout.visibility = View.GONE
+                verification_layout.visibility = View.VISIBLE
+            }
+        }
     }
 
     fun clickEvents() {
-        val editTexts = arrayOf(code_1, code_2, code_3, code_4, code_5, code_6, code_7, code_8)
+        val editTexts = arrayOf(code_1, code_2, code_3, code_4, code_5, code_6)
 
         code_1.addTextChangedListener(PinTextWatcher(this@ForgotPassword, 0, editTexts))
         code_2.addTextChangedListener(PinTextWatcher(this@ForgotPassword, 1, editTexts))
@@ -53,8 +88,6 @@ class ForgotPassword : BaseCompatActivity() {
         code_4.addTextChangedListener(PinTextWatcher(this@ForgotPassword, 3, editTexts))
         code_5.addTextChangedListener(PinTextWatcher(this@ForgotPassword, 4, editTexts))
         code_6.addTextChangedListener(PinTextWatcher(this@ForgotPassword, 5, editTexts))
-        code_7.addTextChangedListener(PinTextWatcher(this@ForgotPassword, 6, editTexts))
-        code_8.addTextChangedListener(PinTextWatcher(this@ForgotPassword, 7, editTexts))
 
         code_1.setOnKeyListener(PinOnKeyListener(this@ForgotPassword, 0, editTexts))
         code_2.setOnKeyListener(PinOnKeyListener(this@ForgotPassword, 1, editTexts))
@@ -62,8 +95,6 @@ class ForgotPassword : BaseCompatActivity() {
         code_4.setOnKeyListener(PinOnKeyListener(this@ForgotPassword, 3, editTexts))
         code_5.setOnKeyListener(PinOnKeyListener(this@ForgotPassword, 4, editTexts))
         code_6.setOnKeyListener(PinOnKeyListener(this@ForgotPassword, 5, editTexts))
-        code_7.setOnKeyListener(PinOnKeyListener(this@ForgotPassword, 6, editTexts))
-        code_8.setOnKeyListener(PinOnKeyListener(this@ForgotPassword, 7, editTexts))
 
 
         nav_back_forgot_password.setOnClickListener { finish() }
@@ -85,25 +116,30 @@ class ForgotPassword : BaseCompatActivity() {
                 code_2.text = "".toEditable()
                 code_3.text = "".toEditable()
                 code_4.text = "".toEditable()
+                code_5.text = "".toEditable()
+                code_6.text = "".toEditable()
             }
         }
         btn_proceed.setOnClickListener {
             if (codeValidation()) {
-                val code = "${code_1.toText()}${code_2.toText()}${code_3.toText()}${code_4.toText()}${code_5.toText()}${code_6.toText()}${code_7.toText()}${code_8.toText()}"
-                verification_layout.visibility = View.GONE
-                change_password_layot.visibility = View.VISIBLE
-                helperMethods.setStatusBarColor(this@ForgotPassword, R.color.white)
+                val code = "${code_1.toText()}${code_2.toText()}${code_3.toText()}${code_4.toText()}${code_5.toText()}${code_6.toText()}"
+                if (vrCode == null) {
+                    helperMethods.showToastMessage(getString(R.string.please_wait_while_send_code))
+                    return@setOnClickListener
+                }
+                val credential = PhoneAuthProvider.getCredential(vrCode!!, code)
+                signInWithPhoneAuthCredential(credential)
             }
         }
         save_passwrod.setOnClickListener {
             if (changePasswordValidation()) {
-                val code = "${code_1.toText()}${code_2.toText()}${code_3.toText()}${code_4.toText()}${code_5.toText()}${code_6.toText()}${code_7.toText()}${code_8.toText()}"
+                val code = "${code_1.toText()}${code_2.toText()}${code_3.toText()}${code_4.toText()}${code_5.toText()}${code_6.toText()}"
                 VerifyResetCodeApiCall(codePicker.selectedCountryCodeWithPlus + "" + phone.toText(), code, new_password.toText())
             }
         }
         retry.setOnClickListener {
             if (helperMethods.isConnectingToInternet) {
-                forgotPasswordApiCall(codePicker.selectedCountryCodeWithPlus + "" + phone.toText())
+                sendCodeFromFirebase(codePicker.selectedCountryCodeWithPlus + "" + phone.toText())
             } else {
                 helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
             }
@@ -111,9 +147,9 @@ class ForgotPassword : BaseCompatActivity() {
     }
 
     fun codeValidation(): Boolean {
-        val code = "${code_1.toText()}${code_2.toText()}${code_3.toText()}${code_4.toText()}${code_5.toText()}${code_6.toText()}${code_7.toText()}${code_8.toText()}"
+        val code = "${code_1.toText()}${code_2.toText()}${code_3.toText()}${code_4.toText()}${code_5.toText()}${code_6.toText()}"
 
-        if (code.length != 8) {
+        if (code.length != 6) {
             helperMethods.showToastMessage(getString(R.string.enter_valid_code))
             return false
         }
@@ -133,7 +169,7 @@ class ForgotPassword : BaseCompatActivity() {
         }
         resendTimer = object : CountDownTimer(120000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                retry_on.text = getString(R.string.retry_on) +" "+ helperMethods.MillisUntilToTime(millisUntilFinished)
+                retry_on.text = getString(R.string.retry_on) + " " + helperMethods.MillisUntilToTime(millisUntilFinished)
             }
 
             override fun onFinish() {
@@ -165,6 +201,32 @@ class ForgotPassword : BaseCompatActivity() {
             return
         }
         super.onBackPressed()
+    }
+
+    private fun sendCodeFromFirebase(phone:String) {
+        val options = PhoneAuthOptions.newBuilder(firebaseAuth).setPhoneNumber(phone) // Phone number to verify
+            .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+            .setActivity(this) // Activity (for callback binding)
+            .setCallbacks(mCallbacks) // OnVerificationStateChangedCallbacks
+            .build()
+        PhoneAuthProvider.verifyPhoneNumber(options)
+    }
+
+    private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
+        FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener(this) { task ->
+            if (task.isSuccessful) {
+                helperMethods.showToastMessage(getString(R.string.code_verified))
+                verification_layout.visibility = View.GONE
+                change_password_layot.visibility = View.VISIBLE
+                helperMethods.setStatusBarColor(this@ForgotPassword, R.color.white)
+            } else {
+                if (task.exception is FirebaseAuthInvalidCredentialsException) {
+                    helperMethods.showToastMessage(getString(R.string.invalid_verification_code))
+                } else {
+                    helperMethods.showToastMessage(getString(R.string.verification_failed))
+                }
+            }
+        }
     }
 
     fun forgotPasswordValidation(): Boolean {
@@ -223,14 +285,16 @@ class ForgotPassword : BaseCompatActivity() {
                             val jsonObject = JSONObject(response.body()!!.string())
                             val status = jsonObject.getString("status")
                             if (status.equals("200")) {
-//                                val code = jsonObject.getString("code")
-                                val message = jsonObject.getString("message")
-//                                helperMethods.sendPushNotification("Estisharati", "OTP code is " + code)
-                                helperMethods.showToastMessage(message)
-                                forgot_password_layout.visibility = View.GONE
-                                verification_layout.visibility = View.VISIBLE
-                                ResendCountdown()
-                                helperMethods.setStatusBarColor(this@ForgotPassword, R.color.orange)
+                                sendCodeFromFirebase(phone)
+
+                                //                                                                val code = jsonObject.getString("code")
+                                //                                val message = jsonObject.getString("message")
+                                //                                                                helperMethods.sendPushNotification("Estisharati", "OTP code is " + code)
+                                //                                helperMethods.showToastMessage(message)
+                                //                                forgot_password_layout.visibility = View.GONE
+                                //                                verification_layout.visibility = View.VISIBLE
+                                //                                ResendCountdown()
+                                //                                helperMethods.setStatusBarColor(this@ForgotPassword, R.color.orange)
                             } else {
                                 val message = jsonObject.getString("message")
                                 helperMethods.showToastMessage(message)

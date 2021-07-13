@@ -88,13 +88,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:orientation="horizontal"
-                    android:weightSum="4">
+                    android:weightSum="6">
 
                     <EditText
                         android:id="@+id/code_1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginEnd="10dp"
                         android:layout_weight="1"
                         android:backgroundTint="@color/black"
                         android:focusable="true"
@@ -109,7 +109,7 @@
                         android:id="@+id/code_2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginEnd="10dp"
                         android:layout_weight="1"
                         android:backgroundTint="@color/black"
                         android:fontFamily="@font/almarai_regular"
@@ -123,7 +123,7 @@
                         android:id="@+id/code_3"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginEnd="10dp"
                         android:layout_weight="1"
                         android:backgroundTint="@color/black"
                         android:fontFamily="@font/almarai_regular"
@@ -138,6 +138,34 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:layout_marginEnd="10dp"
+                        android:backgroundTint="@color/black"
+                        android:fontFamily="@font/almarai_regular"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="50sp" />
+
+                    <EditText
+                        android:id="@+id/code_5"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/black"
+                        android:fontFamily="@font/almarai_regular"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="50sp" />
+
+                    <EditText
+                        android:id="@+id/code_6"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:backgroundTint="@color/black"
                         android:fontFamily="@font/almarai_regular"
                         android:gravity="center"
@@ -146,6 +174,7 @@
                         android:textColor="@color/black"
                         android:textSize="50sp" />
                 </LinearLayout>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"

@@ -32,6 +32,7 @@ class SplashScreen : BaseCompatActivity() {
     lateinit var preferencesHelper: SharedPreferencesHelper
     var appUpdateManager: AppUpdateManager? = null
     var UPDATE_REQUEST = 1234
+    var notFromNotification = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
@@ -122,7 +123,8 @@ class SplashScreen : BaseCompatActivity() {
         helperMethods = HelperMethods(this@SplashScreen)
         preferencesHelper = SharedPreferencesHelper(this@SplashScreen)
         helperMethods.setStatusBarColor(this, R.color.white)
-        if (preferencesHelper.isUserLogIn) {
+        notFromNotification = intent.getBooleanExtra("notFromNotification", true)
+        if (preferencesHelper.isUserLogIn && notFromNotification) {
             val hashMap = hashMapOf<String, Any>("availability" to true, "channel_unique_id" to "")
             helperMethods.updateUserDetailsToFirestore(preferencesHelper.logInUser.id, hashMap)
         }

@@ -331,4 +331,9 @@
     <string name="app_update_start">App update start !</string>
     <string name="app_update_canceled">App update Canceled !</string>
     <string name="app_update_failed">App update Failed !</string>
+    <string name="code_send_successfully">Code send successfully</string>
+    <string name="code_verified">Code verified</string>
+    <string name="invalid_verification_code">Invalid verification code</string>
+    <string name="verification_failed">Verification failed</string>
+    <string name="please_wait_while_send_code">Please wait while send code</string>
 </resources>
