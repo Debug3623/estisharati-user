@@ -54,7 +54,8 @@ class ForgotPassword : BaseCompatActivity() {
         mCallbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
                 signInWithPhoneAuthCredential(credential)
-            }
+
+                helperMethods.dismissProgressDialog() }
 
             override fun onVerificationFailed(e: FirebaseException) {
                 if (e is FirebaseAuthInvalidCredentialsException) {
@@ -64,6 +65,7 @@ class ForgotPassword : BaseCompatActivity() {
                     Log.d("FirebaseException", e.message!!)
                     helperMethods.showToastMessage("" + e.message)
                 }
+         helperMethods.dismissProgressDialog()
             }
 
             override fun onCodeSent(verificationId: String, token: PhoneAuthProvider.ForceResendingToken) {
@@ -75,6 +77,8 @@ class ForgotPassword : BaseCompatActivity() {
                 helperMethods.setStatusBarColor(this@ForgotPassword, R.color.orange)
                 forgot_password_layout.visibility = View.GONE
                 verification_layout.visibility = View.VISIBLE
+
+                helperMethods.dismissProgressDialog()
             }
         }
     }
@@ -204,6 +208,8 @@ class ForgotPassword : BaseCompatActivity() {
     }
 
     private fun sendCodeFromFirebase(phone:String) {
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
+
         val options = PhoneAuthOptions.newBuilder(firebaseAuth).setPhoneNumber(phone) // Phone number to verify
             .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
             .setActivity(this) // Activity (for callback binding)

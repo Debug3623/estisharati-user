@@ -61,6 +61,7 @@ class Verification : BaseCompatActivity() {
         mCallbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
                 signInWithPhoneAuthCredential(credential)
+          helperMethods.dismissProgressDialog()
             }
 
             override fun onVerificationFailed(e: FirebaseException) {
@@ -71,6 +72,8 @@ class Verification : BaseCompatActivity() {
                     Log.d("FirebaseException", e.message!!)
                     helperMethods.showToastMessage("" + e.message)
                 }
+
+                helperMethods.dismissProgressDialog()
             }
 
             override fun onCodeSent(verificationId: String, token: PhoneAuthProvider.ForceResendingToken) {
@@ -78,8 +81,7 @@ class Verification : BaseCompatActivity() {
                 vrCode = verificationId
                 helperMethods.showToastMessage(getString(R.string.code_send_successfully))
                 ResendCountdown()
-
-
+                helperMethods.dismissProgressDialog()
             }
         }
 
@@ -123,10 +125,13 @@ class Verification : BaseCompatActivity() {
         btn_proceed.setOnClickListener {
 
             if (codeValidation()) {
+                if (vrCode == null) {
+                    helperMethods.showToastMessage(getString(R.string.please_wait_while_send_code))
+                    return@setOnClickListener
+                }
                 val code = "${code_1.toText()}${code_2.toText()}${code_3.toText()}${code_4.toText()}${code_5.toText()}${code_6.toText()}"
                 val credential = PhoneAuthProvider.getCredential(vrCode!!, code)
                 signInWithPhoneAuthCredential(credential)
-
             }
         }
 
@@ -181,6 +186,7 @@ class Verification : BaseCompatActivity() {
     }
 
     private fun sendCodeFromFirebase(phone:String) {
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
         val options = PhoneAuthOptions.newBuilder(firebaseAuth).setPhoneNumber(phone) // Phone number to verify
             .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
             .setActivity(this) // Activity (for callback binding)

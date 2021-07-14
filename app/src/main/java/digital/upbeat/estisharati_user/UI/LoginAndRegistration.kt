@@ -314,7 +314,7 @@ class LoginAndRegistration : BaseCompatActivity() {
                             val status = jsonObject.getString("status")
                             if (status.equals("200")) {
                                 val message = jsonObject.getString("message")
-                                helperMethods.showToastMessage(message)
+//                                helperMethods.showToastMessage(message)
                                 val intent = Intent(this@LoginAndRegistration, Verification::class.java)
                                 intent.putExtra("come_from", "Registration")
                                 intent.putExtra("phone", phone)
