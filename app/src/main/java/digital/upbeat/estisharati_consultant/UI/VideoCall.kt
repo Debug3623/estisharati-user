@@ -30,12 +30,6 @@ import io.agora.rtc.video.BeautyOptions
 import io.agora.rtc.video.VideoCanvas
 import io.agora.rtc.video.VideoEncoderConfiguration
 import kotlinx.android.synthetic.main.activity_video_call.*
-import kotlinx.android.synthetic.main.activity_video_call.caller_name
-import kotlinx.android.synthetic.main.activity_video_call.caller_profile
-import kotlinx.android.synthetic.main.activity_video_call.calling_status
-import kotlinx.android.synthetic.main.activity_video_call.circle_progress
-import kotlinx.android.synthetic.main.activity_video_call.end_call
-import kotlinx.android.synthetic.main.activity_video_call.timer
 import java.util.*
 import java.util.concurrent.TimeUnit
 
