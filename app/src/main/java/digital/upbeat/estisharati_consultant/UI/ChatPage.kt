@@ -55,6 +55,7 @@ import java.io.IOException
 import java.util.*
 
 class ChatPage : BaseCompatActivity() {
+
     lateinit var helperMethods: HelperMethods
     lateinit var preferencesHelper: SharedPreferencesHelper
     lateinit var firestore: FirebaseFirestore
