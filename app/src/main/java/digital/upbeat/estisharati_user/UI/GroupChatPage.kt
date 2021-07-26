@@ -214,11 +214,13 @@ class GroupChatPage : BaseCompatActivity() {
             groupMembers.text = "" + groupItemData.group_members.size + " " + getString(R.string.members)
             Glide.with(this@GroupChatPage).load(groupItemData.group_image).apply(helperMethods.profileRequestOption).into(groupIcon)
 
-            firestore.collection("Users").whereIn("user_id", groupItemData.group_members).get().addOnSuccessListener {
+            firestore.collection("Users").get().addOnSuccessListener {
                 userArraylist.clear()
                 for (data in it) {
                     val dataUserFireStore = data.toObject(DataUserFireStore::class.java)
-                    userArraylist.add(dataUserFireStore)
+                    if (groupItemData.group_members.contains(dataUserFireStore.user_id)) {
+                        userArraylist.add(dataUserFireStore)
+                    }
                 }
                 chatFireStoreLisiner()
             }

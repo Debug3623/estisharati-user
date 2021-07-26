@@ -38,10 +38,14 @@ class SplashScreen : BaseCompatActivity() {
         setContentView(R.layout.activity_splash_screen)
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener {
-            if (it.isComplete) {
-                GlobalData.FcmToken = it.result.toString()
-                Log.e("FirebaseInstanceId", GlobalData.FcmToken)
-            }
+       try {
+           if (it.isComplete) {
+               GlobalData.FcmToken = it.result.toString()
+               Log.e("FirebaseInstanceId", GlobalData.FcmToken)
+           }
+       } catch (e: Exception) {
+           e.printStackTrace()
+       }
         }
         checkUpdateAvailable()
     }
