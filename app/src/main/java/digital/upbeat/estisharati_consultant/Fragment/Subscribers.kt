@@ -7,13 +7,12 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.text.Editable
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FieldValue
@@ -57,7 +56,6 @@ import retrofit2.Response
 import java.io.File
 import java.io.IOException
 import java.util.*
-import kotlin.collections.ArrayList
 
 class Subscribers : Fragment() {
     lateinit var helperMethods: HelperMethods
@@ -144,7 +142,9 @@ class Subscribers : Fragment() {
     fun onlineConsultationLisiner() {
         val userIds: ArrayList<String> = arrayListOf()
         for (User in GlobalData.mySubscriberResponse.data) {
-            userIds.add(User.user_id)
+            if (!userIds.contains(User.user_id)) {
+                userIds.add(User.user_id)
+            }
         }
         ChatListener1 = firestore.collection("Chats").whereEqualTo("sender_id", dataUser.id).addSnapshotListener { querySnapshot, firebaseFirestoreException ->
             recentChatLisiner()
@@ -153,18 +153,18 @@ class Subscribers : Fragment() {
             recentChatLisiner()
         }
         if (userIds.size > 0) {
-            UserListener = firestore.collection("Users").whereIn("user_id", userIds).orderBy("fname", Query.Direction.ASCENDING).addSnapshotListener { querySnapshot, firebaseFirestoreException ->
-                querySnapshot?.let {
-                    userArraylist.clear()
-                    for (data in querySnapshot) {
-                        val dataUserFireStore = data.toObject(DataUserFireStore::class.java)
-                        if (!dataUserFireStore.user_id.equals(dataUser.id)) {
-                            userArraylist.add(dataUserFireStore)
+            UserListener = firestore.collection("Users").whereEqualTo("user_type", "user").orderBy("fname", Query.Direction.ASCENDING).addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                    querySnapshot?.let {
+                        userArraylist.clear()
+                        for (data in querySnapshot) {
+                            val dataUserFireStore = data.toObject(DataUserFireStore::class.java)
+                            if (!dataUserFireStore.user_id.equals(dataUser.id) && userIds.contains(dataUserFireStore.user_id)) {
+                                userArraylist.add(dataUserFireStore)
+                            }
                         }
+                        recentChatLisiner()
                     }
-                    recentChatLisiner()
                 }
-            }
         } else {
             recentChatRecycler()
         }
@@ -277,7 +277,9 @@ class Subscribers : Fragment() {
         val datauserFirestoreArrayList = arrayListOf<DataUserFireStore>()
         val userIds: ArrayList<String> = arrayListOf()
         for (User in GlobalData.mySubscriberResponse.data) {
-            userIds.add(User.user_id)
+            if (!userIds.contains(User.user_id)) {
+                userIds.add(User.user_id)
+            }
         }
 
 
@@ -317,18 +319,19 @@ class Subscribers : Fragment() {
 
 
         if (userIds.size > 0) {
-            firestore.collection("Users").whereIn("user_id", userIds).orderBy("fname", Query.Direction.ASCENDING).get().addOnSuccessListener {
-                it?.let {
-                    for (data in it) {
-                        val dataUserFireStore = data.toObject(DataUserFireStore::class.java)
-                        if (!dataUserFireStore.user_id.equals(dataUser.id)) {
-                            datauserFirestoreArrayList.add(dataUserFireStore)
+            //            .whereIn("user_id", userIds)
+            firestore.collection("Users").whereEqualTo("user_type", "user").orderBy("fname", Query.Direction.ASCENDING).get().addOnSuccessListener {
+                    it?.let {
+                        for (data in it) {
+                            val dataUserFireStore = data.toObject(DataUserFireStore::class.java)
+                            if (!dataUserFireStore.user_id.equals(dataUser.id) && userIds.contains(dataUserFireStore.user_id)) {
+                                datauserFirestoreArrayList.add(dataUserFireStore)
+                            }
                         }
+                        createGroupAdapter = CreateGroupAdapter(requireContext(), this@Subscribers, datauserFirestoreArrayList, groupMembers)
+                        LayoutView.groupUserRecycler.adapter = createGroupAdapter
                     }
-                    createGroupAdapter = CreateGroupAdapter(requireContext(), this@Subscribers, datauserFirestoreArrayList, groupMembers)
-                    LayoutView.groupUserRecycler.adapter = createGroupAdapter
                 }
-            }
         }
         LayoutView.groupProfile.setOnClickListener {
             helperMethods.ChangeProfilePhotoPopup(requireActivity())

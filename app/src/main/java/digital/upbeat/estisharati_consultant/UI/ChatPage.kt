@@ -259,7 +259,7 @@ class ChatPage : BaseCompatActivity() {
                             helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
                             helperMethods.updateUserDetailsToFirestore(dataUser.id, hashMap)
                             val data = data(getString(R.string.incoming_call), "${getString(R.string.you_are_receiving_voice_call_from)} ${dataUser.fname} ${dataUser.lname}", "incoming_voice_call", dataUser.id, dataUserFireStore.user_id, channelUniqueId,"")
-                            val dataFcmBody = DataFcmBody(dataUserFireStore.fire_base_token, data)
+                            val dataFcmBody = DataFcmBody("", data)
                             sendPushNotification(dataFcmBody,true)
                         } else {
                             helperMethods.showToastMessage(getString(R.string.the_person_you_are_calling_is_busy_please_try_again_later))
@@ -286,7 +286,7 @@ class ChatPage : BaseCompatActivity() {
                             helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
                             helperMethods.updateUserDetailsToFirestore(dataUser.id, hashMap)
                             val data = data(getString(R.string.incoming_call), "${getString(R.string.you_are_receiving_video_call_from)} ${dataUser.fname} ${dataUser.lname}", "incoming_video_call", dataUser.id, dataUserFireStore.user_id, channelUniqueId,"")
-                            val dataFcmBody = DataFcmBody(dataUserFireStore.fire_base_token, data)
+                            val dataFcmBody = DataFcmBody("", data)
                             sendPushNotification(dataFcmBody,true)
                         } else {
                             helperMethods.showToastMessage(getString(R.string.the_person_you_are_calling_is_busy_please_try_again_later))
@@ -320,7 +320,7 @@ class ChatPage : BaseCompatActivity() {
                         inside_reply.put("sender_id", "")
                         inside_reply.put("position", "")
                         val data = data("New message", "${dataUser.fname} send message : ${message.toText()}", "incoming_message", dataUser.id, dataUserFireStore.user_id, "","")
-                        val dataFcmBody = DataFcmBody(dataUserFireStore.fire_base_token, data)
+                        val dataFcmBody = DataFcmBody("", data)
                         sendPushNotification(dataFcmBody, false)
                         updateUserSecondsApiCall(userId, "1",message.toText(),"")
                         message.text = "".toEditable()
@@ -416,7 +416,7 @@ class ChatPage : BaseCompatActivity() {
                                     inside_reply.put("sender_id", "")
                                     inside_reply.put("position", "")
                                     val data = data("New message", "${dataUser.fname} send image", "incoming_message", dataUser.id, dataUserFireStore.user_id, "",image_path)
-                                    val dataFcmBody = DataFcmBody(dataUserFireStore.fire_base_token, data)
+                                    val dataFcmBody = DataFcmBody("", data)
                                     sendPushNotification(dataFcmBody, false)
                                     updateUserSecondsApiCall(userId, "1","",image_path)
 
@@ -493,7 +493,7 @@ class ChatPage : BaseCompatActivity() {
                                             messageBody = data("New message", "${dataUser.fname} send message : ${itsMessage}", "incoming_message", dataUser.id, dataUserFireStore.user_id, "","")
                                         }
                                         forward_content=""
-                                        val dataFcmBody = DataFcmBody(dataUserFireStore.fire_base_token, messageBody!!)
+                                        val dataFcmBody = DataFcmBody("", messageBody!!)
                                         sendPushNotification(dataFcmBody, false)
                                         updateUserSecondsApiCall(userId, "1",itsMessage,itsImageUrl)
 

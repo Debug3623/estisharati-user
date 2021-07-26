@@ -298,18 +298,18 @@ class ConsultantDrawer : BaseCompatActivity() {
         val dataPassed = arrayListOf<DataUserFireStore>()
         val userIds: ArrayList<String> = arrayListOf()
         for (User in GlobalData.mySubscriberResponse.data) {
-            userIds.add(User.user_id)
+           if(!userIds.contains(User.user_id)){ userIds.add(User.user_id)}
         }
         if (userIds.size > 0) {
-            firestore.collection("Users").whereIn("user_id", userIds).orderBy("fname", Query.Direction.ASCENDING).get().addOnSuccessListener {
+            firestore.collection("Users").whereEqualTo("user_type", "user")
+                .orderBy("fname", Query.Direction.ASCENDING).get().addOnSuccessListener {
                 it?.let {
                     for (data in it) {
                         val dataUserFireStore = data.toObject(DataUserFireStore::class.java)
-                        if (!dataUserFireStore.user_id.equals(dataUser.id)) {
+                        if (!dataUserFireStore.user_id.equals(dataUser.id)&&userIds.contains(dataUserFireStore.user_id)) {
                             datauserFirestoreArrayList.add(dataUserFireStore)
                         }
                     }
-                    searchUserdialog?.show()
                     dataPassed.addAll(datauserFirestoreArrayList)
                     if (dataPassed.size > 0) {
                         search_user_recyclerview.visibility = View.VISIBLE
@@ -357,6 +357,7 @@ class ConsultantDrawer : BaseCompatActivity() {
             }
         })
         search_close_btn.setOnClickListener { searchUserdialog?.dismiss() }
+        searchUserdialog?.show()
     }
 
     fun exitPopup(titleStr: String, messageStr: String) {

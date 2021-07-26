@@ -21,7 +21,6 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
-import digital.upbeat.estisharati_consultant.Adapter.ChatAdapter
 import digital.upbeat.estisharati_consultant.Adapter.GroupChatAdapter
 import digital.upbeat.estisharati_consultant.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_consultant.ApiHelper.RetrofitInterface
@@ -45,11 +44,11 @@ import okhttp3.ResponseBody
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
-import java.io.IOException
-import java.util.*
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
+import java.io.IOException
+import java.util.*
 
 class GroupChatPage : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
@@ -214,11 +213,14 @@ class GroupChatPage : BaseCompatActivity() {
             groupMembers.text = "" + groupItemData.group_members.size + " " + getString(R.string.members)
             Glide.with(this@GroupChatPage).load(groupItemData.group_image).apply(helperMethods.profileRequestOption).into(groupIcon)
 
-            firestore.collection("Users").whereIn("user_id", groupItemData.group_members).get().addOnSuccessListener {
+            firestore.collection("Users").whereEqualTo("user_type", "user")
+            .get().addOnSuccessListener {
                 userArraylist.clear()
                 for (data in it) {
-                    val dataUserFireStore = data.toObject(DataUserFireStore::class.java)
-                    userArraylist.add(dataUserFireStore)
+                  val dataUserFireStore = data.toObject(DataUserFireStore::class.java)
+                    if (groupItemData.group_members.contains(dataUserFireStore.user_id)) {
+                        userArraylist.add(dataUserFireStore)
+                    }
                 }
                 chatFireStoreLisiner()
             }
