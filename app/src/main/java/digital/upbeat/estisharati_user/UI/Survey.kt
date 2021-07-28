@@ -236,7 +236,7 @@ class Survey : AppCompatActivity() {
                             if (status.equals("200")) {
                                 completeSurvey.visibility = View.VISIBLE
                                 surveyQuestionPage.visibility = View.GONE
-                                messageSuccess.text = data
+                                messageSuccess.text = helperMethods.getHtmlText(data)
                                 helperMethods.showToastMessage(message)
                             } else {
                                 if (helperMethods.checkTokenValidation(status, message)) {
