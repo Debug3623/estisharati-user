@@ -25,6 +25,7 @@ data class ConsultantDetailsResponse(
     val job_title: String,
     val name: String,
     val qualification: String,
+    val preview_video: String,
     val qualification_brief: String,
     val rate: String,
     var favourite: Boolean,

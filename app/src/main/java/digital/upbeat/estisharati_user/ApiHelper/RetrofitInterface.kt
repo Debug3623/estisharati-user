@@ -175,6 +175,9 @@ interface RetrofitInterface {
     @GET("posts")
     fun POSTS_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
 
+    @GET("surveys/{survey_id}")
+    fun SURVEY_DETAILS_API_CALL(@Header("Authorization") token: String,@Path("survey_id")survey_id:String): Call<ResponseBody>
+
     @GET("surveys")
     fun SURVEYS_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
 

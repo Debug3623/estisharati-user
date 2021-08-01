@@ -20,13 +20,14 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".UI.SurveyList"></activity>
         <activity
             android:name=".UI.SplashTemp"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="OPEN_ACTIVITY" />
-                <category android:name="android.intent.category.DEFAULT" />
 
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity

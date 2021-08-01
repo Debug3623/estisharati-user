@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,6 +13,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.gson.Gson
 import digital.upbeat.estisharati_user.Adapter.ConsultantCommentsReplyAdapter
 import digital.upbeat.estisharati_user.Adapter.ConsultationsCategoryAdapter
@@ -29,6 +32,7 @@ import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_consultant_details.*
 import kotlinx.android.synthetic.main.consultation_category_layout.view.*
 import kotlinx.android.synthetic.main.fragment_consultations.*
+import kotlinx.android.synthetic.main.preview_courses_popup.view.*
 import okhttp3.ResponseBody
 import org.json.JSONException
 import org.json.JSONObject
@@ -71,6 +75,30 @@ class ConsultantDetails : BaseCompatActivity() {
         intent.getStringExtra("category_id")?.let { categoryId = it }
     }
 
+    fun showConsultantPreviewPopup() {
+        val layoutView = LayoutInflater.from(this@ConsultantDetails).inflate(R.layout.preview_courses_popup, null)
+        val aleatdialog = AlertDialog.Builder(this@ConsultantDetails)
+        aleatdialog.setView(layoutView)
+        aleatdialog.setCancelable(false)
+        val dialog = aleatdialog.create()
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+        layoutView.courseName.text = consultantDetailsResponse.name
+        val simpleExoPlayer = SimpleExoPlayer.Builder(this@ConsultantDetails).build()
+        val uri = Uri.parse(consultantDetailsResponse.preview_video)
+        Log.d("preview_video",uri.toString());
+        val mediaItem: MediaItem = MediaItem.fromUri(uri)
+        layoutView.exoPlayer.player =simpleExoPlayer
+        simpleExoPlayer.setMediaItem(mediaItem)
+        simpleExoPlayer.prepare()
+        simpleExoPlayer.play()
+        layoutView.closePopup.setOnClickListener {
+            simpleExoPlayer.stop()
+            simpleExoPlayer.release()
+            dialog.dismiss()
+        }
+    }
+
     fun clickEvents() {
         nav_back.setOnClickListener { finish() }
 
@@ -83,6 +111,11 @@ class ConsultantDetails : BaseCompatActivity() {
             } else {
                 helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
             }
+        }
+        previewVideo.setOnClickListener { showConsultantPreviewPopup() }
+        downloadDocument.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(consultantDetailsResponse.qualification))
+            startActivity(intent)
         }
     }
 
@@ -113,6 +146,9 @@ class ConsultantDetails : BaseCompatActivity() {
             offersEndDateLayout.visibility = View.VISIBLE
         }
 
+
+    previewVideo.visibility=if(consultantDetailsResponse.preview_video != "")View.VISIBLE else View.GONE
+    downloadDocument.visibility=if(consultantDetailsResponse.qualification != "")View.VISIBLE else View.GONE
 
 //        if (consultantDetailsResponse.chat) {
 //            chatLayout.visibility = View.VISIBLE

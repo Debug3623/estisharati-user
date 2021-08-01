@@ -1,5 +1,6 @@
 package digital.upbeat.estisharati_user.UI
 
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
@@ -39,6 +40,7 @@ class Survey : AppCompatActivity() {
     lateinit var sharedPreferencesHelper: SharedPreferencesHelper
     lateinit var surveysQuestionsResponse: SurveysQuestionsResponse
     var currentPosition = 0
+    var survey_id = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_survey)
@@ -56,6 +58,7 @@ class Survey : AppCompatActivity() {
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
         sharedPreferencesHelper = SharedPreferencesHelper(this@Survey)
         dataUser = sharedPreferencesHelper.logInUser
+        survey_id = intent.getStringExtra("survey_id")!!
     }
 
     fun clickEvents() {
@@ -106,6 +109,9 @@ class Survey : AppCompatActivity() {
             }
         }
         goToHomePage.setOnClickListener {
+            val intent = Intent(this@Survey, UserDrawer::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
             finish()
         }
     }
@@ -178,7 +184,7 @@ class Survey : AppCompatActivity() {
 
     fun surveysApiCall() {
         helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
-        val responseBodyCall = retrofitInterface.SURVEYS_API_CALL("Bearer ${dataUser.access_token}")
+        val responseBodyCall = retrofitInterface.SURVEY_DETAILS_API_CALL("Bearer ${dataUser.access_token}",survey_id)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()

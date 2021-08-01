@@ -164,7 +164,7 @@ class UserDrawer : BaseCompatActivity() {
             startActivity(Intent(this@UserDrawer, Blog::class.java))
         }
         nav_survey.setOnClickListener {
-            startActivity(Intent(this@UserDrawer, Survey::class.java))
+            startActivity(Intent(this@UserDrawer, SurveyList::class.java))
         }
         nav_favorites.setOnClickListener {
             startActivity(Intent(this@UserDrawer, Favorites::class.java))

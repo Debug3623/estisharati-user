@@ -132,7 +132,7 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
             startActivity(intent)
         }
         surveyImage.setOnClickListener {
-            startActivity(Intent(requireContext(), Survey::class.java))
+            startActivity(Intent(requireContext(), SurveyList::class.java))
         }
     }
 
