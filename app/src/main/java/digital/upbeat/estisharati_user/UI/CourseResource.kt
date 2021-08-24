@@ -102,12 +102,13 @@ class CourseResource() : BaseCompatActivity() {
             }
         }
 
-        exoPlayer.setPlayer(simpleExoPlayer)
+        exoPlayer.player=simpleExoPlayer
         simpleExoPlayer.setMediaItems(GlobalData.mediaItemArrayList)
         simpleExoPlayer.prepare()
         simpleExoPlayer.play()
-        simpleExoPlayer.addListener(object : Player.EventListener {
-            override fun onTimelineChanged(timeline: Timeline, manifest: Any?, reason: Int) {}
+
+        simpleExoPlayer.addListener(object : Player.Listener {
+            override fun onTimelineChanged(timeline: Timeline, reason: Int) {}
             override fun onTracksChanged(trackGroups: TrackGroupArray, trackSelections: TrackSelectionArray) {
                 GlobalData.lessonsPlayingPosition = simpleExoPlayer.currentWindowIndex
                 courseVideo.InitializeRecyclerview()
@@ -131,7 +132,7 @@ class CourseResource() : BaseCompatActivity() {
 
             override fun onRepeatModeChanged(repeatMode: Int) {}
             override fun onShuffleModeEnabledChanged(shuffleModeEnabled: Boolean) {}
-            override fun onPlayerError(error: ExoPlaybackException) {
+            override fun onPlayerError(error: PlaybackException) {
                 error.printStackTrace()
                 helperMethods.showToastMessage(getString(R.string.this_mobile_not_capable_for_playing_this_video))
             }

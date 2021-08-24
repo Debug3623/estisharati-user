@@ -10,8 +10,8 @@ android {
         applicationId "digital.upbeat.estisharati_user"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 9
-        versionName "1.9"
+        versionCode 10
+        versionName "2.0"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -86,7 +86,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
     //Exo Player
-    implementation 'com.google.android.exoplayer:exoplayer:2.14.2'
+    implementation 'com.google.android.exoplayer:exoplayer:2.15.0'
 
     //Firebase
     implementation 'com.google.firebase:firebase-analytics-ktx:19.0.0'
@@ -106,7 +106,7 @@ dependencies {
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
     //lottie
-    implementation 'com.airbnb.android:lottie:3.5.0'
+    implementation 'com.airbnb.android:lottie:4.0.0'
 
      //TouchImageView
     implementation 'com.github.MikeOrtiz:TouchImageView:3.0.1'

@@ -74,12 +74,12 @@ class VideoFullScreen : BaseCompatActivity() {
         simpleExoPlayer.prepare()
         simpleExoPlayer.play()
         simpleExoPlayer.seekTo(GlobalData.lessonsPlayingPosition, GlobalData.lessonsPlayingDuration)
-        playerTitle.text = GlobalData.lessonArrayList.get(GlobalData.lessonsPlayingPosition).title
-        simpleExoPlayer.addListener(object : Player.EventListener {
-            override fun onTimelineChanged(timeline: Timeline, manifest: Any?, reason: Int) {}
+        playerTitle.text = GlobalData.lessonArrayList[GlobalData.lessonsPlayingPosition].title
+        simpleExoPlayer.addListener(object : Player.Listener {
+            override fun onTimelineChanged(timeline: Timeline, reason: Int) {}
             override fun onTracksChanged(trackGroups: TrackGroupArray, trackSelections: TrackSelectionArray) {
                 GlobalData.lessonsPlayingPosition = simpleExoPlayer.currentWindowIndex
-                playerTitle.text = GlobalData.lessonArrayList.get(GlobalData.lessonsPlayingPosition).title
+                playerTitle.text = GlobalData.lessonArrayList[GlobalData.lessonsPlayingPosition].title
             }
 
             override fun onLoadingChanged(isLoading: Boolean) {}
@@ -100,7 +100,7 @@ class VideoFullScreen : BaseCompatActivity() {
 
             override fun onRepeatModeChanged(repeatMode: Int) {}
             override fun onShuffleModeEnabledChanged(shuffleModeEnabled: Boolean) {}
-            override fun onPlayerError(error: ExoPlaybackException) {
+            override fun onPlayerError(error: PlaybackException) {
                 error.printStackTrace()
                 helperMethods.showToastMessage(getString(R.string.this_mobile_not_capable_for_playing_this_video))
             }

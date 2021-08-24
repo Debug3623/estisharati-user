@@ -58,8 +58,8 @@ class NetwrokPayment {
                 Log.d("requsetCurrentcyCode", Object.toString())
                 val mediaType = MediaType.parse("application/vnd.ni-payment.v2+json")
                 val body = RequestBody.create(mediaType, Object.toString())
-                val request = Request.Builder().url("https://api-gateway.sandbox.ngenius-payments.com/transactions/outlets/bf13a29c-b0fb-45a4-b329-529ffba307f5/orders")
-                    //                     .url("https://api-gateway.ngenius-payments.com/transactions/outlets/0a83d177-d099-45c8-958b-c9fa2bc0c102/orders")
+                val request = Request.Builder().url("https://api-gateway.ngenius-payments.com/transactions/outlets/e477951c-6e67-40f2-818c-434cab1f995d/orders")
+//                    .url("https://api-gateway.sandbox.ngenius-payments.com/transactions/outlets/bf13a29c-b0fb-45a4-b329-529ffba307f5/orders")
                     .post(body).addHeader("Authorization", "Bearer $Token").addHeader("Content-Type", "application/vnd.ni-payment.v2+json").addHeader("Accept", "application/vnd.ni-payment.v2+json").build()
                 var response: Response
                 run {
