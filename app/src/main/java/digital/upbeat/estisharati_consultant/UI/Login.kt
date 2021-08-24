@@ -100,10 +100,6 @@ class Login : BaseCompatActivity() {
             helperMethods.showToastMessage(getString(R.string.enter_password))
             return false
         }
-        if (!helperMethods.isValidPassword(password.toText())) {
-            helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.password_at_least_8_characters_including_a_lower_case_letteran_uppercase_lettera_number_and_one_special_character))
-            return false
-        }
 
         if (!helperMethods.isConnectingToInternet) {
             helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
