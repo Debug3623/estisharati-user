@@ -22,10 +22,10 @@
         android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name=".UI.PostDetailsActivity"
-            android:exported="true" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UI.PostsActivity"
-            android:exported="true" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UI.CreatePostActivity"
             android:screenOrientation="portrait" />

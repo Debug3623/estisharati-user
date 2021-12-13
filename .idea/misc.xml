@@ -35,15 +35,18 @@
         <entry key="app/src/main/res/layout/activity_create_post.xml" value="0.5283553875236295" />
         <entry key="app/src/main/res/layout/activity_detial_post.xml" value="0.2713541666666667" />
         <entry key="app/src/main/res/layout/activity_packages_selection.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/activity_payment_methods.xml" value="0.3026041666666667" />
         <entry key="app/src/main/res/layout/activity_post_details.xml" value="0.45" />
         <entry key="app/src/main/res/layout/activity_posts.xml" value="0.29375" />
         <entry key="app/src/main/res/layout/activity_splash_temp.xml" value="0.3078125" />
         <entry key="app/src/main/res/layout/activity_testimonials.xml" value="0.375" />
         <entry key="app/src/main/res/layout/activity_testimonials_details.xml" value="0.2911458333333333" />
         <entry key="app/src/main/res/layout/activity_user_drawer.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/app_bar_user_drawer.xml" value="0.2869791666666667" />
         <entry key="app/src/main/res/layout/content_user_drawer.xml" value="0.2911458333333333" />
         <entry key="app/src/main/res/layout/existing_courses_item.xml" value="0.5" />
         <entry key="app/src/main/res/layout/exp_courses_item.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.335" />
         <entry key="app/src/main/res/layout/legal_advice_item.xml" value="0.375" />
         <entry key="app/src/main/res/layout/nav_side_manu.xml" value="0.5" />
         <entry key="app/src/main/res/layout/offers_consultants_item.xml" value="0.45" />

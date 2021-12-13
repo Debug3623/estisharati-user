@@ -53,8 +53,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -122,11 +122,19 @@
                     android:layout_height="125dp"
                     android:orientation="horizontal">
 
+
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_home_banner" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#90000000">
+
+                    </RelativeLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -159,6 +167,7 @@
                             android:textColor="@color/white"
                             android:textSize="12sp" />
                     </LinearLayout>
+
                 </RelativeLayout>
 
             </androidx.cardview.widget.CardView>
@@ -206,11 +215,11 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/courseLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:orientation="vertical"
-                android:id="@+id/courseLayout"
                 android:visibility="visible">
 
                 <RelativeLayout
@@ -284,17 +293,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:scrollbars="none"
-                    tools:itemCount="1"
                     android:visibility="visible"
+                    tools:itemCount="1"
                     tools:listitem="@layout/online_user_item" />
             </LinearLayout>
 
             <RelativeLayout
+                android:id="@+id/testimonialsHeaderLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
-                android:id="@+id/testimonialsHeaderLayout"
                 android:orientation="horizontal"
                 android:padding="15dp">
 
