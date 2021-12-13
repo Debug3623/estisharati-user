@@ -30,7 +30,7 @@ class OffersCoursesAdapter(val context: Context, val offers: Offers, val courses
     override fun onBindViewHolder(holder: OffersCoursesViewHolder, position: Int) {
         Glide.with(context).load(coursesArrayList.get(position).course.image_path).apply(offers.helperMethods.profileRequestOption).into(holder.offersCourseImage)
         holder.offersCourseName.text = coursesArrayList.get(position).course.name
-        holder.offersNewCoursePrice.text = context.getString(R.string.aed) + " " + coursesArrayList.get(position).offerprice
+        holder.offersNewCoursePrice.text = context.getString(R.string.usd) + " " + coursesArrayList.get(position).offerprice
         holder.offersOldCoursePrice.text = coursesArrayList.get(position).course.price
         holder.offersCourseRating.text = coursesArrayList.get(position).course.rate
         holder.offersCourseEndDate.text = coursesArrayList.get(position).enddate

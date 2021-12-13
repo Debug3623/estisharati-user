@@ -135,7 +135,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/almarai_regular"
-                                android:text="AUD 1.200"
+                                android:text="USD 1.200"
                                 android:textColor="@color/green"
                                 android:textSize="14sp" />
 

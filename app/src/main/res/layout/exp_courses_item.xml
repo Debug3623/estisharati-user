@@ -37,9 +37,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_margin="12dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginBottom="12dp"
                     android:fontFamily="@font/almarai_regular"
-                    android:text="AUD 999"
+                    android:text="USD 999"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
             </RelativeLayout>

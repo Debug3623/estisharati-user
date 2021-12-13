@@ -219,4 +219,18 @@ interface RetrofitInterface {
     @GET("share_experience/{id}")
     fun GET_SHARE_EXPERIENCE_BY_ID_API_CALL(@Header("Authorization") token: String,@Path("id")id:String): Call<ResponseBody>
 
+    @FormUrlEncoded
+    @POST("userpost")
+    fun PUPLISH_POST_API_CALL(@Header("Authorization") token: String, @Field("content") content: String): Call<ResponseBody>
+
+    @GET("userpost/")
+    fun GET_POSTS_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
+
+    @GET("userpost/{id}")
+    fun GET_POST_BY_ID_API_CALL(@Header("Authorization") token: String,@Path("id")id:String): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("userpost/comment")
+    fun SHARE_POST_COMMENTS_API_CALL(@Header("Authorization") token: String,@Field("post_id") post_id: String, @Field("comment") comment: String): Call<ResponseBody>
+
 }

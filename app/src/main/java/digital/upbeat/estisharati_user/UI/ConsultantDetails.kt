@@ -154,11 +154,11 @@ class ConsultantDetails : BaseCompatActivity() {
 //            chatLayout.visibility = View.VISIBLE
 //            chatPriceLayout.visibility = View.VISIBLE
             if (consultantDetailsResponse.offer_chat_fee.equals("0")) {
-                chatPrice.text = "${getString(R.string.aed)} ${consultantDetailsResponse.chat_fee}"
+                chatPrice.text = "${getString(R.string.usd)} ${consultantDetailsResponse.chat_fee}"
                 chatOldPrice.visibility = View.GONE
             } else {
-                chatPrice.text = "${getString(R.string.aed)} ${consultantDetailsResponse.offer_chat_fee}"
-                chatOldPrice.text = "${getString(R.string.aed)} ${consultantDetailsResponse.chat_fee}"
+                chatPrice.text = "${getString(R.string.usd)} ${consultantDetailsResponse.offer_chat_fee}"
+                chatOldPrice.text = "${getString(R.string.usd)} ${consultantDetailsResponse.chat_fee}"
                 chatOldPrice.setPaintFlags(chatOldPrice.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
                 chatOldPrice.visibility = View.VISIBLE
             }
@@ -170,11 +170,11 @@ class ConsultantDetails : BaseCompatActivity() {
 //            voiceLayout.visibility = View.VISIBLE
 //            voicePriceLayout.visibility = View.VISIBLE
             if (consultantDetailsResponse.offer_voice_fee.equals("0")) {
-                voicePrice.text = "${getString(R.string.aed)} ${consultantDetailsResponse.voice_fee}"
+                voicePrice.text = "${getString(R.string.usd)} ${consultantDetailsResponse.voice_fee}"
                 voiceOldPrice.visibility = View.GONE
             } else {
-                voicePrice.text = "${getString(R.string.aed)} ${consultantDetailsResponse.offer_voice_fee}"
-                voiceOldPrice.text = "${getString(R.string.aed)} ${consultantDetailsResponse.voice_fee}"
+                voicePrice.text = "${getString(R.string.usd)} ${consultantDetailsResponse.offer_voice_fee}"
+                voiceOldPrice.text = "${getString(R.string.usd)} ${consultantDetailsResponse.voice_fee}"
                 voiceOldPrice.setPaintFlags(voiceOldPrice.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
                 voiceOldPrice.visibility = View.VISIBLE
             }
@@ -186,11 +186,11 @@ class ConsultantDetails : BaseCompatActivity() {
 //            videoLayout.visibility = View.VISIBLE
 //            videoPriceLayout.visibility = View.VISIBLE
             if (consultantDetailsResponse.offer_video_fee.equals("0")) {
-                videoPrice.text = "${getString(R.string.aed)} ${consultantDetailsResponse.video_fee}"
+                videoPrice.text = "${getString(R.string.usd)} ${consultantDetailsResponse.video_fee}"
                 videoOldPrice.visibility = View.GONE
             } else {
-                videoPrice.text = "${getString(R.string.aed)} ${consultantDetailsResponse.offer_video_fee}"
-                videoOldPrice.text = "${getString(R.string.aed)} ${consultantDetailsResponse.video_fee}"
+                videoPrice.text = "${getString(R.string.usd)} ${consultantDetailsResponse.offer_video_fee}"
+                videoOldPrice.text = "${getString(R.string.usd)} ${consultantDetailsResponse.video_fee}"
                 videoOldPrice.setPaintFlags(videoOldPrice.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
                 videoOldPrice.visibility = View.VISIBLE
             }
@@ -317,7 +317,7 @@ class ConsultantDetails : BaseCompatActivity() {
             }
             showConsultationPriceDetailsPopup()
         }
-        popup_view.consultantPrice.text = "${getString(R.string.aed)} ${helperMethods.convetDecimalFormat(price)}"
+        popup_view.consultantPrice.text = "${getString(R.string.usd)} ${helperMethods.convetDecimalFormat(price)}"
         popup_view.actionProceedBtn.setOnClickListener {
             if (chat.equals("1") || audio.equals("1") || video.equals("1")) {
                 dialog.dismiss()

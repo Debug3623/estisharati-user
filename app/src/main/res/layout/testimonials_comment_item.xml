@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:fontFamily="@font/almarai_regular"
-                android:text="Taliha Al-Jaber"
+                android:text="1 months ago"
                 android:id="@+id/createdAt"
                 android:textAlignment="viewStart"
                 android:textColor="@color/gray"

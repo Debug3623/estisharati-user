@@ -1,24 +1,22 @@
 package digital.upbeat.estisharati_user.UI
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
-import digital.upbeat.estisharati_user.Adapter.MyCoursesAdapter
-import digital.upbeat.estisharati_user.Adapter.TestimonialsAdapter
+import digital.upbeat.estisharati_user.Adapter.PostsAdapter
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
 import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
-import digital.upbeat.estisharati_user.DataClassHelper.MyCourse.MyCourseResponse
 import digital.upbeat.estisharati_user.DataClassHelper.Testimonials.TestimonialsResponse
+import digital.upbeat.estisharati_user.DataClassHelper.posts.PostsResponse
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
-import kotlinx.android.synthetic.main.activity_testimonials.*
+import kotlinx.android.synthetic.main.activity_posts.*
 import okhttp3.ResponseBody
 import org.json.JSONException
 import retrofit2.Call
@@ -26,30 +24,29 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 
-class Testimonials : AppCompatActivity() {
+class PostsActivity : AppCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var preferencesHelper: SharedPreferencesHelper
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var dataUser: DataUser
+    lateinit var postsResponse: PostsResponse
 
-    lateinit var testimonialsResponse: TestimonialsResponse
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_testimonials)
+        setContentView(R.layout.activity_posts)
         initViews()
         clickEvents()
     }
 
     fun initViews() {
-        helperMethods = HelperMethods(this@Testimonials)
-        preferencesHelper = SharedPreferencesHelper(this@Testimonials)
+        helperMethods = HelperMethods(this@PostsActivity)
+        preferencesHelper = SharedPreferencesHelper(this@PostsActivity)
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
         dataUser = preferencesHelper.logInUser
     }
 
     fun clickEvents() {
         nav_back.setOnClickListener { finish() }
-        btn_createPost.setOnClickListener { startActivity(Intent(this,CreatePostActivity::class.java)) }
     }
     override fun onStart() {
         super.onStart()
@@ -60,26 +57,26 @@ class Testimonials : AppCompatActivity() {
         }
     }
 
+
     fun InitializeRecyclerview() {
+        postsRecycler.setHasFixedSize(true)
+        postsRecycler.removeAllViews()
+        postsRecycler.layoutManager = LinearLayoutManager(this@PostsActivity)
+        postsRecycler.adapter = PostsAdapter(this@PostsActivity, this@PostsActivity, postsResponse.data)
 
-        testimonialsRecycler.setHasFixedSize(true)
-        testimonialsRecycler.removeAllViews()
-        testimonialsRecycler.layoutManager = LinearLayoutManager(this@Testimonials)
-        testimonialsRecycler.adapter = TestimonialsAdapter(this@Testimonials, this@Testimonials, testimonialsResponse.data)
-
-        if (testimonialsResponse.data.size > 0) {
+        if (postsResponse.data.size > 0) {
             emptyLayout.visibility = View.GONE
-            testimonialsRecycler.visibility = View.VISIBLE
+            postsRecycler.visibility = View.VISIBLE
         } else {
             errorText.text = getString(R.string.there_is_no_testimonials_available)
             emptyLayout.visibility = View.VISIBLE
-            testimonialsRecycler.visibility = View.GONE
+            postsRecycler.visibility = View.GONE
         }
     }
 
     fun experiencApiCall() {
         helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
-        val responseBodyCall = retrofitInterface.GET_SHARE_EXPERIENCE_API_CALL("Bearer ${dataUser.access_token}")
+        val responseBodyCall = retrofitInterface.GET_POSTS_API_CALL("Bearer ${dataUser.access_token}")
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()
@@ -87,16 +84,16 @@ class Testimonials : AppCompatActivity() {
                 if (response.isSuccessful) {
                     if (response.body() != null) {
                         try {
-                             testimonialsResponse  = Gson().fromJson(response.body()!!.string(), TestimonialsResponse::class.java)
-                            GlobalData.testimonialsResponse=testimonialsResponse
-                            if (testimonialsResponse.status.equals("200")) {
+                            postsResponse  = Gson().fromJson(response.body()!!.string(), PostsResponse::class.java)
+                            GlobalData.postsResponse=postsResponse
+                            if (postsResponse.status.equals("200")) {
                                 InitializeRecyclerview()
                             } else {
-                                if (helperMethods.checkTokenValidation(testimonialsResponse.status, testimonialsResponse.message)) {
+                                if  (helperMethods.checkTokenValidation(postsResponse.status, postsResponse.message)) {
                                     finish()
                                     return
                                 }
-                                helperMethods.AlertPopup(getString(R.string.alert), testimonialsResponse.message)
+                                helperMethods.AlertPopup(getString(R.string.alert), postsResponse.message)
                             }
                         } catch (e: JSONException) {
                             helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
@@ -120,4 +117,5 @@ class Testimonials : AppCompatActivity() {
             }
         })
     }
+
 }

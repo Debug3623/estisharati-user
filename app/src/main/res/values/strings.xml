@@ -31,7 +31,8 @@
 
     <string name="cancel">CANCEL</string>
     <string name="ok">OK</string>
-    <string name="aed">AED</string>
+    <string name="usd">USD</string>
+    <!--    <string name="aed">AED</string>-->
     <string name="ability_to_download_course_videos">ability to download course videos</string>
     <string name="you_can_not_download_course_videos">You can not download course videos</string>
     <string name="buy_now">BUY NOW</string>
@@ -336,4 +337,9 @@
     <string name="invalid_verification_code">Invalid verification code</string>
     <string name="verification_failed">Verification failed</string>
     <string name="please_wait_while_send_code">Please wait while send code</string>
+    <string name="create_post">Create Post</string>
+    <string name="type_here">Type here</string>
+    <string name="publish">Puplish</string>
+    <string name="posts">Posts</string>
+    <string name="please_feel_free_to_leave_your_posts">Please feel free to share your post</string>
 </resources>

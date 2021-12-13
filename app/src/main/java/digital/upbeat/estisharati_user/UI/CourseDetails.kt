@@ -142,11 +142,11 @@ class CourseDetails : BaseCompatActivity() {
         Glide.with(this@CourseDetails).load(responseCoursesDetails.image_path).apply(helperMethods.requestOption).into(courseBackgroundImage)
         Glide.with(this@CourseDetails).load(responseCoursesDetails.image_path).apply(helperMethods.requestOption).into(previewCourse)
         if (responseCoursesDetails.offerprice.equals("0")) {
-            coursePrice.text = "${getString(R.string.aed)} ${responseCoursesDetails.price}"
+            coursePrice.text = "${getString(R.string.usd)} ${responseCoursesDetails.price}"
             courseOldPrice.visibility = View.GONE
             offersEndDateLayout.visibility = View.GONE
         } else {
-            coursePrice.text = "${getString(R.string.aed)} ${responseCoursesDetails.offerprice}"
+            coursePrice.text = "${getString(R.string.usd)} ${responseCoursesDetails.offerprice}"
             courseOldPrice.text = " ${responseCoursesDetails.price}"
             offersEndDate.text = responseCoursesDetails.offer_end
             courseOldPrice.setPaintFlags(courseOldPrice.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)

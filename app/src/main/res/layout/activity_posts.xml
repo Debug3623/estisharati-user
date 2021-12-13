@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".UI.Testimonials">
+    tools:context=".UI.PostsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,33 +35,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:fontFamily="@font/almarai_regular"
-                android:text="@string/testimonials"
+                android:text="@string/posts"
                 android:textAlignment="viewStart"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
-            <TextView
-                android:id="@+id/btn_createPost"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/almarai_regular"
-                android:text="@string/create_post"
-                android:background="@drawable/corner_redius_14dp_green_sroke_white"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:textAllCaps="true"
-                android:paddingStart="14dp"
-                android:paddingEnd="14dp"
-                android:paddingTop="7dp"
-                android:paddingBottom="7dp"/>
+
         </LinearLayout>
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/testimonialsRecycler"
+            android:id="@+id/postsRecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="10dp"

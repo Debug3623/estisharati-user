@@ -291,7 +291,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/almarai_regular"
-                            android:text="AUD 0.0"
+                            android:text="USD 0.0"
                             android:textColor="@color/black"
                             android:textSize="18sp" />
 
@@ -301,7 +301,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:fontFamily="@font/almarai_regular"
-                            android:text="AUD 0.0"
+                            android:text="USD 0.0"
                             android:textColor="@color/gray"
                             android:textSize="18sp" />
 

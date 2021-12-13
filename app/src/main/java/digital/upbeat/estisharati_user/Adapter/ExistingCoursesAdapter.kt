@@ -30,7 +30,7 @@ class ExistingCoursesAdapter(val context: Context, val existingCourses: Existing
         Glide.with(context).load(coursesArrayList.get(position).image_path).apply(existingCourses.helperMethods.requestOption).into(holder.courseImage)
         holder.courseName.text = coursesArrayList.get(position).name
         holder.courseRating.text = coursesArrayList.get(position).rate
-        holder.coursePrice.text = context.getString(R.string.aed) + " " + coursesArrayList.get(position).price
+        holder.coursePrice.text = context.getString(R.string.usd) + " " + coursesArrayList.get(position).price
         holder.courseLayout.setOnClickListener {
             val intent = Intent(context, CourseDetails::class.java)
             intent.putExtra("courseId", coursesArrayList.get(position).id)

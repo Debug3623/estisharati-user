@@ -23,7 +23,8 @@
     <string name="could_not_get_your_device_token_please_try_again">تعذر الحصول على الرمز المميز لجهازك، من فضلك أعد المحاولة</string>
     <string name="cancel">إلغاء</string>
     <string name="ok">حسنًا</string>
-    <string name="aed">درهم إماراتي</string>
+<!--    <string name="aed">درهم إماراتي</string>-->
+    <string name="usd">دولار</string>
     <string name="ability_to_download_course_videos">تنزيل مقاطع فيديو الدورة التدريبية</string>
     <string name="you_can_not_download_course_videos">لا تستطيع تنزيل مقاطع فيديو الدورة التدريبية</string>
     <string name="buy_now">اشتري الآن</string>
@@ -328,4 +329,10 @@
     <string name="invalid_verification_code">كود التحقق غير صالح</string>
     <string name="verification_failed">فشل التحقق من الكود</string>
     <string name="please_wait_while_send_code">يرجى الانتظار أثناء إرسال الكود</string>
+
+    <string name="create_post">إنشاء منشور</string>
+    <string name="type_here">أكتب هنا</string>
+    <string name="publish">انشر</string>
+    <string name="posts">منشورات</string>
+    <string name="please_feel_free_to_leave_your_posts">من فضلك شارك منشورك بكل أريحية</string>
 </resources>

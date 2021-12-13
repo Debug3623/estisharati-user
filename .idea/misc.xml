@@ -1,4 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable/border_set.xml" value="0.3072916666666667" />
+        <entry key="app/src/main/res/drawable/chat_me_pink_stroke_gray.xml" value="0.3072916666666667" />
+        <entry key="app/src/main/res/drawable/chat_other_white_stroke_gray.xml" value="0.3072916666666667" />
+        <entry key="app/src/main/res/drawable/corner_radius_4dp_white_stroke_gray.xml" value="0.3072916666666667" />
+        <entry key="app/src/main/res/drawable/corner_redius_10dp_pink_sroke_dark_gray.xml" value="0.3072916666666667" />
+        <entry key="app/src/main/res/drawable/corner_redius_10dp_white_sroke_dark_gray.xml" value="0.3072916666666667" />
+        <entry key="app/src/main/res/drawable/corner_redius_14dp_green_sroke_white.xml" value="0.3072916666666667" />
+        <entry key="app/src/main/res/drawable/corner_redius_15dp_white_sroke_dark_gray.xml" value="0.3072916666666667" />
+        <entry key="app/src/main/res/drawable/corner_redius_30dp_white_pink.xml" value="0.3072916666666667" />
+        <entry key="app/src/main/res/drawable/corner_redius_30dp_white_sroke_dark_gray.xml" value="0.3072916666666667" />
+        <entry key="app/src/main/res/drawable/corner_redius_40dp_white_sroke_dark_gray.xml" value="0.3072916666666667" />
+        <entry key="app/src/main/res/drawable/corner_redius_5dp_light_green.xml" value="0.3072916666666667" />
+        <entry key="app/src/main/res/drawable/corner_redius_5dp_white.xml" value="0.3072916666666667" />
+        <entry key="app/src/main/res/drawable/gradient_gray_shape_top_right.xml" value="0.3072916666666667" />
+        <entry key="app/src/main/res/drawable/gradient_package_color.xml" value="0.3072916666666667" />
+        <entry key="app/src/main/res/drawable/gradient_top_bottom_gray_color.xml" value="0.3072916666666667" />
+        <entry key="app/src/main/res/drawable/ic_reply_black_24dp.xml" value="0.3072916666666667" />
+        <entry key="app/src/main/res/drawable/round_light_green1.xml" value="0.3072916666666667" />
+        <entry key="app/src/main/res/drawable/round_light_green_white_stroke.xml" value="0.3072916666666667" />
+        <entry key="app/src/main/res/drawable/round_parrot_green.xml" value="0.3072916666666667" />
+        <entry key="app/src/main/res/drawable/round_parrot_green_white_stroke.xml" value="0.3072916666666667" />
+        <entry key="app/src/main/res/drawable/round_white.xml" value="0.3072916666666667" />
+        <entry key="app/src/main/res/drawable/top_laft_right_corner_redius_15dp_orange.xml" value="0.3072916666666667" />
+        <entry key="app/src/main/res/layout/activity_add_payment_method.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/activity_blog.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/activity_blog_details.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/activity_consultant_details.xml" value="0.55" />
+        <entry key="app/src/main/res/layout/activity_contact_us.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/activity_course_details.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/activity_create_post.xml" value="0.5283553875236295" />
+        <entry key="app/src/main/res/layout/activity_detial_post.xml" value="0.2713541666666667" />
+        <entry key="app/src/main/res/layout/activity_packages_selection.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/activity_post_details.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/activity_posts.xml" value="0.29375" />
+        <entry key="app/src/main/res/layout/activity_splash_temp.xml" value="0.3078125" />
+        <entry key="app/src/main/res/layout/activity_testimonials.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/activity_testimonials_details.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/activity_user_drawer.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/content_user_drawer.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/existing_courses_item.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/exp_courses_item.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/legal_advice_item.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/nav_side_manu.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/offers_consultants_item.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/offers_courses_item.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/package_item.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/testimonials_comment_item.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/testimonials_item.xml" value="0.45" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
 </project>

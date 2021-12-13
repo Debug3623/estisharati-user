@@ -191,7 +191,7 @@ class PackagesSelection : BaseCompatActivity() {
             GlobalData.packagesOptions.referral_code = referralResponse.data.referral_code
             GlobalData.packagesOptions.referral_percent = referralResponse.data.points
             GlobalData.packagesOptions.referral_discount = helperMethods.convetDecimalFormat(referralAmount)
-            referralAmountTxt.text = "(" + GlobalData.packagesOptions.referral_percent + " %)  " + GlobalData.packagesOptions.referral_discount + " " + getString(R.string.aed)
+            referralAmountTxt.text = "(" + GlobalData.packagesOptions.referral_percent + " %)  " + GlobalData.packagesOptions.referral_discount + " " + getString(R.string.usd)
         } else {
             GlobalData.packagesOptions.referral = "false"
             GlobalData.packagesOptions.referral_code = ""
@@ -202,12 +202,12 @@ class PackagesSelection : BaseCompatActivity() {
 
         chooseName.text = GlobalData.packagesOptions.name
         choosePrice.text = GlobalData.packagesOptions.transaction_amount
-        originalPrice.text = resources.getString(R.string.aed) + " " + GlobalData.packagesOptions.originalPrice
+        originalPrice.text = resources.getString(R.string.usd) + " " + GlobalData.packagesOptions.originalPrice
 
 
 
-        chooseDiscount.text = "- " + resources.getString(R.string.aed) + " " + helperMethods.convetDecimalFormat(totelDiscountAmount)
-        vatAmountTxt.text = "${resources.getString(R.string.aed)} ${GlobalData.packagesOptions.vat_amount} ${resources.getString(R.string.vat_5)}"
+        chooseDiscount.text = "- " + resources.getString(R.string.usd) + " " + helperMethods.convetDecimalFormat(totelDiscountAmount)
+        vatAmountTxt.text = "${resources.getString(R.string.usd)} ${GlobalData.packagesOptions.vat_amount} ${resources.getString(R.string.vat_5)}"
         if (totelDiscountAmount > 0) {
             chooseDiscount.visibility = View.VISIBLE
         } else {

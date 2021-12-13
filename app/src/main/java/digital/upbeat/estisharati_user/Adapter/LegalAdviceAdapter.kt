@@ -42,7 +42,7 @@ class LegalAdviceAdapter(val context: Context, val legalAdvice: LegalAdvice, var
         } else {
             price += consultantsArrayList.get(position).user.offer_video_fee.toDouble()
         }
-        holder.consultantPrice.text = context.resources.getString(R.string.aed) + " " + legalAdvice.helperMethods.convetDecimalFormat(price)
+        holder.consultantPrice.text = context.resources.getString(R.string.usd) + " " + legalAdvice.helperMethods.convetDecimalFormat(price)
 
         holder.consultantJobTitle.text = consultantsArrayList.get(position).user.job_title
         holder.consultantRate.text = consultantsArrayList.get(position).user.rate

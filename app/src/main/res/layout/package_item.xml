@@ -48,7 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/almarai_regular"
-                    android:text="@string/aed"
+                    android:text="@string/usd"
                     android:textColor="@color/light_green1"
                     android:textSize="13sp" />
 

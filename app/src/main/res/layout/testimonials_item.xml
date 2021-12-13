@@ -33,12 +33,12 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/userName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="110dp"
-                    android:text="Taliha Al-Jaber"
-                    android:id="@+id/userName"
                     android:singleLine="true"
+                    android:text="Taliha Al-Jaber"
                     android:textAlignment="viewStart"
                     android:textColor="@color/black"
                     android:textSize="14sp" />

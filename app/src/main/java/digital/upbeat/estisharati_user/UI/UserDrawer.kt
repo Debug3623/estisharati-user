@@ -172,6 +172,10 @@ class UserDrawer : BaseCompatActivity() {
         nav_testimonials.setOnClickListener {
             startActivity(Intent(this@UserDrawer, Testimonials::class.java))
         }
+
+        nav_posts.setOnClickListener {
+            startActivity(Intent(this@UserDrawer, PostsActivity::class.java))
+        }
         nav_appointment.setOnClickListener {
             startActivity(Intent(this@UserDrawer, MyAppointment::class.java))
         }

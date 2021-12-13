@@ -45,7 +45,7 @@ class FavoriteConsultantAdapter(val context: Context, val favorites: Favorites, 
         } else {
             price += consultantsArrayList.get(position).consultant.offer_video_fee.toDouble()
         }
-        holder.consultantPrice.text = context.resources.getString(R.string.aed) + " " + favorites.helperMethods.convetDecimalFormat(price)
+        holder.consultantPrice.text = context.resources.getString(R.string.usd) + " " + favorites.helperMethods.convetDecimalFormat(price)
 
         if (favorites.helperMethods.findConsultantIsOnline(consultantsArrayList.get(position).consultant_id)) holder.onlineStatus.visibility = View.VISIBLE else holder.onlineStatus.visibility = View.GONE
 

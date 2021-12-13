@@ -6,6 +6,7 @@ import digital.upbeat.estisharati_user.DataClassHelper.Home.HomeResponse
 import digital.upbeat.estisharati_user.DataClassHelper.PackagesOptions.PackagesOptions
 import digital.upbeat.estisharati_user.DataClassHelper.StartCourse.Lesson
 import digital.upbeat.estisharati_user.DataClassHelper.Testimonials.TestimonialsResponse
+import digital.upbeat.estisharati_user.DataClassHelper.posts.PostsResponse
 
 object GlobalData {
     const val PICK_IMAGE_GALLERY = 1
@@ -29,5 +30,6 @@ object GlobalData {
     var allUserArraylist = arrayListOf<DataUserFireStore>()
 
      var testimonialsResponse: TestimonialsResponse?=null
+     var postsResponse: PostsResponse?=null
 
 }

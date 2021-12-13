@@ -35,6 +35,7 @@
 
     <color name="yellow">#f4cc07</color>
 
+    <color name="light_gray">#c9c9c9</color>
     <color name="dark_gray">#aaaaaa</color>
     <color name="gray">#cacaca</color>
     <color name="gray1">#e6e6e6</color>

@@ -80,7 +80,7 @@
                     android:layout_marginBottom="20dp"
                     android:fontFamily="@font/almarai_bold"
                     android:gravity="center"
-                    android:text="AED 0"
+                    android:text="USD 0"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -154,7 +154,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/almarai_regular"
-                                    android:text="@string/aed"
+                                    android:text="@string/usd"
                                     android:textColor="@color/light_green"
                                     android:textSize="14sp" />
 

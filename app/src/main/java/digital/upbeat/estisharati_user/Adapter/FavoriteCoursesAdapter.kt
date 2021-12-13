@@ -26,9 +26,9 @@ class FavoriteCoursesAdapter(val context: Context, val favorites: Favorites, val
         Glide.with(context).load(coursesArrayList.get(position).course.image_path).apply(favorites.helperMethods.profileRequestOption).into(holder.courseImage)
         holder.courseName.text = coursesArrayList.get(position).course.name
         if (coursesArrayList.get(position).course.offerprice.equals("0")) {
-            holder.coursePrice.text = context.getString(R.string.aed) + " " + coursesArrayList.get(position).course.price
+            holder.coursePrice.text = context.getString(R.string.usd) + " " + coursesArrayList.get(position).course.price
         } else {
-            holder.coursePrice.text = context.getString(R.string.aed) + " " + coursesArrayList.get(position).course.offerprice
+            holder.coursePrice.text = context.getString(R.string.usd) + " " + coursesArrayList.get(position).course.offerprice
         }
         holder.courseRating.text = coursesArrayList.get(position).course.rate
         holder.coursePeriod.text = coursesArrayList.get(position).course.period
