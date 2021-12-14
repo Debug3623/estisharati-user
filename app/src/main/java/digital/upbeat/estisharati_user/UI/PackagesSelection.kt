@@ -36,7 +36,6 @@ import payment.sdk.android.cardpayment.CardPaymentRequest
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.File
 import java.io.IOException
 import java.util.*
 
@@ -207,7 +206,7 @@ class PackagesSelection : BaseCompatActivity() {
 
 
         chooseDiscount.text = "- " + resources.getString(R.string.usd) + " " + helperMethods.convetDecimalFormat(totelDiscountAmount)
-        vatAmountTxt.text = "${resources.getString(R.string.usd)} ${GlobalData.packagesOptions.vat_amount} ${resources.getString(R.string.vat_5)}"
+      //  vatAmountTxt.text = "${resources.getString(R.string.usd)} ${GlobalData.packagesOptions.vat_amount} ${resources.getString(R.string.vat_5)}"
         if (totelDiscountAmount > 0) {
             chooseDiscount.visibility = View.VISIBLE
         } else {
@@ -372,7 +371,8 @@ class PackagesSelection : BaseCompatActivity() {
             else -> {
             }
         }
-        val responseBodyCall = retrofitInterface.USER_SUBSCRIPTION_API_CALL("Bearer ${dataUser.access_token}", GlobalData.packagesOptions.type, GlobalData.packagesOptions.category_id, GlobalData.packagesOptions.chat, GlobalData.packagesOptions.audio, GlobalData.packagesOptions.video, subscription_id, course_id, consultant_id, GlobalData.packagesOptions.transaction_amount, GlobalData.packagesOptions.vat_amount, "1", paymentNetworkResponse._embedded.payment.get(0).orderReference, GlobalData.packagesOptions.coupon_id, GlobalData.packagesOptions.coupon_code, GlobalData.packagesOptions.discount, GlobalData.packagesOptions.referral_code, GlobalData.packagesOptions.referral_discount, GlobalData.packagesOptions.referral_percent)
+        val responseBodyCall = retrofitInterface.USER_SUBSCRIPTION_API_CALL("Bearer ${dataUser.access_token}", GlobalData.packagesOptions.type, GlobalData.packagesOptions.category_id, GlobalData.packagesOptions.chat, GlobalData.packagesOptions.audio, GlobalData.packagesOptions.video, subscription_id, course_id, consultant_id, GlobalData.packagesOptions.transaction_amount,
+            "0", "1", paymentNetworkResponse._embedded.payment.get(0).orderReference, GlobalData.packagesOptions.coupon_id, GlobalData.packagesOptions.coupon_code, GlobalData.packagesOptions.discount, GlobalData.packagesOptions.referral_code, GlobalData.packagesOptions.referral_discount, GlobalData.packagesOptions.referral_percent)
 
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {

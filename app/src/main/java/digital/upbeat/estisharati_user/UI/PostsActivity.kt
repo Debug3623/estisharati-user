@@ -1,5 +1,6 @@
 package digital.upbeat.estisharati_user.UI
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -30,7 +31,6 @@ class PostsActivity : AppCompatActivity() {
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var dataUser: DataUser
     lateinit var postsResponse: PostsResponse
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_posts)
@@ -47,7 +47,12 @@ class PostsActivity : AppCompatActivity() {
 
     fun clickEvents() {
         nav_back.setOnClickListener { finish() }
+        btn_createPost.setOnClickListener {
+            startActivity(Intent(this, CreatePostActivity::class.java))
+
+        }
     }
+
     override fun onStart() {
         super.onStart()
         if (helperMethods.isConnectingToInternet) {
@@ -56,7 +61,6 @@ class PostsActivity : AppCompatActivity() {
             helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
         }
     }
-
 
     fun InitializeRecyclerview() {
         postsRecycler.setHasFixedSize(true)
@@ -84,12 +88,12 @@ class PostsActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     if (response.body() != null) {
                         try {
-                            postsResponse  = Gson().fromJson(response.body()!!.string(), PostsResponse::class.java)
-                            GlobalData.postsResponse=postsResponse
+                            postsResponse = Gson().fromJson(response.body()!!.string(), PostsResponse::class.java)
+                            GlobalData.postsResponse = postsResponse
                             if (postsResponse.status.equals("200")) {
                                 InitializeRecyclerview()
                             } else {
-                                if  (helperMethods.checkTokenValidation(postsResponse.status, postsResponse.message)) {
+                                if (helperMethods.checkTokenValidation(postsResponse.status, postsResponse.message)) {
                                     finish()
                                     return
                                 }
@@ -117,5 +121,4 @@ class PostsActivity : AppCompatActivity() {
             }
         })
     }
-
 }

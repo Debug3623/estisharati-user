@@ -173,13 +173,13 @@ interface RetrofitInterface {
     fun LOGOUT_API_CALL(@Header("Authorization") token: String,@Field("empty") empty: String): Call<ResponseBody>
 
     @GET("posts")
-    fun POSTS_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
+    fun POSTS_API_CALL(@Header("Authorization") token: String,@Query("sortby")sortby:String): Call<ResponseBody>
 
     @GET("surveys/{survey_id}")
     fun SURVEY_DETAILS_API_CALL(@Header("Authorization") token: String,@Path("survey_id")survey_id:String): Call<ResponseBody>
 
     @GET("surveys")
-    fun SURVEYS_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
+    fun SURVEYS_API_CALL(@Header("Authorization") token: String,@Query("sortby")sortby:String): Call<ResponseBody>
 
     @POST("surveys")
     fun SURVEYS_SUBMIT_API_CALL(@Header("Authorization") token: String,@Body() submitSurvey: SubmitSurvey): Call<ResponseBody>

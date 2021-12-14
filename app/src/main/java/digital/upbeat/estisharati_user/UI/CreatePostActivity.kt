@@ -84,8 +84,7 @@ class CreatePostActivity : AppCompatActivity() {
 
                             if (status.equals("200")) {
                                 helperMethods.showToastMessage(message)
-                                startActivity(Intent(this@CreatePostActivity,PostsActivity::class.java))
-                              //  experiencByIdApiCall()
+                                finish()
                                 helperMethods.hideSoftKeyboard(writePost)
                                 writePost.text = "".toEditable()
                             } else {

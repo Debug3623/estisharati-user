@@ -4,19 +4,29 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import digital.upbeat.estisharati_user.Adapter.SurveyListAdapter
-import digital.upbeat.estisharati_user.Adapter.TestimonialsAdapter
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
 import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
+import digital.upbeat.estisharati_user.DataClassHelper.SurveyList.Data
 import digital.upbeat.estisharati_user.DataClassHelper.SurveyList.SurveyListResponse
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
+import kotlinx.android.synthetic.main.activity_online_courses.*
 import kotlinx.android.synthetic.main.activity_survey_list.*
+import kotlinx.android.synthetic.main.activity_survey_list.emptyLayout
+import kotlinx.android.synthetic.main.activity_survey_list.errorText
+import kotlinx.android.synthetic.main.activity_survey_list.filter_spinner
 import okhttp3.ResponseBody
 import org.json.JSONException
 import retrofit2.Call
@@ -30,6 +40,10 @@ class SurveyList : AppCompatActivity() {
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var dataUser: DataUser
     lateinit var surveyListResponse: SurveyListResponse
+    var sortingOptionsArraylist: ArrayList<String> = arrayListOf()
+    var surveyArrayList: ArrayList<Data> = arrayListOf()
+    private  val TAG = "SurveyList"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_survey_list)
@@ -38,12 +52,14 @@ class SurveyList : AppCompatActivity() {
     }
 
     fun initViews() {
+        sortingOptionsArraylist= arrayListOf(getString(R.string.newest),getString(R.string.oldest))
+        initializeFilterSpinner()
         helperMethods = HelperMethods(this@SurveyList)
         preferencesHelper = SharedPreferencesHelper(this@SurveyList)
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
         dataUser = preferencesHelper.logInUser
         if (helperMethods.isConnectingToInternet) {
-            surveyListApiCall()
+            surveyListApiCall(filter_spinner.getItemAtPosition(0).toString())
         } else {
             helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
         }
@@ -69,9 +85,33 @@ class SurveyList : AppCompatActivity() {
         }
     }
 
-    fun surveyListApiCall() {
+    fun initializeFilterSpinner() {
+        val typeface = ResourcesCompat.getFont(this@SurveyList, R.font.almarai_regular)
+        val adapter = ArrayAdapter(this@SurveyList, R.layout.support_simple_spinner_dropdown_item, sortingOptionsArraylist)
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+        filter_spinner.adapter = adapter
+        filter_spinner.setSelection(0, true)
+        val v2 = filter_spinner.selectedView
+        (v2 as TextView).textSize = 13f
+        v2.typeface = typeface
+        v2.setTextColor(ContextCompat.getColor(this@SurveyList, R.color.white))
+        filter_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                surveyArrayList.clear()
+                (view as TextView).textSize = 13f
+                view.typeface = typeface
+                view.setTextColor(ContextCompat.getColor(this@SurveyList, R.color.white))
+                surveyListApiCall(sortingOptionsArraylist.get(filter_spinner.selectedItemPosition))
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+            }
+        }
+    }
+
+    fun surveyListApiCall(sortby:String) {
         helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
-        val responseBodyCall = retrofitInterface.SURVEYS_API_CALL("Bearer ${dataUser.access_token}")
+        val responseBodyCall = retrofitInterface.SURVEYS_API_CALL("Bearer ${dataUser.access_token}",sortby)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()
@@ -82,6 +122,8 @@ class SurveyList : AppCompatActivity() {
                             surveyListResponse = Gson().fromJson(response.body()!!.string(), SurveyListResponse::class.java)
                             if (surveyListResponse.status == "200") {
                                 InitializeRecyclerview()
+                                surveyArrayList.addAll(surveyListResponse.data)
+
                             } else {
                                 if (helperMethods.checkTokenValidation(surveyListResponse.status, surveyListResponse.message)) {
                                     finish()

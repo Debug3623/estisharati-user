@@ -33,7 +33,7 @@ class NetwrokPayment {
                 val billingAddress = JSONObject()
                 val shippingAddress = JSONObject()
                 try {
-                    amountJsonObject.put("currencyCode", "AED")
+                    amountJsonObject.put("currencyCode", "USD")
                     amountJsonObject.put("value", amount)
                     Object.put("action", "SALE")
                     Object.put("amount", amountJsonObject)

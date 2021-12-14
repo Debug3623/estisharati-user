@@ -49,7 +49,6 @@ class Testimonials : AppCompatActivity() {
 
     fun clickEvents() {
         nav_back.setOnClickListener { finish() }
-        btn_createPost.setOnClickListener { startActivity(Intent(this,CreatePostActivity::class.java)) }
     }
     override fun onStart() {
         super.onStart()

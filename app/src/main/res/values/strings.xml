@@ -342,4 +342,6 @@
     <string name="publish">Puplish</string>
     <string name="posts">Posts</string>
     <string name="please_feel_free_to_leave_your_posts">Please feel free to share your post</string>
+    <string name="newest">Newest</string>
+    <string name="oldest">Oldest</string>
 </resources>

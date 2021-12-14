@@ -335,4 +335,7 @@
     <string name="publish">انشر</string>
     <string name="posts">منشورات</string>
     <string name="please_feel_free_to_leave_your_posts">من فضلك شارك منشورك بكل أريحية</string>
+
+    <string name="newest">الأحدث</string>
+    <string name="oldest">الأقدم</string>
 </resources>
