@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../../layout/custom_preview.xml" value="0.328125" />
         <entry key="app/src/main/res/drawable/border_set.xml" value="0.3072916666666667" />
         <entry key="app/src/main/res/drawable/chat_me_pink_stroke_gray.xml" value="0.3072916666666667" />
         <entry key="app/src/main/res/drawable/chat_other_white_stroke_gray.xml" value="0.3072916666666667" />
@@ -29,34 +30,114 @@
         <entry key="app/src/main/res/layout/activity_add_payment_method.xml" value="0.433065094438108" />
         <entry key="app/src/main/res/layout/activity_blog.xml" value="0.2911458333333333" />
         <entry key="app/src/main/res/layout/activity_blog_details.xml" value="0.2911458333333333" />
-        <entry key="app/src/main/res/layout/activity_consultant_details.xml" value="0.55" />
+        <entry key="app/src/main/res/layout/activity_chat_home.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/activity_chat_page.xml" value="0.23881765058622884" />
+        <entry key="app/src/main/res/layout/activity_consultant_details.xml" value="0.28368446839784417" />
+        <entry key="app/src/main/res/layout/activity_consultants_in_the_package.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/activity_consultation_details_video.xml" value="0.19046052631578947" />
         <entry key="app/src/main/res/layout/activity_contact_us.xml" value="0.2911458333333333" />
         <entry key="app/src/main/res/layout/activity_course_details.xml" value="0.45" />
         <entry key="app/src/main/res/layout/activity_course_resource.xml" value="0.2677083333333333" />
         <entry key="app/src/main/res/layout/activity_create_post.xml" value="0.5283553875236295" />
         <entry key="app/src/main/res/layout/activity_detial_post.xml" value="0.2713541666666667" />
+        <entry key="app/src/main/res/layout/activity_existing_courses.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/activity_faq.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/activity_favorites.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/activity_group_chat_page.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/activity_incoming_call.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/activity_invite_app.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/activity_legal_advice.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/activity_login_and_registration.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/activity_my_appointment.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/activity_my_consultations.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/activity_my_courses.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/activity_my_packages.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/activity_my_profile.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/activity_notifications.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/activity_offers.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/activity_on_boarding.xml" value="0.19046052631578947" />
         <entry key="app/src/main/res/layout/activity_online_courses.xml" value="0.3015625" />
-        <entry key="app/src/main/res/layout/activity_packages_selection.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/activity_packages.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/activity_packages_selection.xml" value="0.3806706114398422" />
+        <entry key="app/src/main/res/layout/activity_pages.xml" value="0.19046052631578947" />
         <entry key="app/src/main/res/layout/activity_payment_methods.xml" value="0.3026041666666667" />
+        <entry key="app/src/main/res/layout/activity_photo_viewer.xml" value="0.19046052631578947" />
         <entry key="app/src/main/res/layout/activity_post_details.xml" value="0.45" />
         <entry key="app/src/main/res/layout/activity_posts.xml" value="0.29375" />
+        <entry key="app/src/main/res/layout/activity_search.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.19046052631578947" />
         <entry key="app/src/main/res/layout/activity_splash_temp.xml" value="0.3078125" />
         <entry key="app/src/main/res/layout/activity_survey.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_survey_list.xml" value="0.3015625" />
         <entry key="app/src/main/res/layout/activity_testimonials.xml" value="0.375" />
         <entry key="app/src/main/res/layout/activity_testimonials_details.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/activity_thanks_page.xml" value="0.19046052631578947" />
         <entry key="app/src/main/res/layout/activity_user_drawer.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/activity_verification.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/activity_video_call.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/activity_video_full_screen.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/activity_voice_call.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/activity_web_view.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/add_coupon_layout.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/alert_popup.xml" value="0.19046052631578947" />
         <entry key="app/src/main/res/layout/app_bar_user_drawer.xml" value="0.2869791666666667" />
+        <entry key="app/src/main/res/layout/appointment_item.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/appointment_layout.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/blog_item.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/boarding_item.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/chat_item.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/chat_placeholder_item.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/comment_reply_item.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/comments_reply_sub_item.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/consultant_balance_popup.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/consultants_in_the_package_item.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/consultation_category_layout.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/consultations_item.xml" value="0.19046052631578947" />
         <entry key="app/src/main/res/layout/content_user_drawer.xml" value="0.2911458333333333" />
-        <entry key="app/src/main/res/layout/existing_courses_item.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/course_chapter_item.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/course_content_item.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/course_content_sub_item.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/course_lesson_item.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/custom_progress_dialog.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/existing_courses_item.xml" value="0.2354946412912658" />
+        <entry key="app/src/main/res/layout/exp_consultations_item.xml" value="0.19046052631578947" />
         <entry key="app/src/main/res/layout/exp_courses_item.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/faq_recycler_row.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/favorite_consultant_item.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/favorite_courses_item.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/fragment_comments.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/fragment_consultations.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/fragment_course_content.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/fragment_course_videos.xml" value="0.19046052631578947" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_instructor.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/group_chat_item.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/home_slider_item.xml" value="0.19046052631578947" />
         <entry key="app/src/main/res/layout/legal_advice_item.xml" value="0.375" />
-        <entry key="app/src/main/res/layout/nav_side_manu.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/my_consultations_item.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/my_courses_item.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/nav_side_manu.xml" value="0.20457320848344382" />
+        <entry key="app/src/main/res/layout/no_internet_page.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/notification_item.xml" value="0.19046052631578947" />
         <entry key="app/src/main/res/layout/offers_consultants_item.xml" value="0.45" />
         <entry key="app/src/main/res/layout/offers_courses_item.xml" value="0.375" />
-        <entry key="app/src/main/res/layout/package_item.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/online_consultations_item.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/online_courses_item.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/online_user_item.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/package_item.xml" value="0.21293498455709348" />
+        <entry key="app/src/main/res/layout/payment_card_item.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/pick_picture_gallery_camera.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/preview_courses_popup.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/profile_edit_popup.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/rating_popup.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/recent_chat_item.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/search_item.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/search_user_item.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/search_user_layout.xml" value="0.19046052631578947" />
+        <entry key="app/src/main/res/layout/tap_item.xml" value="0.19046052631578947" />
         <entry key="app/src/main/res/layout/testimonials_comment_item.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/testimonials_horiz_item.xml" value="0.19046052631578947" />
         <entry key="app/src/main/res/layout/testimonials_item.xml" value="0.45" />
       </map>
     </option>

@@ -66,7 +66,7 @@
                         android:id="@+id/coursePrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="AUD 1.599"
+                        android:text="AED 1.599"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 

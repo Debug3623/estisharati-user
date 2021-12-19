@@ -24,7 +24,7 @@
     <string name="cancel">إلغاء</string>
     <string name="ok">حسنًا</string>
 <!--    <string name="aed">درهم إماراتي</string>-->
-    <string name="usd">دولار</string>
+    <string name="usd">درهم إماراتي</string>
     <string name="ability_to_download_course_videos">تنزيل مقاطع فيديو الدورة التدريبية</string>
     <string name="you_can_not_download_course_videos">لا تستطيع تنزيل مقاطع فيديو الدورة التدريبية</string>
     <string name="buy_now">اشتري الآن</string>

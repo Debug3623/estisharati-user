@@ -31,7 +31,7 @@
 
     <string name="cancel">CANCEL</string>
     <string name="ok">OK</string>
-    <string name="usd">USD</string>
+    <string name="usd">AED</string>
     <!--    <string name="aed">AED</string>-->
     <string name="ability_to_download_course_videos">ability to download course videos</string>
     <string name="you_can_not_download_course_videos">You can not download course videos</string>
