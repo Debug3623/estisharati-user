@@ -277,11 +277,13 @@
     <string name="there_are_only">"There are only "</string>
     <string name="minutes_left_for_the_conversation_to_end">minutes left for the conversation to end</string>
     <string name="all_users">All Users</string>
-    <string name="blog">Blog</string>
+    <string name="blog">Estisharati Magazine</string>
+<!--    <string name="blog">Blog</string>-->
     <string name="please_wait_while_fetching_blog_post">Please wait while fetching blog post...</string>
     <string name="there_is_no_blog_post_available">There is no blog post available !</string>
     <string name="blog_details">Blog Details</string>
-    <string name="survey">Survey</string>
+    <string name="survey">Personality tests</string>
+<!--    <string name="survey">Survey</string>-->
     <string name="start_survey">Start Survey</string>
     <string name="please_choose_any_option">Please choose any option !</string>
     <string name="there_is_no_survey_till_now">There is no survey till now !</string>
@@ -340,7 +342,8 @@
     <string name="create_post">Create Post</string>
     <string name="type_here">Type here</string>
     <string name="publish">Puplish</string>
-    <string name="posts">Posts</string>
+    <string name="posts">consult me</string>
+<!--    <string name="posts">Posts</string>-->
     <string name="please_feel_free_to_leave_your_posts">Please feel free to share your post</string>
     <string name="newest">Newest</string>
     <string name="oldest">Oldest</string>

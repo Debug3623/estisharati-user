@@ -270,11 +270,13 @@
     <string name="there_are_only">" يوجد فقط"</string>
     <string name="minutes_left_for_the_conversation_to_end">دقائق متبقية حتى تنتهي المحادثة</string>
     <string name="all_users">جميع المستخدمين</string>
-    <string name="blog">المدونة</string>
+    <string name="blog">مجلة استشاراتي</string>
+<!--    <string name="blog">المدونة</string>-->
     <string name="please_wait_while_fetching_blog_post">الرجاء الانتظار أثناء تحميل منشور المدونة ...</string>
     <string name="there_is_no_blog_post_available">لا يوجد منشور مدونة متاح!</string>
     <string name="blog_details">تفاصيل المدونة</string>
-    <string name="survey">إستبيان</string>
+    <string name="survey">اختبارات شخصية</string>
+<!--    <string name="survey">إستبيان</string>-->
     <string name="start_survey">إبدأ الاستبيان</string>
     <string name="please_choose_any_option">الرجاء تحديد أي خيار!</string>
     <string name="there_is_no_survey_till_now">لا يوجد إستبيان حتى الآن!</string>
@@ -333,7 +335,8 @@
     <string name="create_post">إنشاء منشور</string>
     <string name="type_here">أكتب هنا</string>
     <string name="publish">انشر</string>
-    <string name="posts">منشورات</string>
+    <string name="posts">استشرني</string>
+<!--    <string name="posts">منشورات</string>-->
     <string name="please_feel_free_to_leave_your_posts">من فضلك شارك منشورك بكل أريحية</string>
 
     <string name="newest">الأحدث</string>
