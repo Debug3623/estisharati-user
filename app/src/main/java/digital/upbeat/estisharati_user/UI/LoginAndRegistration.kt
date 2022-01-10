@@ -403,8 +403,10 @@ class LoginAndRegistration : BaseCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_SIGN_IN) {
-            val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
-            handleSignInResult(result!!)
+            data?.let {
+                val result = Auth.GoogleSignInApi.getSignInResultFromIntent(it)
+                handleSignInResult(result!!)
+            }
         }
     }
 

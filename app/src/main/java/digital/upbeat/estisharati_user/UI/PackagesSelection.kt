@@ -179,7 +179,7 @@ class PackagesSelection : BaseCompatActivity() {
         TransactionAmount -= referralAmount
         totelDiscountAmount += GlobalData.packagesOptions.discount.toDouble()
         totelDiscountAmount += referralAmount
-        val vatAmount = TransactionAmount * 0.05
+        val vatAmount = TransactionAmount * 0.00
         TransactionAmount += vatAmount
 
         GlobalData.packagesOptions.transaction_amount = helperMethods.convetDecimalFormat(TransactionAmount)
