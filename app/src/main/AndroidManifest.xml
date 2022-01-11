@@ -32,7 +32,8 @@
         <activity android:name=".UI.SurveyList" />
         <activity
             android:name=".UI.SplashTemp"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:exported="false">
             <intent-filter>
                 <action android:name="OPEN_ACTIVITY" />
 
@@ -177,6 +178,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".UI.SplashScreen"
+            android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
