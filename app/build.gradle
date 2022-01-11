@@ -3,22 +3,22 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 31
+    buildToolsVersion "30.0.2"
 
     defaultConfig {
         applicationId "digital.upbeat.estisharati_consultant"
-        minSdkVersion 17
-        targetSdkVersion 30
-        versionCode 4
-        versionName "1.4"
+        minSdkVersion 21
+        targetSdkVersion 31
+        versionCode 5
+        versionName "1.5"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
         release {
-            storeFile file("C:\\Users\\Lenovo\\Desktop\\Azar\\work_space\\Estisharati\\EstisharatiConsultant\\EstisharatiConsultantKey\\keyStore.jks")
+            storeFile file("../EstisharatiConsultantKey/keyStore.jks")
             storePassword "estisharatiConsultant@upbeat"
             keyAlias "estisharatiConsultant"
             keyPassword "estisharatiConsultant@upbeat"
@@ -49,8 +49,13 @@ android {
 // bytecode that is being built with JVM target 1.6. (e.g. navArgs)
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    bundle {
+        language {
+            enableSplit = false
+        }
     }
 }
 
@@ -59,8 +64,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     //Androidx Support
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+    implementation 'androidx.appcompat:appcompat:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
@@ -72,11 +77,11 @@ dependencies {
 
     //Google json
     implementation 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
-    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.google.code.gson:gson:2.8.8'
 
     //Kotlin Plugin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.6.0'
+    implementation 'androidx.core:core-ktx:1.7.0'
 
     //Image Loader
     implementation 'com.github.bumptech.glide:glide:4.12.0'
@@ -86,9 +91,9 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
     //Firebase
-    implementation 'com.google.firebase:firebase-analytics-ktx:19.0.0'
-    implementation 'com.google.firebase:firebase-messaging:22.0.0'
-    implementation 'com.google.firebase:firebase-firestore-ktx:23.0.3'
+    implementation 'com.google.firebase:firebase-analytics-ktx:20.0.2'
+    implementation 'com.google.firebase:firebase-messaging:23.0.0'
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.0.0'
     implementation 'com.google.firebase:firebase-auth:21.0.1'
 
     // Country Picker
