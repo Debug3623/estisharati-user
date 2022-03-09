@@ -12,8 +12,7 @@ import com.bumptech.glide.Glide
 import digital.upbeat.estisharati_user.DataClassHelper.Home.Slider
 import digital.upbeat.estisharati_user.Fragment.Home
 import digital.upbeat.estisharati_user.R
-import digital.upbeat.estisharati_user.UI.ConsultantDetails
-import digital.upbeat.estisharati_user.UI.CourseDetails
+import digital.upbeat.estisharati_user.UI.*
 import kotlinx.android.synthetic.main.home_slider_item.view.*
 import kotlin.collections.ArrayList
 
@@ -53,6 +52,26 @@ class HomePagerAdapter(var context: Context, val home: Home, val sliderArrayList
                     intent.putExtra("consultant_id", sliderArrayList.get(position).consultant_id)
                     intent.putExtra("category_id", "")
                     context.startActivity(intent)
+                }
+                "package" -> {
+                    val intent = Intent(context, Packages::class.java)
+                    intent.putExtra("package_id", sliderArrayList.get(position).package_id)
+                    intent.putExtra("viaFrom", "Home")
+                    context.startActivity(intent)
+                }
+                "ask_for_your_advice_here" -> {
+                    val intent = Intent(context, LegalAdvice::class.java)
+                    intent.putExtra("category_id", "")
+                    intent.putExtra("category_name", "")
+                    context.startActivity(intent)
+                }
+                "our_courses" -> {
+                    val intent = Intent(context, Packages::class.java)
+                    intent.putExtra("viaFrom", "Home")
+                    context.startActivity(intent)
+                }
+                "analyze_your_personality" -> {
+                    context.startActivity(Intent(context, SurveyList::class.java))
                 }
                 "show_only" -> {
                 }

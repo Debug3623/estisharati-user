@@ -69,8 +69,7 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
         }
     }
     var onlineUserArraylist = arrayListOf<DataUserFireStore>()
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? { // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
@@ -78,7 +77,7 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initViews()
         clickEvents()
-        if (GlobalData.homeResponseMain!=null) {
+        if (GlobalData.homeResponseMain != null) {
             ShowViewPager()
             firestoreLisiner()
             InitializeRecyclerview()
@@ -89,14 +88,13 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
                 helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
             }
         }
-        Log.e("access_token",preferencesHelper.logInUser.access_token)
-
+        Log.e("access_token", preferencesHelper.logInUser.access_token)
     }
 
     fun initViews() {
         helperMethods = HelperMethods(requireContext())
         preferencesHelper = SharedPreferencesHelper(requireContext())
-        Log.d("BaseUrl1",GlobalData.BaseUrl)
+        Log.d("BaseUrl1", GlobalData.BaseUrl)
 
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
         firestore = FirebaseFirestore.getInstance()
@@ -107,6 +105,12 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
             intent.putExtra("courseId", GlobalData.courseId)
             startActivity(intent)
             GlobalData.courseId = ""
+        }
+        if (!GlobalData.surveyId.equals("")) {
+            val intent = Intent(context, Survey::class.java)
+            intent.putExtra("survey_id", GlobalData.surveyId)
+            startActivity(intent)
+            GlobalData.surveyId = ""
         }
     }
 
@@ -145,14 +149,13 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
     }
 
     override fun onStart() {
-
-        if(GlobalData.testimonialsResponse==null){
+        if (GlobalData.testimonialsResponse == null) {
             if (helperMethods.isConnectingToInternet) {
                 experiencApiCall()
             } else {
                 helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
             }
-        }else{
+        } else {
             initializeTestimonialsRecyclerview()
         }
         super.onStart()
@@ -177,29 +180,26 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
 
     fun InitializeRecyclerview() {
         requireActivity().notificationCount.text = GlobalData.homeResponse.notification_count
-        sideNavBackgroundColorBasedOnPackage()
-
-//        val splitCount = GlobalData.homeResponse.categories.size / 2
-//        var categoriesArrayList1: ArrayList<Category> = arrayListOf()
-//        var categoriesArrayList2: ArrayList<Category> = arrayListOf()
-//
-//        if (GlobalData.homeResponse.categories.size > 1) {
-//            categoriesArrayList1 = ArrayList<Category>(GlobalData.homeResponse.categories.subList(0, splitCount))
-//            categoriesArrayList2 = ArrayList<Category>(GlobalData.homeResponse.categories.subList(splitCount, GlobalData.homeResponse.categories.size))
-//        } else {
-//            categoriesArrayList1 = GlobalData.homeResponse.categories
-//        }
-//
-//        exp_consultations_recycler.setHasFixedSize(true)
-//        exp_consultations_recycler.removeAllViews()
-//        exp_consultations_recycler.layoutManager = GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false)
-//        exp_consultations_recycler.adapter = ExpConsultationsAdapter(requireContext(), this, categoriesArrayList1)
-//
-//        exp_consultations_recycler1.setHasFixedSize(true)
-//        exp_consultations_recycler1.removeAllViews()
-//        exp_consultations_recycler1.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-//        exp_consultations_recycler1.adapter = ExpConsultationsAdapter(requireContext(), this, categoriesArrayList2)
-
+        sideNavBackgroundColorBasedOnPackage() //        val splitCount = GlobalData.homeResponse.categories.size / 2
+        //        var categoriesArrayList1: ArrayList<Category> = arrayListOf()
+        //        var categoriesArrayList2: ArrayList<Category> = arrayListOf()
+        //
+        //        if (GlobalData.homeResponse.categories.size > 1) {
+        //            categoriesArrayList1 = ArrayList<Category>(GlobalData.homeResponse.categories.subList(0, splitCount))
+        //            categoriesArrayList2 = ArrayList<Category>(GlobalData.homeResponse.categories.subList(splitCount, GlobalData.homeResponse.categories.size))
+        //        } else {
+        //            categoriesArrayList1 = GlobalData.homeResponse.categories
+        //        }
+        //
+        //        exp_consultations_recycler.setHasFixedSize(true)
+        //        exp_consultations_recycler.removeAllViews()
+        //        exp_consultations_recycler.layoutManager = GridLayoutManager(requireContext(), 1, GridLayoutManager.HORIZONTAL, false)
+        //        exp_consultations_recycler.adapter = ExpConsultationsAdapter(requireContext(), this, categoriesArrayList1)
+        //
+        //        exp_consultations_recycler1.setHasFixedSize(true)
+        //        exp_consultations_recycler1.removeAllViews()
+        //        exp_consultations_recycler1.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        //        exp_consultations_recycler1.adapter = ExpConsultationsAdapter(requireContext(), this, categoriesArrayList2)
         exp_courses_recycler.setHasFixedSize(true)
         exp_courses_recycler.removeAllViews()
         exp_courses_recycler.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -236,7 +236,7 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
                             if (status.equals("200")) {
                                 val data = jsonObject.getString("data")
                                 GlobalData.homeResponse = Gson().fromJson(data, HomeResponse::class.java)
-                                GlobalData.homeResponseMain=GlobalData.homeResponse
+                                GlobalData.homeResponseMain = GlobalData.homeResponse
                                 ShowViewPager()
                                 InitializeRecyclerview()
                                 firestoreLisiner()
@@ -276,27 +276,24 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
         for (consultant in GlobalData.homeResponse.consultants) {
             consultantIdArrayList.add(consultant.id)
         }
-        Log.d("consultantIdArrayList", consultantIdArrayList.toString())
-//        if (GlobalData.homeResponse.consultants.size > 0) {
-            //            .whereIn("user_id", consultantIdArrayList)
-            onlineUserListener = firestore.collection("Users").orderBy("fname", Query.Direction.ASCENDING).addSnapshotListener { querySnapshot, firebaseFirestoreException ->
-                querySnapshot?.let {
-                    onlineUserArraylist = arrayListOf<DataUserFireStore>()
-                    for (data in querySnapshot) {
-                        val dataUserFireStore = data.toObject(DataUserFireStore::class.java)
-                        if (!dataUserFireStore.user_id.equals(dataUser.id) && dataUserFireStore.online_status) {
-                            if (dataUserFireStore.user_type.equals("user") || helperMethods.findConsultantId(dataUserFireStore.user_id)) {
-                                onlineUserArraylist.add(dataUserFireStore)
-                            }
+        Log.d("consultantIdArrayList", consultantIdArrayList.toString()) //        if (GlobalData.homeResponse.consultants.size > 0) {
+        //            .whereIn("user_id", consultantIdArrayList)
+        onlineUserListener = firestore.collection("Users").orderBy("fname", Query.Direction.ASCENDING).addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+            querySnapshot?.let {
+                onlineUserArraylist = arrayListOf<DataUserFireStore>()
+                for (data in querySnapshot) {
+                    val dataUserFireStore = data.toObject(DataUserFireStore::class.java)
+                    if (!dataUserFireStore.user_id.equals(dataUser.id) && dataUserFireStore.online_status) {
+                        if (dataUserFireStore.user_type.equals("user") || helperMethods.findConsultantId(dataUserFireStore.user_id)) {
+                            onlineUserArraylist.add(dataUserFireStore)
                         }
                     }
-                    initializeOnlineUserRecyclerview()
                 }
+                initializeOnlineUserRecyclerview()
             }
-//        } else {
-//            initializeOnlineUserRecyclerview()
-//        }
-
+        } //        } else {
+        //            initializeOnlineUserRecyclerview()
+        //        }
         incomingCallListener = firestore.collection("Users").document(dataUser.id).addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
             documentSnapshot?.let {
                 dataUserFireStore = documentSnapshot.toObject(DataUserFireStore::class.java)!!
@@ -352,7 +349,6 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
                 testimonialsHorizRecycler.visibility = View.GONE
             }
         }
-
     }
 
     fun experiencApiCall() {

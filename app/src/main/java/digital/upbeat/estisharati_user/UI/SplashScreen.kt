@@ -38,14 +38,14 @@ class SplashScreen : BaseCompatActivity() {
         setContentView(R.layout.activity_splash_screen)
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener {
-       try {
-           if (it.isComplete) {
-               GlobalData.FcmToken = it.result.toString()
-               Log.e("FirebaseInstanceId", GlobalData.FcmToken)
-           }
-       } catch (e: Exception) {
-           e.printStackTrace()
-       }
+            try {
+                if (it.isComplete) {
+                    GlobalData.FcmToken = it.result.toString()
+                    Log.e("FirebaseInstanceId", GlobalData.FcmToken)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
         checkUpdateAvailable()
     }
@@ -53,17 +53,9 @@ class SplashScreen : BaseCompatActivity() {
     private fun checkUpdateAvailable() {
         appUpdateManager = AppUpdateManagerFactory.create(this@SplashScreen)
         appUpdateManager!!.appUpdateInfo.addOnSuccessListener(OnSuccessListener { appUpdateInfo: AppUpdateInfo ->
-            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(
-                    AppUpdateType.IMMEDIATE
-                )
-            ) {
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
                 try {
-                    appUpdateManager!!.startUpdateFlowForResult(
-                        appUpdateInfo,
-                        AppUpdateType.IMMEDIATE,
-                        this@SplashScreen,
-                        UPDATE_REQUEST
-                    )
+                    appUpdateManager!!.startUpdateFlowForResult(appUpdateInfo, AppUpdateType.IMMEDIATE, this@SplashScreen, UPDATE_REQUEST)
                 } catch (e: SendIntentException) {
                     e.printStackTrace()
                     launchPage()
@@ -135,8 +127,7 @@ class SplashScreen : BaseCompatActivity() {
     }
 
     fun handleDynamicLink() {
-        Firebase.dynamicLinks.getDynamicLink(intent).addOnSuccessListener(this) { pendingDynamicLinkData ->
-            // Get deep link from result (may be null if no link is found)
+        Firebase.dynamicLinks.getDynamicLink(intent).addOnSuccessListener(this) { pendingDynamicLinkData -> // Get deep link from result (may be null if no link is found)
             if (pendingDynamicLinkData != null) {
                 pendingDynamicLinkData.link?.let {
                     pendingDynamicLinkData.link?.getQueryParameter("referral_code")?.let {
@@ -145,6 +136,10 @@ class SplashScreen : BaseCompatActivity() {
                     }
                     pendingDynamicLinkData.link?.getQueryParameter("courseId")?.let {
                         GlobalData.courseId = it
+                        Log.d("dynamicLinks", it)
+                    }
+                    pendingDynamicLinkData.link?.getQueryParameter("surveyId")?.let {
+                        GlobalData.surveyId = it
                         Log.d("dynamicLinks", it)
                     }
                 }
@@ -164,12 +159,10 @@ class SplashScreen : BaseCompatActivity() {
     }
 
     fun checkInternetConnection(errorMsg: String) {
-        if (helperMethods.isConnectingToInternet) {
-            //            if (preferencesHelper.isUserLogIn) {
+        if (helperMethods.isConnectingToInternet) { //            if (preferencesHelper.isUserLogIn) {
             //                SendDeviceTokenHelper(this@SplashScreen, this@SplashScreen, true).SendDeviceTokenFirebase()
             //            } else {
-            checkSelfPermission()
-            //            }
+            checkSelfPermission() //            }
         } else {
             helperMethods.showAlertDialog(this@SplashScreen, object : alertActionClickListner {
                 override fun onActionOk() {

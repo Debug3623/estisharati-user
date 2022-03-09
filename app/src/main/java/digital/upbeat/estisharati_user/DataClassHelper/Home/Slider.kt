@@ -9,5 +9,6 @@ data class Slider(
     val url: String,
     val type: String,
     val course_id: String,
+    val package_id: String,
     val consultant_id: String
 )

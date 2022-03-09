@@ -2,6 +2,7 @@ package digital.upbeat.estisharati_user.UI
 
 import android.content.Intent
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -13,6 +14,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.google.firebase.dynamiclinks.ktx.androidParameters
+import com.google.firebase.dynamiclinks.ktx.dynamicLinks
+import com.google.firebase.dynamiclinks.ktx.iosParameters
+import com.google.firebase.dynamiclinks.ktx.shortLinkAsync
+import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
@@ -41,6 +47,7 @@ class Survey : AppCompatActivity() {
     lateinit var surveysQuestionsResponse: SurveysQuestionsResponse
     var currentPosition = 0
     var survey_id = ""
+    var mInvitationSurveryUrl = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_survey)
@@ -59,6 +66,16 @@ class Survey : AppCompatActivity() {
         sharedPreferencesHelper = SharedPreferencesHelper(this@Survey)
         dataUser = sharedPreferencesHelper.logInUser
         survey_id = intent.getStringExtra("survey_id")!!
+        val invitationLink = "https://upbeat.digital/en?surveyId=$survey_id"
+        Firebase.dynamicLinks.shortLinkAsync {
+            link = Uri.parse(invitationLink)
+            domainUriPrefix = "https://estisharati.page.link"
+            androidParameters("digital.upbeat.estisharati_user") {}
+            iosParameters("com.upbeat.Estisharaty") {}
+        }.addOnSuccessListener { shortDynamicLink ->
+            mInvitationSurveryUrl = shortDynamicLink.shortLink.toString() + "?surveyId=$survey_id"
+            Log.d("mInvitationUrl", mInvitationSurveryUrl)
+        }
     }
 
     fun clickEvents() {
@@ -108,11 +125,17 @@ class Survey : AppCompatActivity() {
                 helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
             }
         }
-        goToHomePage.setOnClickListener {
+        goToHome.setOnClickListener {
             val intent = Intent(this@Survey, UserDrawer::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
             finish()
+        }
+        goToShare.setOnClickListener {
+            val sendIntent = Intent(Intent.ACTION_SEND)
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "I have done this \" ${surveysQuestionsResponse.data.title} \"  survey  form ${getString(R.string.app_name)} you can try by clicking the link \n" + mInvitationSurveryUrl)
+            sendIntent.setType("text/plain")
+            startActivity(sendIntent)
         }
     }
 
@@ -184,7 +207,7 @@ class Survey : AppCompatActivity() {
 
     fun surveysApiCall() {
         helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
-        val responseBodyCall = retrofitInterface.SURVEY_DETAILS_API_CALL("Bearer ${dataUser.access_token}",survey_id)
+        val responseBodyCall = retrofitInterface.SURVEY_DETAILS_API_CALL("Bearer ${dataUser.access_token}", survey_id)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()

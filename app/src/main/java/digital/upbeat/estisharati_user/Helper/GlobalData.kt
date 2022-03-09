@@ -18,6 +18,7 @@ object GlobalData {
     var forwardContent = ""
     var referralCode = ""
     var courseId = ""
+    var surveyId = ""
     lateinit var homeResponse: HomeResponse
      var homeResponseMain: HomeResponse?=null
     fun isThingInitialized() = ::homeResponse.isInitialized

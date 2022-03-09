@@ -73,6 +73,8 @@ class InviteApp : AppCompatActivity() {
             mInvitationUrl = shortDynamicLink.shortLink.toString()+"?referral_code=${referralResponse.data.referral_code}"
             Log.d("mInvitationUrl",mInvitationUrl)
         }
+
+
         referralCode.setOnClickListener {
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip = ClipData.newPlainText("label", referralResponse.data.referral_code)

@@ -209,7 +209,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="100dp"
@@ -304,21 +304,40 @@
 
                     </ScrollView>
 
-                    <Button
-                        android:id="@+id/goToHomePage"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
-                        android:layout_margin="20dp"
-                        android:background="@drawable/corner_redius_5dp_light_green"
-                        android:elevation="3dp"
-                        android:fontFamily="@font/almarai_bold"
-                        android:gravity="center"
-                        android:padding="15dp"
-                        android:text="@string/go_to_home_page"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="16sp" />
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/goToShare"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:background="@drawable/corner_redius_5dp_light_green"
+                            android:elevation="3dp"
+                            android:fontFamily="@font/almarai_bold"
+                            android:gravity="center"
+                            android:padding="15dp"
+                            android:text="@string/share"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:gravity="center"
+                            android:id="@+id/goToHome"
+                            android:padding="10dp"
+                            android:text="@string/go_to_home_page"
+                            android:textColor="@color/black"
+                            android:textSize="13sp" />
+                    </LinearLayout>
 
                 </RelativeLayout>
             </LinearLayout>

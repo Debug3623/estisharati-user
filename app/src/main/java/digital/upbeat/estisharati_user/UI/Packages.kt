@@ -34,6 +34,7 @@ class Packages : BaseCompatActivity() {
     lateinit var sharedPreferencesHelper: SharedPreferencesHelper
     lateinit var packagesResponse: PackagesResponse
     var viaFrom = ""
+    var packageId = ""
     val layoutManager = CarouselLayoutManager(CarouselLayoutManager.VERTICAL, false)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +47,9 @@ class Packages : BaseCompatActivity() {
             helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
         }
         viaFrom = intent.getStringExtra("viaFrom").toString()
+        intent.getStringExtra("package_id")?.let {
+            packageId = it
+        }
     }
 
     fun initViews() {
@@ -58,8 +62,7 @@ class Packages : BaseCompatActivity() {
     fun clickEvents() {
         nav_back.setOnClickListener { finish() }
         choose_the_package.setOnClickListener {
-            val packages = packagesResponse.data.get(layoutManager.centerItemPosition)
-            //            val vatAmount = packages.price.toDouble() * 0.05
+            val packages = packagesResponse.data.get(layoutManager.centerItemPosition) //            val vatAmount = packages.price.toDouble() * 0.05
             //            val priceIncludedVat = vatAmount + packages.price.toDouble()
             val price = if (packages.offerprice.equals("0")) packages.price else packages.offerprice
 
@@ -80,7 +83,7 @@ class Packages : BaseCompatActivity() {
         package_recycler.setHasFixedSize(true)
         package_recycler.removeAllViews()
         package_recycler.layoutManager = layoutManager
-        package_recycler.adapter = PackageAdapter(this@Packages, this@Packages, null,null, packagesResponse.data, arrayListOf())
+        package_recycler.adapter = PackageAdapter(this@Packages, this@Packages, null, null, packagesResponse.data, arrayListOf())
         if (packagesResponse.data.size > 0) {
             emptyLayout.visibility = View.GONE
             package_recycler.visibility = View.VISIBLE
@@ -90,6 +93,13 @@ class Packages : BaseCompatActivity() {
             emptyLayout.visibility = View.VISIBLE
             package_recycler.visibility = View.GONE
             choose_the_package.visibility = View.GONE
+        }
+        if (packageId.isNotEmpty()) {
+            for (packageIndex in packagesResponse.data.indices) {
+                if (packagesResponse.data[packageIndex].id == packageId) {
+                    package_recycler.scrollToPosition(packageIndex)
+                }
+            }
         }
     }
 
