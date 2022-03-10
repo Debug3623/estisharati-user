@@ -253,11 +253,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/share_your_testimonial"
-                android:textColor="@color/white"
                 android:layout_centerVertical="true"
                 android:fontFamily="@font/almarai_bold"
-                android:textSize="18sp" />
+                android:text="@string/share_your_testimonial"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
             <TextView
                 android:id="@+id/postTestimonials"
                 android:layout_width="wrap_content"

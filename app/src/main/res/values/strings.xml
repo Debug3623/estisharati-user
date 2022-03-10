@@ -132,7 +132,6 @@
     <string name="we_have_consultants_in_all_fields_we_are_here_to_help_you_start_now">We have consultants in all fields We are here to help you ... start now</string>
     <string name="there_is_no_online_courses_found">There is no online courses found !</string>
     <string name="there_is_no_packages_available">There is no packages available !</string>
-    <string name="vat_5">(VAT 5%)</string>
     <string name="coupon_added_successfully">Coupon added successfully !</string>
     <string name="there_is_no_cources_or_consultaions_found">There is no cources or consultaions found !</string>
     <string name="no_internet_connection">No Internet Connection</string>
@@ -328,7 +327,6 @@
     <string name="company_name">Company Name: Estisharaticom</string>
     <string name="payment_">Payment</string>
     <string name="payment_failed">Payment Failed</string>
-    <string name="payment_success">Payment Success</string>
     <string name="Payment_generic_error">Payment Generic Error</string>
 
     <string name="app_update_start">App update start !</string>
@@ -341,8 +339,8 @@
     <string name="please_wait_while_send_code">Please wait while send code</string>
     <string name="create_post">Create Post</string>
     <string name="type_here">Type here</string>
-    <string name="publish">publish</string>
-    <string name="posts">consult me</string>
+    <string name="publish">Publish</string>
+    <string name="consult_me">Consult Me</string>
 <!--    <string name="posts">Posts</string>-->
     <string name="please_feel_free_to_leave_your_posts">Please feel free to share your post</string>
     <string name="newest">Newest</string>

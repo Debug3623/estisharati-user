@@ -64,6 +64,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern
 import kotlin.collections.ArrayList
+import android.app.PendingIntent
+
+
+
 
 
 class HelperMethods(val context: Context) {
@@ -352,7 +356,12 @@ class HelperMethods(val context: Context) {
 
         val num = System.currentTimeMillis().toInt()
         val CHANNEL_ID = "EstisharatiUser"
-        val pendingIntent = PendingIntent.getActivity(context, num, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingFlags: Int = if (Build.VERSION.SDK_INT >= 23) {
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        } else {
+            PendingIntent.FLAG_UPDATE_CURRENT
+        }
+        val pendingIntent = PendingIntent.getActivity(context, num, intent, pendingFlags)
         val notification = NotificationCompat.Builder(context, CHANNEL_ID).setTicker(context.getString(R.string.app_name)).setContentTitle(title).setContentText(text).setStyle(NotificationCompat.BigTextStyle().bigText(text)).setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)).setColor(ContextCompat.getColor(context, R.color.orange)).setSmallIcon(R.drawable.ic_logo).setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_logo)).setVibrate(longArrayOf(100, 100, 100, 100, 100)).setChannelId(CHANNEL_ID).setContentIntent(pendingIntent)
         bitmap?.let {
             notification.setStyle(NotificationCompat.BigPictureStyle().bigPicture(it))

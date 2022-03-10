@@ -122,7 +122,6 @@
     <string name="we_have_consultants_in_all_fields_we_are_here_to_help_you_start_now">لدينا استشاريين في كل المجالات، نحن هنا لمساعدتك… ابدأ الآن</string>
     <string name="there_is_no_online_courses_found">لا يوجد أي دورات تدريبية عبر الإنترنت</string>
     <string name="there_is_no_packages_available">لا توجد برامج متاحة !</string>
-    <string name="vat_5">ضريبة القيمة المضافة 5%</string>
     <string name="coupon_added_successfully">تم إضافة قسيمة الشراء بنجاح !</string>
     <string name="there_is_no_cources_or_consultaions_found">لم يتم العثور على دورات تدريبية أو استشارات !</string>
     <string name="no_internet_connection">لا يوجد اتصال بالإنترنت</string>
@@ -320,7 +319,6 @@
     <string name="company_address">عنوان الشركة: خليفه أ - شارع الابتكار - فيلا ١١</string>
     <string name="company_name">إسم الشركة: Estisharaticom</string>
     <string name="payment_failed">فشل الدفع</string>
-    <string name="payment_success">تم الدفع بنجاح</string>
     <string name="Payment_generic_error">خطأ عام في الدفع</string>
     <string name="payment_">الدفع</string>
     <string name="app_update_start">بدء تحديث التطبيق !</string>
@@ -335,7 +333,7 @@
     <string name="create_post">إنشاء منشور</string>
     <string name="type_here">أكتب هنا</string>
     <string name="publish">انشر</string>
-    <string name="posts">استشرني</string>
+    <string name="consult_me">استشرني</string>
 <!--    <string name="posts">منشورات</string>-->
     <string name="please_feel_free_to_leave_your_posts">من فضلك شارك منشورك بكل أريحية</string>
 

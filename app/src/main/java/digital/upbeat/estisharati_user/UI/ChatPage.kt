@@ -417,9 +417,6 @@ class ChatPage : BaseCompatActivity() {
                                     inside_reply.put("message_content", "")
                                     inside_reply.put("sender_id", "")
                                     inside_reply.put("position", "")
-                                    val data = data("New message", "${dataUser.fname} send image", "incoming_message", dataUser.id, dataUserFireStore.user_id, "", image_path)
-                                    val dataFcmBody = DataFcmBody("", data)
-                                    sendPushNotification(dataFcmBody, false)
                                     UpdateConsultationSecondsApiCall(it.id, dataUserFireStore.user_id, "1", "", image_path)
                                 }.addOnFailureListener {
                                     Log.d("FailureListener", "" + it.localizedMessage)
@@ -489,16 +486,11 @@ class ChatPage : BaseCompatActivity() {
                                             inside_reply.put("position", "")
                                             var itsMessage = ""
                                             var itsImageUrl = ""
-                                            var messageBody: data? = null
                                             if (forward_type.equals("image")) {
                                                 itsImageUrl = forward_content
-                                                messageBody = data("New message", "${dataUser.fname} send image", "incoming_message", dataUser.id, dataUserFireStore.user_id, "", itsImageUrl)
                                             } else if (forward_type.equals("text")) {
                                                 itsMessage = forward_content
-                                                messageBody = data("New message", "${dataUser.fname} send message : ${itsMessage}", "incoming_message", dataUser.id, dataUserFireStore.user_id, "", "")
                                             }
-                                            val dataFcmBody = DataFcmBody("", messageBody!!)
-                                            sendPushNotification(dataFcmBody, false)
                                             forward_content = ""
                                             UpdateConsultationSecondsApiCall(it.id, dataUserFireStore.user_id, "1", itsMessage, itsImageUrl)
                                         }.addOnFailureListener {
@@ -511,25 +503,28 @@ class ChatPage : BaseCompatActivity() {
                                     if (message_id != "") {
                                         firestore.collection("Chats").document(message_id).get().addOnSuccessListener {
                                             val messageFireStore = it.toObject(DataMessageFireStore::class.java)
-                                            helperMethods.showToastMessage(messageFireStore!!.message_status)
-                                            when (messageFireStore.message_status) {
-                                                "send" -> {
-                                                    var messageText = ""
-                                                    var messageImageURl = ""
-                                                    if (messageFireStore.message_type.equals("text")) {
-                                                        messageText = messageFireStore.message_content
-                                                    } else if (messageFireStore.message_type.equals("image")) {
-                                                        messageImageURl = messageFireStore.message_content
+                                            messageFireStore?.let {
+                                                when (messageFireStore.message_status) {
+                                                    "send" -> {
+                                                        var messageText = ""
+                                                        var messageImageURl = ""
+                                                        var dataMessage: data? = null
+                                                        if (messageFireStore.message_type.equals("text")) {
+                                                            messageText = messageFireStore.message_content
+                                                            dataMessage = data("New message", "${dataUser.fname} send message : ${messageText}", "incoming_message", dataUser.id, dataUserFireStore.user_id, "", "")
+                                                        } else if (messageFireStore.message_type.equals("image")) {
+                                                            messageImageURl = messageFireStore.message_content
+                                                            dataMessage = data("New message", "${dataUser.fname} send image ", "incoming_message", dataUser.id, dataUserFireStore.user_id, "", messageImageURl)
+                                                        }
+                                                        val dataFcmBody = DataFcmBody("", dataMessage!!)
+                                                        sendPushNotification(dataFcmBody, false)
                                                     }
-                                                    val data = data("New message", "${dataUser.fname} send message : ${messageText}", "incoming_message", dataUser.id, dataUserFireStore.user_id, "", messageImageURl)
-                                                    val dataFcmBody = DataFcmBody("", data)
-                                                    sendPushNotification(dataFcmBody, false)
-                                                }
-                                                "delivered" -> {
-                                                }
-                                                "seened" -> {
-                                                }
-                                                else -> {
+                                                    "delivered" -> {
+                                                    }
+                                                    "seened" -> {
+                                                    }
+                                                    else -> {
+                                                    }
                                                 }
                                             }
                                         }
