@@ -29,9 +29,8 @@ class FCMService : FirebaseMessagingService() {
             it.tag?.let { tag_it -> tag = tag_it }
         }
 
-        if (tag != "incoming_message") {
             helperMethods.sendPushNotification(title, body, tag, image_url)
-        }
+
         //            if (tag == "incoming_voice_call" || tag == "incoming_video_call") {
         //                if (GlobalData.FcmToken.equals("")) {
         //                    if (preferencesHelper.isUserLogIn) {

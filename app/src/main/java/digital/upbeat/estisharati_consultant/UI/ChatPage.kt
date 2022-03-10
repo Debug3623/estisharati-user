@@ -91,10 +91,8 @@ class ChatPage : BaseCompatActivity() {
         preferencesHelper = SharedPreferencesHelper(this@ChatPage)
         dataUser = preferencesHelper.logInConsultant
         firestore = FirebaseFirestore.getInstance()
-        retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit()
-            .create(RetrofitInterface::class.java)
-        FcmPushretrofitInterface = RetrofitApiClient("https://fcm.googleapis.com/").getRetrofit()
-            .create(RetrofitInterface::class.java)
+        retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
+        FcmPushretrofitInterface = RetrofitApiClient("https://fcm.googleapis.com/").getRetrofit().create(RetrofitInterface::class.java)
         slide_right = AnimationUtils.loadAnimation(this@ChatPage, R.anim.slide_right)
         slide_left = AnimationUtils.loadAnimation(this@ChatPage, R.anim.slide_left)
         slide_top = AnimationUtils.loadAnimation(this@ChatPage, R.anim.slide_top)
@@ -123,7 +121,7 @@ class ChatPage : BaseCompatActivity() {
     }
 
     override fun onStart() {
-        updateUserSecondsApiCall("",userId, "0", "", "")
+        updateUserSecondsApiCall("", userId, "0", "", "")
         super.onStart()
     }
 
@@ -152,8 +150,7 @@ class ChatPage : BaseCompatActivity() {
         chat_recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                var position: Int =
-                    (chat_recycler.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                var position: Int = (chat_recycler.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
                 position++
                 Log.e("position", position.toString() + "          " + messagesArrayList.size)
                 if (newState === RecyclerView.SCROLL_STATE_DRAGGING) {
@@ -208,106 +205,67 @@ class ChatPage : BaseCompatActivity() {
             inside_reply_text.visibility = View.VISIBLE
             inside_reply_image_layout.visibility = View.GONE
         } else if (dataMessageFireStore.message_type.equals("image")) {
-            Glide.with(this@ChatPage).load(dataMessageFireStore.message_content)
-                .apply(helperMethods.requestOption).into(inside_reply_image)
+            Glide.with(this@ChatPage).load(dataMessageFireStore.message_content).apply(helperMethods.requestOption).into(inside_reply_image)
             inside_reply_image_layout.visibility = View.VISIBLE
             inside_reply_text.visibility = View.GONE
         }
     }
 
     fun firestoreLisiner() {
-        firestore.collection("Users").document(userId)
-            .addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
-                documentSnapshot?.let {
-                    dataUserFireStore = documentSnapshot.toObject(DataUserFireStore::class.java)!!
-                }
-
-                name.text = dataUserFireStore.fname + " " + dataUserFireStore.lname
-                if (dataUserFireStore.online_status) {
-                    online_status.text = getString(R.string.online)
-                } else {
-                    online_status.text =
-                        getString(R.string.last_seen) + " " + helperMethods.getFormattedDate(
-                            dataUserFireStore.last_seen
-                        )
-                }
+        firestore.collection("Users").document(userId).addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
+            documentSnapshot?.let {
+                dataUserFireStore = documentSnapshot.toObject(DataUserFireStore::class.java)!!
             }
-        firestoreRegistrar = firestore.collection("Chats").whereEqualTo("communication_id", IdArray)
-            .orderBy("send_time", Query.Direction.ASCENDING)
-            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
-                querySnapshot?.let {
-                    messagesArrayList.clear()
-                    for (data in it) {
-                        val messageFireStore = data.toObject(DataMessageFireStore::class.java)
-                        messageFireStore.message_id = data.id
-                        messagesArrayList.add(messageFireStore)
-                        if (messageFireStore.receiver_id.equals(dataUser.id)) {
-                            if (messageFireStore.message_status.equals("send") || messageFireStore.message_status.equals(
-                                    "delivered"
-                                )
-                            ) {
-                                val hashMap = hashMapOf<String, Any>("message_status" to "seened")
-                                firestore.collection("Chats").document(data.id).update(hashMap)
-                                    .addOnFailureListener {
-                                        Log.d("FailureListener", "" + it.localizedMessage)
-                                    }
+
+            name.text = dataUserFireStore.fname + " " + dataUserFireStore.lname
+            if (dataUserFireStore.online_status) {
+                online_status.text = getString(R.string.online)
+            } else {
+                online_status.text = getString(R.string.last_seen) + " " + helperMethods.getFormattedDate(dataUserFireStore.last_seen)
+            }
+        }
+        firestoreRegistrar = firestore.collection("Chats").whereEqualTo("communication_id", IdArray).orderBy("send_time", Query.Direction.ASCENDING).addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+            querySnapshot?.let {
+                messagesArrayList.clear()
+                for (data in it) {
+                    val messageFireStore = data.toObject(DataMessageFireStore::class.java)
+                    messageFireStore.message_id = data.id
+                    messagesArrayList.add(messageFireStore)
+                    if (messageFireStore.receiver_id.equals(dataUser.id)) {
+                        if (messageFireStore.message_status.equals("send") || messageFireStore.message_status.equals("delivered")) {
+                            val hashMap = hashMapOf<String, Any>("message_status" to "seened")
+                            firestore.collection("Chats").document(data.id).update(hashMap).addOnFailureListener {
+                                Log.d("FailureListener", "" + it.localizedMessage)
                             }
                         }
                     }
-                    InitializeRecyclerview()
                 }
+                InitializeRecyclerview()
             }
+        }
     }
 
     fun clickEvents() {
         nav_back.setOnClickListener { finish() }
         voice_call.setOnClickListener {
             if (audio_balance > 0) {
-                if (ContextCompat.checkSelfPermission(
-                        this@ChatPage,
-                        Manifest.permission.RECORD_AUDIO
-                    ) == PackageManager.PERMISSION_GRANTED
-                ) {
+                if (ContextCompat.checkSelfPermission(this@ChatPage, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
                     if (helperMethods.isConnectingToInternet) {
                         if (dataUserFireStore.availability) {
                             val channelUniqueId = UUID.randomUUID().toString()
-                            val callHashMap = hashMapOf<String, Any>(
-                                "channel_unique_id" to channelUniqueId,
-                                "caller_id" to dataUser.id,
-                                "receiver_id" to dataUserFireStore.user_id,
-                                "call_type" to "voice_call",
-                                "call_status" to "",
-                                "ringing_duration" to "60"
-                            )
+                            val callHashMap = hashMapOf<String, Any>("channel_unique_id" to channelUniqueId, "caller_id" to dataUser.id, "receiver_id" to dataUserFireStore.user_id, "call_type" to "voice_call", "call_status" to "", "ringing_duration" to "60")
                             helperMethods.setCallsDetailsToFirestore(channelUniqueId, callHashMap)
-                            val hashMap = hashMapOf<String, Any>(
-                                "channel_unique_id" to channelUniqueId,
-                                "availability" to false
-                            )
-                            helperMethods.updateUserDetailsToFirestore(
-                                dataUserFireStore.user_id,
-                                hashMap
-                            )
+                            val hashMap = hashMapOf<String, Any>("channel_unique_id" to channelUniqueId, "availability" to false)
+                            helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
                             helperMethods.updateUserDetailsToFirestore(dataUser.id, hashMap)
-                            val data = data(
-                                getString(R.string.incoming_call),
-                                "${getString(R.string.you_are_receiving_voice_call_from)} ${dataUser.fname} ${dataUser.lname}",
-                                "incoming_voice_call",
-                                dataUser.id,
-                                dataUserFireStore.user_id,
-                                channelUniqueId,
-                                ""
-                            )
+                            val data = data(getString(R.string.incoming_call), "${getString(R.string.you_are_receiving_voice_call_from)} ${dataUser.fname} ${dataUser.lname}", "incoming_voice_call", dataUser.id, dataUserFireStore.user_id, channelUniqueId, "")
                             val dataFcmBody = DataFcmBody("", data)
                             sendPushNotification(dataFcmBody, true)
                         } else {
                             helperMethods.showToastMessage(getString(R.string.the_person_you_are_calling_is_busy_please_try_again_later))
                         }
                     } else {
-                        helperMethods.AlertPopup(
-                            getString(R.string.internet_connection_failed),
-                            getString(R.string.please_check_your_internet_connection_and_try_again)
-                        )
+                        helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
                     }
                 } else {
                     helperMethods.selfPermission(this@ChatPage)
@@ -318,54 +276,23 @@ class ChatPage : BaseCompatActivity() {
         }
         video_call.setOnClickListener {
             if (video_balance > 0) {
-                if (ContextCompat.checkSelfPermission(
-                        this@ChatPage,
-                        Manifest.permission.RECORD_AUDIO
-                    ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-                        this@ChatPage,
-                        Manifest.permission.CAMERA
-                    ) == PackageManager.PERMISSION_GRANTED
-                ) {
+                if (ContextCompat.checkSelfPermission(this@ChatPage, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this@ChatPage, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                     if (helperMethods.isConnectingToInternet) {
                         if (dataUserFireStore.availability) {
                             val channelUniqueId = UUID.randomUUID().toString()
-                            val callHashMap = hashMapOf<String, Any>(
-                                "channel_unique_id" to channelUniqueId,
-                                "caller_id" to dataUser.id,
-                                "receiver_id" to dataUserFireStore.user_id,
-                                "call_type" to "video_call",
-                                "call_status" to "",
-                                "ringing_duration" to "60"
-                            )
+                            val callHashMap = hashMapOf<String, Any>("channel_unique_id" to channelUniqueId, "caller_id" to dataUser.id, "receiver_id" to dataUserFireStore.user_id, "call_type" to "video_call", "call_status" to "", "ringing_duration" to "60")
                             helperMethods.setCallsDetailsToFirestore(channelUniqueId, callHashMap)
-                            val hashMap = hashMapOf<String, Any>(
-                                "channel_unique_id" to channelUniqueId,
-                                "availability" to false
-                            )
-                            helperMethods.updateUserDetailsToFirestore(
-                                dataUserFireStore.user_id,
-                                hashMap
-                            )
+                            val hashMap = hashMapOf<String, Any>("channel_unique_id" to channelUniqueId, "availability" to false)
+                            helperMethods.updateUserDetailsToFirestore(dataUserFireStore.user_id, hashMap)
                             helperMethods.updateUserDetailsToFirestore(dataUser.id, hashMap)
-                            val data = data(
-                                getString(R.string.incoming_call),
-                                "${getString(R.string.you_are_receiving_video_call_from)} ${dataUser.fname} ${dataUser.lname}",
-                                "incoming_video_call",
-                                dataUser.id,
-                                dataUserFireStore.user_id,
-                                channelUniqueId,
-                                ""
-                            )
+                            val data = data(getString(R.string.incoming_call), "${getString(R.string.you_are_receiving_video_call_from)} ${dataUser.fname} ${dataUser.lname}", "incoming_video_call", dataUser.id, dataUserFireStore.user_id, channelUniqueId, "")
                             val dataFcmBody = DataFcmBody("", data)
                             sendPushNotification(dataFcmBody, true)
                         } else {
                             helperMethods.showToastMessage(getString(R.string.the_person_you_are_calling_is_busy_please_try_again_later))
                         }
                     } else {
-                        helperMethods.AlertPopup(
-                            getString(R.string.internet_connection_failed),
-                            getString(R.string.please_check_your_internet_connection_and_try_again)
-                        )
+                        helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
                     }
                 } else {
                     helperMethods.selfPermission(this@ChatPage)
@@ -384,17 +311,7 @@ class ChatPage : BaseCompatActivity() {
         send_msg.setOnClickListener {
             if (sendMessageValidation()) {
                 if (chat_balance > 0) {
-                    val hashMap = hashMapOf<String, Any>(
-                        "sender_id" to dataUser.id,
-                        "receiver_id" to dataUserFireStore.user_id,
-                        "message_type" to "text",
-                        "message_content" to message.toText(),
-                        "message_status" to "send",
-                        "message_other_type" to "normal",
-                        "send_time" to FieldValue.serverTimestamp(),
-                        "communication_id" to IdArray,
-                        "inside_reply" to inside_reply
-                    )
+                    val hashMap = hashMapOf<String, Any>("sender_id" to dataUser.id, "receiver_id" to dataUserFireStore.user_id, "message_type" to "text", "message_content" to message.toText(), "message_status" to "send", "message_other_type" to "normal", "send_time" to FieldValue.serverTimestamp(), "communication_id" to IdArray, "inside_reply" to inside_reply)
                     firestore.collection("Chats").add(hashMap).addOnSuccessListener {
                         inside_reply_layout.visibility = View.GONE
                         inside_reply.put("message_id", "")
@@ -429,10 +346,7 @@ class ChatPage : BaseCompatActivity() {
             return false
         }
         if (!helperMethods.isConnectingToInternet) {
-            helperMethods.AlertPopup(
-                getString(R.string.internet_connection_failed),
-                getString(R.string.please_check_your_internet_connection_and_try_again)
-            )
+            helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
             return false
         }
         return true
@@ -450,11 +364,7 @@ class ChatPage : BaseCompatActivity() {
                 val img_uri = data.data
                 val filePath = helperMethods.getFilePath(img_uri!!)
                 if (filePath == null) {
-                    Toast.makeText(
-                        this@ChatPage,
-                        getString(R.string.could_not_get_image),
-                        Toast.LENGTH_LONG
-                    ).show()
+                    Toast.makeText(this@ChatPage, getString(R.string.could_not_get_image), Toast.LENGTH_LONG).show()
                     return
                 }
                 getImageUrlForChatApiCall(filePath)
@@ -465,11 +375,7 @@ class ChatPage : BaseCompatActivity() {
                 val img_uri = helperMethods.getImageUriFromBitmap(yourSelectedImage)
                 val filePath = helperMethods.getFilePath(img_uri)
                 if (filePath == null) {
-                    Toast.makeText(
-                        this@ChatPage,
-                        getString(R.string.could_not_get_image),
-                        Toast.LENGTH_LONG
-                    ).show()
+                    Toast.makeText(this@ChatPage, getString(R.string.could_not_get_image), Toast.LENGTH_LONG).show()
                     return
                 }
                 getImageUrlForChatApiCall(filePath)
@@ -483,10 +389,7 @@ class ChatPage : BaseCompatActivity() {
         val image = MultipartBody.Part.createFormData("image", file.getName(), requestBody)
 
         helperMethods.showProgressDialog(getString(R.string.image_uploading))
-        val responseBodyCall = retrofitInterface.upload_chatting_image_API_CALL(
-            "Bearer ${dataUser.access_token}",
-            image
-        )
+        val responseBodyCall = retrofitInterface.upload_chatting_image_API_CALL("Bearer ${dataUser.access_token}", image)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()
@@ -501,17 +404,7 @@ class ChatPage : BaseCompatActivity() {
                                 val dataObject = JSONObject(dataString)
                                 val image_path = dataObject.getString("image_path")
                                 val image_thumb = dataObject.getString("image_thumb")
-                                val hashMap = hashMapOf<String, Any>(
-                                    "sender_id" to dataUser.id,
-                                    "receiver_id" to dataUserFireStore.user_id,
-                                    "message_type" to "image",
-                                    "message_content" to image_path,
-                                    "message_status" to "send",
-                                    "message_other_type" to "normal",
-                                    "send_time" to FieldValue.serverTimestamp(),
-                                    "communication_id" to IdArray,
-                                    "inside_reply" to inside_reply
-                                )
+                                val hashMap = hashMapOf<String, Any>("sender_id" to dataUser.id, "receiver_id" to dataUserFireStore.user_id, "message_type" to "image", "message_content" to image_path, "message_status" to "send", "message_other_type" to "normal", "send_time" to FieldValue.serverTimestamp(), "communication_id" to IdArray, "inside_reply" to inside_reply)
                                 firestore.collection("Chats").add(hashMap).addOnSuccessListener {
                                     inside_reply_layout.visibility = View.GONE
                                     inside_reply.put("message_id", "")
@@ -519,17 +412,6 @@ class ChatPage : BaseCompatActivity() {
                                     inside_reply.put("message_content", "")
                                     inside_reply.put("sender_id", "")
                                     inside_reply.put("position", "")
-                                    val data = data(
-                                        "New message",
-                                        "${dataUser.fname} send image",
-                                        "incoming_message",
-                                        dataUser.id,
-                                        dataUserFireStore.user_id,
-                                        "",
-                                        image_path
-                                    )
-                                    val dataFcmBody = DataFcmBody("", data)
-                                    sendPushNotification(dataFcmBody, false)
                                     updateUserSecondsApiCall(it.id, userId, "1", "", image_path)
 
                                 }.addOnFailureListener {
@@ -561,35 +443,15 @@ class ChatPage : BaseCompatActivity() {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
-                helperMethods.AlertPopup(
-                    getString(R.string.alert),
-                    getString(R.string.your_network_connection_is_slow_please_try_again)
-                )
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
     }
 
-    fun updateUserSecondsApiCall(
-        message_id: String, user_id: String, chat_count: String, message: String, imageUrl: String
-    ) {
-        //        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
-        val responseBodyCall =
-            if (chat_count.equals("1")) retrofitInterface.UPDATE_USER_SECONDS_API_CALL(
-                "Bearer ${dataUser.access_token}",
-                user_id,
-                "0",
-                "0",
-                chat_count,
-                user_id,
-                message,
-                imageUrl
-            ) else retrofitInterface.GET_USER_SECONDS_API_CALL(
-                "Bearer ${dataUser.access_token}",
-                user_id
-            )
+    fun updateUserSecondsApiCall(message_id: String, user_id: String, chat_count: String, message: String, imageUrl: String) { //        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
+        val responseBodyCall = if (chat_count.equals("1")) retrofitInterface.UPDATE_USER_SECONDS_API_CALL("Bearer ${dataUser.access_token}", user_id, "0", "0", chat_count, user_id, message, imageUrl) else retrofitInterface.GET_USER_SECONDS_API_CALL("Bearer ${dataUser.access_token}", user_id)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                //                helperMethods.dismissProgressDialog()
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) { //                helperMethods.dismissProgressDialog()
                 if (response.isSuccessful) {
                     if (response.body() != null) {
                         try {
@@ -604,92 +466,56 @@ class ChatPage : BaseCompatActivity() {
                                 chat_balance = dataObject.getInt("chat_balance")
                                 if (!forward_content.isEmpty()) {
                                     if (chat_balance > 0) {
-                                        val hashMap = hashMapOf<String, Any>(
-                                            "sender_id" to dataUser.id,
-                                            "receiver_id" to userId,
-                                            "message_type" to forward_type,
-                                            "message_content" to forward_content,
-                                            "message_status" to "send",
-                                            "message_other_type" to "forwarded",
-                                            "send_time" to FieldValue.serverTimestamp(),
-                                            "communication_id" to IdArray,
-                                            "inside_reply" to inside_reply
-                                        )
-                                        firestore.collection("Chats").add(hashMap)
-                                            .addOnSuccessListener {
-                                                // ********for empty inside reply message*********
-                                                inside_reply.put("message_id", "")
-                                                inside_reply.put("message_type", "")
-                                                inside_reply.put("message_content", "")
-                                                inside_reply.put("sender_id", "")
-                                                inside_reply.put("position", "")
-                                                var itsMessage = ""
-                                                var itsImageUrl = ""
-                                                var messageBody: data? = null
-                                                if (forward_type.equals("image")) {
-                                                    itsImageUrl = forward_content
-                                                    messageBody = data(
-                                                        "New message",
-                                                        "${dataUser.fname} send image",
-                                                        "incoming_message",
-                                                        dataUser.id,
-                                                        dataUserFireStore.user_id,
-                                                        "",
-                                                        itsImageUrl
-                                                    )
-                                                } else if (forward_type.equals("text")) {
-                                                    itsMessage = forward_content
-                                                    messageBody = data(
-                                                        "New message",
-                                                        "${dataUser.fname} send message : ${itsMessage}",
-                                                        "incoming_message",
-                                                        dataUser.id,
-                                                        dataUserFireStore.user_id,
-                                                        "",
-                                                        ""
-                                                    )
-                                                }
-                                                forward_content = ""
-                                                val dataFcmBody = DataFcmBody("", messageBody!!)
-                                                sendPushNotification(dataFcmBody, false)
-                                                updateUserSecondsApiCall(
-                                                    it.id,
-                                                    userId,
-                                                    "1",
-                                                    itsMessage,
-                                                    itsImageUrl
-                                                )
-
-
-                                            }.addOnFailureListener {
-                                                Log.d("FailureListener", "" + it.localizedMessage)
+                                        val hashMap = hashMapOf<String, Any>("sender_id" to dataUser.id, "receiver_id" to userId, "message_type" to forward_type, "message_content" to forward_content, "message_status" to "send", "message_other_type" to "forwarded", "send_time" to FieldValue.serverTimestamp(), "communication_id" to IdArray, "inside_reply" to inside_reply)
+                                        firestore.collection("Chats").add(hashMap).addOnSuccessListener { // ********for empty inside reply message*********
+                                            inside_reply.put("message_id", "")
+                                            inside_reply.put("message_type", "")
+                                            inside_reply.put("message_content", "")
+                                            inside_reply.put("sender_id", "")
+                                            inside_reply.put("position", "")
+                                            var itsMessage = ""
+                                            var itsImageUrl = ""
+                                            if (forward_type.equals("image")) {
+                                                itsImageUrl = forward_content
+                                            } else if (forward_type.equals("text")) {
+                                                itsMessage = forward_content
                                             }
+                                            forward_content = ""
+                                            updateUserSecondsApiCall(it.id, userId, "1", itsMessage, itsImageUrl)
+
+
+                                        }.addOnFailureListener {
+                                            Log.d("FailureListener", "" + it.localizedMessage)
+                                        }
                                     } else {
                                         helperMethods.showToastMessage(getString(R.string.you_dont_have_enough_balance_to_make_this_chat))
                                     }
-                                }else {
+                                } else {
                                     if (message_id != "") {
                                         firestore.collection("Chats").document(message_id).get().addOnSuccessListener {
                                             val messageFireStore = it.toObject(DataMessageFireStore::class.java)
-                                            helperMethods.showToastMessage(messageFireStore!!.message_status)
-                                            when (messageFireStore.message_status) {
-                                                "send" -> {
-                                                    var messageText = ""
-                                                    var messageImageURl = ""
-                                                    if (messageFireStore.message_type.equals("text")) {
-                                                        messageText = messageFireStore.message_content
-                                                    } else if (messageFireStore.message_type.equals("image")) {
-                                                        messageImageURl = messageFireStore.message_content
+                                            messageFireStore?.let {
+                                                when (messageFireStore.message_status) {
+                                                    "send" -> {
+                                                        var messageText = ""
+                                                        var messageImageURl = ""
+                                                        var dataMessage: data? = null
+                                                        if (messageFireStore.message_type.equals("text")) {
+                                                            messageText = messageFireStore.message_content
+                                                            dataMessage = data("New message", "${dataUser.fname} send message : ${messageText}", "incoming_message", dataUser.id, dataUserFireStore.user_id, "", "")
+                                                        } else if (messageFireStore.message_type.equals("image")) {
+                                                            messageImageURl = messageFireStore.message_content
+                                                            dataMessage = data("New message", "${dataUser.fname} send image ", "incoming_message", dataUser.id, dataUserFireStore.user_id, "", messageImageURl)
+                                                        }
+                                                        val dataFcmBody = DataFcmBody("", dataMessage!!)
+                                                        sendPushNotification(dataFcmBody, false)
                                                     }
-                                                    val data = data("New message", "${dataUser.fname} send message : ${messageText}", "incoming_message", dataUser.id, dataUserFireStore.user_id, "", messageImageURl)
-                                                    val dataFcmBody = DataFcmBody("", data)
-                                                    sendPushNotification(dataFcmBody, false)
-                                                }
-                                                "delivered" -> {
-                                                }
-                                                "seened" -> {
-                                                }
-                                                else -> {
+                                                    "delivered" -> {
+                                                    }
+                                                    "seened" -> {
+                                                    }
+                                                    else -> {
+                                                    }
                                                 }
                                             }
                                         }
@@ -718,13 +544,9 @@ class ChatPage : BaseCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                //                helperMethods.dismissProgressDialog()
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) { //                helperMethods.dismissProgressDialog()
                 t.printStackTrace()
-                helperMethods.AlertPopup(
-                    getString(R.string.alert),
-                    getString(R.string.your_network_connection_is_slow_please_try_again)
-                )
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
     }
@@ -734,13 +556,7 @@ class ChatPage : BaseCompatActivity() {
         if (showLoader) {
             helperMethods.showProgressDialog(getString(R.string.please_wait_while_preparing_to_call))
         }
-        val responseBodyCall = retrofitInterface.NOTIFY_API_CALL(
-            "Bearer ${dataUser.access_token}",
-            dataFcmBody.data.receiver_id,
-            dataFcmBody.data.title,
-            dataFcmBody.data.message,
-            body
-        )
+        val responseBodyCall = retrofitInterface.NOTIFY_API_CALL("Bearer ${dataUser.access_token}", dataFcmBody.data.receiver_id, dataFcmBody.data.title, dataFcmBody.data.message, body)
         responseBodyCall.enqueue(object : Callback<okhttp3.ResponseBody> {
             override fun onResponse(
                 call: Call<okhttp3.ResponseBody>,
