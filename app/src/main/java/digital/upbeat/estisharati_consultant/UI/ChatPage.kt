@@ -27,7 +27,6 @@ import com.google.gson.Gson
 import digital.upbeat.estisharati_consultant.Adapter.ChatAdapter
 import digital.upbeat.estisharati_consultant.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_consultant.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_consultant.DataClassHelper.*
 import digital.upbeat.estisharati_consultant.DataClassHelper.Chat.DataMessageFireStore
 import digital.upbeat.estisharati_consultant.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_consultant.DataClassHelper.RecentChat.DataUserFireStore
@@ -598,11 +597,11 @@ class ChatPage : BaseCompatActivity() {
                     helperMethods.showToastMessage(getString(R.string.something_went_wrong))
                     Log.d("body", "Not Successful")
                 }
-                if (dataFcmBody.data.type.equals("incoming_voice_call")) {
+                if (dataFcmBody.data.tag.equals("incoming_voice_call")) {
                     val intent = Intent(this@ChatPage, VoiceCall::class.java)
                     intent.putExtra("audio_balance", audio_balance)
                     startActivity(intent)
-                } else if (dataFcmBody.data.type.equals("incoming_video_call")) {
+                } else if (dataFcmBody.data.tag.equals("incoming_video_call")) {
                     val intent = Intent(this@ChatPage, VideoCall::class.java)
                     intent.putExtra("video_balance", video_balance)
                     startActivity(intent)
@@ -614,11 +613,11 @@ class ChatPage : BaseCompatActivity() {
                     helperMethods.dismissProgressDialog()
                 }
                 t.printStackTrace()
-                if (dataFcmBody.data.type.equals("incoming_voice_call")) {
+                if (dataFcmBody.data.tag.equals("incoming_voice_call")) {
                     val intent = Intent(this@ChatPage, VoiceCall::class.java)
                     intent.putExtra("audio_balance", audio_balance)
                     startActivity(intent)
-                } else if (dataFcmBody.data.type.equals("incoming_video_call")) {
+                } else if (dataFcmBody.data.tag.equals("incoming_video_call")) {
                     val intent = Intent(this@ChatPage, VideoCall::class.java)
                     intent.putExtra("video_balance", video_balance)
                     startActivity(intent)
