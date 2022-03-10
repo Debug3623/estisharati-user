@@ -66,12 +66,12 @@ class Survey : AppCompatActivity() {
         sharedPreferencesHelper = SharedPreferencesHelper(this@Survey)
         dataUser = sharedPreferencesHelper.logInUser
         survey_id = intent.getStringExtra("survey_id")!!
-        val invitationLink = "https://upbeat.digital/en?surveyId=$survey_id"
+        val invitationLink = "ple?surveyId=$survey_id"
         Firebase.dynamicLinks.shortLinkAsync {
             link = Uri.parse(invitationLink)
             domainUriPrefix = "https://estisharati.page.link"
             androidParameters("digital.upbeat.estisharati_user") {}
-            iosParameters("com.upbeat.Estisharaty") {}
+            iosParameters("com.Estisharaty") {}
         }.addOnSuccessListener { shortDynamicLink ->
             mInvitationSurveryUrl = shortDynamicLink.shortLink.toString() + "?surveyId=$survey_id"
             Log.d("mInvitationUrl", mInvitationSurveryUrl)

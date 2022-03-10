@@ -171,12 +171,12 @@ class CourseDetails : BaseCompatActivity() {
             previewCourseIcon.visibility = View.VISIBLE
             previewCourseLabel.visibility = View.VISIBLE
         }
-        val invitationLink = "https://upbeat.digital/en?courseId=${responseCoursesDetails.id}"
+        val invitationLink = "https://www.estisharati.com?courseId=${responseCoursesDetails.id}"
         Firebase.dynamicLinks.shortLinkAsync {
             link = Uri.parse(invitationLink)
             domainUriPrefix = "https://estisharati.page.link"
             androidParameters("digital.upbeat.estisharati_user") {}
-            iosParameters("com.upbeat.Estisharaty") {}
+            iosParameters("com.Estisharaty") {}
         }.addOnSuccessListener { shortDynamicLink ->
             courseInvitationUrl = shortDynamicLink.shortLink.toString() + "?courseId=${responseCoursesDetails.id}"
         }

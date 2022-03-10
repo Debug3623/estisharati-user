@@ -63,12 +63,12 @@ class InviteApp : AppCompatActivity() {
     fun setDetails() {
         discountPercentage.text = referralResponse.data.points + " %"
         referralCode.text = referralResponse.data.referral_code
-        val invitationLink = "https://upbeat.digital/en?referral_code=${referralResponse.data.referral_code}"
+        val invitationLink = "https://www.estisharati.com?referral_code=${referralResponse.data.referral_code}"
         Firebase.dynamicLinks.shortLinkAsync {
             link = Uri.parse(invitationLink)
             domainUriPrefix = "https://estisharati.page.link"
             androidParameters("digital.upbeat.estisharati_user") {}
-            iosParameters("com.upbeat.Estisharaty") {}
+            iosParameters("com.Estisharaty") {}
         }.addOnSuccessListener { shortDynamicLink ->
             mInvitationUrl = shortDynamicLink.shortLink.toString()+"?referral_code=${referralResponse.data.referral_code}"
             Log.d("mInvitationUrl",mInvitationUrl)
