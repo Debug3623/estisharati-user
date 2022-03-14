@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
@@ -15,6 +16,8 @@ import androidx.core.content.res.ResourcesCompat
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FieldValue
 import com.google.gson.Gson
+import com.hbisoft.pickit.PickiT
+import com.hbisoft.pickit.PickiTCallbacks
 import digital.upbeat.estisharati_consultant.DataClassHelper.CountryCity.DataCountry
 import digital.upbeat.estisharati_consultant.Helper.HelperMethods
 import digital.upbeat.estisharati_consultant.Helper.SharedPreferencesHelper
@@ -36,6 +39,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 import java.io.IOException
+import java.util.ArrayList
 
 class MyProfileUpdate : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
@@ -44,6 +48,7 @@ class MyProfileUpdate : BaseCompatActivity() {
     lateinit var dataUserObject: DataUser
     var countryArrayList = arrayListOf<DataCountry>()
     var uploadType = ""
+    lateinit var pickiT: PickiT
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_profile_update)
@@ -57,6 +62,45 @@ class MyProfileUpdate : BaseCompatActivity() {
         helperMethods = HelperMethods(this@MyProfileUpdate)
         preferencesHelper = SharedPreferencesHelper(this@MyProfileUpdate)
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
+        pickiT = PickiT(this, object : PickiTCallbacks {
+            override fun PickiTonUriReturned() {
+            }
+
+            override fun PickiTonStartListener() {
+            }
+
+            override fun PickiTonProgressUpdate(progress: Int) {
+            }
+
+            override fun PickiTonCompleteListener(filePath: String?, wasDriveFile: Boolean, wasUnknownProvider: Boolean, wasSuccessful: Boolean, Reason: String?) {
+                if (filePath == null && !wasSuccessful) {
+                    Toast.makeText(this@MyProfileUpdate, getString(R.string.could_not_get_image), Toast.LENGTH_LONG).show()
+                    return
+                }
+
+                filePath?.let {
+                    Log.d("path", filePath + "")
+                    if (uploadType.equals("profilePicture")) {
+                        profilePictureUpdateApiCall(filePath)
+                    } else if (uploadType.equals("qualification")) {
+                        documentUpdateApiCall(filePath)
+                    }
+                }
+            }
+
+            override fun PickiTonMultipleCompleteListener(paths: ArrayList<String>?, wasSuccessful: Boolean, Reason: String?) {
+            }
+        }, this)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        pickiT.deleteTemporaryFile(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        pickiT.deleteTemporaryFile(this)
     }
 
     fun setUserDetils() {
@@ -176,11 +220,10 @@ class MyProfileUpdate : BaseCompatActivity() {
         if (ud_phone.toText().equals("")) {
             helperMethods.showToastMessage(getString(R.string.enter_phone_number))
             return false
-        }
-        if (!helperMethods.isValidMobile(ud_phone_codePicker.selectedCountryCodeWithPlus + "" + ud_phone.toText())) {
-            helperMethods.showToastMessage(getString(R.string.enter_valid_phone_number))
-            return false
-        }
+        } //        if (!helperMethods.isValidMobile(ud_phone_codePicker.selectedCountryCodeWithPlus + "" + ud_phone.toText())) {
+        //            helperMethods.showToastMessage(getString(R.string.enter_valid_phone_number))
+        //            return false
+        //        }
         if (ud_email_address.toText().equals("")) {
             helperMethods.showToastMessage(getString(R.string.enter_email_address))
             return false
@@ -202,8 +245,7 @@ class MyProfileUpdate : BaseCompatActivity() {
     }
 
     fun requestQualification() {
-        uploadType = "qualification"
-        //        val intent = helperMethods.getCustomFileChooserIntent(GlobalData.PDF, GlobalData.DOC, GlobalData.DOCX, GlobalData.CSV)
+        uploadType = "qualification" //        val intent = helperMethods.getCustomFileChooserIntent(GlobalData.PDF, GlobalData.DOC, GlobalData.DOCX, GlobalData.CSV)
         val intent = Intent()
         intent.type = "application/*"
         intent.action = Intent.ACTION_GET_CONTENT
@@ -225,39 +267,22 @@ class MyProfileUpdate : BaseCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == GlobalData.PICK_IMAGE_GALLERY) {
             if (resultCode == Activity.RESULT_OK && data != null) {
-                val img_uri = data.data
-                val filePath = helperMethods.getFilePath(img_uri!!)
-                if (filePath == null) {
-                    Toast.makeText(this@MyProfileUpdate, getString(R.string.could_not_get_image), Toast.LENGTH_LONG).show()
-                    return
-                }
-                if (uploadType.equals("profilePicture")) {
-                    profilePictureUpdateApiCall(filePath)
-                } else if (uploadType.equals("qualification")) {
-                    documentUpdateApiCall(filePath)
-                }
+                pickiT.getPath(data.data, Build.VERSION.SDK_INT)
+
             }
         } else if (requestCode == GlobalData.PICK_IMAGE_CAMERA) {
             if (resultCode == Activity.RESULT_OK && data != null) {
                 val yourSelectedImage = data.extras!!.get("data") as Bitmap
                 val img_uri = helperMethods.getImageUriFromBitmap(yourSelectedImage)
-                val filePath = helperMethods.getFilePath(img_uri)
-                if (filePath == null) {
-                    Toast.makeText(this@MyProfileUpdate, getString(R.string.could_not_get_image), Toast.LENGTH_LONG).show()
-                    return
-                }
-                if (uploadType.equals("profilePicture")) {
-                    profilePictureUpdateApiCall(filePath)
-                } else if (uploadType.equals("qualification")) {
-                    documentUpdateApiCall(filePath)
-                }
+                pickiT.getPath(img_uri, Build.VERSION.SDK_INT)
+
             }
         }
     }
 
     fun profileUpdateApiCall(fNmae: String, lName: String, phone_str: String, phone_code_str: String, email_str: String, qualification_brief_str: String, countryID: String, cityID: String) {
         helperMethods.showProgressDialog(getString(R.string.profile_is_updating))
-        val responseBodyCall = retrofitInterface.PROFILE_UPDATE_API_CALL("Bearer ${dataUserObject.access_token}", fNmae, lName, phone_str, phone_code_str, email_str, qualification_brief_str, countryID, cityID)
+        val responseBodyCall = retrofitInterface.PROFILE_UPDATE_API_CALL("Bearer ${dataUserObject.access_token}", fNmae, lName, phone_str, phone_code_str, email_str, qualification_brief_str, countryID, cityID, "Consultant")
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()

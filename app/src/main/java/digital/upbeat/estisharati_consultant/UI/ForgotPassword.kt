@@ -238,10 +238,10 @@ class ForgotPassword : BaseCompatActivity() {
             helperMethods.showToastMessage(getString(R.string.enter_phone_number))
             return false
         }
-        if (!helperMethods.isValidMobile(codePicker.selectedCountryCodeWithPlus + "" + phone.toText())) {
-            helperMethods.showToastMessage(getString(R.string.enter_vaid_phone_number))
-            return false
-        }
+//        if (!helperMethods.isValidMobile(codePicker.selectedCountryCodeWithPlus + "" + phone.toText())) {
+//            helperMethods.showToastMessage(getString(R.string.enter_vaid_phone_number))
+//            return false
+//        }
 
         if (!helperMethods.isConnectingToInternet) {
             helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
@@ -278,7 +278,7 @@ class ForgotPassword : BaseCompatActivity() {
 
     fun forgotPasswordApiCall(phone: String) {
         helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
-        val responseBodyCall = retrofitInterface.RESET_PASSWORD_API_CALL(phone)
+        val responseBodyCall = retrofitInterface.RESET_PASSWORD_API_CALL(phone,"Consultant")
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()

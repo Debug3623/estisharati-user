@@ -19,7 +19,7 @@ interface RetrofitInterface {
     fun UPDATE_FCM_API_CALL(@Header("Authorization") token: String, @Field("fire_base_token") fire_base_token: String): Call<ResponseBody>
 
     @FormUrlEncoded @POST("user/profile/edit")
-    fun PROFILE_UPDATE_API_CALL(@Header("Authorization") token: String, @Field("fname") fname: String, @Field("lname") lname: String, @Field("phone") phone: String, @Field("phone_code") phone_code: String, @Field("email") email: String, @Field("qualification_brief") qualification_brief: String, @Field("country") country: String, @Field("city") city: String): Call<ResponseBody>
+    fun PROFILE_UPDATE_API_CALL(@Header("Authorization") token: String, @Field("fname") fname: String, @Field("lname") lname: String, @Field("phone") phone: String, @Field("phone_code") phone_code: String, @Field("email") email: String, @Field("qualification_brief") qualification_brief: String, @Field("country") country: String, @Field("city") city: String,@Field("user_type") user_type : String): Call<ResponseBody>
 
     @FormUrlEncoded @POST("notify")
     fun NOTIFY_API_CALL(@Header("Authorization") token: String, @Field("receiver_id") receiver_id: String, @Field("title") title: String, @Field("body") body: String, @Field("data") data: String): Call<ResponseBody>
@@ -52,7 +52,7 @@ interface RetrofitInterface {
 
     @FormUrlEncoded
     @POST("user/reset_password")
-    fun RESET_PASSWORD_API_CALL(@Field("phone") phone: String): Call<ResponseBody>
+    fun RESET_PASSWORD_API_CALL(@Field("phone") phone: String,@Field("user_type") user_type : String): Call<ResponseBody>
 
     @FormUrlEncoded
     @POST("user/verify_reset_code")

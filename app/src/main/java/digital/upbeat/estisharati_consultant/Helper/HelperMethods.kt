@@ -659,7 +659,7 @@ class HelperMethods(var context: Context) {
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(context, "Unable to get the profile please try different folder", Toast.LENGTH_LONG).show() //            ShowCustomToast( "Orofile update failed", "Unable to get the profile please try different folder");
+            Toast.makeText(context, context.getString(R.string.unable_to_get_the_image_please_try_different_folder), Toast.LENGTH_LONG).show()
         } finally {
             cursor?.close()
         }

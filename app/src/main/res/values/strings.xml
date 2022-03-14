@@ -152,8 +152,9 @@
     <string name="rejected">REJECTED</string>
     <string name="no_user_found">No user found!</string>
 
+    <string name="unable_to_get_the_image_please_try_different_folder">Unable to get the file please try different folder !</string>
 
-    //************************************************************
+    //************************************************************//
 
 
     <string name="enter_qualification">Enter qualification</string>

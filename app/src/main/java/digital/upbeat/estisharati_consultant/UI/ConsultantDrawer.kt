@@ -25,6 +25,8 @@ import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.hbisoft.pickit.PickiT
+import com.hbisoft.pickit.PickiTCallbacks
 import digital.upbeat.estisharati_consultant.Adapter.SearchUserAdapter
 import digital.upbeat.estisharati_consultant.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_consultant.ApiHelper.RetrofitInterface
@@ -61,6 +63,7 @@ class ConsultantDrawer : BaseCompatActivity() {
     lateinit var firestore: FirebaseFirestore
     lateinit var subscribers: Subscribers
     lateinit var retrofitInterface: RetrofitInterface
+    lateinit var pickiT: PickiT
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_consultant_drawer)
@@ -85,6 +88,29 @@ class ConsultantDrawer : BaseCompatActivity() {
         dataUser = preferencesHelper.logInConsultant
         val hashMap = hashMapOf<String, Any>("online_status" to true)
         helperMethods.updateUserDetailsToFirestore(dataUser.id, hashMap)
+        pickiT = PickiT(this, object : PickiTCallbacks {
+            override fun PickiTonUriReturned() {
+            }
+
+            override fun PickiTonStartListener() {
+            }
+
+            override fun PickiTonProgressUpdate(progress: Int) {
+            }
+
+            override fun PickiTonCompleteListener(filePath: String?, wasDriveFile: Boolean, wasUnknownProvider: Boolean, wasSuccessful: Boolean, Reason: String?) {
+                if (filePath == null&&!wasSuccessful) {
+                    Toast.makeText(this@ConsultantDrawer, getString(R.string.could_not_get_image), Toast.LENGTH_LONG).show()
+                    return
+                }
+                filePath?.let {
+                    Log.d("path", filePath + "")
+                    subscribers.getImageUrlForChatApiCall(filePath)
+                }  }
+
+            override fun PickiTonMultipleCompleteListener(paths: java.util.ArrayList<String>?, wasSuccessful: Boolean, Reason: String?) {
+            }
+        }, this)
     }
 
     override fun onStart() {
@@ -298,15 +324,16 @@ class ConsultantDrawer : BaseCompatActivity() {
         val dataPassed = arrayListOf<DataUserFireStore>()
         val userIds: ArrayList<String> = arrayListOf()
         for (User in GlobalData.mySubscriberResponse.data) {
-           if(!userIds.contains(User.user_id)){ userIds.add(User.user_id)}
+            if (!userIds.contains(User.user_id)) {
+                userIds.add(User.user_id)
+            }
         }
         if (userIds.size > 0) {
-            firestore.collection("Users").whereEqualTo("user_type", "user")
-                .orderBy("fname", Query.Direction.ASCENDING).get().addOnSuccessListener {
+            firestore.collection("Users").whereEqualTo("user_type", "user").orderBy("fname", Query.Direction.ASCENDING).get().addOnSuccessListener {
                 it?.let {
                     for (data in it) {
                         val dataUserFireStore = data.toObject(DataUserFireStore::class.java)
-                        if (!dataUserFireStore.user_id.equals(dataUser.id)&&userIds.contains(dataUserFireStore.user_id)) {
+                        if (!dataUserFireStore.user_id.equals(dataUser.id) && userIds.contains(dataUserFireStore.user_id)) {
                             datauserFirestoreArrayList.add(dataUserFireStore)
                         }
                     }
@@ -374,6 +401,7 @@ class ConsultantDrawer : BaseCompatActivity() {
     override fun onDestroy() {
         val hashMap = hashMapOf<String, Any>("online_status" to false, "last_seen" to FieldValue.serverTimestamp())
         helperMethods.updateUserDetailsToFirestore(dataUser.id, hashMap)
+        pickiT.deleteTemporaryFile(this)
 
         super.onDestroy()
     }
@@ -386,30 +414,22 @@ class ConsultantDrawer : BaseCompatActivity() {
             Toast.makeText(this@ConsultantDrawer, getString(R.string.please_click_back_again_to_exit), Toast.LENGTH_SHORT).show()
         }
         mBackPressed = System.currentTimeMillis()
+        pickiT.deleteTemporaryFile(this)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == GlobalData.PICK_IMAGE_GALLERY) {
             if (resultCode == Activity.RESULT_OK && data != null) {
-                val img_uri = data.data
-                val filePath = helperMethods.getFilePath(img_uri!!)
-                if (filePath == null) {
-                    helperMethods.showToastMessage(getString(R.string.could_not_get_image))
-                    return
-                }
-                subscribers.getImageUrlForChatApiCall(filePath)
+
+                pickiT.getPath(data.data, Build.VERSION.SDK_INT)
             }
         } else if (requestCode == GlobalData.PICK_IMAGE_CAMERA) {
             if (resultCode == Activity.RESULT_OK && data != null) {
                 val yourSelectedImage = data.extras!!.get("data") as Bitmap
                 val img_uri = helperMethods.getImageUriFromBitmap(yourSelectedImage)
-                val filePath = helperMethods.getFilePath(img_uri)
-                if (filePath == null) {
-                    helperMethods.showToastMessage(getString(R.string.could_not_get_image))
-                    return
-                }
-                subscribers.getImageUrlForChatApiCall(filePath)
+                pickiT.getPath(img_uri, Build.VERSION.SDK_INT)
+
             }
         }
     }

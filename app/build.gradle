@@ -77,7 +77,7 @@ dependencies {
 
     //Google json
     implementation 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
-    implementation 'com.google.code.gson:gson:2.8.8'
+    implementation 'com.google.code.gson:gson:2.8.9'
 
     //Kotlin Plugin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -92,9 +92,9 @@ dependencies {
 
     //Firebase
     implementation 'com.google.firebase:firebase-analytics-ktx:20.1.0'
-    implementation 'com.google.firebase:firebase-messaging:23.0.0'
-    implementation 'com.google.firebase:firebase-firestore-ktx:24.0.1'
-    implementation 'com.google.firebase:firebase-auth:21.0.1'
+    implementation 'com.google.firebase:firebase-messaging:23.0.1'
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.0.2'
+    implementation 'com.google.firebase:firebase-auth:21.0.2'
 
     // Country Picker
     implementation 'com.hbb20:ccp:2.5.3'
@@ -107,6 +107,9 @@ dependencies {
 
     //TouchImageView
     implementation 'com.github.MikeOrtiz:TouchImageView:3.0.1'
+
+    //FileUtils
+    implementation 'com.github.HBiSoft:PickiT:2.0.3'
 
 }
 apply plugin: 'com.google.gms.google-services'

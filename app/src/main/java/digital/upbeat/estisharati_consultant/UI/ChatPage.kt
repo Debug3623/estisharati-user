@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.text.Editable
@@ -24,6 +25,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.gson.Gson
+import com.hbisoft.pickit.PickiT
+import com.hbisoft.pickit.PickiTCallbacks
 import digital.upbeat.estisharati_consultant.Adapter.ChatAdapter
 import digital.upbeat.estisharati_consultant.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_consultant.ApiHelper.RetrofitInterface
@@ -78,6 +81,7 @@ class ChatPage : BaseCompatActivity() {
     var video_balance = 0
     var audio_balance = 0
     var chat_balance = 1
+    lateinit var pickiT: PickiT
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_page)
@@ -116,6 +120,31 @@ class ChatPage : BaseCompatActivity() {
         IdArray.add(userId.toInt())
         Collections.sort(IdArray)
         firestoreLisiner()
+        pickiT = PickiT(this, object : PickiTCallbacks {
+            override fun PickiTonUriReturned() {
+            }
+
+            override fun PickiTonStartListener() {
+            }
+
+            override fun PickiTonProgressUpdate(progress: Int) {
+            }
+
+            override fun PickiTonCompleteListener(filePath: String?, wasDriveFile: Boolean, wasUnknownProvider: Boolean, wasSuccessful: Boolean, Reason: String?) {
+                if (filePath == null&&!wasSuccessful) {
+                    Toast.makeText(this@ChatPage, getString(R.string.could_not_get_image), Toast.LENGTH_LONG).show()
+                    return
+                }
+filePath?.let {
+
+    Log.d("path", filePath + "")
+    getImageUrlForChatApiCall(filePath)
+}
+            }
+
+            override fun PickiTonMultipleCompleteListener(paths: ArrayList<String>?, wasSuccessful: Boolean, Reason: String?) {
+            }
+        }, this)
 
     }
 
@@ -354,30 +383,27 @@ class ChatPage : BaseCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         firestoreRegistrar.remove()
+        pickiT.deleteTemporaryFile(this)
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        pickiT.deleteTemporaryFile(this)
+    }
+
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == GlobalData.PICK_IMAGE_GALLERY) {
             if (resultCode == Activity.RESULT_OK && data != null) {
-                val img_uri = data.data
-                val filePath = helperMethods.getFilePath(img_uri!!)
-                if (filePath == null) {
-                    Toast.makeText(this@ChatPage, getString(R.string.could_not_get_image), Toast.LENGTH_LONG).show()
-                    return
-                }
-                getImageUrlForChatApiCall(filePath)
+                pickiT.getPath(data.data, Build.VERSION.SDK_INT)
+
             }
         } else if (requestCode == GlobalData.PICK_IMAGE_CAMERA) {
             if (resultCode == Activity.RESULT_OK && data != null) {
                 val yourSelectedImage = data.extras!!.get("data") as Bitmap
                 val img_uri = helperMethods.getImageUriFromBitmap(yourSelectedImage)
-                val filePath = helperMethods.getFilePath(img_uri)
-                if (filePath == null) {
-                    Toast.makeText(this@ChatPage, getString(R.string.could_not_get_image), Toast.LENGTH_LONG).show()
-                    return
-                }
-                getImageUrlForChatApiCall(filePath)
+                pickiT.getPath(img_uri, Build.VERSION.SDK_INT)
             }
         }
     }
