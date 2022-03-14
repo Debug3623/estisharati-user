@@ -7,7 +7,7 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
@@ -15,14 +15,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FieldValue
 import com.google.gson.Gson
+import com.hbisoft.pickit.PickiT
+import com.hbisoft.pickit.PickiTCallbacks
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_user.DataClassHelper.*
 import digital.upbeat.estisharati_user.DataClassHelper.CityCountry.DataCity
 import digital.upbeat.estisharati_user.DataClassHelper.CityCountry.DataCountry
 import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
@@ -31,7 +33,6 @@ import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
 import kotlinx.android.synthetic.main.activity_my_profile.*
-import kotlinx.android.synthetic.main.profile_edit_popup.*
 import kotlinx.android.synthetic.main.profile_edit_popup.view.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -45,6 +46,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 import java.io.IOException
+import java.util.ArrayList
 
 class MyProfile : AppCompatActivity() {
     lateinit var helperMethods: HelperMethods
@@ -52,6 +54,7 @@ class MyProfile : AppCompatActivity() {
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var dataUserObject: DataUser
     lateinit var LayoutView: View
+    lateinit var pickiT: PickiT
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_profile)
@@ -64,6 +67,40 @@ class MyProfile : AppCompatActivity() {
         helperMethods = HelperMethods(this@MyProfile)
         preferencesHelper = SharedPreferencesHelper(this@MyProfile)
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
+        pickiT = PickiT(this, object : PickiTCallbacks {
+            override fun PickiTonUriReturned() {
+            }
+
+            override fun PickiTonStartListener() {
+            }
+
+            override fun PickiTonProgressUpdate(progress: Int) {
+            }
+
+            override fun PickiTonCompleteListener(filePath: String?, wasDriveFile: Boolean, wasUnknownProvider: Boolean, wasSuccessful: Boolean, Reason: String?) {
+                if (filePath == null && !wasSuccessful) {
+                    Toast.makeText(this@MyProfile, getString(R.string.could_not_get_image), Toast.LENGTH_LONG).show()
+                    return
+                }
+                filePath?.let {
+                    Log.d("path", filePath + "")
+                    profilePictureUpdateApiCall(filePath)
+                }
+            }
+
+            override fun PickiTonMultipleCompleteListener(paths: ArrayList<String>?, wasSuccessful: Boolean, Reason: String?) {
+            }
+        }, this)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        pickiT.deleteTemporaryFile(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        pickiT.deleteTemporaryFile(this)
     }
 
     fun setUserDetils() {
@@ -197,24 +234,13 @@ class MyProfile : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == GlobalData.PICK_IMAGE_GALLERY) {
             if (resultCode == Activity.RESULT_OK && data != null) {
-                val img_uri = data.data
-                val filePath = helperMethods.getFilePath(img_uri!!)
-                if (filePath == null) {
-                    Toast.makeText(this@MyProfile, getString(R.string.could_not_get_image), Toast.LENGTH_LONG).show()
-                    return
-                }
-                profilePictureUpdateApiCall(filePath)
+                pickiT.getPath(data.data, Build.VERSION.SDK_INT)
             }
         } else if (requestCode == GlobalData.PICK_IMAGE_CAMERA) {
             if (resultCode == Activity.RESULT_OK && data != null) {
                 val yourSelectedImage = data.extras!!.get("data") as Bitmap
                 val img_uri = helperMethods.getImageUriFromBitmap(yourSelectedImage)
-                val filePath = helperMethods.getFilePath(img_uri)
-                if (filePath == null) {
-                    Toast.makeText(this@MyProfile, getString(R.string.could_not_get_image), Toast.LENGTH_LONG).show()
-                    return
-                }
-                profilePictureUpdateApiCall(filePath)
+                pickiT.getPath(img_uri, Build.VERSION.SDK_INT)
             }
         }
     }
@@ -460,7 +486,7 @@ class MyProfile : AppCompatActivity() {
 
     fun profileUpdateApiCall(fNmae: String, lName: String, emailAddress: String, countryID: String, cityID: String) {
         helperMethods.showProgressDialog(getString(R.string.profile_is_updating))
-        val responseBodyCall = retrofitInterface.PROFILE_UPDATE_API_CALL("Bearer ${dataUserObject.access_token}", fNmae, lName, emailAddress, countryID, cityID,"User")
+        val responseBodyCall = retrofitInterface.PROFILE_UPDATE_API_CALL("Bearer ${dataUserObject.access_token}", fNmae, lName, emailAddress, countryID, cityID, "User")
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()
