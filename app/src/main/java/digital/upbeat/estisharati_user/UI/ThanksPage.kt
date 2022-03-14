@@ -22,24 +22,57 @@ class ThanksPage : BaseCompatActivity() {
     fun initViews() {
         helperMethods = HelperMethods(this@ThanksPage)
         chooseName.text = GlobalData.packagesOptions.name
+        when (GlobalData.packagesOptions.type) {
+            "consultation" -> {
+                go_to_home_page.text = getString(R.string.my_consultations)
+            }
+            "course" -> {
+                go_to_home_page.text = getString(R.string.my_courses)
+            }
+            "subscription" -> {
+                go_to_home_page.text = getString(R.string.my_packages)
+            }
+        }
     }
 
     fun clickEvents() {
         go_to_home_page.setOnClickListener {
-            GlobalData.packagesOptions = PackagesOptions("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "")
             val intent = Intent(this@ThanksPage, UserDrawer::class.java)
+            when (GlobalData.packagesOptions.type) {
+                "consultation" -> {
+                    intent.putExtra("type", "consultation")
+                }
+                "course" -> {
+                    intent.putExtra("type", "course")
+                }
+                "subscription" -> {
+                    intent.putExtra("type", "subscription")
+                }
+            }
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
             finish()
+            GlobalData.packagesOptions = PackagesOptions("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "")
         }
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
-        GlobalData.packagesOptions = PackagesOptions("", "", "", "","", "", "", "", "", "", "", "", "", "", "", "", "")
         val intent = Intent(this@ThanksPage, UserDrawer::class.java)
+        when (GlobalData.packagesOptions.type) {
+            "consultation" -> {
+                intent.putExtra("type", "consultation")
+            }
+            "course" -> {
+                intent.putExtra("type", "course")
+            }
+            "subscription" -> {
+                intent.putExtra("type", "subscription")
+            }
+        }
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
+        GlobalData.packagesOptions = PackagesOptions("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "")
     }
 }

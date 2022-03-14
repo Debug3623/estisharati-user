@@ -67,6 +67,20 @@ class UserDrawer : BaseCompatActivity() {
         val hashMap = hashMapOf<String, Any>("online_status" to true)
         helperMethods.updateUserDetailsToFirestore(dataUser.id, hashMap)
         supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment, Home(this@UserDrawer), "Home").commit()
+        intent.getStringExtra("type")?.let {
+            when (it) {
+                "consultation" -> {
+                    startActivity(Intent(this@UserDrawer, MyConsultations::class.java))
+                }
+                "course" -> {
+                    startActivity(Intent(this@UserDrawer, MyCourses::class.java))
+                }
+                "subscription" -> {
+                    startActivity(Intent(this@UserDrawer, MyPackages::class.java))
+                }
+                else ->{}
+            }
+        }
     }
 
     override fun onStart() {
@@ -88,21 +102,19 @@ class UserDrawer : BaseCompatActivity() {
         }
         language_group.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
-                R.id.radio_english -> {
-                    //                    radioButtonChange(true)
+                R.id.radio_english -> { //                    radioButtonChange(true)
                     preferencesHelper.appLang = "en"
                     GlobalData.BaseUrl = "https://super-servers.com/estisharati/api/v1/${preferencesHelper.appLang}/"
                     Log.d("BaseURL", GlobalData.BaseUrl)
-                    GlobalData.homeResponseMain=null
+                    GlobalData.homeResponseMain = null
                     startActivity(Intent(this@UserDrawer, SplashScreen::class.java))
                     finish()
                 }
-                R.id.radio_arabic -> {
-                    //                    radioButtonChange(false)
+                R.id.radio_arabic -> { //                    radioButtonChange(false)
                     preferencesHelper.appLang = "ar"
                     GlobalData.BaseUrl = "https://super-servers.com/estisharati/api/v1/${preferencesHelper.appLang}/"
                     Log.d("BaseURL", GlobalData.BaseUrl)
-                    GlobalData.homeResponseMain=null
+                    GlobalData.homeResponseMain = null
                     startActivity(Intent(this@UserDrawer, SplashScreen::class.java))
                     finish()
                 }
@@ -216,7 +228,8 @@ class UserDrawer : BaseCompatActivity() {
                 startActivity(intent)
             } else {
                 helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
-            }}
+            }
+        }
         nav_payment_policy.setOnClickListener {
             if (helperMethods.isConnectingToInternet) {
                 val intent = Intent(this@UserDrawer, Pages::class.java)

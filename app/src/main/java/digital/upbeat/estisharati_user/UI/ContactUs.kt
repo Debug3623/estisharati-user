@@ -87,10 +87,10 @@ class ContactUs : BaseCompatActivity() {
             helperMethods.showToastMessage(getString(R.string.enter_your_phone_number))
             return false
         }
-        if (!helperMethods.isValidMobile(contactusPhone.toText())) {
-            helperMethods.showToastMessage(getString(R.string.enter_valid_phone_number))
-            return false
-        }
+//        if (!helperMethods.isValidMobile(contactusPhone.toText())) {
+//            helperMethods.showToastMessage(getString(R.string.enter_valid_phone_number))
+//            return false
+//        }
 
         if (contactusSubject.toText().equals("")) {
             helperMethods.showToastMessage(getString(R.string.enter_your_subject))

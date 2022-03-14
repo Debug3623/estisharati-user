@@ -37,10 +37,10 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp"
-                android:textAlignment="viewStart"
                 android:fontFamily="@font/almarai_regular"
                 android:singleLine="true"
                 android:text="@string/legal_advice"
+                android:textAlignment="viewStart"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 

@@ -27,7 +27,7 @@ interface RetrofitInterface {
 
     @FormUrlEncoded
     @POST("user/reset_password")
-    fun RESET_PASSWORD_API_CALL(@Field("phone") phone: String): Call<ResponseBody>
+    fun RESET_PASSWORD_API_CALL(@Field("phone") phone: String,@Field("user_type") user_type : String): Call<ResponseBody>
 
     @GET("geographies")
     fun GEOGRAPHIES_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
@@ -46,7 +46,7 @@ interface RetrofitInterface {
 
     @FormUrlEncoded
     @POST("user/profile/edit")
-    fun PROFILE_UPDATE_API_CALL(@Header("Authorization") token: String, @Field("fname") fname: String, @Field("lname") lname: String, @Field("email") email: String, @Field("country") country: String, @Field("city") city: String): Call<ResponseBody>
+    fun PROFILE_UPDATE_API_CALL(@Header("Authorization") token: String, @Field("fname") fname: String, @Field("lname") lname: String, @Field("email") email: String, @Field("country") country: String, @Field("city") city: String,@Field("user_type") user_type : String): Call<ResponseBody>
 
     @FormUrlEncoded
     @POST("user/profile/edit")

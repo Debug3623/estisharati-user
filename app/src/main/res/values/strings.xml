@@ -49,7 +49,7 @@
     <string name="Please_wait">Please wait...</string>
     <string name="alert">Alert</string>
     <string name="estisharati_notification_settings">Estisharati Notification Settings</string>
-    <string name="unable_to_get_the_image_please_try_different_folder">Unable to get the image please try different folder !</string>
+    <string name="unable_to_get_the_image_please_try_different_folder">Unable to get the file please try different folder !</string>
     <string name="forward_cancel">Forward cancel !</string>
     <string name="forward_to">Forward to...</string>
     <string name="online">Online</string>

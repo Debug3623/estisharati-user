@@ -381,10 +381,10 @@ class LoginAndRegistration : BaseCompatActivity() {
             helperMethods.showToastMessage(getString(R.string.enter_phone_number))
             return false
         }
-        if (!helperMethods.isValidMobile(codePicker.selectedCountryCodeWithPlus + "" + reg_phone.toText())) {
-            helperMethods.showToastMessage(getString(R.string.enter_vaid_phone_number))
-            return false
-        }
+//        if (!helperMethods.isValidMobile(codePicker.selectedCountryCodeWithPlus + "" + reg_phone.toText())) {
+//            helperMethods.showToastMessage(getString(R.string.enter_vaid_phone_number))
+//            return false
+//        }
         if (reg_password.toText().equals("")) {
             helperMethods.showToastMessage(getString(R.string.enter_password))
             return false

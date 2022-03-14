@@ -23,7 +23,7 @@
     <string name="could_not_get_your_device_token_please_try_again">تعذر الحصول على الرمز المميز لجهازك، من فضلك أعد المحاولة</string>
     <string name="cancel">إلغاء</string>
     <string name="ok">حسنًا</string>
-<!--    <string name="aed">درهم إماراتي</string>-->
+    <!--    <string name="aed">درهم إماراتي</string>-->
     <string name="usd">درهم إماراتي</string>
     <string name="ability_to_download_course_videos">تنزيل مقاطع فيديو الدورة التدريبية</string>
     <string name="you_can_not_download_course_videos">لا تستطيع تنزيل مقاطع فيديو الدورة التدريبية</string>
@@ -41,7 +41,7 @@
     <string name="Please_wait">من فضلك انتظر</string>
     <string name="alert">تنبيه</string>
     <string name="estisharati_notification_settings">إعدادات إشعارات استشاراتي</string>
-    <string name="unable_to_get_the_image_please_try_different_folder">غير قادر على الحصول على الصورة، من فضلك جرب مجلد آخر!</string>
+    <string name="unable_to_get_the_image_please_try_different_folder">غير قادر على الحصول على الملف يرجى محاولة مجلد مختلف!</string>
     <string name="forward_cancel">إلغاء إعادة التوجيه!</string>
     <string name="forward_to">إعادة توجيه إلى...</string>
     <string name="online">متصل بالإنترنت</string>
@@ -176,12 +176,11 @@
     <string name="no_sent_code">لم تحصل على رمز تحقق ؟</string>
     <string name="retry">أعد المحاولة</string>
     <string name="new_password">كلمة مرور جديدة</string>
-    <string name="confirm_password">تأكيد كلمة المرور
-</string>
+    <string name="confirm_password">تأكيد كلمة المرور</string>
     <string name="save">حفظ</string>
     <string name="confirm">تأكيد</string>
     <string name="reject">رفض</string>
-    <string name="legal_advice">استشارة قانونية</string>
+    <string name="legal_advice">استشارة</string>
     <string name="search_for_consultant">ابحث عن مستشار</string>
     <string name="please_wait_while_fetching_advice">من فضلك انتظر الوصول إلى الاستشارة</string>
     <string name="my_consultations">استشاراتي</string>
@@ -270,12 +269,12 @@
     <string name="minutes_left_for_the_conversation_to_end">دقائق متبقية حتى تنتهي المحادثة</string>
     <string name="all_users">جميع المستخدمين</string>
     <string name="blog">مجلة استشاراتي</string>
-<!--    <string name="blog">المدونة</string>-->
+    <!--    <string name="blog">المدونة</string>-->
     <string name="please_wait_while_fetching_blog_post">الرجاء الانتظار أثناء تحميل منشور المدونة ...</string>
     <string name="there_is_no_blog_post_available">لا يوجد منشور مدونة متاح!</string>
     <string name="blog_details">تفاصيل المدونة</string>
     <string name="survey">اختبارات شخصية</string>
-<!--    <string name="survey">إستبيان</string>-->
+    <!--    <string name="survey">إستبيان</string>-->
     <string name="start_survey">إبدأ الاستبيان</string>
     <string name="please_choose_any_option">الرجاء تحديد أي خيار!</string>
     <string name="there_is_no_survey_till_now">لا يوجد إستبيان حتى الآن!</string>
@@ -334,7 +333,7 @@
     <string name="type_here">أكتب هنا</string>
     <string name="publish">انشر</string>
     <string name="consult_me">استشرني</string>
-<!--    <string name="posts">منشورات</string>-->
+    <!--    <string name="posts">منشورات</string>-->
     <string name="please_feel_free_to_leave_your_posts">من فضلك شارك منشورك بكل أريحية</string>
 
     <string name="newest">الأحدث</string>
