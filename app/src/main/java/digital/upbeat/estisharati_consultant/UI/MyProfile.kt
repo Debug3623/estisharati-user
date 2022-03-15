@@ -39,7 +39,6 @@ class MyProfile : BaseCompatActivity() {
         setContentView(R.layout.activity_my_profile)
         initViews()
         clickEvents()
-        setUserDetils()
     }
 
     fun initViews() {
@@ -48,6 +47,10 @@ class MyProfile : BaseCompatActivity() {
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
     }
 
+    override fun onStart() {
+        super.onStart()
+        setUserDetils()
+    }
     fun setUserDetils() {
         dataUserObject = preferencesHelper.logInConsultant
         user_name.text = dataUserObject.fname + " " + dataUserObject.lname
