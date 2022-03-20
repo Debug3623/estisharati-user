@@ -52,7 +52,7 @@ class CreatePostActivity : AppCompatActivity() {
                 helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
                 return@setOnClickListener
             }
-            experiencCommentsApiCall(postPublish.text.toString())
+            experiencCommentsApiCall(writePost.text.toString())
         }
 //        testimonialType.setOnClickListener {
 //            if (testimonialsDetailsResponse.data.type.equals("consultant")) {

@@ -10,8 +10,8 @@ android {
         applicationId "digital.upbeat.estisharati_user"
         minSdkVersion 21
         targetSdkVersion 32
-        versionCode 16
-        versionName "2.6"
+        versionCode 17
+        versionName "2.7"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -56,7 +56,9 @@ android {
             enableSplit = false
         }
     }
-
+    lintOptions {
+        abortOnError false
+    }
 }
 dependencies {
     //For libs

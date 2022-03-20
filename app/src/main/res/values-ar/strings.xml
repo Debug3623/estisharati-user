@@ -56,7 +56,7 @@
     <string name="please_wait_while_preparing_to_call">من فضلك انتظر إعداد المكالمة...</string>
     <string name="push_notificaiton_not_send">الإشعارات المندفعة لا تعمل!</string>
     <string name="oops_notification_sending_problem">معذرةً، حدثت مشكلة في إرسال الإشعارات</string>
-    <string name="consultation_description">وصف الاستشارة</string>
+    <string name="consultation_description">وصف الاستشاري</string>
     <string name="replied_successfully">تم الرد بنجاح!</string>
     <string name="enter_your_name">ادخل اسمك</string>
     <string name="enter_your_phone_number">ادخل رقم هاتفك</string>
