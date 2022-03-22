@@ -18,6 +18,7 @@ data class Data(
     val is_subscribed: Boolean,
     val locale: String,
     val name: String,
+    val description: String,
     val payment_method: Int,
     val payment_reference_no: String,
     val period: String,

@@ -76,6 +76,7 @@ class PackageAdapter(val context: Context, val packages: Packages?, val myPackag
             context.startActivity(intent)
         }
         holder.packageName.text = packagesItems.name
+        holder.packageDescription.text = packagesItems.description
         holder.packagePeriod.text = packagesItems.period
         if (packagesItems.features.video.time.equals("0")) {
             holder.videoLayout.visibility = View.GONE

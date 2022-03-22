@@ -86,9 +86,9 @@ class ConsultantDetails : BaseCompatActivity() {
         layoutView.courseName.text = consultantDetailsResponse.name
         val simpleExoPlayer = SimpleExoPlayer.Builder(this@ConsultantDetails).build()
         val uri = Uri.parse(consultantDetailsResponse.preview_video)
-        Log.d("preview_video",uri.toString());
+        Log.d("preview_video", uri.toString());
         val mediaItem: MediaItem = MediaItem.fromUri(uri)
-        layoutView.exoPlayer.player =simpleExoPlayer
+        layoutView.exoPlayer.player = simpleExoPlayer
         simpleExoPlayer.setMediaItem(mediaItem)
         simpleExoPlayer.prepare()
         simpleExoPlayer.play()
@@ -147,12 +147,12 @@ class ConsultantDetails : BaseCompatActivity() {
         }
 
 
-    previewVideo.visibility=if(consultantDetailsResponse.preview_video != "")View.VISIBLE else View.GONE
-    downloadDocument.visibility=if(consultantDetailsResponse.qualification != "")View.VISIBLE else View.GONE
+        previewVideo.visibility = if (consultantDetailsResponse.preview_video != "") View.VISIBLE else View.GONE
+        downloadDocument.visibility = if (consultantDetailsResponse.qualification != "") View.VISIBLE else View.GONE
 
-//        if (consultantDetailsResponse.chat) {
-//            chatLayout.visibility = View.VISIBLE
-//            chatPriceLayout.visibility = View.VISIBLE
+        if (consultantDetailsResponse.chat) {
+            chatLayout.visibility = View.VISIBLE
+            chatPriceLayout.visibility = View.VISIBLE
             if (consultantDetailsResponse.offer_chat_fee.equals("0")) {
                 chatPrice.text = "${getString(R.string.usd)} ${consultantDetailsResponse.chat_fee}"
                 chatOldPrice.visibility = View.GONE
@@ -162,13 +162,13 @@ class ConsultantDetails : BaseCompatActivity() {
                 chatOldPrice.setPaintFlags(chatOldPrice.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
                 chatOldPrice.visibility = View.VISIBLE
             }
-//        } else {
-//            chatLayout.visibility = View.GONE
-//            chatPriceLayout.visibility = View.GONE
-//        }
-//        if (consultantDetailsResponse.voice) {
-//            voiceLayout.visibility = View.VISIBLE
-//            voicePriceLayout.visibility = View.VISIBLE
+        } else {
+            chatLayout.visibility = View.GONE
+            chatPriceLayout.visibility = View.GONE
+        }
+        if (consultantDetailsResponse.voice) {
+            voiceLayout.visibility = View.VISIBLE
+            voicePriceLayout.visibility = View.VISIBLE
             if (consultantDetailsResponse.offer_voice_fee.equals("0")) {
                 voicePrice.text = "${getString(R.string.usd)} ${consultantDetailsResponse.voice_fee}"
                 voiceOldPrice.visibility = View.GONE
@@ -178,13 +178,13 @@ class ConsultantDetails : BaseCompatActivity() {
                 voiceOldPrice.setPaintFlags(voiceOldPrice.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
                 voiceOldPrice.visibility = View.VISIBLE
             }
-//        } else {
-//            voiceLayout.visibility = View.GONE
-//            voicePriceLayout.visibility = View.GONE
-//        }
-//        if (consultantDetailsResponse.video) {
-//            videoLayout.visibility = View.VISIBLE
-//            videoPriceLayout.visibility = View.VISIBLE
+        } else {
+            voiceLayout.visibility = View.GONE
+            voicePriceLayout.visibility = View.GONE
+        }
+        if (consultantDetailsResponse.video) {
+            videoLayout.visibility = View.VISIBLE
+            videoPriceLayout.visibility = View.VISIBLE
             if (consultantDetailsResponse.offer_video_fee.equals("0")) {
                 videoPrice.text = "${getString(R.string.usd)} ${consultantDetailsResponse.video_fee}"
                 videoOldPrice.visibility = View.GONE
@@ -194,14 +194,14 @@ class ConsultantDetails : BaseCompatActivity() {
                 videoOldPrice.setPaintFlags(videoOldPrice.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
                 videoOldPrice.visibility = View.VISIBLE
             }
-//        } else {
-//            videoLayout.visibility = View.GONE
-//            videoPriceLayout.visibility = View.GONE
-//        }
+        } else {
+            videoLayout.visibility = View.GONE
+            videoPriceLayout.visibility = View.GONE
+        }
     }
 
     fun redirectToPayment() {
-       GlobalData.packagesOptions = PackagesOptions(consultantDetailsResponse.id, consultantDetailsResponse.name, "consultation", categoryId, chat, audio, video, price.toString(), "0", "0", "", "", "0", "0", "", "0", "0")
+        GlobalData.packagesOptions = PackagesOptions(consultantDetailsResponse.id, consultantDetailsResponse.name, "consultation", categoryId, chat, audio, video, price.toString(), "0", "0", "", "", "0", "0", "", "0", "0")
         startActivity(Intent(this@ConsultantDetails, PackagesSelection::class.java))
     }
 
@@ -248,9 +248,9 @@ class ConsultantDetails : BaseCompatActivity() {
         popup_view.consultationPriceLayout.visibility = View.VISIBLE
         popup_view.actionProceedBtn.visibility = View.VISIBLE
         popup_view.consultationsRecycler.visibility = View.GONE
-//        popup_view.chatLayout.visibility = if (!consultantDetailsResponse.chat) View.VISIBLE else View.GONE
-//        popup_view.voiceLayout.visibility = if (!consultantDetailsResponse.voice) View.VISIBLE else View.GONE
-//        popup_view.videoLayout.visibility = if (!consultantDetailsResponse.video) View.VISIBLE else View.GONE
+        popup_view.chatLayout.visibility = if (consultantDetailsResponse.chat) View.VISIBLE else View.GONE
+        popup_view.voiceLayout.visibility = if (consultantDetailsResponse.voice) View.VISIBLE else View.GONE
+        popup_view.videoLayout.visibility = if (consultantDetailsResponse.video) View.VISIBLE else View.GONE
         if (chat.equals("1")) {
             popup_view.chatImage.clearColorFilter()
             popup_view.chatText.setTextColor(ContextCompat.getColor(this@ConsultantDetails, R.color.black))

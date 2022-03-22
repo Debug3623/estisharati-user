@@ -124,15 +124,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="30dp"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/packageDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/almarai_regular"
+                android:text="Video for half an hour Video for half an hour Video for half an hour Video for half an hour Video for half an hour Video for half an hour Video for half an hour Video for half an hour"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
             <LinearLayout
                 android:id="@+id/videoLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 

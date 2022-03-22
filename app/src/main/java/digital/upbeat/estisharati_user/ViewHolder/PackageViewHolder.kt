@@ -10,6 +10,7 @@ class PackageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val offersEndDate = itemView.offersEndDate
     val packageLayout = itemView.packageLayout
     val packageName = itemView.packageName
+    val packageDescription = itemView.packageDescription
     val packagePrice = itemView.packagePrice
     val packagePeriod = itemView.packagePeriod
     val videoLayout = itemView.videoLayout
