@@ -99,14 +99,15 @@ class ConsultantDrawer : BaseCompatActivity() {
             }
 
             override fun PickiTonCompleteListener(filePath: String?, wasDriveFile: Boolean, wasUnknownProvider: Boolean, wasSuccessful: Boolean, Reason: String?) {
-                if (filePath == null&&!wasSuccessful) {
+                if (filePath == null && !wasSuccessful) {
                     Toast.makeText(this@ConsultantDrawer, getString(R.string.could_not_get_image), Toast.LENGTH_LONG).show()
                     return
                 }
                 filePath?.let {
                     Log.d("path", filePath + "")
                     subscribers.getImageUrlForChatApiCall(filePath)
-                }  }
+                }
+            }
 
             override fun PickiTonMultipleCompleteListener(paths: java.util.ArrayList<String>?, wasSuccessful: Boolean, Reason: String?) {
             }
@@ -196,7 +197,10 @@ class ConsultantDrawer : BaseCompatActivity() {
         }
 
         nav_help.setOnClickListener {
-            startActivity(Intent(this@ConsultantDrawer, Help::class.java))
+            val intent = Intent(this@ConsultantDrawer, Help::class.java)
+            intent.putExtra("userId", "")
+            intent.putExtra("userName", "")
+            startActivity(intent)
         }
         nav_logout.setOnClickListener {
             LogOutPopup(getString(R.string.logout), getString(R.string.are_you_sure_do_you_want_to_logout))

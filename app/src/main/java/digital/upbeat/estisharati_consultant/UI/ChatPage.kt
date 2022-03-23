@@ -5,16 +5,20 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.text.Editable
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,6 +47,7 @@ import digital.upbeat.estisharati_consultant.MessageSwipe.SwipeControllerActions
 import digital.upbeat.estisharati_consultant.R
 import digital.upbeat.estisharati_consultant.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_chat_page.*
+import kotlinx.android.synthetic.main.chat_action_alert.view.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -65,6 +70,7 @@ class ChatPage : BaseCompatActivity() {
     var forward_type = ""
     var forward_content = ""
     var dataUserFireStore = DataUserFireStore()
+    var currentUserFireStore = DataUserFireStore()
     lateinit var dataUser: DataUser
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var FcmPushretrofitInterface: RetrofitInterface
@@ -119,7 +125,9 @@ class ChatPage : BaseCompatActivity() {
         IdArray.add(dataUser.id.toInt())
         IdArray.add(userId.toInt())
         Collections.sort(IdArray)
-        firestoreLisiner()
+
+        firestoreUserLisiner()
+        firestoreChatLisiner()
         pickiT = PickiT(this, object : PickiTCallbacks {
             override fun PickiTonUriReturned() {
             }
@@ -239,7 +247,7 @@ filePath?.let {
         }
     }
 
-    fun firestoreLisiner() {
+    fun firestoreUserLisiner() {
         firestore.collection("Users").document(userId).addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
             documentSnapshot?.let {
                 dataUserFireStore = documentSnapshot.toObject(DataUserFireStore::class.java)!!
@@ -252,6 +260,16 @@ filePath?.let {
                 online_status.text = getString(R.string.last_seen) + " " + helperMethods.getFormattedDate(dataUserFireStore.last_seen)
             }
         }
+
+        firestore.collection("Users").document(dataUser.id).addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
+            documentSnapshot?.let {
+                if (documentSnapshot.toObject(DataUserFireStore::class.java) != null) {
+                    currentUserFireStore = documentSnapshot.toObject(DataUserFireStore::class.java)!!
+                }
+            }
+        }
+    }
+    fun firestoreChatLisiner(){
         firestoreRegistrar = firestore.collection("Chats").whereEqualTo("communication_id", IdArray).orderBy("send_time", Query.Direction.ASCENDING).addSnapshotListener { querySnapshot, firebaseFirestoreException ->
             querySnapshot?.let {
                 messagesArrayList.clear()
@@ -280,6 +298,10 @@ filePath?.let {
                 if (ContextCompat.checkSelfPermission(this@ChatPage, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
                     if (helperMethods.isConnectingToInternet) {
                         if (dataUserFireStore.availability) {
+                            if (currentUserFireStore.blocked_user_ids.contains(userId) || dataUserFireStore.blocked_user_ids.contains(dataUser.id)) {
+                                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.chat_has_been_blocked))
+                                return@setOnClickListener
+                            }
                             val channelUniqueId = UUID.randomUUID().toString()
                             val callHashMap = hashMapOf<String, Any>("channel_unique_id" to channelUniqueId, "caller_id" to dataUser.id, "receiver_id" to dataUserFireStore.user_id, "call_type" to "voice_call", "call_status" to "", "ringing_duration" to "60")
                             helperMethods.setCallsDetailsToFirestore(channelUniqueId, callHashMap)
@@ -307,6 +329,10 @@ filePath?.let {
                 if (ContextCompat.checkSelfPermission(this@ChatPage, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this@ChatPage, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                     if (helperMethods.isConnectingToInternet) {
                         if (dataUserFireStore.availability) {
+                            if (currentUserFireStore.blocked_user_ids.contains(userId) || dataUserFireStore.blocked_user_ids.contains(dataUser.id)) {
+                                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.chat_has_been_blocked))
+                                return@setOnClickListener
+                            }
                             val channelUniqueId = UUID.randomUUID().toString()
                             val callHashMap = hashMapOf<String, Any>("channel_unique_id" to channelUniqueId, "caller_id" to dataUser.id, "receiver_id" to dataUserFireStore.user_id, "call_type" to "video_call", "call_status" to "", "ringing_duration" to "60")
                             helperMethods.setCallsDetailsToFirestore(channelUniqueId, callHashMap)
@@ -331,6 +357,10 @@ filePath?.let {
         }
         upload_image.setOnClickListener {
             if (chat_balance > 0) {
+                if (currentUserFireStore.blocked_user_ids.contains(userId) || dataUserFireStore.blocked_user_ids.contains(dataUser.id)) {
+                    helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.chat_has_been_blocked))
+                    return@setOnClickListener
+                }
                 helperMethods.ChangeProfilePhotoPopup(this@ChatPage)
             } else {
                 helperMethods.showToastMessage(getString(R.string.you_dont_have_enough_balance_to_make_this_chat))
@@ -339,6 +369,10 @@ filePath?.let {
         send_msg.setOnClickListener {
             if (sendMessageValidation()) {
                 if (chat_balance > 0) {
+                    if (currentUserFireStore.blocked_user_ids.contains(userId) || dataUserFireStore.blocked_user_ids.contains(dataUser.id)) {
+                        helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.chat_has_been_blocked))
+                        return@setOnClickListener
+                    }
                     val hashMap = hashMapOf<String, Any>("sender_id" to dataUser.id, "receiver_id" to dataUserFireStore.user_id, "message_type" to "text", "message_content" to message.toText(), "message_status" to "send", "message_other_type" to "normal", "send_time" to FieldValue.serverTimestamp(), "communication_id" to IdArray, "inside_reply" to inside_reply)
                     firestore.collection("Chats").add(hashMap).addOnSuccessListener {
                         inside_reply_layout.visibility = View.GONE
@@ -366,6 +400,8 @@ filePath?.let {
             inside_reply.put("position", "")
             inside_reply_layout.visibility = View.GONE
         }
+        dotsMenu.setOnClickListener { showSettingsPopup() }
+
     }
 
     fun sendMessageValidation(): Boolean {
@@ -491,6 +527,10 @@ filePath?.let {
                                 chat_balance = dataObject.getInt("chat_balance")
                                 if (!forward_content.isEmpty()) {
                                     if (chat_balance > 0) {
+                                        if (currentUserFireStore.blocked_user_ids.contains(userId) || dataUserFireStore.blocked_user_ids.contains(dataUser.id)) {
+                                            helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.chat_has_been_blocked))
+                                            return
+                                        }
                                         val hashMap = hashMapOf<String, Any>("sender_id" to dataUser.id, "receiver_id" to userId, "message_type" to forward_type, "message_content" to forward_content, "message_status" to "send", "message_other_type" to "forwarded", "send_time" to FieldValue.serverTimestamp(), "communication_id" to IdArray, "inside_reply" to inside_reply)
                                         firestore.collection("Chats").add(hashMap).addOnSuccessListener { // ********for empty inside reply message*********
                                             inside_reply.put("message_id", "")
@@ -651,6 +691,42 @@ filePath?.let {
                 helperMethods.showToastMessage(getString(R.string.oops_notification_sending_problem))
             }
         })
+    }
+
+    fun showSettingsPopup() {
+        val layoutView = LayoutInflater.from(this@ChatPage).inflate(R.layout.chat_action_alert, null)
+        val aleatdialog = AlertDialog.Builder(this@ChatPage)
+        aleatdialog.setView(layoutView)
+        aleatdialog.setCancelable(false)
+        val dialog = aleatdialog.create()
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+        if (currentUserFireStore.blocked_user_ids.contains(userId)) {
+            layoutView.blockUnBlockChat.text = getString(R.string.unblock_chat)
+        } else {
+            layoutView.blockUnBlockChat.text = getString(R.string.block_chat)
+        }
+        layoutView.reportUser.setOnClickListener {
+            val intent = Intent(this@ChatPage, Help::class.java)
+            intent.putExtra("userId", dataUserFireStore.user_id)
+            intent.putExtra("userName", dataUserFireStore.fname + " " + dataUserFireStore.lname)
+            startActivity(intent)
+            dialog.dismiss()
+        }
+        layoutView.blockUnBlockChat.setOnClickListener {
+            if (currentUserFireStore.blocked_user_ids.contains(dataUserFireStore.user_id)) {
+                currentUserFireStore.blocked_user_ids.remove(dataUserFireStore.user_id)
+            } else {
+                currentUserFireStore.blocked_user_ids.add(dataUserFireStore.user_id)
+            }
+            val hashMap = hashMapOf<String, Any>("blocked_user_ids" to currentUserFireStore.blocked_user_ids)
+            helperMethods.updateUserDetailsToFirestore(currentUserFireStore.user_id, hashMap)
+            dialog.dismiss()
+            firestoreUserLisiner()
+        }
+        layoutView.actionCancel.setOnClickListener {
+            dialog.dismiss()
+        }
     }
 
     fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)

@@ -10,8 +10,8 @@ android {
         applicationId "digital.upbeat.estisharati_consultant"
         minSdkVersion 21
         targetSdkVersion 32
-        versionCode 6
-        versionName "1.6"
+        versionCode 7
+        versionName "1.7"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -91,8 +91,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
     //Firebase
-    implementation 'com.google.firebase:firebase-analytics-ktx:20.1.0'
-    implementation 'com.google.firebase:firebase-messaging:23.0.1'
+    implementation 'com.google.firebase:firebase-analytics-ktx:20.1.1'
+    implementation 'com.google.firebase:firebase-messaging:23.0.2'
     implementation 'com.google.firebase:firebase-firestore-ktx:24.0.2'
     implementation 'com.google.firebase:firebase-auth:21.0.2'
 

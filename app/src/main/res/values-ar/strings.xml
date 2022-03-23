@@ -177,4 +177,10 @@
     <string name="please_wait_while_send_code">يرجى الانتظار أثناء إرسال الكود</string>
     <string name="unable_to_get_the_image_please_try_different_folder">غير قادر على الحصول على الملف يرجى محاولة مجلد مختلف!</string>
 
+    <string name="report_to">Report To :</string>
+    <string name="chat_has_been_blocked">Chat has been blocked</string>
+    <string name="block_chat">Block Chat</string>
+    <string name="unblock_chat">Unblock Chat</string>
+    <string name="report_user">Report User</string>
+    <string name="settings">Settings</string>
 </resources>

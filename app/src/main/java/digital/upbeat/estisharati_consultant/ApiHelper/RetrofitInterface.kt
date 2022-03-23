@@ -34,7 +34,7 @@ interface RetrofitInterface {
     fun PAGES_API_CALL(@Header("Authorization") token: String, @Path("pages") pages: String): Call<ResponseBody>
 
     @FormUrlEncoded @POST("contactus")
-    fun CONTACTUS_API_CALL(@Header("Authorization") token: String, @Field("name") name: String, @Field("phone") phone: String, @Field("email") email: String, @Field("message_type") message_type: String, @Field("subject") subject: String,  @Field("message") message: String): Call<ResponseBody>
+    fun CONTACTUS_API_CALL(@Header("Authorization") token: String, @Field("name") name: String, @Field("phone") phone: String, @Field("email") email: String, @Field("message_type") message_type: String, @Field("subject") subject: String,  @Field("message") message: String,@Field("user_id") user_id: String): Call<ResponseBody>
 
      @GET("my-subsribers")
     fun MY_SUBSRIBERS_API_CALL(@Header("Authorization") token: String,@Query("fire_base_token") fire_base_token: String): Call<ResponseBody>

@@ -3,6 +3,7 @@ package digital.upbeat.estisharati_consultant.UI
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import digital.upbeat.estisharati_consultant.ApiHelper.RetrofitApiClient
@@ -27,6 +28,8 @@ class Help : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var dataUserObject: DataUser
     lateinit var retrofitInterface: RetrofitInterface
+    var userId = ""
+    var userName = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_help)
@@ -41,6 +44,12 @@ class Help : BaseCompatActivity() {
         retrofitInterface =
             RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
         dataUserObject = sharedPreferencesHelper.logInConsultant
+        intent.getStringExtra("userId")?.let {
+            userId = it
+        }
+        intent.getStringExtra("userName")?.let {
+            userName = it
+        }
     }
 
     fun clickEvents() {
@@ -48,7 +57,7 @@ class Help : BaseCompatActivity() {
 
         contactusSend.setOnClickListener {
             if (contactusValidation()) {
-                ContactusApiCall(contactusName.toText(), contactusPhone.toText(), contactusEmail.toText(),GlobalData.mySubscriberResponse.message_types.get(messageTypeSpinner.selectedItemPosition).id,contactusSubject.toText(), contactusMsg.toText())
+                ContactusApiCall(contactusName.toText(), contactusPhone.toText(), contactusEmail.toText(),GlobalData.mySubscriberResponse.message_types.get(messageTypeSpinner.selectedItemPosition).id,contactusSubject.toText(), contactusMsg.toText(),userId)
             }
         }
     }
@@ -67,7 +76,12 @@ class Help : BaseCompatActivity() {
         val adapter = ArrayAdapter(this@Help, R.layout.support_simple_spinner_dropdown_item, messageTypesArrayList)
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         messageTypeSpinner.adapter = adapter
-
+        if (userName.isNotEmpty()) {
+            reportTo.visibility = View.VISIBLE
+            reportTo.text =getString(R.string.report_to)+" "+ userName
+        } else {
+            reportTo.visibility = View.GONE
+        }
     }
 
     fun contactusValidation(): Boolean {
@@ -107,10 +121,10 @@ class Help : BaseCompatActivity() {
         return true
     }
 
-    fun ContactusApiCall(name: String, phone: String, email: String, message_type: String,subject: String, msg: String) {
+    fun ContactusApiCall(name: String, phone: String, email: String, message_type: String,subject: String, msg: String,userId:String) {
         helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
         val responseBodyCall =
-            retrofitInterface.CONTACTUS_API_CALL("Bearer ${dataUserObject.access_token}", name, phone, email,message_type,subject, msg)
+            retrofitInterface.CONTACTUS_API_CALL("Bearer ${dataUserObject.access_token}", name, phone, email,message_type,subject, msg,userId)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()
