@@ -39,7 +39,6 @@ import retrofit2.Response
 import java.io.IOException
 import java.util.*
 
-
 class PackagesSelection : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var retrofitInterface: RetrofitInterface
@@ -71,10 +70,9 @@ class PackagesSelection : BaseCompatActivity() {
         }
         proceed.setOnClickListener {
             if (helperMethods.isConnectingToInternet) {
-                //                Log.d("Subscription", Gson().toJson(GlobalData.packagesOptions))
-                //                subscriptionApiCall()
                 helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
-                NetwrokPayment().getToken(this@PackagesSelection)
+//                subscriptionApiCall()
+                            NetwrokPayment().getToken(this@PackagesSelection)
             } else {
                 helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
             }
@@ -96,24 +94,23 @@ class PackagesSelection : BaseCompatActivity() {
     fun lunchPaymentGateway(Response: String) {
         helperMethods.dismissProgressDialog()
 
-      try {
-          paymentNetworkResponse = Gson().fromJson(Response, NetworkResponse::class.java)
-          Log.d("getOrderReference", paymentNetworkResponse._embedded.payment.get(0).orderReference)
+        try {
+            paymentNetworkResponse = Gson().fromJson(Response, NetworkResponse::class.java)
+            Log.d("getOrderReference", paymentNetworkResponse._embedded.payment.get(0).orderReference)
 
-          Log.d("herew", paymentNetworkResponse._links.payment.href)
-          val builder: CardPaymentRequest.Builder = CardPaymentRequest.builder()
-          Log.d("Auth", paymentNetworkResponse._links.paymentAuthorization.href)
-          builder.gatewayUrl(paymentNetworkResponse._links.paymentAuthorization.href)
-          val codeSpliter = paymentNetworkResponse._links.payment.href.split("=")
-          Log.d("AuthCode", codeSpliter[1])
-          builder.code(codeSpliter[1])
-          val req: CardPaymentRequest = builder.build()
-          val p = PaymentClient(this@PackagesSelection, "")
-          p.launchCardPayment(req, PaymentResponseCode)
-      }  catch (e :Exception){
-          e.printStackTrace()
-      }
-
+            Log.d("herew", paymentNetworkResponse._links.payment.href)
+            val builder: CardPaymentRequest.Builder = CardPaymentRequest.builder()
+            Log.d("Auth", paymentNetworkResponse._links.paymentAuthorization.href)
+            builder.gatewayUrl(paymentNetworkResponse._links.paymentAuthorization.href)
+            val codeSpliter = paymentNetworkResponse._links.payment.href.split("=")
+            Log.d("AuthCode", codeSpliter[1])
+            builder.code(codeSpliter[1])
+            val req: CardPaymentRequest = builder.build()
+            val p = PaymentClient(this@PackagesSelection, "")
+            p.launchCardPayment(req, PaymentResponseCode)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -142,6 +139,7 @@ class PackagesSelection : BaseCompatActivity() {
                 helperMethods.showAlertDialog(this, object : alertActionClickListner {
                     override fun onActionOk() {
                     }
+
                     override fun onActionCancel() {
                     }
                 }, getString(R.string.payment_), getString(R.string.payment_failed), true, getString(R.string.ok), "")
@@ -151,6 +149,7 @@ class PackagesSelection : BaseCompatActivity() {
                 helperMethods.showAlertDialog(this, object : alertActionClickListner {
                     override fun onActionOk() {
                     }
+
                     override fun onActionCancel() {
                     }
                 }, getString(R.string.payment_), getString(R.string.Payment_generic_error), true, getString(R.string.ok), "")
@@ -205,8 +204,7 @@ class PackagesSelection : BaseCompatActivity() {
 
 
 
-        chooseDiscount.text = "- " + resources.getString(R.string.usd) + " " + helperMethods.convetDecimalFormat(totelDiscountAmount)
-      //  vatAmountTxt.text = "${resources.getString(R.string.usd)} ${GlobalData.packagesOptions.vat_amount} ${resources.getString(R.string.vat_5)}"
+        chooseDiscount.text = "- " + resources.getString(R.string.usd) + " " + helperMethods.convetDecimalFormat(totelDiscountAmount) //  vatAmountTxt.text = "${resources.getString(R.string.usd)} ${GlobalData.packagesOptions.vat_amount} ${resources.getString(R.string.vat_5)}"
         if (totelDiscountAmount > 0) {
             chooseDiscount.visibility = View.VISIBLE
         } else {
@@ -230,8 +228,7 @@ class PackagesSelection : BaseCompatActivity() {
         } else {
             referralDiscountLayout.visibility = View.GONE
         }
-        Log.d("payment amount",GlobalData.packagesOptions.transaction_amount+"  "+GlobalData.packagesOptions.vat_amount+"  "+GlobalData.packagesOptions.discount+"  "+GlobalData.packagesOptions.referral_discount);
-
+        Log.d("payment amount", GlobalData.packagesOptions.transaction_amount + "  " + GlobalData.packagesOptions.vat_amount + "  " + GlobalData.packagesOptions.discount + "  " + GlobalData.packagesOptions.referral_discount);
     }
 
     fun showCouponAddPopup() {
@@ -354,6 +351,7 @@ class PackagesSelection : BaseCompatActivity() {
     }
 
     fun subscriptionApiCall() {
+        Log.d("Subscription", Gson().toJson(GlobalData.packagesOptions))
         helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
         var subscription_id = ""
         var course_id = ""
@@ -371,8 +369,7 @@ class PackagesSelection : BaseCompatActivity() {
             else -> {
             }
         }
-        val responseBodyCall = retrofitInterface.USER_SUBSCRIPTION_API_CALL("Bearer ${dataUser.access_token}", GlobalData.packagesOptions.type, GlobalData.packagesOptions.category_id, GlobalData.packagesOptions.chat, GlobalData.packagesOptions.audio, GlobalData.packagesOptions.video, subscription_id, course_id, consultant_id, GlobalData.packagesOptions.transaction_amount,
-            "0", "1", paymentNetworkResponse._embedded.payment.get(0).orderReference, GlobalData.packagesOptions.coupon_id, GlobalData.packagesOptions.coupon_code, GlobalData.packagesOptions.discount, GlobalData.packagesOptions.referral_code, GlobalData.packagesOptions.referral_discount, GlobalData.packagesOptions.referral_percent)
+        val responseBodyCall = retrofitInterface.USER_SUBSCRIPTION_API_CALL("Bearer ${dataUser.access_token}", GlobalData.packagesOptions.type, GlobalData.packagesOptions.category_id, GlobalData.packagesOptions.chat, GlobalData.packagesOptions.audio, GlobalData.packagesOptions.video, subscription_id, course_id, consultant_id, GlobalData.packagesOptions.transaction_amount, "0", "1",  paymentNetworkResponse._embedded.payment.get(0).orderReference, GlobalData.packagesOptions.coupon_id, GlobalData.packagesOptions.coupon_code, GlobalData.packagesOptions.discount, GlobalData.packagesOptions.referral_code, GlobalData.packagesOptions.referral_discount, GlobalData.packagesOptions.referral_percent)
 
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {

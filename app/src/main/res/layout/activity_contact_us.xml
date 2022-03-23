@@ -87,6 +87,19 @@
                 android:textAlignment="viewStart"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="30dp"
+                android:id="@+id/reportTo"
+                android:fontFamily="@font/almarai_regular"
+                android:lineSpacingExtra="2dp"
+                android:text="@string/report_to"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"

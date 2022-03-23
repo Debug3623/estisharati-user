@@ -3,6 +3,7 @@ package digital.upbeat.estisharati_user.UI
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
@@ -29,7 +30,8 @@ class ContactUs : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var dataUserObject: DataUser
     lateinit var retrofitInterface: RetrofitInterface
-
+    var userId = ""
+    var userName = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contact_us)
@@ -43,6 +45,12 @@ class ContactUs : BaseCompatActivity() {
         sharedPreferencesHelper = SharedPreferencesHelper(this@ContactUs)
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
         dataUserObject = sharedPreferencesHelper.logInUser
+        intent.getStringExtra("userId")?.let {
+            userId = it
+        }
+        intent.getStringExtra("userName")?.let {
+            userName = it
+        }
     }
 
     fun clickEvents() {
@@ -50,10 +58,10 @@ class ContactUs : BaseCompatActivity() {
 
         contactusSend.setOnClickListener {
             if (contactusValidation()) {
-                ContactusApiCall(contactusName.toText(), contactusPhone.toText(), contactusEmail.toText(),GlobalData.homeResponse.message_types.get(messageTypeSpinner.selectedItemPosition).id,contactusSubject.toText(), contactusMsg.toText())
+                ContactusApiCall(contactusName.toText(), contactusPhone.toText(), contactusEmail.toText(), GlobalData.homeResponse.message_types.get(messageTypeSpinner.selectedItemPosition).id, contactusSubject.toText(), contactusMsg.toText(),userId)
             }
         }
-        }
+    }
 
     fun setUserDetails() {
         contactusName.text = (dataUserObject.fname + " " + dataUserObject.lname).toEditable()
@@ -68,6 +76,13 @@ class ContactUs : BaseCompatActivity() {
         val adapter = ArrayAdapter(this@ContactUs, R.layout.support_simple_spinner_dropdown_item, messageTypesArrayList)
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         messageTypeSpinner.adapter = adapter
+
+        if (userName.isNotEmpty()) {
+            reportTo.visibility = View.VISIBLE
+            reportTo.text =getString(R.string.report_to)+" "+ userName
+        } else {
+            reportTo.visibility = View.GONE
+        }
     }
 
     fun contactusValidation(): Boolean {
@@ -86,12 +101,10 @@ class ContactUs : BaseCompatActivity() {
         if (contactusPhone.toText().equals("")) {
             helperMethods.showToastMessage(getString(R.string.enter_your_phone_number))
             return false
-        }
-//        if (!helperMethods.isValidMobile(contactusPhone.toText())) {
-//            helperMethods.showToastMessage(getString(R.string.enter_valid_phone_number))
-//            return false
-//        }
-
+        } //        if (!helperMethods.isValidMobile(contactusPhone.toText())) {
+        //            helperMethods.showToastMessage(getString(R.string.enter_valid_phone_number))
+        //            return false
+        //        }
         if (contactusSubject.toText().equals("")) {
             helperMethods.showToastMessage(getString(R.string.enter_your_subject))
             return false
@@ -107,9 +120,9 @@ class ContactUs : BaseCompatActivity() {
         return true
     }
 
-    fun ContactusApiCall(name: String, phone: String, email: String, message_type: String,subject: String, msg: String) {
+    fun ContactusApiCall(name: String, phone: String, email: String, message_type: String, subject: String, msg: String,userId:String) {
         helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
-        val responseBodyCall = retrofitInterface.CONTACTUS_API_CALL("Bearer ${dataUserObject.access_token}", name, phone, email, message_type,subject,msg)
+        val responseBodyCall = retrofitInterface.CONTACTUS_API_CALL("Bearer ${dataUserObject.access_token}", name, phone, email, message_type, subject, msg,userId)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()

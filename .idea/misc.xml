@@ -6,8 +6,10 @@
         <entry key="../../../../../layout/custom_preview.xml" value="0.328125" />
         <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/drawable/corner_redius_30dp_light_green1.xml" value="0.2835" />
         <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/drawable/corner_redius_30dp_transparent_white_and_white_stroke.xml" value="0.2835" />
+        <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/layout/activity_chat_page.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/layout/activity_consultant_details.xml" value="0.22" />
         <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/layout/activity_consultation_details_video.xml" value="0.34427083333333336" />
+        <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/layout/activity_contact_us.xml" value="0.34427083333333336" />
         <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/layout/activity_create_post.xml" value="0.16979166666666667" />
         <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/layout/activity_forgot_password.xml" value="0.34427083333333336" />
         <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/layout/activity_legal_advice.xml" value="0.34427083333333336" />
@@ -18,7 +20,9 @@
         <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/layout/activity_posts.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/layout/activity_survey.xml" value="0.34427083333333336" />
         <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/layout/activity_thanks_page.xml" value="0.34427083333333336" />
+        <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/layout/alert_popup.xml" value="0.34427083333333336" />
         <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/layout/appointment_layout.xml" value="0.34427083333333336" />
+        <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/layout/chat_action_alert.xml" value="0.34427083333333336" />
         <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/layout/fragment_home.xml" value="0.34427083333333336" />
         <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/layout/nav_side_manu.xml" value="0.34427083333333336" />
         <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/layout/package_item.xml" value="0.4466666666666667" />

@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="40dp"
-                android:layout_marginEnd="100dp"
+                android:layout_marginEnd="125dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -42,8 +42,8 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/almarai_light"
                     android:singleLine="true"
-                    android:textAlignment="viewStart"
                     android:text="Abdin Al-Farraj"
+                    android:textAlignment="viewStart"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
 
@@ -58,24 +58,37 @@
 
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/voice_call"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:adjustViewBounds="true"
-                android:src="@drawable/ic_audio_call" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/video_call"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="45dp"
-                android:adjustViewBounds="true"
-                android:src="@drawable/ic_video_call" />
+                <ImageView
+                    android:id="@+id/voice_call"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="15dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_audio_call" />
+
+                <ImageView
+                    android:id="@+id/video_call"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginEnd="15dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_video_call" />
+
+                <ImageView
+                    android:id="@+id/dotsMenu"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_dots" />
+            </LinearLayout>
 
         </RelativeLayout>
 
@@ -98,12 +111,12 @@
                 android:id="@+id/chat_scroll_to_bottom"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:visibility="gone"
                 android:layout_above="@id/reply_msg_layout"
-                android:layout_alignParentEnd= "true"
+                android:layout_alignParentEnd="true"
                 android:layout_margin="30dp"
                 android:elevation="6dp"
-                android:src="@drawable/ic_chat_down_arrow" />
+                android:src="@drawable/ic_chat_down_arrow"
+                android:visibility="gone" />
 
             <RelativeLayout
 
@@ -220,9 +233,9 @@
                             android:background="@color/transparent"
                             android:fontFamily="@font/almarai_light"
                             android:hint="@string/type_your_message"
-                            android:textAlignment="viewStart"
                             android:inputType="textMultiLine"
                             android:maxLines="3"
+                            android:textAlignment="viewStart"
                             android:textColor="@color/black"
                             android:textColorHint="@color/dark_gray"
                             android:textSize="16sp" />

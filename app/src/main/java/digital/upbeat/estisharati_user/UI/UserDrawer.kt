@@ -251,7 +251,10 @@ class UserDrawer : BaseCompatActivity() {
             startActivity(Intent(this@UserDrawer, FAQ::class.java))
         }
         nav_contect_us.setOnClickListener {
-            startActivity(Intent(this@UserDrawer, ContactUs::class.java))
+            val intent = Intent(this@UserDrawer, ContactUs::class.java)
+            intent.putExtra("userId", "")
+            intent.putExtra("userName", "")
+            startActivity(intent)
         }
         nav_header1.setOnClickListener {
             startActivity(Intent(this@UserDrawer, MyProfile::class.java))

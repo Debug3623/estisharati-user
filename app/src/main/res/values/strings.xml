@@ -114,8 +114,6 @@
     <string name="enter_first_name">Enter first name</string>
     <string name="enter_last_name">Enter last name</string>
     <string name="enter_email_address">Enter email address</string>
-
-
     <string name="enter_valid_email_address">Enter valid email address</string>
     <string name="profile_is_updating">Profile is updating...</string>
     <string name="enter_your_current_password">Enter your current password !</string>
@@ -345,4 +343,10 @@
     <string name="please_feel_free_to_leave_your_posts">Please feel free to share your post</string>
     <string name="newest">Newest</string>
     <string name="oldest">Oldest</string>
+    <string name="report_to">Report To :</string>
+    <string name="chat_has_been_blocked">Chat has been blocked</string>
+    <string name="block_chat">Block Chat</string>
+    <string name="unblock_chat">Unblock Chat</string>
+    <string name="report_user">Report User</string>
+    <string name="settings">Settings</string>
 </resources>
