@@ -46,6 +46,19 @@
             android:textColor="@color/black"
             android:textSize="13sp" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gainsboro" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="@string/report_violation_content_with_screenshot"
+            android:id="@+id/reportViolationContent"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
+
         <TextView
             android:id="@+id/actionCancel"
             android:layout_width="wrap_content"

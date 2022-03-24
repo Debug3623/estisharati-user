@@ -10,8 +10,8 @@ android {
         applicationId "digital.upbeat.estisharati_user"
         minSdkVersion 21
         targetSdkVersion 32
-        versionCode 19
-        versionName "2.9"
+        versionCode 20
+        versionName "3.0"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

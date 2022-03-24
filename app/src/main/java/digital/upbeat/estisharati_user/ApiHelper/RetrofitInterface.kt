@@ -4,6 +4,7 @@ import digital.upbeat.estisharati_user.DataClassHelper.SendNotification.DataFcmB
 import digital.upbeat.estisharati_user.DataClassHelper.PaymentRequest.PaymentRequest
 import digital.upbeat.estisharati_user.DataClassHelper.SubmitSurvey.SubmitSurvey
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -106,9 +107,9 @@ interface RetrofitInterface {
     @POST("user/change_password")
     fun CHANGE_PASSWORD_API_CALL(@Header("Authorization") token: String, @Field("old_password") old_password: String, @Field("password") password: String, @Field("password_confirmation") password_confirmation: String): Call<ResponseBody>
 
-    @FormUrlEncoded
+    @Multipart
     @POST("contactus")
-    fun CONTACTUS_API_CALL(@Header("Authorization") token: String, @Field("name") name: String, @Field("phone") phone: String, @Field("email") email: String, @Field("message_type") message_type: String, @Field("subject") subject: String, @Field("message") message: String,@Field("user_id") user_id: String): Call<ResponseBody>
+    fun CONTACTUS_API_CALL(@Header("Authorization") token: String,  @Part("name")  name: RequestBody, @Part("phone") phone: RequestBody, @Part("email") email: RequestBody, @Part("message_type") message_type: RequestBody, @Part("subject") subject: RequestBody, @Part("message") message: RequestBody,@Part("user_id") user_id: RequestBody,@Part image: MultipartBody.Part?): Call<ResponseBody>
 
     @GET("search")
     fun SEARCH_API_CALL(@Header("Authorization") token: String, @Query("search") search: String): Call<ResponseBody>

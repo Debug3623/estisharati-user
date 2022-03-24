@@ -338,10 +338,13 @@
 
     <string name="newest">الأحدث</string>
     <string name="oldest">الأقدم</string>
-    <string name="report_to">Report To :</string>
-    <string name="chat_has_been_blocked">Chat has been blocked</string>
-    <string name="block_chat">Block Chat</string>
-    <string name="unblock_chat">Unblock Chat</string>
-    <string name="report_user">Report User</string>
-    <string name="settings">Settings</string>
+    <string name="report_to">تقرير الى :</string>
+    <string name="chat_has_been_blocked">تم حظر الدردشة</string>
+    <string name="block_chat">حظر الدردشة</string>
+    <string name="unblock_chat">إلغاء حظر الدردشة</string>
+    <string name="report_user">أبلغ عن مستخدم</string>
+    <string name="settings">إعدادات</string>
+    <string name="upload_violating_content_screenshot">تحميل محتوى ينتهك لقطة شاشة</string>
+    <string name="report_violation_content_with_screenshot">الإبلاغ عن محتوى الانتهاك بلقطة الشاشة</string>
+    <string name="upload">تحميل</string>
 </resources>
