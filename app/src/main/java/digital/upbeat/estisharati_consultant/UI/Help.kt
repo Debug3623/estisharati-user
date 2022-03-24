@@ -1,11 +1,22 @@
 package digital.upbeat.estisharati_consultant.UI
 
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.Toast
+import androidx.core.content.ContextCompat
+import com.hbisoft.pickit.PickiT
+import com.hbisoft.pickit.PickiTCallbacks
 import digital.upbeat.estisharati_consultant.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_consultant.ApiHelper.RetrofitInterface
 import digital.upbeat.estisharati_consultant.DataClassHelper.Login.DataUser
@@ -15,12 +26,16 @@ import digital.upbeat.estisharati_consultant.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_consultant.R
 import digital.upbeat.estisharati_consultant.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_help.*
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 import java.io.IOException
 
 class Help : BaseCompatActivity() {
@@ -30,6 +45,8 @@ class Help : BaseCompatActivity() {
     lateinit var retrofitInterface: RetrofitInterface
     var userId = ""
     var userName = ""
+    lateinit var pickiT: PickiT
+    var uploadFile: File? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_help)
@@ -41,8 +58,7 @@ class Help : BaseCompatActivity() {
     fun initViews() {
         helperMethods = HelperMethods(this@Help)
         sharedPreferencesHelper = SharedPreferencesHelper(this@Help)
-        retrofitInterface =
-            RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
+        retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
         dataUserObject = sharedPreferencesHelper.logInConsultant
         intent.getStringExtra("userId")?.let {
             userId = it
@@ -50,6 +66,43 @@ class Help : BaseCompatActivity() {
         intent.getStringExtra("userName")?.let {
             userName = it
         }
+        pickiT = PickiT(this, object : PickiTCallbacks {
+            override fun PickiTonUriReturned() {
+            }
+
+            override fun PickiTonStartListener() {
+            }
+
+            override fun PickiTonProgressUpdate(progress: Int) {
+            }
+
+            override fun PickiTonCompleteListener(filePath: String?, wasDriveFile: Boolean, wasUnknownProvider: Boolean, wasSuccessful: Boolean, Reason: String?) {
+                if (filePath == null && !wasSuccessful) {
+                    Toast.makeText(this@Help, getString(R.string.could_not_get_image), Toast.LENGTH_LONG).show()
+                    return
+                }
+                filePath?.let {
+                    Log.d("path", filePath + "")
+                    uploadFile = File(filePath)
+                    uploadImageView.visibility = View.VISIBLE
+                    uploadViolatingLabel.visibility = View.GONE
+                    uploadImageView.setImageURI(Uri.fromFile(uploadFile))
+                }
+            }
+
+            override fun PickiTonMultipleCompleteListener(paths: java.util.ArrayList<String>?, wasSuccessful: Boolean, Reason: String?) {
+            }
+        }, this)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        pickiT.deleteTemporaryFile(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        pickiT.deleteTemporaryFile(this)
     }
 
     fun clickEvents() {
@@ -57,8 +110,11 @@ class Help : BaseCompatActivity() {
 
         contactusSend.setOnClickListener {
             if (contactusValidation()) {
-                ContactusApiCall(contactusName.toText(), contactusPhone.toText(), contactusEmail.toText(),GlobalData.mySubscriberResponse.message_types.get(messageTypeSpinner.selectedItemPosition).id,contactusSubject.toText(), contactusMsg.toText(),userId)
+                ContactusApiCall(contactusName.toText(), contactusPhone.toText(), contactusEmail.toText(), GlobalData.mySubscriberResponse.message_types.get(messageTypeSpinner.selectedItemPosition).id, contactusSubject.toText(), contactusMsg.toText(), userId)
             }
+        }
+        uploadImage.setOnClickListener {
+            helperMethods.ChangeProfilePhotoPopup(this@Help)
         }
     }
 
@@ -68,17 +124,17 @@ class Help : BaseCompatActivity() {
         var phone = dataUserObject.phone
         phone = phone.replace(" ", "")
         contactusPhone.text = phone.toEditable()
-        val messageTypesArrayList : ArrayList<String> = arrayListOf()
-
+        val messageTypesArrayList: ArrayList<String> = arrayListOf()
         for (types in GlobalData.mySubscriberResponse.message_types) {
             messageTypesArrayList.add(types.title)
         }
         val adapter = ArrayAdapter(this@Help, R.layout.support_simple_spinner_dropdown_item, messageTypesArrayList)
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         messageTypeSpinner.adapter = adapter
+
         if (userName.isNotEmpty()) {
             reportTo.visibility = View.VISIBLE
-            reportTo.text =getString(R.string.report_to)+" "+ userName
+            reportTo.text = getString(R.string.report_to) + " " + userName
         } else {
             reportTo.visibility = View.GONE
         }
@@ -100,12 +156,10 @@ class Help : BaseCompatActivity() {
         if (contactusPhone.toText().equals("")) {
             helperMethods.showToastMessage(getString(R.string.enter_your_phone_number))
             return false
-        }
-//        if (!helperMethods.isValidMobile(contactusPhone.toText())) {
-//            helperMethods.showToastMessage(getString(R.string.enter_valid_phone_number))
-//            return false
-//        }
-
+        } //        if (!helperMethods.isValidMobile(contactusPhone.toText())) {
+        //            helperMethods.showToastMessage(getString(R.string.enter_valid_phone_number))
+        //            return false
+        //        }
         if (contactusSubject.toText().equals("")) {
             helperMethods.showToastMessage(getString(R.string.enter_your_subject))
             return false
@@ -121,10 +175,43 @@ class Help : BaseCompatActivity() {
         return true
     }
 
-    fun ContactusApiCall(name: String, phone: String, email: String, message_type: String,subject: String, msg: String,userId:String) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (ContextCompat.checkSelfPermission(this@Help, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this@Help, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this@Help, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            helperMethods.ChangeProfilePhotoPopup(this@Help)
+        }
+    }
+
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == GlobalData.PICK_IMAGE_GALLERY) {
+            if (resultCode == Activity.RESULT_OK && data != null) {
+                pickiT.getPath(data.data, Build.VERSION.SDK_INT)
+            }
+        } else if (requestCode == GlobalData.PICK_IMAGE_CAMERA) {
+            if (resultCode == Activity.RESULT_OK && data != null) {
+                val yourSelectedImage = data.extras!!.get("data") as Bitmap
+                val img_uri = helperMethods.getImageUriFromBitmap(yourSelectedImage)
+                pickiT.getPath(img_uri, Build.VERSION.SDK_INT)
+            }
+        }
+    }
+
+    fun ContactusApiCall(name: String, phone: String, email: String, messageType: String, subject: String, msg: String, userId: String) {
+        val nameRequestBody: RequestBody = RequestBody.create(MediaType.parse("text/plain"), name)
+        val phoneRequestBody: RequestBody = RequestBody.create(MediaType.parse("text/plain"), phone)
+        val emailRequestBody: RequestBody = RequestBody.create(MediaType.parse("text/plain"), email)
+        val messageTypeRequestBody: RequestBody = RequestBody.create(MediaType.parse("text/plain"), messageType)
+        val subjectRequestBody: RequestBody = RequestBody.create(MediaType.parse("text/plain"), subject)
+        val msgRequestBody: RequestBody = RequestBody.create(MediaType.parse("text/plain"), msg)
+        val userIdRequestBody: RequestBody = RequestBody.create(MediaType.parse("text/plain"), userId)
+        var imageFile: MultipartBody.Part? = null
+        uploadFile?.let {
+            val requestBody = RequestBody.create(MediaType.parse("*/*"), it)
+            imageFile = MultipartBody.Part.createFormData("image", it.getName(), requestBody)
+        }
         helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
-        val responseBodyCall =
-            retrofitInterface.CONTACTUS_API_CALL("Bearer ${dataUserObject.access_token}", name, phone, email,message_type,subject, msg,userId)
+        val responseBodyCall = retrofitInterface.CONTACTUS_API_CALL("Bearer ${dataUserObject.access_token}", nameRequestBody, phoneRequestBody, emailRequestBody, messageTypeRequestBody, subjectRequestBody, msgRequestBody, userIdRequestBody, imageFile)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()

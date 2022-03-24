@@ -713,6 +713,13 @@ filePath?.let {
             startActivity(intent)
             dialog.dismiss()
         }
+        layoutView.reportViolationContent.setOnClickListener {
+            val intent = Intent(this@ChatPage, Help::class.java)
+            intent.putExtra("userId", dataUserFireStore.user_id)
+            intent.putExtra("userName", dataUserFireStore.fname + " " + dataUserFireStore.lname)
+            startActivity(intent)
+            dialog.dismiss()
+        }
         layoutView.blockUnBlockChat.setOnClickListener {
             if (currentUserFireStore.blocked_user_ids.contains(dataUserFireStore.user_id)) {
                 currentUserFireStore.blocked_user_ids.remove(dataUserFireStore.user_id)

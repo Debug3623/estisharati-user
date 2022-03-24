@@ -196,4 +196,7 @@
     <string name="unblock_chat">Unblock Chat</string>
     <string name="report_user">Report User</string>
     <string name="settings">Settings</string>
+    <string name="report_violation_content_with_screenshot">Report Violation Content With Screenshot</string>
+    <string name="upload_violating_content_screenshot">Upload violating Content ScreenShot</string>
+    <string name="upload">Upload</string>
 </resources>

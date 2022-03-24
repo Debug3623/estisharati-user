@@ -1,6 +1,7 @@
 package digital.upbeat.estisharati_consultant.ApiHelper
 
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -33,8 +34,9 @@ interface RetrofitInterface {
     @GET("pages/{pages}")
     fun PAGES_API_CALL(@Header("Authorization") token: String, @Path("pages") pages: String): Call<ResponseBody>
 
-    @FormUrlEncoded @POST("contactus")
-    fun CONTACTUS_API_CALL(@Header("Authorization") token: String, @Field("name") name: String, @Field("phone") phone: String, @Field("email") email: String, @Field("message_type") message_type: String, @Field("subject") subject: String,  @Field("message") message: String,@Field("user_id") user_id: String): Call<ResponseBody>
+    @Multipart
+    @POST("contactus")
+    fun CONTACTUS_API_CALL(@Header("Authorization") token: String,  @Part("name")  name: RequestBody, @Part("phone") phone: RequestBody, @Part("email") email: RequestBody, @Part("message_type") message_type: RequestBody, @Part("subject") subject: RequestBody, @Part("message") message: RequestBody,@Part("user_id") user_id: RequestBody,@Part image: MultipartBody.Part?): Call<ResponseBody>
 
      @GET("my-subsribers")
     fun MY_SUBSRIBERS_API_CALL(@Header("Authorization") token: String,@Query("fire_base_token") fire_base_token: String): Call<ResponseBody>
