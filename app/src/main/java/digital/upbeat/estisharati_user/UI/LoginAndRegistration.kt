@@ -147,7 +147,7 @@ class LoginAndRegistration : BaseCompatActivity() {
         sign_in_button.setOnClickListener { launchGoogleSignIn() }
     }
 
-    fun loginValidation(): Boolean {
+    fun  loginValidation(): Boolean {
         if (email_phone_number.toText().equals("")) {
             helperMethods.showToastMessage(getString(R.string.enter_email_address))
             return false
