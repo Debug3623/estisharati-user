@@ -475,7 +475,7 @@ class Subscribers : Fragment() {
     }
 
     fun mySubsribersApiCall() {
-        Log.d("BaseURL",GlobalData.BaseUrl)
+        Log.d("BaseURL",GlobalData.BaseUrl+"  "+dataUser.access_token)
         shimmer_view_container.startShimmer()
         shimmer_view_container.visibility = View.VISIBLE
         subscribersLayout.visibility = View.GONE

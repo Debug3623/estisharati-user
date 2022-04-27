@@ -44,6 +44,9 @@ interface RetrofitInterface {
     @GET("notifications")
     fun NOTIFICATION_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
 
+    @GET("clear-notifications")
+    fun CLEAR_NOTIFICATIONS_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
+
     @FormUrlEncoded
     @POST("consultant/comment")
     fun CONSULTANT_COMMENT_API_CALL(@Header("Authorization") token: String, @Field("consultant_id") consultant_id: String, @Field("parent_id") parent_id: String, @Field("comment") comment: String): Call<ResponseBody>

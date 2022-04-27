@@ -46,6 +46,7 @@ class Notifications : BaseCompatActivity() {
 
     fun clickEvents() {
         nav_back.setOnClickListener { finish() }
+        clearAll.setOnClickListener { callClearNotificationAPI() }
     }
 
     fun InitializeRecyclerview() {
@@ -76,6 +77,7 @@ class Notifications : BaseCompatActivity() {
                            GlobalData. notificationResponse = Gson().fromJson(response.body()!!.string(), NotificationsResponse::class.java)
                             if (GlobalData.notificationResponse.status.equals("200")) {
                                 InitializeRecyclerview()
+                                GlobalData.mySubscriberResponse.notification_count="0"
                             } else {
                                if (helperMethods.checkTokenValidation(GlobalData.notificationResponse.status, GlobalData.notificationResponse.message)) {
                                     finish()
@@ -105,4 +107,48 @@ class Notifications : BaseCompatActivity() {
             }
         })
     }
+    private fun callClearNotificationAPI() {
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
+        val responseBodyCall = retrofitInterface.CLEAR_NOTIFICATIONS_API_CALL("Bearer ${dataUser.access_token}")
+        responseBodyCall.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                helperMethods.dismissProgressDialog()
+                if (response.isSuccessful) {
+                    if (response.body() != null) {
+                        try {
+                           GlobalData. notificationResponse = Gson().fromJson(response.body()!!.string(), NotificationsResponse::class.java)
+                            if (GlobalData.notificationResponse.status.equals("200")) {
+                                InitializeRecyclerview()
+                                GlobalData.mySubscriberResponse.notification_count="0"
+                            } else {
+                               if (helperMethods.checkTokenValidation(GlobalData.notificationResponse.status, GlobalData.notificationResponse.message)) {
+                                    finish()
+                                    return
+                                }
+                                helperMethods.AlertPopup(getString(R.string.alert), GlobalData.notificationResponse.message)
+                            }
+                        } catch (e: JSONException) {
+                            helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
+                            e.printStackTrace()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    } else {
+                        Log.d("body", "Body Empty")
+                    }
+                } else {
+                    helperMethods.showToastMessage(getString(R.string.something_went_wrong))
+                    Log.d("body", "Not Successful")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                helperMethods.dismissProgressDialog()
+                t.printStackTrace()
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
+            }
+        })
+    }
+
+
 }

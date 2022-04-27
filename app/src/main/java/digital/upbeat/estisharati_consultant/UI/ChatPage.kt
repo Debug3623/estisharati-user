@@ -47,7 +47,9 @@ import digital.upbeat.estisharati_consultant.MessageSwipe.SwipeControllerActions
 import digital.upbeat.estisharati_consultant.R
 import digital.upbeat.estisharati_consultant.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_chat_page.*
+import kotlinx.android.synthetic.main.appointment_layout.view.*
 import kotlinx.android.synthetic.main.chat_action_alert.view.*
+import kotlinx.android.synthetic.main.chat_action_alert.view.actionCancel
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -139,15 +141,15 @@ class ChatPage : BaseCompatActivity() {
             }
 
             override fun PickiTonCompleteListener(filePath: String?, wasDriveFile: Boolean, wasUnknownProvider: Boolean, wasSuccessful: Boolean, Reason: String?) {
-                if (filePath == null&&!wasSuccessful) {
+                if (filePath == null && !wasSuccessful) {
                     Toast.makeText(this@ChatPage, getString(R.string.could_not_get_image), Toast.LENGTH_LONG).show()
                     return
                 }
-filePath?.let {
+                filePath?.let {
 
-    Log.d("path", filePath + "")
-    getImageUrlForChatApiCall(filePath)
-}
+                    Log.d("path", filePath + "")
+                    getImageUrlForChatApiCall(filePath)
+                }
             }
 
             override fun PickiTonMultipleCompleteListener(paths: ArrayList<String>?, wasSuccessful: Boolean, Reason: String?) {
@@ -269,7 +271,8 @@ filePath?.let {
             }
         }
     }
-    fun firestoreChatLisiner(){
+
+    fun firestoreChatLisiner() {
         firestoreRegistrar = firestore.collection("Chats").whereEqualTo("communication_id", IdArray).orderBy("send_time", Query.Direction.ASCENDING).addSnapshotListener { querySnapshot, firebaseFirestoreException ->
             querySnapshot?.let {
                 messagesArrayList.clear()
@@ -381,7 +384,11 @@ filePath?.let {
                         inside_reply.put("message_content", "")
                         inside_reply.put("sender_id", "")
                         inside_reply.put("position", "")
-                        updateUserSecondsApiCall(it.id, userId, "1", message.toText(), "")
+
+                        val words: String = message.toText()
+                        val count = words.split(" ").size
+                        Log.d("count", "" + count)
+                        updateUserSecondsApiCall(it.id, userId, count.toString(), message.toText(), "")
                         message.text = "".toEditable()
 
                     }.addOnFailureListener {
@@ -510,7 +517,7 @@ filePath?.let {
     }
 
     fun updateUserSecondsApiCall(message_id: String, user_id: String, chat_count: String, message: String, imageUrl: String) { //        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
-        val responseBodyCall = if (chat_count.equals("1")) retrofitInterface.UPDATE_USER_SECONDS_API_CALL("Bearer ${dataUser.access_token}", user_id, "0", "0", chat_count, user_id, message, imageUrl) else retrofitInterface.GET_USER_SECONDS_API_CALL("Bearer ${dataUser.access_token}", user_id)
+        val responseBodyCall = if (chat_count.toInt()>0) retrofitInterface.UPDATE_USER_SECONDS_API_CALL("Bearer ${dataUser.access_token}", user_id, "0", "0", chat_count, user_id, message, imageUrl) else retrofitInterface.GET_USER_SECONDS_API_CALL("Bearer ${dataUser.access_token}", user_id)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) { //                helperMethods.dismissProgressDialog()
                 if (response.isSuccessful) {
@@ -540,13 +547,18 @@ filePath?.let {
                                             inside_reply.put("position", "")
                                             var itsMessage = ""
                                             var itsImageUrl = ""
+                                            var count = "1"
                                             if (forward_type.equals("image")) {
                                                 itsImageUrl = forward_content
                                             } else if (forward_type.equals("text")) {
                                                 itsMessage = forward_content
+
+                                                val words: String = itsMessage
+                                                count = words.split(" ").size.toString()
+                                                Log.d("count", "" + count)
                                             }
                                             forward_content = ""
-                                            updateUserSecondsApiCall(it.id, userId, "1", itsMessage, itsImageUrl)
+                                            updateUserSecondsApiCall(it.id, userId, count, itsMessage, itsImageUrl)
 
 
                                         }.addOnFailureListener {
@@ -731,9 +743,56 @@ filePath?.let {
             dialog.dismiss()
             firestoreUserLisiner()
         }
+        layoutView.bookAppointment.setOnClickListener {
+            showAppointmentPopup()
+            dialog.dismiss()
+        }
         layoutView.actionCancel.setOnClickListener {
             dialog.dismiss()
         }
+    }
+
+    fun showAppointmentPopup() {
+        val LayoutView = LayoutInflater.from(this@ChatPage).inflate(R.layout.appointment_layout, null)
+        val aleatdialog = android.app.AlertDialog.Builder(this@ChatPage)
+        aleatdialog.setView(LayoutView)
+        aleatdialog.setCancelable(false)
+        val dialog = aleatdialog.create()
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+        LayoutView.actionOk.setOnClickListener {
+            if (validateAppointment(LayoutView)) {
+                dialog.dismiss()
+                val messageContent = "${getString(R.string.i_will_give_you_consultant_appointment_on)} ${LayoutView.appointmentData.text} ${LayoutView.appointmentTime.text} ${getString(R.string.please_make_sure_your_availability_on_the_time)}"+if(LayoutView.note.text.toString().isNotEmpty()){"\n\n${getString(R.string.note)} : "+ LayoutView.note.text.toString() }else{""}
+                val hashMap = hashMapOf<String, Any>("sender_id" to dataUser.id, "receiver_id" to dataUserFireStore.user_id, "message_type" to "text", "message_content" to messageContent, "message_status" to "send", "message_other_type" to "normal", "send_time" to FieldValue.serverTimestamp(), "communication_id" to IdArray, "inside_reply" to inside_reply)
+                firestore.collection("Chats").add(hashMap).addOnSuccessListener {
+                    var dataMessage: data? = null
+                    dataMessage = data("New message", "${dataUser.fname} send message : ${messageContent}", "incoming_message", dataUser.id, dataUserFireStore.user_id, "", "")
+                    val dataFcmBody = DataFcmBody("", dataMessage)
+                    sendPushNotification(dataFcmBody, false)
+                }.addOnFailureListener {
+                    Log.d("FailureListener", "" + it.localizedMessage)
+                }
+            }
+        }
+        LayoutView.actionCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+        LayoutView.appointmentLayout.setOnClickListener {
+            helperMethods.ShowDateTimePicker(LayoutView.appointmentData, LayoutView.appointmentTime)
+        }
+    }
+
+    fun validateAppointment(LayoutView: View): Boolean {
+        if (LayoutView.appointmentData.equals("")) {
+            helperMethods.showToastMessage(getString(R.string.please_select_data_and_time))
+            return false
+        }
+        if (!helperMethods.isConnectingToInternet) {
+            helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
+            return false
+        }
+        return true
     }
 
     fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)

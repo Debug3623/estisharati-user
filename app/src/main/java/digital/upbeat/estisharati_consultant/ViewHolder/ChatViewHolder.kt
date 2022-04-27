@@ -29,6 +29,7 @@ class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val me_text_profile = itemView.me_text_profile
     val text_message_status=itemView.text_message_status
     val me_forward_text = itemView.me_forward_text
+    val me_delete_text = itemView.me_delete_text
     val me_text_is_forward=itemView.me_text_is_forward
     //******************
 
@@ -39,6 +40,7 @@ class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val me_image_profile=itemView.me_image_profile
     val image_message_status=itemView.image_message_status
     val me_forward_image=itemView.me_forward_image
+    val me_delete_image=itemView.me_delete_image
     val me_image_is_forward=itemView.me_image_is_forward
     //******************
 

@@ -120,24 +120,20 @@ class HelperMethods(var context: Context) {
         }
     }
 
-    fun ShowDateTimePicker(datetime: TextView) {
-        val currentDate = Calendar.getInstance()
+    fun ShowDateTimePicker(date: TextView, time: TextView) {
+        val nextDate = Calendar.getInstance()
+        nextDate.add(Calendar.DAY_OF_YEAR, 1);
         val dateTime = Calendar.getInstance()
         val datePickerDialog = DatePickerDialog(context, OnDateSetListener { datePicker, year, monthOfYear, dayOfMonth ->
             dateTime[year, monthOfYear] = dayOfMonth
             TimePickerDialog(context, OnTimeSetListener { view, hourOfDay, minute ->
                 dateTime[Calendar.HOUR_OF_DAY] = hourOfDay
                 dateTime[Calendar.MINUTE] = minute
-                val afterOneHour = Calendar.getInstance()
-                afterOneHour.add(Calendar.HOUR_OF_DAY, 1)
-                if (dateTime.timeInMillis > afterOneHour.timeInMillis) {
-                    datetime.text = SimpleDateFormat("dd-MMM-yyyy hh:mm a").format(dateTime.time)
-                } else {
-                    datetime.text = ""
-                    Toast.makeText(context, "Sorry, Your booking time should be 1 hour ahead of current time!", Toast.LENGTH_LONG).show()
-                }
-            }, currentDate[Calendar.HOUR_OF_DAY], currentDate[Calendar.MINUTE], false).show()
-        }, currentDate[Calendar.YEAR], currentDate[Calendar.MONTH], currentDate[Calendar.DATE]) //        datePickerDialog.getDatePicker().setMinDate(currentDate.getTimeInMillis());
+                date.text = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(dateTime.time)
+                time.text = SimpleDateFormat("HH:mm", Locale.US).format(dateTime.time)
+            }, nextDate[Calendar.HOUR_OF_DAY], nextDate[Calendar.MINUTE], false).show()
+        }, nextDate[Calendar.YEAR], nextDate[Calendar.MONTH], nextDate[Calendar.DATE])
+        datePickerDialog.getDatePicker().setMinDate(nextDate.getTimeInMillis());
         datePickerDialog.show()
     }
 

@@ -184,4 +184,17 @@
     <string name="upload_violating_content_screenshot">تحميل محتوى ينتهك لقطة شاشة</string>
     <string name="report_violation_content_with_screenshot">الإبلاغ عن محتوى الانتهاك بلقطة الشاشة</string>
     <string name="upload">تحميل</string>
+    <string name="book_appointment">Book Appointment</string>
+
+    <string name="please_select_data_and_time">الرجاء تحديد الوقت و التاريخ</string>
+    <string name="select_your_appointment_request_date_and_time">حدد تاريخ و وقت موعد طلبك</string>
+
+    <string name="yyyy_mm_dd">يوم - شهر - سنة</string>
+    <string name="hh_mm">دقائق:ساعات</string>
+    <string name="enter_note_here">Enter note here...</string>
+    <string name="note">Note</string>
+    <string name="i_will_give_you_consultant_appointment_on">I will give you consultant appointment on</string>
+    <string name="please_make_sure_your_availability_on_the_time">please make sure your availability on the time.</string>
+    <string name="message_deleted_successfully">Message deleted successfully</string>
+    <string name="clear_all">Clear All</string>
 </resources>

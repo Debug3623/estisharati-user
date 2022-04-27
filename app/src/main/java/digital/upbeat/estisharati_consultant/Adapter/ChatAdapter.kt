@@ -153,6 +153,8 @@ class ChatAdapter(val context: Context, val chatPage: ChatPage, val messagesArra
         holder.other_forward_image.visibility = View.GONE
         holder.me_forward_text.visibility = View.GONE
         holder.me_forward_image.visibility = View.GONE
+        holder.me_delete_text.visibility = View.GONE
+        holder.me_delete_image.visibility = View.GONE
 
         holder.other_text_layout.setOnLongClickListener {
             holder.other_forward_text.visibility = View.VISIBLE
@@ -168,6 +170,7 @@ class ChatAdapter(val context: Context, val chatPage: ChatPage, val messagesArra
         }
         holder.me_text_layout.setOnLongClickListener {
             holder.me_forward_text.visibility = View.VISIBLE
+            holder.me_delete_text.visibility = View.VISIBLE
             false
         }
         holder.me_image_layout.setOnLongClickListener {
@@ -176,6 +179,7 @@ class ChatAdapter(val context: Context, val chatPage: ChatPage, val messagesArra
         }
         holder.me_image_hole_layout.setOnLongClickListener {
             holder.me_forward_image.visibility = View.VISIBLE
+            holder.me_delete_image.visibility = View.VISIBLE
             false
         }
 
@@ -191,6 +195,12 @@ class ChatAdapter(val context: Context, val chatPage: ChatPage, val messagesArra
         holder.me_forward_image.setOnClickListener {
             sendForwardMessage(dataMessageFireStore)
         }
+        holder.me_delete_text.setOnClickListener {
+            deleteMessage(dataMessageFireStore)
+        }
+        holder.me_delete_image.setOnClickListener {
+            deleteMessage(dataMessageFireStore)
+        }
     }
 
     fun sendForwardMessage(dataMessageFireStore: DataMessageFireStore) {
@@ -199,7 +209,11 @@ class ChatAdapter(val context: Context, val chatPage: ChatPage, val messagesArra
         chatPage.finish()
         helperMethods.showToastMessage(context.getString(R.string.now_you_can_forward_the_message))
     }
-
+    fun deleteMessage(dataMessageFireStore: DataMessageFireStore) {
+        chatPage.firestore.collection("Chats").document(dataMessageFireStore.message_id).delete().addOnSuccessListener {
+            helperMethods.showToastMessage(context.getString(R.string.message_deleted_successfully))
+        }
+    }
     fun changeBackgroundColor(holder: ChatViewHolder) {
         holder.parent_layout.setBackgroundColor(ContextCompat.getColor(context, R.color.pink))
         object : CountDownTimer(1000, 1000) {

@@ -24,11 +24,11 @@
 
 
         <TextView
+            android:id="@+id/reportUser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="15dp"
             android:text="@string/report_user"
-            android:id="@+id/reportUser"
             android:textColor="@color/black"
             android:textSize="13sp" />
 
@@ -38,11 +38,11 @@
             android:background="@color/gainsboro" />
 
         <TextView
+            android:id="@+id/blockUnBlockChat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="15dp"
             android:text="@string/unblock_chat"
-            android:id="@+id/blockUnBlockChat"
             android:textColor="@color/black"
             android:textSize="13sp" />
 
@@ -50,12 +50,27 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/gainsboro" />
+
         <TextView
+            android:id="@+id/reportViolationContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="15dp"
             android:text="@string/report_violation_content_with_screenshot"
-            android:id="@+id/reportViolationContent"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gainsboro" />
+
+        <TextView
+            android:id="@+id/bookAppointment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="@string/book_appointment"
             android:textColor="@color/black"
             android:textSize="13sp" />
 
