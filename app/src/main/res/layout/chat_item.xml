@@ -130,6 +130,7 @@
                     android:layout_height="wrap_content"
                     android:elevation="3dp"
                     android:fontFamily="@font/almarai_light"
+                    android:textIsSelectable="true"
                     android:padding="20dp"
                     android:text="How ? sdfsadfsadfsadfasdfasdfasdfsadfsdf"
                     android:textColor="@color/black"
@@ -331,6 +332,15 @@
             android:layout_centerVertical="true"
             android:src="@drawable/ic_right_forward"
             android:visibility="gone" />
+        <ImageView
+            android:id="@+id/me_delete_text"
+            android:layout_width="15dp"
+            android:layout_marginStart="20dp"
+            android:layout_height="15dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_delete_icon"
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -444,6 +454,7 @@
                     android:layout_height="wrap_content"
                     android:elevation="3dp"
                     android:fontFamily="@font/almarai_light"
+                    android:textIsSelectable="true"
                     android:padding="20dp"
                     android:text="I'm fine, e, thanksI'm fine"
                     android:textColor="@color/black"
@@ -503,6 +514,15 @@
             android:src="@drawable/ic_right_forward"
             android:visibility="gone" />
 
+        <ImageView
+            android:id="@+id/me_delete_image"
+            android:layout_width="15dp"
+            android:layout_marginStart="20dp"
+            android:layout_height="15dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_delete_icon"
+            android:visibility="gone" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

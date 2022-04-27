@@ -125,6 +125,9 @@ interface RetrofitInterface {
     @GET("notifications")
     fun NOTIFICATION_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
 
+    @GET("clear-notifications")
+    fun CLEAR_NOTIFICATIONS_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
+
     @GET("user/my-wallet")
     fun PAYMENTMETHOD_LIST_API_CALL(@Header("Authorization") token: String): Call<ResponseBody>
 

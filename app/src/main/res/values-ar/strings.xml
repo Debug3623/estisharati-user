@@ -347,4 +347,6 @@
     <string name="upload_violating_content_screenshot">تحميل محتوى ينتهك لقطة شاشة</string>
     <string name="report_violation_content_with_screenshot">الإبلاغ عن محتوى الانتهاك بلقطة الشاشة</string>
     <string name="upload">تحميل</string>
+    <string name="message_deleted_successfully">تم حذف الرسالة بنجاح</string>
+    <string name="clear_all">امسح الكل</string>
 </resources>

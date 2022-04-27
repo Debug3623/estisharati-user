@@ -28,7 +28,7 @@ class Notifications : BaseCompatActivity() {
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var dataUser: DataUser
     lateinit var sharedPreferencesHelper: SharedPreferencesHelper
-    var notificationResponse: NotificationResponse = NotificationResponse("","" ,arrayListOf())
+    var notificationResponse: NotificationResponse = NotificationResponse("", "", arrayListOf())
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notifications)
@@ -46,6 +46,7 @@ class Notifications : BaseCompatActivity() {
 
     fun clickEvents() {
         nav_back.setOnClickListener { finish() }
+        clearAll.setOnClickListener { callClearNotificationAPI() }
     }
 
     fun InitializeRecyclerview() {
@@ -77,8 +78,54 @@ class Notifications : BaseCompatActivity() {
                             if (notificationResponse.status.equals("200")) {
                                 InitializeRecyclerview()
                                 if (GlobalData.isThingInitialized()) {
-                                    GlobalData.homeResponse.notification_count = notificationResponse.data.size.toString()
+                                    GlobalData.homeResponse.notification_count = "0"
                                 }
+                            } else {
+                                if (helperMethods.checkTokenValidation(notificationResponse.status, notificationResponse.message)) {
+                                    finish()
+                                    return
+                                }
+                                helperMethods.AlertPopup(getString(R.string.alert), notificationResponse.message)
+                            }
+                        } catch (e: JSONException) {
+                            helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
+                            e.printStackTrace()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    } else {
+                        Log.d("body", "Body Empty")
+                    }
+                } else {
+                    helperMethods.showToastMessage(getString(R.string.something_went_wrong))
+                    Log.d("body", "Not Successful")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                helperMethods.dismissProgressDialog()
+                t.printStackTrace()
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
+            }
+        })
+    }
+
+    private fun callClearNotificationAPI() {
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
+        val responseBodyCall = retrofitInterface.CLEAR_NOTIFICATIONS_API_CALL("Bearer ${dataUser.access_token}")
+        responseBodyCall.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                helperMethods.dismissProgressDialog()
+                if (response.isSuccessful) {
+                    if (response.body() != null) {
+                        try {
+                            notificationResponse = Gson().fromJson(response.body()!!.string(), NotificationResponse::class.java)
+                            if (notificationResponse.status.equals("200")) {
+                                InitializeRecyclerview()
+                                if (GlobalData.isThingInitialized()) {
+                                    GlobalData.homeResponse.notification_count = "0"
+                                }
+                                helperMethods.showToastMessage(notificationResponse.message)
                             } else {
                                 if (helperMethods.checkTokenValidation(notificationResponse.status, notificationResponse.message)) {
                                     finish()

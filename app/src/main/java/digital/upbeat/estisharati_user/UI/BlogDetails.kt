@@ -3,6 +3,7 @@ package digital.upbeat.estisharati_user.UI
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
 import digital.upbeat.estisharati_user.DataClassHelper.Blog.Data
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.R
@@ -21,8 +22,7 @@ class BlogDetails : AppCompatActivity() {
 
     fun initViews() {
         helperMethods = HelperMethods(this@BlogDetails)
-        val blogArrayList = intent.getParcelableArrayListExtra<Data>("blogArrayList") as ArrayList<Data>
-        blogItemDetails = blogArrayList.get(intent.getIntExtra("position", 0))
+        blogItemDetails = Gson().fromJson(intent.getStringExtra("blogDetailsData"), Data::class.java)
     }
 
     fun clickEvents() {

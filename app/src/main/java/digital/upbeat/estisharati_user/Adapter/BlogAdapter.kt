@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
 import digital.upbeat.estisharati_user.DataClassHelper.Blog.Data
 import digital.upbeat.estisharati_user.R
 import digital.upbeat.estisharati_user.UI.Blog
@@ -30,8 +31,8 @@ class BlogAdapter(val context: Context, val blog: Blog, var blogArrayList: Array
 
         holder.blogItemLayout.setOnClickListener {
             val intent =Intent(context,BlogDetails::class.java)
-            intent.putParcelableArrayListExtra("blogArrayList",blogArrayList)
-            intent.putExtra("position",position)
+            val blogDetailsData=Gson().toJson(blogArrayList[position]).toString()
+            intent.putExtra("blogDetailsData",blogDetailsData)
             context.startActivity(intent)
         }
     }

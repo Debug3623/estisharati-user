@@ -60,7 +60,6 @@ import retrofit2.Response
 import java.io.File
 import java.io.IOException
 import java.util.*
-import kotlin.collections.ArrayList
 
 class ChatPage : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
@@ -244,10 +243,9 @@ class ChatPage : BaseCompatActivity() {
                 }
             }
         }
-
-
     }
-    fun firestoreChatLisiner(){
+
+    fun firestoreChatLisiner() {
         firestoreRegistrar = firestore.collection("Chats").whereEqualTo("communication_id", IdArray).orderBy("send_time", Query.Direction.ASCENDING).addSnapshotListener { querySnapshot, firebaseFirestoreException ->
             querySnapshot?.let {
                 messagesArrayList.clear()
@@ -359,7 +357,10 @@ class ChatPage : BaseCompatActivity() {
                         inside_reply.put("message_content", "")
                         inside_reply.put("sender_id", "")
                         inside_reply.put("position", "")
-                        UpdateConsultationSecondsApiCall(it.id, dataUserFireStore.user_id, "1", message.toText(), "")
+                        val words: String = message.toText()
+                        val count = words.split(" ").size
+                        Log.d("count", "" + count)
+                        UpdateConsultationSecondsApiCall(it.id, dataUserFireStore.user_id, count.toString(), message.toText(), "")
 
                         message.text = "".toEditable()
                     }.addOnFailureListener {
@@ -518,7 +519,7 @@ class ChatPage : BaseCompatActivity() {
         message: String,
         imageUrl: String,
     ) { //        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
-        val responseBodyCall = if (chat_count.equals("1")) retrofitInterface.UPDATE_CONSULTATION_SECONDS_API_CALL("Bearer ${dataUser.access_token}", consultant_id, "0", "0", chat_count, consultant_id, message, imageUrl)
+        val responseBodyCall = if (chat_count.toInt()>0) retrofitInterface.UPDATE_CONSULTATION_SECONDS_API_CALL("Bearer ${dataUser.access_token}", consultant_id, "0", "0", chat_count, consultant_id, message, imageUrl)
         else retrofitInterface.GET_CONSULTATION_SECONDS_API_CALL("Bearer ${dataUser.access_token}", consultant_id)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) { //                helperMethods.dismissProgressDialog()
@@ -549,13 +550,17 @@ class ChatPage : BaseCompatActivity() {
                                             inside_reply.put("position", "")
                                             var itsMessage = ""
                                             var itsImageUrl = ""
+                                            var count = "1"
                                             if (forward_type.equals("image")) {
                                                 itsImageUrl = forward_content
                                             } else if (forward_type.equals("text")) {
                                                 itsMessage = forward_content
+                                                val words: String = itsMessage
+                                                count = words.split(" ").size.toString()
+                                                Log.d("count", "" + count)
                                             }
                                             forward_content = ""
-                                            UpdateConsultationSecondsApiCall(it.id, dataUserFireStore.user_id, "1", itsMessage, itsImageUrl)
+                                            UpdateConsultationSecondsApiCall(it.id, dataUserFireStore.user_id, count, itsMessage, itsImageUrl)
                                         }.addOnFailureListener {
                                             Log.d("FailureListener", "" + it.localizedMessage)
                                         }

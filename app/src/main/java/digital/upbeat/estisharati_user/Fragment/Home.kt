@@ -89,6 +89,13 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
             }
         }
         Log.e("access_token", preferencesHelper.logInUser.access_token)
+        swipeRefreshLayout.setOnRefreshListener {
+            if (helperMethods.isConnectingToInternet) {
+                homeDetailsApiCall()
+            } else {
+                helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
+            }
+        }
     }
 
     fun initViews() {
@@ -141,6 +148,8 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
     }
 
     private fun ShowViewPager() {
+        requireActivity().notificationCount.text = GlobalData.homeResponse.notification_count
+
         homePagerAdapter = HomePagerAdapter(requireContext(), this@Home, GlobalData.homeResponse.slider)
         val rotateimage = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_in)
         viewpager.adapter = homePagerAdapter
@@ -149,6 +158,10 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
     }
 
     override fun onStart() {
+        GlobalData.homeResponseMain?.let {
+            requireActivity().notificationCount.text = it.notification_count
+        }
+
         if (GlobalData.testimonialsResponse == null) {
             if (helperMethods.isConnectingToInternet) {
                 experiencApiCall()
@@ -179,8 +192,8 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
     }
 
     fun InitializeRecyclerview() {
-        requireActivity().notificationCount.text = GlobalData.homeResponse.notification_count
-        sideNavBackgroundColorBasedOnPackage() //        val splitCount = GlobalData.homeResponse.categories.size / 2
+        sideNavBackgroundColorBasedOnPackage()
+        //        val splitCount = GlobalData.homeResponse.categories.size / 2
         //        var categoriesArrayList1: ArrayList<Category> = arrayListOf()
         //        var categoriesArrayList2: ArrayList<Category> = arrayListOf()
         //
@@ -227,7 +240,7 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()
-
+                swipeRefreshLayout.isRefreshing = false
                 if (response.isSuccessful) {
                     if (response.body() != null) {
                         try {
@@ -237,6 +250,7 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
                                 val data = jsonObject.getString("data")
                                 GlobalData.homeResponse = Gson().fromJson(data, HomeResponse::class.java)
                                 GlobalData.homeResponseMain = GlobalData.homeResponse
+                                Log.d("homeResponse",  GlobalData.homeResponseMain!!.notification_count)
                                 ShowViewPager()
                                 InitializeRecyclerview()
                                 firestoreLisiner()
@@ -265,6 +279,7 @@ class Home(val userDrawer: UserDrawer) : Fragment() {
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
+                swipeRefreshLayout.isRefreshing = false
                 t.printStackTrace()
                 helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }

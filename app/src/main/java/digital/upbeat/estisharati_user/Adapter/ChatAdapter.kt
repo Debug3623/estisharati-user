@@ -71,8 +71,7 @@ class ChatAdapter(val context: Context, val chatPage: ChatPage, val messagesArra
                     holder.me_text_is_forward.visibility = View.VISIBLE
                 } else {
                     holder.me_text_is_forward.visibility = View.GONE
-                }
-                //*********reply message*****
+                } //*********reply message*****
                 setReplyMessage(dataMessageFireStore, holder.me_text_reply_layout, holder.me_text_reply_from, holder.me_text_reply_text, holder.me_text_reply_image_layout, holder.me_text_reply_image, holder.me_text_reply_view_line)
             } else {
                 holder.other_text_layout.visibility = View.VISIBLE
@@ -149,12 +148,14 @@ class ChatAdapter(val context: Context, val chatPage: ChatPage, val messagesArra
             }
         }
         if (!replyPositionClicked.equals("") && replyPositionClicked.toInt() == position) {
-       changeBackgroundColor(holder)
+            changeBackgroundColor(holder)
         }
         holder.other_forward_text.visibility = View.GONE
         holder.other_forward_image.visibility = View.GONE
         holder.me_forward_text.visibility = View.GONE
         holder.me_forward_image.visibility = View.GONE
+        holder.me_delete_text.visibility = View.GONE
+        holder.me_delete_image.visibility = View.GONE
 
         holder.other_text_layout.setOnLongClickListener {
             holder.other_forward_text.visibility = View.VISIBLE
@@ -170,10 +171,12 @@ class ChatAdapter(val context: Context, val chatPage: ChatPage, val messagesArra
         }
         holder.me_text_layout.setOnLongClickListener {
             holder.me_forward_text.visibility = View.VISIBLE
+            holder.me_delete_text.visibility = View.VISIBLE
             false
         }
         holder.me_image_layout.setOnLongClickListener {
             holder.me_forward_image.visibility = View.VISIBLE
+            holder.me_delete_image.visibility = View.VISIBLE
             false
         }
         holder.me_image_hole_layout.setOnLongClickListener {
@@ -192,6 +195,18 @@ class ChatAdapter(val context: Context, val chatPage: ChatPage, val messagesArra
         }
         holder.me_forward_image.setOnClickListener {
             sendForwardMessage(dataMessageFireStore)
+        }
+        holder.me_delete_text.setOnClickListener {
+            deleteMessage(dataMessageFireStore)
+        }
+        holder.me_delete_image.setOnClickListener {
+            deleteMessage(dataMessageFireStore)
+        }
+    }
+
+    fun deleteMessage(dataMessageFireStore: DataMessageFireStore) {
+        chatPage.firestore.collection("Chats").document(dataMessageFireStore.message_id).delete().addOnSuccessListener {
+            helperMethods.showToastMessage(context.getString(R.string.message_deleted_successfully))
         }
     }
 
@@ -215,8 +230,7 @@ class ChatAdapter(val context: Context, val chatPage: ChatPage, val messagesArra
         }.start()
     }
 
-    fun setReplyMessage(dataMessageFireStore: DataMessageFireStore, reply_layout: LinearLayout, reply_from: TextView, reply_text: TextView, reply_image_layout: LinearLayout, reply_image: ImageView, view_line: View) {
-        //*********reply message*****
+    fun setReplyMessage(dataMessageFireStore: DataMessageFireStore, reply_layout: LinearLayout, reply_from: TextView, reply_text: TextView, reply_image_layout: LinearLayout, reply_image: ImageView, view_line: View) { //*********reply message*****
         if (dataMessageFireStore.inside_reply.containsKey("message_id") && !dataMessageFireStore.inside_reply.getValue("message_id").isEmpty()) {
             reply_layout.visibility = View.VISIBLE
             view_line.visibility = View.VISIBLE
@@ -240,16 +254,15 @@ class ChatAdapter(val context: Context, val chatPage: ChatPage, val messagesArra
                 val position = dataMessageFireStore.inside_reply.getValue("position")
                 (chatPage.chat_recycler.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position.toInt(), 600)
                 chatPage.showChatScrollToBottom(position.toInt())
-               val viewHolder :ViewHolder? =chatPage.chat_recycler.findViewHolderForAdapterPosition(position.toInt())
-               if(viewHolder!=null){
-                   changeBackgroundColor(viewHolder as ChatViewHolder)
-                   Log.d("viewHoleder","not null")
-               }else{
-                   replyPositionClicked = position
-                   Log.d("viewHoleder","is null")
-               }
-                viewHolder?.let {
+                val viewHolder: ViewHolder? = chatPage.chat_recycler.findViewHolderForAdapterPosition(position.toInt())
+                if (viewHolder != null) {
+                    changeBackgroundColor(viewHolder as ChatViewHolder)
+                    Log.d("viewHoleder", "not null")
+                } else {
+                    replyPositionClicked = position
+                    Log.d("viewHoleder", "is null")
                 }
+                viewHolder?.let {}
             }
         } else {
             reply_layout.visibility = View.GONE
