@@ -10,8 +10,8 @@ android {
         applicationId "digital.upbeat.estisharati_consultant"
         minSdkVersion 21
         targetSdkVersion 32
-        versionCode 7
-        versionName "1.7"
+        versionCode 8
+        versionName "1.8"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
