@@ -39,7 +39,7 @@ interface RetrofitInterface {
 
     @FormUrlEncoded
     @POST("notify")
-    fun NOTIFY_API_CALL(@Header("Authorization") token: String, @Field("receiver_id") receiver_id: String, @Field("title") title: String, @Field("body") body: String, @Field("data") data: String): Call<ResponseBody>
+    fun NOTIFY_API_CALL(@Header("Authorization") token: String, @Field("receiver_id") receiver_id: String, @Field("title") title: String, @Field("body") body: String,@Field("click_action") click_action: String, @Field("data") data: String): Call<ResponseBody>
 
     @Multipart
     @POST("user/profile/edit")

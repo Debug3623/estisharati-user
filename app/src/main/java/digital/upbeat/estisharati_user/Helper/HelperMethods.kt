@@ -65,10 +65,7 @@ import java.util.*
 import java.util.regex.Pattern
 import kotlin.collections.ArrayList
 import android.app.PendingIntent
-
-
-
-
+import digital.upbeat.estisharati_user.UI.ChatPage
 
 class HelperMethods(val context: Context) {
     val calendarInstance: Calendar
@@ -124,17 +121,14 @@ class HelperMethods(val context: Context) {
         engFormat = engFormat.replace(",", "")
         val decimal = df.format(engFormat.toDouble())
         return decimal
-    }
-
-//    fun convetEnglishFormat(amount: Double): String {
-//        val df = DecimalFormat("0.00")
-//        val nf: NumberFormat = NumberFormat.getNumberInstance(Locale.US)
-//        var engFormat = nf.format(amount)
-//        engFormat = engFormat.replace(",", "")
-//        val decimal = df.format(engFormat.toDouble())
-//        return decimal
-//    }
-
+    } //    fun convetEnglishFormat(amount: Double): String {
+    //        val df = DecimalFormat("0.00")
+    //        val nf: NumberFormat = NumberFormat.getNumberInstance(Locale.US)
+    //        var engFormat = nf.format(amount)
+    //        engFormat = engFormat.replace(",", "")
+    //        val decimal = df.format(engFormat.toDouble())
+    //        return decimal
+    //    }
     fun ShowDateTimePicker(date: TextView, time: TextView) {
         val nextDate = Calendar.getInstance()
         nextDate.add(Calendar.DAY_OF_YEAR, 1);
@@ -212,8 +206,7 @@ class HelperMethods(val context: Context) {
             val view = window.decorView
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_OVERSCAN)
-            window.statusBarColor = ContextCompat.getColor(activity, StatusBarColor)
-            //            window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            window.statusBarColor = ContextCompat.getColor(activity, StatusBarColor) //            window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 var flags = view.systemUiVisibility
                 flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
@@ -228,8 +221,7 @@ class HelperMethods(val context: Context) {
             val view = window.decorView
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_OVERSCAN)
-            window.statusBarColor = ContextCompat.getColor(activity, StatusBarColor)
-            //            window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            window.statusBarColor = ContextCompat.getColor(activity, StatusBarColor) //            window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 var flags = view.systemUiVisibility
                 flags = flags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
@@ -314,6 +306,7 @@ class HelperMethods(val context: Context) {
         Log.d("timier", "seconds remaining: " + DecimalFormat("00").format(minutes) + "." + DecimalFormat("00").format(seconds.toLong()))
         return DecimalFormat("00").format(minutes) + "." + DecimalFormat("00").format(seconds.toLong())
     }
+
     fun formatToMinute(minute: String): String {
         var sdf = SimpleDateFormat("mm", Locale.US)
 
@@ -326,6 +319,7 @@ class HelperMethods(val context: Context) {
             return ""
         }
     }
+
     fun formatToSecond(minute: String): String {
         var sdf = SimpleDateFormat("ss", Locale.US)
 
@@ -339,7 +333,7 @@ class HelperMethods(val context: Context) {
         }
     }
 
-    fun sendPushNotification(title: String, text: String, type: String, image_url: String) {
+    fun sendPushNotification(title: String, text: String, tag: String, image_url: String, callerId: String) {
         var bitmap: Bitmap? = null
 
         if (image_url.isNotEmpty()) {
@@ -350,10 +344,17 @@ class HelperMethods(val context: Context) {
                 println(e)
             }
         }
-        val intent = Intent(context, SplashTemp::class.java);
+        val intent: Intent
+        if (tag == "incoming_message") {
+            intent = Intent(context, ChatPage::class.java)
+            intent.putExtra("user_id", callerId)
+            intent.putExtra("forward_type", GlobalData.forwardType)
+            intent.putExtra("forward_content", GlobalData.forwardContent)
+        } else {
+            intent = Intent(context, SplashTemp::class.java)
+        }
         intent.putExtra("notFromNotification", false)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-
         val num = System.currentTimeMillis().toInt()
         val CHANNEL_ID = "EstisharatiUser"
         val pendingFlags: Int = if (Build.VERSION.SDK_INT >= 23) {
@@ -446,10 +447,8 @@ class HelperMethods(val context: Context) {
     fun isValidMobile(phone: String): Boolean {
         var check = false
         check = if (!Pattern.matches("[a-zA-Z]+", phone)) {
-            if (phone.length < 9 || phone.length > 14) {
-                // if(phone.length() != 10) {
-                false
-                // txtPhone.setError("Not Valid Number");
+            if (phone.length < 9 || phone.length > 14) { // if(phone.length() != 10) {
+                false // txtPhone.setError("Not Valid Number");
             } else {
                 Patterns.PHONE.matcher(phone).matches()
             }
@@ -589,6 +588,7 @@ class HelperMethods(val context: Context) {
         actionOkBtn.visibility = View.VISIBLE
         actionOkBtn.setOnClickListener { dialog.dismiss() }
     }
+
     fun showAlertDialog(context: Context, alertActionClickListner: alertActionClickListner, title: String, message: String, ifAlert: Boolean, okBtn: String, cancelBtn: String) {
         val layoutView = LayoutInflater.from(context).inflate(R.layout.alert_popup, null)
         val aleatdialog = AlertDialog.Builder(context)
@@ -643,8 +643,7 @@ class HelperMethods(val context: Context) {
                     } ?: throw IOException("Failed to create new MediaStore record.")
                 }
             }.getOrElse {
-                uri?.let { orphanUri ->
-                    // Don't leave an orphan entry in the MediaStore
+                uri?.let { orphanUri -> // Don't leave an orphan entry in the MediaStore
                     context.contentResolver.delete(orphanUri, null, null)
                 }
 
@@ -657,7 +656,6 @@ class HelperMethods(val context: Context) {
             return Uri.parse(path)
         }
     }
-
 
     fun checkTokenValidation(status: String, message: String): Boolean {
         if (status.equals("401")) {
@@ -673,10 +671,8 @@ class HelperMethods(val context: Context) {
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT) fun getFilePath(uri: Uri): String? {
-        val isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
-        // DocumentProvider
-        if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
-            // ExternalStorageProvider
+        val isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT // DocumentProvider
+        if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) { // ExternalStorageProvider
             if (isExternalStorageDocument(uri)) {
                 val docId = DocumentsContract.getDocumentId(uri)
                 val split = docId.split(":").toTypedArray()

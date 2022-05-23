@@ -22,13 +22,19 @@ class FCMService : FirebaseMessagingService() {
         var body = ""
         var image_url = ""
         var tag = ""
+        var callerId=""
         remoteMessage.notification?.let {
             it.title?.let { title_it -> title = title_it }
             it.body?.let { body_it -> body = body_it }
             it.imageUrl?.let { imageUrl_it -> image_url = imageUrl_it.toString() }
             it.tag?.let { tag_it -> tag = tag_it }
         }
-        helperMethods.sendPushNotification(title, body, tag, image_url)
+        remoteMessage.data.get("caller_id")?.let {
+            callerId=it
+        }
+
+
+        helperMethods.sendPushNotification(title, body, tag, image_url,callerId)
         //            if (tag == "incoming_voice_call" || tag == "incoming_video_call") {
         //                if (GlobalData.FcmToken.equals("")) {
         //                    if (preferencesHelper.isUserLogIn) {
@@ -39,7 +45,7 @@ class FCMService : FirebaseMessagingService() {
         //                    }
         //                }
         //            }
-        Log.d("FCM_message", title + "    " + body + "    " + tag + "    " + image_url)
+        Log.d("FCM_message", title + "    " + body + "    " + tag + "    " + image_url+"  "+ remoteMessage.data)
     }
 
     override fun onNewToken(newToken: String) {

@@ -78,8 +78,16 @@ class UserDrawer : BaseCompatActivity() {
                 "subscription" -> {
                     startActivity(Intent(this@UserDrawer, MyPackages::class.java))
                 }
-                else ->{}
+                else -> {}
             }
+        }
+
+        intent.extras?.let {
+            val intent = Intent(this@UserDrawer, ChatPage::class.java)
+            intent.putExtra("user_id", it.getString("caller_id"))
+            intent.putExtra("forward_type", GlobalData.forwardType)
+            intent.putExtra("forward_content", GlobalData.forwardContent)
+            startActivity(intent)
         }
     }
 

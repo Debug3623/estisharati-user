@@ -634,7 +634,11 @@ class ChatPage : BaseCompatActivity() {
         if (showLoader) {
             helperMethods.showProgressDialog(getString(R.string.please_wait_while_preparing_to_call))
         }
-        val responseBodyCall = retrofitInterface.NOTIFY_API_CALL("Bearer ${dataUser.access_token}", dataFcmBody.data.receiver_id, dataFcmBody.data.title, dataFcmBody.data.body, body)
+        var clickAction=""
+        if(dataFcmBody.data.tag=="incoming_message"){
+            clickAction="NotificationClick"
+        }
+        val responseBodyCall = retrofitInterface.NOTIFY_API_CALL("Bearer ${dataUser.access_token}", dataFcmBody.data.receiver_id, dataFcmBody.data.title, dataFcmBody.data.body,clickAction, body)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (showLoader) {
