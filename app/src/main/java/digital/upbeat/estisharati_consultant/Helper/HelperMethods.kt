@@ -50,6 +50,7 @@ import digital.upbeat.estisharati_consultant.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_consultant.DataClassHelper.RecentChat.DataUserMessageFireStore
 import digital.upbeat.estisharati_consultant.DataClassHelper.Utils.DataTextsAndColors
 import digital.upbeat.estisharati_consultant.R
+import digital.upbeat.estisharati_consultant.UI.ChatPage
 import digital.upbeat.estisharati_consultant.UI.SplashScreen
 import digital.upbeat.estisharati_consultant.UI.SplashTemp
 import digital.upbeat.estisharati_consultant.Utils.alertActionClickListner
@@ -348,7 +349,7 @@ class HelperMethods(var context: Context) {
         return DecimalFormat("00").format(minutes) + ":" + DecimalFormat("00").format(seconds.toLong())
     }
 
-    fun sendPushNotification(title: String, text: String, type: String, image_url: String) {
+    fun sendPushNotification(title: String, text: String, tag: String, image_url: String, callerId: String) {
         var bitmap: Bitmap? = null
         if (image_url.isNotEmpty()) {
             try {
@@ -357,7 +358,15 @@ class HelperMethods(var context: Context) {
                 e.printStackTrace()
             }
         }
-        val intent = Intent(context, SplashTemp::class.java);
+        val intent: Intent
+        if (tag == "incoming_message") {
+            intent = Intent(context, ChatPage::class.java)
+            intent.putExtra("user_id", callerId)
+            intent.putExtra("forward_type", GlobalData.forwardType)
+            intent.putExtra("forward_content", GlobalData.forwardContent)
+        } else {
+            intent = Intent(context, SplashTemp::class.java)
+        }
         intent.putExtra("notFromNotification", false)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 

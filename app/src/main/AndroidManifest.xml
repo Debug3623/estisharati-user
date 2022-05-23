@@ -23,8 +23,8 @@
         android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name=".UI.SplashTemp"
-            android:screenOrientation="portrait"
-            android:exported="false">
+            android:exported="false"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="OPEN_ACTIVITY" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -72,7 +72,13 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".UI.ConsultantDrawer"
-            android:screenOrientation="portrait" />
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="NotificationClick" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".UI.ForgotPassword"
             android:screenOrientation="portrait" />
@@ -81,8 +87,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".UI.SplashScreen"
-            android:screenOrientation="portrait"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

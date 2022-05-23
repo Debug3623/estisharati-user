@@ -23,7 +23,7 @@ interface RetrofitInterface {
     fun PROFILE_UPDATE_API_CALL(@Header("Authorization") token: String, @Field("fname") fname: String, @Field("lname") lname: String, @Field("phone") phone: String, @Field("phone_code") phone_code: String, @Field("email") email: String, @Field("qualification_brief") qualification_brief: String, @Field("country") country: String, @Field("city") city: String,@Field("user_type") user_type : String): Call<ResponseBody>
 
     @FormUrlEncoded @POST("notify")
-    fun NOTIFY_API_CALL(@Header("Authorization") token: String, @Field("receiver_id") receiver_id: String, @Field("title") title: String, @Field("body") body: String, @Field("data") data: String): Call<ResponseBody>
+    fun NOTIFY_API_CALL(@Header("Authorization") token: String, @Field("receiver_id") receiver_id: String, @Field("title") title: String, @Field("body") body: String,@Field("click_action") click_action: String, @Field("data") data: String): Call<ResponseBody>
 
     @Multipart @POST("upload-chatting-image")
     fun upload_chatting_image_API_CALL(@Header("Authorization") token: String, @Part profile_picture: MultipartBody.Part): Call<ResponseBody>
