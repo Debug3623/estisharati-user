@@ -349,4 +349,5 @@
     <string name="upload">تحميل</string>
     <string name="message_deleted_successfully">تم حذف الرسالة بنجاح</string>
     <string name="clear_all">امسح الكل</string>
+    <string name="Proceed_with_cash">المضي قدما نقدا (سنقوم بتحصيل)</string>
 </resources>

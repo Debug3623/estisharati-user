@@ -1,7 +1,3 @@
 package digital.upbeat.estisharati_user.DataClassHelper.Referral
 
-data class ReferralResponse(
-    val `data`: Data,
-    val message: String,
-    val status: String
-)
+data class ReferralResponse(val `data`: Data, val message: String, val status: String, val android_pay: String)

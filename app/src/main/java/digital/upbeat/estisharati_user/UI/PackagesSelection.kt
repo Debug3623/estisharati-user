@@ -71,8 +71,12 @@ class PackagesSelection : BaseCompatActivity() {
         proceed.setOnClickListener {
             if (helperMethods.isConnectingToInternet) {
                 helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
-//                subscriptionApiCall()
-                            NetwrokPayment().getToken(this@PackagesSelection)
+
+                if (referralResponse.android_pay == "1") {
+                    subscriptionApiCall()
+                } else {
+                    NetwrokPayment().getToken(this@PackagesSelection)
+                }
             } else {
                 helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
             }
@@ -229,6 +233,11 @@ class PackagesSelection : BaseCompatActivity() {
             referralDiscountLayout.visibility = View.GONE
         }
         Log.d("payment amount", GlobalData.packagesOptions.transaction_amount + "  " + GlobalData.packagesOptions.vat_amount + "  " + GlobalData.packagesOptions.discount + "  " + GlobalData.packagesOptions.referral_discount);
+        if (referralResponse.android_pay == "1") {
+            proceed.text = getString(R.string.Proceed_with_cash)
+        } else {
+            proceed.text = getString(R.string.proceed_payment)
+        }
     }
 
     fun showCouponAddPopup() {
@@ -369,7 +378,11 @@ class PackagesSelection : BaseCompatActivity() {
             else -> {
             }
         }
-        val responseBodyCall = retrofitInterface.USER_SUBSCRIPTION_API_CALL("Bearer ${dataUser.access_token}", GlobalData.packagesOptions.type, GlobalData.packagesOptions.category_id, GlobalData.packagesOptions.chat, GlobalData.packagesOptions.audio, GlobalData.packagesOptions.video, subscription_id, course_id, consultant_id, GlobalData.packagesOptions.transaction_amount, "0", "1",  paymentNetworkResponse._embedded.payment.get(0).orderReference, GlobalData.packagesOptions.coupon_id, GlobalData.packagesOptions.coupon_code, GlobalData.packagesOptions.discount, GlobalData.packagesOptions.referral_code, GlobalData.packagesOptions.referral_discount, GlobalData.packagesOptions.referral_percent)
+        val responseBodyCall = retrofitInterface.USER_SUBSCRIPTION_API_CALL("Bearer ${dataUser.access_token}", GlobalData.packagesOptions.type, GlobalData.packagesOptions.category_id, GlobalData.packagesOptions.chat, GlobalData.packagesOptions.audio, GlobalData.packagesOptions.video, subscription_id, course_id, consultant_id, GlobalData.packagesOptions.transaction_amount, "0", "1", if (referralResponse.android_pay == "1") {
+            UUID.randomUUID().toString()
+        } else {
+            paymentNetworkResponse._embedded.payment.get(0).orderReference
+        }, GlobalData.packagesOptions.coupon_id, GlobalData.packagesOptions.coupon_code, GlobalData.packagesOptions.discount, GlobalData.packagesOptions.referral_code, GlobalData.packagesOptions.referral_discount, GlobalData.packagesOptions.referral_percent)
 
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
