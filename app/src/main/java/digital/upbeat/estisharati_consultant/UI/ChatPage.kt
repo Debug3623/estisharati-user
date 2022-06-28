@@ -297,7 +297,7 @@ class ChatPage : BaseCompatActivity() {
     fun clickEvents() {
         nav_back.setOnClickListener { finish() }
         voice_call.setOnClickListener {
-            if (audio_balance > 0) {
+//            if (audio_balance > 0) {
                 if (ContextCompat.checkSelfPermission(this@ChatPage, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
                     if (helperMethods.isConnectingToInternet) {
                         if (dataUserFireStore.availability) {
@@ -323,12 +323,12 @@ class ChatPage : BaseCompatActivity() {
                 } else {
                     helperMethods.selfPermission(this@ChatPage)
                 }
-            } else {
-                helperMethods.showToastMessage(getString(R.string.you_dont_have_enough_balance_to_make_call))
-            }
+//            } else {
+//                helperMethods.showToastMessage(getString(R.string.you_dont_have_enough_balance_to_make_call))
+//            }
         }
         video_call.setOnClickListener {
-            if (video_balance > 0) {
+//            if (video_balance > 0) {
                 if (ContextCompat.checkSelfPermission(this@ChatPage, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this@ChatPage, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                     if (helperMethods.isConnectingToInternet) {
                         if (dataUserFireStore.availability) {
@@ -354,24 +354,24 @@ class ChatPage : BaseCompatActivity() {
                 } else {
                     helperMethods.selfPermission(this@ChatPage)
                 }
-            } else {
-                helperMethods.showToastMessage(getString(R.string.you_dont_have_enough_balance_to_make_call))
-            }
+//            } else {
+//                helperMethods.showToastMessage(getString(R.string.you_dont_have_enough_balance_to_make_call))
+//            }
         }
         upload_image.setOnClickListener {
-            if (chat_balance > 0) {
+//            if (chat_balance > 0) {
                 if (currentUserFireStore.blocked_user_ids.contains(userId) || dataUserFireStore.blocked_user_ids.contains(dataUser.id)) {
                     helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.chat_has_been_blocked))
                     return@setOnClickListener
                 }
                 helperMethods.ChangeProfilePhotoPopup(this@ChatPage)
-            } else {
-                helperMethods.showToastMessage(getString(R.string.you_dont_have_enough_balance_to_make_this_chat))
-            }
+//            } else {
+//                helperMethods.showToastMessage(getString(R.string.you_dont_have_enough_balance_to_make_this_chat))
+//            }
         }
         send_msg.setOnClickListener {
             if (sendMessageValidation()) {
-                if (chat_balance > 0) {
+//                if (chat_balance > 0) {
                     if (currentUserFireStore.blocked_user_ids.contains(userId) || dataUserFireStore.blocked_user_ids.contains(dataUser.id)) {
                         helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.chat_has_been_blocked))
                         return@setOnClickListener
@@ -386,17 +386,17 @@ class ChatPage : BaseCompatActivity() {
                         inside_reply.put("position", "")
 
                         val words: String = message.toText()
-                        val count = words.split(" ").size
+                        val count = words.split(" ").size+words.lines().size-1
                         Log.d("count", "" + count)
-                        updateUserSecondsApiCall(it.id, userId, count.toString(), message.toText(), "")
+                        updateUserSecondsApiCall(it.id, userId, "0", message.toText(), "")
                         message.text = "".toEditable()
 
                     }.addOnFailureListener {
                         Log.d("FailureListener", "" + it.localizedMessage)
                     }
-                } else {
-                    helperMethods.showToastMessage(getString(R.string.you_dont_have_enough_balance_to_make_this_chat))
-                }
+//                } else {
+//                    helperMethods.showToastMessage(getString(R.string.you_dont_have_enough_balance_to_make_this_chat))
+//                }
             }
         }
         inside_reply_close.setOnClickListener {
@@ -480,7 +480,7 @@ class ChatPage : BaseCompatActivity() {
                                     inside_reply.put("message_content", "")
                                     inside_reply.put("sender_id", "")
                                     inside_reply.put("position", "")
-                                    updateUserSecondsApiCall(it.id, userId, "1", "", image_path)
+                                    updateUserSecondsApiCall(it.id, userId, "0", "", image_path)
 
                                 }.addOnFailureListener {
                                     Log.d("FailureListener", "" + it.localizedMessage)
@@ -533,7 +533,7 @@ class ChatPage : BaseCompatActivity() {
                                 audio_balance = dataObject.getInt("audio_balance")
                                 chat_balance = dataObject.getInt("chat_balance")
                                 if (!forward_content.isEmpty()) {
-                                    if (chat_balance > 0) {
+//                                    if (chat_balance > 0) {
                                         if (currentUserFireStore.blocked_user_ids.contains(userId) || dataUserFireStore.blocked_user_ids.contains(dataUser.id)) {
                                             helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.chat_has_been_blocked))
                                             return
@@ -547,26 +547,26 @@ class ChatPage : BaseCompatActivity() {
                                             inside_reply.put("position", "")
                                             var itsMessage = ""
                                             var itsImageUrl = ""
-                                            var count = "1"
+                                            var count = 1
                                             if (forward_type.equals("image")) {
                                                 itsImageUrl = forward_content
                                             } else if (forward_type.equals("text")) {
                                                 itsMessage = forward_content
 
                                                 val words: String = itsMessage
-                                                count = words.split(" ").size.toString()
+                                                count = words.split(" ").size+words.lines().size-1
                                                 Log.d("count", "" + count)
                                             }
                                             forward_content = ""
-                                            updateUserSecondsApiCall(it.id, userId, count, itsMessage, itsImageUrl)
+                                            updateUserSecondsApiCall(it.id, userId, "0", itsMessage, itsImageUrl)
 
 
                                         }.addOnFailureListener {
                                             Log.d("FailureListener", "" + it.localizedMessage)
                                         }
-                                    } else {
-                                        helperMethods.showToastMessage(getString(R.string.you_dont_have_enough_balance_to_make_this_chat))
-                                    }
+//                                    } else {
+//                                        helperMethods.showToastMessage(getString(R.string.you_dont_have_enough_balance_to_make_this_chat))
+//                                    }
                                 } else {
                                     if (message_id != "") {
                                         firestore.collection("Chats").document(message_id).get().addOnSuccessListener {

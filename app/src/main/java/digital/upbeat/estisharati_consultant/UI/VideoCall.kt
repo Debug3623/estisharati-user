@@ -64,7 +64,7 @@ class VideoCall : BaseCompatActivity() {
                 if (countDownTimer != null) {
                     countDownTimer?.cancel()
                 }
-                if(ringingDuration!=null){
+                if (ringingDuration != null) {
                     ringingDuration?.cancel()
                 }
                 callCountDownTimer()
@@ -134,8 +134,7 @@ class VideoCall : BaseCompatActivity() {
         firestore = FirebaseFirestore.getInstance()
     }
 
-    fun getDetails() {
-        //        if (intent.extras != null) {
+    fun getDetails() { //        if (intent.extras != null) {
         //            channelUniqueId = intent.getStringExtra("channelUniqueId")
         //            callerId = intent.getStringExtra("callerId")
         //            callerName = intent.getStringExtra("callerName")
@@ -146,7 +145,7 @@ class VideoCall : BaseCompatActivity() {
             dataUserFireStore = it.toObject(DataUserFireStore::class.java)!!
             firestore.collection("Calls").document(dataUserFireStore.channel_unique_id).get().addOnSuccessListener {
                 dataCallsFireStore = it.toObject(DataCallsFireStore::class.java)!!
-                val contact_person_id=if(dataCallsFireStore.caller_id.equals(dataUserFireStore.user_id))dataCallsFireStore.receiver_id else dataCallsFireStore.caller_id
+                val contact_person_id = if (dataCallsFireStore.caller_id.equals(dataUserFireStore.user_id)) dataCallsFireStore.receiver_id else dataCallsFireStore.caller_id
                 firestore.collection("Users").document(contact_person_id).get().addOnSuccessListener {
                     dataOtherUserFireStore = it.toObject(DataUserFireStore::class.java)!!
                     setDetails()
@@ -185,11 +184,11 @@ class VideoCall : BaseCompatActivity() {
         if (dataCallsFireStore.caller_id.equals(dataUserFireStore.user_id)) {
             playRigntone()
             callRingingDuration()
-        }else{
+        } else {
             calling_status.text = getString(R.string.connecting)
         }
         val hashMap = hashMapOf<String, Any>("availability" to true, "channel_unique_id" to "")
-        firestoreRegistrar=  firestore.collection("Calls").document(dataUserFireStore.channel_unique_id).addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
+        firestoreRegistrar = firestore.collection("Calls").document(dataUserFireStore.channel_unique_id).addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
             documentSnapshot?.let {
                 dataCallsFireStore = documentSnapshot.toObject(DataCallsFireStore::class.java)!!
                 when (dataCallsFireStore.call_status) {
@@ -241,8 +240,7 @@ class VideoCall : BaseCompatActivity() {
             } else {
                 iv.isSelected = true
                 iv.setColorFilter(ContextCompat.getColor(this@VideoCall, R.color.orange), PorterDuff.Mode.MULTIPLY)
-            }
-            // Stops/Resumes sending the local video stream.
+            } // Stops/Resumes sending the local video stream.
             mRtcEngine.muteLocalVideoStream(iv.isSelected)
             val container = findViewById(R.id.local_video_view_container) as FrameLayout
             val surfaceView = container.getChildAt(0) as SurfaceView
@@ -257,8 +255,7 @@ class VideoCall : BaseCompatActivity() {
             } else {
                 iv.isSelected = true
                 iv.setColorFilter(ContextCompat.getColor(this@VideoCall, R.color.orange), PorterDuff.Mode.MULTIPLY)
-            }
-            // Stops/Resumes sending the local audio stream.
+            } // Stops/Resumes sending the local audio stream.
             mRtcEngine.muteLocalAudioStream(iv.isSelected)
         }
         switch_camera.setOnClickListener {
@@ -281,7 +278,7 @@ class VideoCall : BaseCompatActivity() {
         if (countDownTimer != null) {
             countDownTimer?.cancel()
         }
-        if(ringingDuration!=null){
+        if (ringingDuration != null) {
             ringingDuration?.cancel()
         }
         super.onDestroy()
@@ -324,15 +321,17 @@ class VideoCall : BaseCompatActivity() {
             finish()
         }
     }
+
     fun callRingingDuration() {
         var hashMap = hashMapOf<String, Any>()
-        val ringingCount=dataCallsFireStore.ringing_duration.toLong()
-        ringingDuration= object :CountDownTimer(1000 * ringingCount,1000){
+        val ringingCount = dataCallsFireStore.ringing_duration.toLong()
+        ringingDuration = object : CountDownTimer(1000 * ringingCount, 1000) {
             override fun onFinish() {
                 hashMap = hashMapOf("call_status" to "not_responding")
                 helperMethods.updateCallsDetailsToFirestore(dataCallsFireStore.channel_unique_id, hashMap)
 
             }
+
             override fun onTick(millisUntilFinished: Long) {
                 val time_seconds = millisUntilFinished / 1000
                 hashMap = hashMapOf("ringing_duration" to time_seconds.toString())
@@ -341,8 +340,8 @@ class VideoCall : BaseCompatActivity() {
             }
         }.start()
     }
-    fun callCountDownTimer() {
-        //15 mins
+
+    fun callCountDownTimer() { //15 mins
         countDownTimer = object : CountDownTimer(1000 * 30 * 30, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 val diffInMs: Long = Date().time - callConnectedTimeMilles.toLong()
@@ -354,17 +353,19 @@ class VideoCall : BaseCompatActivity() {
 
                 Log.d("serviceTimer", "TIME : " + String.format("%02d", hours) + ":" + String.format("%02d", minutes) + ":" + String.format("%02d", seconds))
                 timer.text = String.format("%02d", hours) + ":" + String.format("%02d", minutes) + ":" + String.format("%02d", seconds)
-                val percentage =video_balance * 0.10
-                val balanceSec = video_balance - diffInSec
-                Log.d("secLeft", "" + percentage + " " + balanceSec)
-                if (0 > balanceSec) {
-                    leaveChannel()
-                    helperMethods.showToastMessage(getString(R.string.there_is_no_more_balance_to_continue_this_call))
-                }
-                if (alertPopupNotShow) {
-                    if (percentage > balanceSec) {
-                        alertPopupNotShow = false
-                        helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.there_are_only)+" " + (((balanceSec % 3600) / 60).toString() + "." + (balanceSec % 3600) % 60) + " "+getString(R.string.minutes_left_for_the_conversation_to_end))
+                if (dataCallsFireStore.receiver_id.equals(dataUser.id)) {
+                    val percentage = video_balance * 0.10
+                    val balanceSec = video_balance - diffInSec
+                    Log.d("secLeft", "" + percentage + " " + balanceSec)
+                    if (0 > balanceSec) {
+                        leaveChannel()
+                        helperMethods.showToastMessage(getString(R.string.there_is_no_more_balance_to_continue_this_call))
+                    }
+                    if (alertPopupNotShow) {
+                        if (percentage > balanceSec) {
+                            alertPopupNotShow = false
+                            helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.there_are_only) + " " + (((balanceSec % 3600) / 60).toString() + "." + (balanceSec % 3600) % 60) + " " + getString(R.string.minutes_left_for_the_conversation_to_end))
+                        }
                     }
                 }
             }
@@ -385,12 +386,10 @@ class VideoCall : BaseCompatActivity() {
         }
     }
 
-    private fun setupVideoProfile() {
-        // In simple use cases, we only need to enable video capturing
+    private fun setupVideoProfile() { // In simple use cases, we only need to enable video capturing
         // and rendering once at the initialization step.
         // Note: audio recording and playing is enabled by default.
-        mRtcEngine.enableVideo()
-        //      mRtcEngine.setVideoProfile(Constants.VIDEO_PROFILE_360P, false) // Earlier than 2.3.0
+        mRtcEngine.enableVideo() //      mRtcEngine.setVideoProfile(Constants.VIDEO_PROFILE_360P, false) // Earlier than 2.3.0
         // Please go to this page for detailed explanation
         // https://docs.agora.io/en/Video/API%20Reference/java/classio_1_1agora_1_1rtc_1_1_rtc_engine.html#af5f4de754e2c1f493096641c5c5c1d8f
         mRtcEngine.setVideoEncoderConfiguration(VideoEncoderConfiguration(VideoEncoderConfiguration.VD_640x360, VideoEncoderConfiguration.FRAME_RATE.FRAME_RATE_FPS_15, VideoEncoderConfiguration.STANDARD_BITRATE, VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT))
@@ -398,8 +397,7 @@ class VideoCall : BaseCompatActivity() {
 
     }
 
-    private fun setupLocalVideo() {
-        // This is used to set a local preview.
+    private fun setupLocalVideo() { // This is used to set a local preview.
         // The steps setting local and remote view are very similar.
         // But note that if the local user do not have a uid or do
         // not care what the uid is, he can set his uid as ZERO.
@@ -409,14 +407,12 @@ class VideoCall : BaseCompatActivity() {
         val container = findViewById(R.id.local_video_view_container) as FrameLayout
         val surfaceView = RtcEngine.CreateRendererView(baseContext)
         surfaceView.setZOrderMediaOverlay(true)
-        container.addView(surfaceView)
-        // Initializes the local video view.
+        container.addView(surfaceView) // Initializes the local video view.
         // RENDER_MODE_FIT: Uniformly scale the video until one of its dimension fits the boundary. Areas that are not filled due to the disparity in the aspect ratio are filled with black.
         mRtcEngine.setupLocalVideo(VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FIT, 0))
     }
 
-    private fun joinChannel() {
-        // 1. Users can only see each other after they join the
+    private fun joinChannel() { // 1. Users can only see each other after they join the
         // same channel successfully using the same app id.
         // 2. One token is only valid for the channel name that
         // you use to generate this token.
@@ -427,16 +423,14 @@ class VideoCall : BaseCompatActivity() {
         mRtcEngine.joinChannel(token, dataCallsFireStore.channel_unique_id, "Extra Optional Data", dataUser.id.toInt()) // if you do not specify the uid, we will generate the uid for you
     }
 
-    private fun setupRemoteVideo(uid: Int) {
-        // Only one remote video view is available for this
+    private fun setupRemoteVideo(uid: Int) { // Only one remote video view is available for this
         // tutorial. Here we check if there exists a surface
         // view tagged as this uid.
         val container = findViewById(R.id.remote_video_view_container) as FrameLayout
 
         if (container.childCount >= 1) {
             return
-        }
-        /*
+        }/*
           Creates the video renderer view.
           CreateRendererView returns the SurfaceView type. The operation and layout of the view
           are managed by the app, and the Agora SDK renders the view provided by the app.
@@ -444,18 +438,17 @@ class VideoCall : BaseCompatActivity() {
           calling SurfaceView.
          */
         val surfaceView = RtcEngine.CreateRendererView(baseContext)
-        container.addView(surfaceView)
-        // Initializes the video view of a remote user.
+        container.addView(surfaceView) // Initializes the video view of a remote user.
         mRtcEngine.setupRemoteVideo(VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FIT, uid))
         surfaceView.tag = uid // for mark purpose
     }
 
     private fun leaveChannel() {
-        var hashMap= hashMapOf<String, Any>()
+        var hashMap = hashMapOf<String, Any>()
         if (callConnectedTimeMilles.equals("")) {
-             hashMap = hashMapOf("call_status" to "cancel")
+            hashMap = hashMapOf("call_status" to "cancel")
         } else {
-             hashMap = hashMapOf("call_status" to "end_call")
+            hashMap = hashMapOf("call_status" to "end_call")
         }
         helperMethods.updateCallsDetailsToFirestore(dataCallsFireStore.channel_unique_id, hashMap)
 
