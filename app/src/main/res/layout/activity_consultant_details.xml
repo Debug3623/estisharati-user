@@ -382,6 +382,16 @@
                             android:textAlignment="viewStart"
                             android:textColor="@color/gray"
                             android:textSize="14sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:fontFamily="@font/almarai_regular"
+                            android:text="0"
+                            android:id="@+id/chatCount"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -421,6 +431,16 @@
                             android:id="@+id/voiceOldPrice"
                             android:textAlignment="viewStart"
                             android:textColor="@color/gray"
+                            android:textSize="14sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:fontFamily="@font/almarai_regular"
+                            android:text="0"
+                            android:id="@+id/voiceCount"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/black"
                             android:textSize="14sp" />
                     </LinearLayout>
 
@@ -462,6 +482,16 @@
                             android:id="@+id/videoOldPrice"
                             android:textAlignment="viewStart"
                             android:textColor="@color/gray"
+                            android:textSize="14sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:fontFamily="@font/almarai_regular"
+                            android:text="0"
+                            android:id="@+id/videoCount"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/black"
                             android:textSize="14sp" />
                     </LinearLayout>
 

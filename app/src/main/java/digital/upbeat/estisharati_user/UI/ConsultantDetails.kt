@@ -30,7 +30,11 @@ import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
 import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_consultant_details.*
+import kotlinx.android.synthetic.main.consultant_balance_popup.view.*
 import kotlinx.android.synthetic.main.consultation_category_layout.view.*
+import kotlinx.android.synthetic.main.consultation_category_layout.view.chatLayout
+import kotlinx.android.synthetic.main.consultation_category_layout.view.videoLayout
+import kotlinx.android.synthetic.main.consultation_category_layout.view.voiceLayout
 import kotlinx.android.synthetic.main.fragment_consultations.*
 import kotlinx.android.synthetic.main.preview_courses_popup.view.*
 import okhttp3.ResponseBody
@@ -198,6 +202,10 @@ class ConsultantDetails : BaseCompatActivity() {
             videoLayout.visibility = View.GONE
             videoPriceLayout.visibility = View.GONE
         }
+
+        chatCount.text = consultantDetailsResponse.chat_count + " " + getString(R.string.written_chat)
+        voiceCount.text = helperMethods.formatToSecond(consultantDetailsResponse.voice_count)
+        videoCount.text = helperMethods.formatToSecond(consultantDetailsResponse.video_count)
     }
 
     fun redirectToPayment() {
@@ -251,6 +259,10 @@ class ConsultantDetails : BaseCompatActivity() {
         popup_view.chatLayout.visibility = if (consultantDetailsResponse.chat) View.VISIBLE else View.GONE
         popup_view.voiceLayout.visibility = if (consultantDetailsResponse.voice) View.VISIBLE else View.GONE
         popup_view.videoLayout.visibility = if (consultantDetailsResponse.video) View.VISIBLE else View.GONE
+
+        popup_view.chatCount.text = consultantDetailsResponse.chat_count + " " + getString(R.string.written_chat)
+        popup_view.voiceCount.text = helperMethods.formatToSecond(consultantDetailsResponse.voice_count)
+        popup_view.videoCount.text = helperMethods.formatToSecond(consultantDetailsResponse.video_count)
         if (chat.equals("1")) {
             popup_view.chatImage.clearColorFilter()
             popup_view.chatText.setTextColor(ContextCompat.getColor(this@ConsultantDetails, R.color.black))

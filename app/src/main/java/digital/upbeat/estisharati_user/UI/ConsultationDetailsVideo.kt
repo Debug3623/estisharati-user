@@ -283,7 +283,7 @@ class ConsultationDetailsVideo : BaseCompatActivity() {
 //        } else {
 //            LayoutView.videoLayout.visibility = View.GONE
 //        }
-        LayoutView.chatBalance.text = chat_balance + " " + getString(R.string.count)
+        LayoutView.chatBalance.text = chat_balance + " " + getString(R.string.written_chat)
         LayoutView.voiceBalance.text = helperMethods.formatToSecond(audio_balance)
         LayoutView.videoBalance.text = helperMethods.formatToSecond(video_balance)
     }

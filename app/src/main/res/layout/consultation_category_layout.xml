@@ -28,15 +28,17 @@
             android:id="@+id/consultationsOptionLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="20dp"
+            android:layout_marginEnd="15dp"
             android:gravity="center"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/chatLayout"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="50dp"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -56,13 +58,24 @@
                     android:text="@string/chat"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/chatCount"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/almarai_regular"
+                    android:text="@string/chat"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/voiceLayout"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="50dp"
+                android:layout_weight="1"
+                android:visibility="visible"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -82,12 +95,22 @@
                     android:text="@string/voice"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/voiceCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/almarai_regular"
+                    android:text="@string/voice"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/videoLayout"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -106,6 +129,15 @@
                     android:fontFamily="@font/almarai_regular"
                     android:text="@string/video"
                     android:textColor="@color/black"
+                    android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/videoCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/almarai_regular"
+                    android:text="@string/video"
+                    android:textColor="@color/dark_gray"
                     android:textSize="15sp" />
             </LinearLayout>
         </LinearLayout>

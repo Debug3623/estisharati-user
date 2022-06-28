@@ -83,11 +83,13 @@ class UserDrawer : BaseCompatActivity() {
         }
 
         intent.extras?.let {
-            val intent = Intent(this@UserDrawer, ChatPage::class.java)
-            intent.putExtra("user_id", it.getString("caller_id"))
-            intent.putExtra("forward_type", GlobalData.forwardType)
-            intent.putExtra("forward_content", GlobalData.forwardContent)
-            startActivity(intent)
+            it.getString("caller_id")?.let {
+                val intent = Intent(this@UserDrawer, ChatPage::class.java)
+                intent.putExtra("user_id", intent.extras!!.getString("caller_id"))
+                intent.putExtra("forward_type", GlobalData.forwardType)
+                intent.putExtra("forward_content", GlobalData.forwardContent)
+                startActivity(intent)
+            }
         }
     }
 

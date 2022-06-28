@@ -82,8 +82,7 @@ class VoiceCall : BaseCompatActivity(), SensorEventListener {
                 } else {
                     muted_status.visibility = View.GONE
                 }
-            }
-            // Tutorial Step 6
+            } // Tutorial Step 6
         }
 
         override fun onUserJoined(uid: Int, elapsed: Int) {
@@ -239,8 +238,7 @@ class VoiceCall : BaseCompatActivity(), SensorEventListener {
         }.start()
     }
 
-    fun callCountDownTimer() {
-        //15 mins
+    fun callCountDownTimer() { //15 mins
         countDownTimer = object : CountDownTimer(1000 * 30 * 30, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 val diffInMs: Long = Date().time - callConnectedTimeMilles.toLong()
@@ -252,17 +250,19 @@ class VoiceCall : BaseCompatActivity(), SensorEventListener {
 
                 Log.d("serviceTimer", "TIME : " + String.format("%02d", hours) + ":" + String.format("%02d", minutes) + ":" + String.format("%02d", seconds))
                 timer.text = String.format("%02d", hours) + ":" + String.format("%02d", minutes) + ":" + String.format("%02d", seconds)
-                val percentage = audio_balance * 0.10
-                val balanceSec = audio_balance - diffInSec
-                Log.d("secLeft", "" + percentage + " " + balanceSec)
-                if (0 > balanceSec) {
-                    endTheCall()
-                    helperMethods.showToastMessage(getString(R.string.there_is_no_more_balance_to_continue_this_call))
-                }
-                if (alertPopupNotShow) {
-                    if (percentage > balanceSec) {
-                        alertPopupNotShow = false
-                        helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.there_are_only)+" " + (((balanceSec % 3600) / 60).toString() + "." + (balanceSec % 3600) % 60) + " "+getString(R.string.minutes_left_for_the_conversation_to_end))
+                if (dataCallsFireStore.caller_id.equals(dataUser.id)) {
+                    val percentage = audio_balance * 0.10
+                    val balanceSec = audio_balance - diffInSec
+                    Log.d("secLeft", "" + percentage + " " + balanceSec)
+                    if (0 > balanceSec) {
+                        endTheCall()
+                        helperMethods.showToastMessage(getString(R.string.there_is_no_more_balance_to_continue_this_call))
+                    }
+                    if (alertPopupNotShow) {
+                        if (percentage > balanceSec) {
+                            alertPopupNotShow = false
+                            helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.there_are_only) + " " + (((balanceSec % 3600) / 60).toString() + "." + (balanceSec % 3600) % 60) + " " + getString(R.string.minutes_left_for_the_conversation_to_end))
+                        }
                     }
                 }
             }
@@ -282,7 +282,9 @@ class VoiceCall : BaseCompatActivity(), SensorEventListener {
             val diffInMs: Long = Date().time - callConnectedTimeMilles.toLong()
             val diffInSec: Long = TimeUnit.MILLISECONDS.toSeconds(diffInMs)
             Log.d("diffInSec", diffInSec.toString())
-            UpdateConsultationSecondsApiCall(dataOtherUserFireStore.user_id, diffInSec.toString())
+            if (dataCallsFireStore.caller_id.equals(dataUser.id)) {
+                UpdateConsultationSecondsApiCall(dataOtherUserFireStore.user_id, diffInSec.toString())
+            }
         }
 
         mRtcEngine.leaveChannel()
@@ -294,7 +296,7 @@ class VoiceCall : BaseCompatActivity(), SensorEventListener {
 
     fun UpdateConsultationSecondsApiCall(consultant_id: String, audio_balance: String) {
         helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
-        val responseBodyCall = retrofitInterface.UPDATE_CONSULTATION_SECONDS_API_CALL("Bearer ${dataUser.access_token}", consultant_id, "0", audio_balance, "0","","","")
+        val responseBodyCall = retrofitInterface.UPDATE_CONSULTATION_SECONDS_API_CALL("Bearer ${dataUser.access_token}", consultant_id, "0", audio_balance, "0", "", "", "")
         responseBodyCall.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()
@@ -390,12 +392,10 @@ class VoiceCall : BaseCompatActivity(), SensorEventListener {
     // Tutorial Step 1
     private fun initializeAgoraEngine() {
         try {
-            mRtcEngine = RtcEngine.create(baseContext, getString(R.string.agora_app_id), iRtcEngineEventHandler)
-            // Sets the channel profile of the Agora RtcEngine.
+            mRtcEngine = RtcEngine.create(baseContext, getString(R.string.agora_app_id), iRtcEngineEventHandler) // Sets the channel profile of the Agora RtcEngine.
             // CHANNEL_PROFILE_COMMUNICATION(0): (Default) The Communication profile. Use this profile in one-on-one calls or group calls, where all users can talk freely.
             // CHANNEL_PROFILE_LIVE_BROADCASTING(1): The Live-Broadcast profile. Users in a live-broadcast channel have a role as either broadcaster or audience. A broadcaster can both send and receive streams; an audience can only receive streams.
-            mRtcEngine.setChannelProfile(Constants.CHANNEL_PROFILE_COMMUNICATION)
-            //            mRtcEngine.setEnableSpeakerphone(enableSpeakerphone)
+            mRtcEngine.setChannelProfile(Constants.CHANNEL_PROFILE_COMMUNICATION) //            mRtcEngine.setEnableSpeakerphone(enableSpeakerphone)
             //            mRtcEngine.muteLocalAudioStream(muteLocalAudioStrea)
         } catch (e: Exception) {
             Log.e("voice", Log.getStackTraceString(e))
@@ -406,16 +406,14 @@ class VoiceCall : BaseCompatActivity(), SensorEventListener {
         var accessToken: String? = getString(R.string.agora_access_token)
         if (TextUtils.equals(accessToken, "") || TextUtils.equals(accessToken, "#YOUR ACCESS TOKEN#")) {
             accessToken = null // default, no token
-        }
-        // Allows a user to join a channel.
+        } // Allows a user to join a channel.
         mRtcEngine.joinChannel(accessToken, dataCallsFireStore.channel_unique_id, "Extra Optional Data", dataUser.id.toInt()) // if you do not specify the uid, we will generate the uid for you
     }
 
     override fun onBackPressed() {
     }
 
-    override fun onResume() {
-        // Register a listener for the sensor.
+    override fun onResume() { // Register a listener for the sensor.
         super.onResume()
 
         sensor?.also { proximity ->
@@ -423,8 +421,7 @@ class VoiceCall : BaseCompatActivity(), SensorEventListener {
         }
     }
 
-    override fun onPause() {
-        // Be sure to unregister the sensor when the activity pauses.
+    override fun onPause() { // Be sure to unregister the sensor when the activity pauses.
         super.onPause()
         sensorManager.unregisterListener(this)
     }
