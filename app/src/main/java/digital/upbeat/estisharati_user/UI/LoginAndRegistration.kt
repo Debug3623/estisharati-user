@@ -8,6 +8,10 @@ import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import androidx.activity.result.ActivityResultLauncher
+import com.facebook.*
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.*
 import com.google.firebase.firestore.FieldValue
@@ -28,6 +32,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
+import java.util.*
 
 class LoginAndRegistration : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
@@ -38,6 +43,8 @@ class LoginAndRegistration : BaseCompatActivity() {
     val RC_SIGN_IN = 101
     lateinit var googleSignInOptions: GoogleSignInOptions
     lateinit var mGoogleApiClient: GoogleSignInClient
+    lateinit var launchActivity: ActivityResultLauncher<Intent>
+    lateinit var callbackManager: CallbackManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_and_registration)
@@ -49,8 +56,42 @@ class LoginAndRegistration : BaseCompatActivity() {
         helperMethods = HelperMethods(this@LoginAndRegistration)
         preferencesHelper = SharedPreferencesHelper(this@LoginAndRegistration)
         helperMethods.setStatusBarColor(this, R.color.white)
+        callbackManager = CallbackManager.Factory.create()
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
         googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().requestProfile().requestId().build()
+        LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult?> {
+            override fun onSuccess(loginResult: LoginResult?) { // App code
+                loginResult?.let {
+                    Log.d("facebookLogin", it.accessToken.token)
+                    val request = GraphRequest.newMeRequest(it.accessToken) { JSONObject, response ->
+                        try {
+                            if (JSONObject != null) {
+                                val id = JSONObject.getString("id")
+                                val first_name = JSONObject.getString("first_name")
+                                val last_name = JSONObject.getString("last_name")
+                                val email = JSONObject.getString("email")
+                                Log.d("facebookLogin", "$id  $first_name  $last_name  $email ")
+                                GoogleSignInApiCall(id, first_name, last_name, email, "", GlobalData.FcmToken)
+                            }
+                        } catch (e: JSONException) {
+                        }
+                    }
+                    val parameters = Bundle()
+                    parameters.putString("fields", "id,first_name,last_name,email")
+                    request.parameters = parameters
+                    request.executeAsync()
+                }
+            }
+
+            override fun onCancel() {
+                Log.d("facebookLogin", "onCancel") // App code
+            }
+
+            override fun onError(exception: FacebookException) { // App code
+                exception.printStackTrace()
+                Log.d("facebookLogin", "exception")
+            }
+        })
     }
 
     fun clickEvents() {
@@ -144,10 +185,11 @@ class LoginAndRegistration : BaseCompatActivity() {
                 registrationApiCall(reg_fname.toText(), reg_lname.toText(), reg_email_address.toText(), codePicker.selectedCountryCodeWithPlus + "" + reg_phone.toText(), codePicker.selectedCountryCodeWithPlus, reg_password.toText(), referral_code.toText())
             }
         }
-        sign_in_button.setOnClickListener { launchGoogleSignIn() }
+        sign_in_button_google.setOnClickListener { launchGoogleSignIn() }
+        sign_in_button_facebook.setOnClickListener { launchFacebookSignIn() }
     }
 
-    fun  loginValidation(): Boolean {
+    fun loginValidation(): Boolean {
         if (email_phone_number.toText().equals("")) {
             helperMethods.showToastMessage(getString(R.string.enter_email_address))
             return false
@@ -159,12 +201,10 @@ class LoginAndRegistration : BaseCompatActivity() {
         if (password.toText().equals("")) {
             helperMethods.showToastMessage(getString(R.string.enter_password))
             return false
-        }
-//        if (!helperMethods.isValidPassword(password.toText())) {
-//            helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.password_at_least_8_characters_including_a_lower_case_letteran_uppercase_lettera_number_and_one_special_character))
-//            return false
-//        }
-
+        } //        if (!helperMethods.isValidPassword(password.toText())) {
+        //            helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.password_at_least_8_characters_including_a_lower_case_letteran_uppercase_lettera_number_and_one_special_character))
+        //            return false
+        //        }
         if (!helperMethods.isConnectingToInternet) {
             helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
             return false
@@ -176,6 +216,13 @@ class LoginAndRegistration : BaseCompatActivity() {
         mGoogleApiClient = GoogleSignIn.getClient(this, googleSignInOptions)
         val intent = mGoogleApiClient.signInIntent
         startActivityForResult(intent, RC_SIGN_IN)
+    }
+
+    fun launchFacebookSignIn() {
+        if (AccessToken.getCurrentAccessToken() != null) {
+            LoginManager.getInstance().logOut()
+        }
+        LoginManager.getInstance().logInWithReadPermissions(this@LoginAndRegistration, Arrays.asList("email"))
     }
 
     fun logInApiCall(userIdStr: String, password: String, remember: String) {
@@ -245,7 +292,7 @@ class LoginAndRegistration : BaseCompatActivity() {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 helperMethods.dismissProgressDialog()
 
-               if (response.isSuccessful) {
+                if (response.isSuccessful) {
                     if (response.body() != null) {
                         try {
                             val jsonObject = JSONObject(response.body()!!.string())
@@ -269,10 +316,8 @@ class LoginAndRegistration : BaseCompatActivity() {
                                 helperMethods.setUserDetailsToFirestore(dataUser.id, hashMap)
                                 preferencesHelper.isUserLogIn = true
                                 preferencesHelper.logInUser = dataUser
-                                mGoogleApiClient.signOut()
                                 startActivity(Intent(this@LoginAndRegistration, UserDrawer::class.java))
                                 finish()
-
                             } else {
                                 val message = jsonObject.getString("message")
                                 helperMethods.AlertPopup(getString(R.string.alert), message)
@@ -288,7 +333,7 @@ class LoginAndRegistration : BaseCompatActivity() {
                     }
                 } else {
                     helperMethods.showToastMessage(getString(R.string.something_went_wrong))
-                    Log.d("body", "Not Successful  "+response.errorBody()!!.string())
+                    Log.d("body", "Not Successful  " + response.errorBody()!!.string())
                 }
             }
 
@@ -313,8 +358,7 @@ class LoginAndRegistration : BaseCompatActivity() {
                             val jsonObject = JSONObject(response.body()!!.string())
                             val status = jsonObject.getString("status")
                             if (status.equals("200")) {
-                                val message = jsonObject.getString("message")
-//                                helperMethods.showToastMessage(message)
+                                val message = jsonObject.getString("message") //                                helperMethods.showToastMessage(message)
                                 val intent = Intent(this@LoginAndRegistration, Verification::class.java)
                                 intent.putExtra("come_from", "Registration")
                                 intent.putExtra("phone", phone)
@@ -380,11 +424,10 @@ class LoginAndRegistration : BaseCompatActivity() {
         if (reg_phone.toText().equals("")) {
             helperMethods.showToastMessage(getString(R.string.enter_phone_number))
             return false
-        }
-//        if (!helperMethods.isValidMobile(codePicker.selectedCountryCodeWithPlus + "" + reg_phone.toText())) {
-//            helperMethods.showToastMessage(getString(R.string.enter_vaid_phone_number))
-//            return false
-//        }
+        } //        if (!helperMethods.isValidMobile(codePicker.selectedCountryCodeWithPlus + "" + reg_phone.toText())) {
+        //            helperMethods.showToastMessage(getString(R.string.enter_vaid_phone_number))
+        //            return false
+        //        }
         if (reg_password.toText().equals("")) {
             helperMethods.showToastMessage(getString(R.string.enter_password))
             return false
@@ -407,6 +450,8 @@ class LoginAndRegistration : BaseCompatActivity() {
                 val result = Auth.GoogleSignInApi.getSignInResultFromIntent(it)
                 handleSignInResult(result!!)
             }
+        } else {
+            callbackManager.onActivityResult(requestCode, resultCode, data)
         }
     }
 
@@ -438,10 +483,11 @@ class LoginAndRegistration : BaseCompatActivity() {
                     photoUrl = it.toString()
                 }
                 it.idToken?.let {
-                    idToken=it
+                    idToken = it
                 }
                 GoogleSignInApiCall(google_id, givenName, familyName, email, photoUrl, GlobalData.FcmToken)
-                Log.d("GoogleSignInResult", idToken+"   "+google_id + "  " + givenName + "  " + familyName + "  " + email + "  " + photoUrl)
+                Log.d("GoogleSignInResult", idToken + "   " + google_id + "  " + givenName + "  " + familyName + "  " + email + "  " + photoUrl)
+                mGoogleApiClient.signOut()
             }
         }
     }

@@ -72,7 +72,7 @@ class PackagesSelection : BaseCompatActivity() {
             if (helperMethods.isConnectingToInternet) {
                 helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
 
-                if (referralResponse.android_pay == "1") {
+                if (referralResponse.android_pay == "2") {
                     subscriptionApiCall()
                 } else {
                     NetwrokPayment().getToken(this@PackagesSelection)
@@ -233,7 +233,7 @@ class PackagesSelection : BaseCompatActivity() {
             referralDiscountLayout.visibility = View.GONE
         }
         Log.d("payment amount", GlobalData.packagesOptions.transaction_amount + "  " + GlobalData.packagesOptions.vat_amount + "  " + GlobalData.packagesOptions.discount + "  " + GlobalData.packagesOptions.referral_discount);
-        if (referralResponse.android_pay == "1") {
+        if (referralResponse.android_pay == "2") {
             proceed.text = getString(R.string.Proceed_with_cash)
         } else {
             proceed.text = getString(R.string.proceed_payment)
@@ -378,7 +378,7 @@ class PackagesSelection : BaseCompatActivity() {
             else -> {
             }
         }
-        val responseBodyCall = retrofitInterface.USER_SUBSCRIPTION_API_CALL("Bearer ${dataUser.access_token}", GlobalData.packagesOptions.type, GlobalData.packagesOptions.category_id, GlobalData.packagesOptions.chat, GlobalData.packagesOptions.audio, GlobalData.packagesOptions.video, subscription_id, course_id, consultant_id, GlobalData.packagesOptions.transaction_amount, "0", "1", if (referralResponse.android_pay == "1") {
+        val responseBodyCall = retrofitInterface.USER_SUBSCRIPTION_API_CALL("Bearer ${dataUser.access_token}", GlobalData.packagesOptions.type, GlobalData.packagesOptions.category_id, GlobalData.packagesOptions.chat, GlobalData.packagesOptions.audio, GlobalData.packagesOptions.video, subscription_id, course_id, consultant_id, GlobalData.packagesOptions.transaction_amount, "0", "1", if (referralResponse.android_pay == "2") {
             UUID.randomUUID().toString()
         } else {
             paymentNetworkResponse._embedded.payment.get(0).orderReference

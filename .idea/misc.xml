@@ -4,8 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../../layout/custom_preview.xml" value="0.328125" />
+        <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/drawable-nodpi/corner_redius_5dp_blue.xml" value="0.1405" />
         <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/drawable/corner_redius_30dp_light_green1.xml" value="0.2835" />
         <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/drawable/corner_redius_30dp_transparent_white_and_white_stroke.xml" value="0.2835" />
+        <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/drawable/corner_redius_5dp_blue.xml" value="0.1405" />
+        <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/drawable/corner_redius_5dp_white.xml" value="0.1405" />
         <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/layout/activity_blog_details.xml" value="0.16979166666666667" />
         <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/layout/activity_chat_page.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/layout/activity_consultant_details.xml" value="0.22" />
@@ -15,7 +18,7 @@
         <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/layout/activity_create_post.xml" value="0.16979166666666667" />
         <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/layout/activity_forgot_password.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/layout/activity_legal_advice.xml" value="0.34427083333333336" />
-        <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/layout/activity_login_and_registration.xml" value="0.3177083333333333" />
+        <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/layout/activity_login_and_registration.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/layout/activity_notifications.xml" value="0.34427083333333336" />
         <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/layout/activity_online_courses.xml" value="0.34427083333333336" />
         <entry key="..\:/Users/Azar/Desktop/Azar/WorkPlace/Estisharati/EstisharatiUser/app/src/main/res/layout/activity_packages.xml" value="0.34427083333333336" />

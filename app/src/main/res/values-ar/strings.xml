@@ -292,7 +292,7 @@
     <string name="your_groups">مجموعاتك</string>
     <string name="you_dont_have_enough_balance_to_make_this_chat">ليس لديك رصيد كافٍ لإجراء هذه الدردشة!</string>
     <string name="count">العد</string>
-    <string name="sign_in_with_google">الدخول بواسطة جوجل</string>
+    <string name="sign_in_with_google">جوجل</string>
     <string name="please_select_data_and_time">الرجاء تحديد الوقت و التاريخ</string>
     <string name="select_your_appointment_request_date_and_time">حدد تاريخ و وقت موعد طلبك</string>
     <string name="appointment">موعد</string>
@@ -350,4 +350,5 @@
     <string name="message_deleted_successfully">تم حذف الرسالة بنجاح</string>
     <string name="clear_all">امسح الكل</string>
     <string name="Proceed_with_cash">المضي قدما نقدا (سنقوم بتحصيل)</string>
+    <string name="facebook">فيسبوك</string>
 </resources>

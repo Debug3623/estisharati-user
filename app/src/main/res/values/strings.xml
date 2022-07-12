@@ -4,6 +4,7 @@
 
     <string name="agora_app_id" translatable="false">29c6b00fa7ba4e1eaa2c52d3ef791786</string>
     <string name="agora_access_token" translatable="false"></string>
+    <string name="facebook_app_id" translatable="false">1224933531667223</string>
 
     <string name="internet_connection_failed">Internet Connection Failed</string>
     <string name="please_check_your_internet_connection_and_try_again">Please check your internet connection and try again</string>
@@ -298,7 +299,7 @@
     <string name="your_groups">Your Groups</string>
     <string name="you_dont_have_enough_balance_to_make_this_chat">You don\'t have enough balance to make this chat !</string>
     <string name="count">Count</string>
-    <string name="sign_in_with_google">Sign In With Google</string>
+    <string name="sign_in_with_google">Google</string>
     <string name="please_select_data_and_time">Please select data and time !</string>
     <string name="select_your_appointment_request_date_and_time">Select your appointment request date and time</string>
     <string name="appointment">Appointment</string>
@@ -355,4 +356,5 @@
     <string name="message_deleted_successfully">Message deleted successfully</string>
     <string name="clear_all">Clear All</string>
     <string name="Proceed_with_cash">Proceed With Cash ( We will collect )</string>
+    <string name="facebook">Facebook</string>
 </resources>
