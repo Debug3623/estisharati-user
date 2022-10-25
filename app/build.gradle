@@ -10,6 +10,7 @@ android {
         applicationId "digital.upbeat.estisharati_user"
         minSdkVersion 21
         targetSdkVersion 32
+        //zahid
         versionCode 27
         versionName "3.0.7"
         multiDexEnabled true
@@ -103,8 +104,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:21.0.3'
 
     //Agora
-    implementation 'com.github.agorabuilder:native-full-sdk:3.4.5'
-
+//    implementation 'com.github.agorabuilder:native-full-sdk:3.4.5'
+    implementation 'io.agora.rtc:full-sdk:3.5.2'
     // Country Picker
     implementation 'com.hbb20:ccp:2.5.3'
 
@@ -114,7 +115,7 @@ dependencies {
     //lottie
     implementation 'com.airbnb.android:lottie:4.0.0'
 
-     //TouchImageView
+    //TouchImageView
     implementation 'com.github.MikeOrtiz:TouchImageView:3.0.1'
 
     // Network Payment
@@ -129,6 +130,4 @@ dependencies {
 
     //Facebook
     implementation 'com.facebook.android:facebook-android-sdk:12.0.1'
-
 }
-
