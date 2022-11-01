@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "836088783430",
+    "project_id": "eshtisharati-5961f",
+    "storage_bucket": "eshtisharati-5961f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:836088783430:android:f83905a319499af9536047",
+        "android_client_info": {
+          "package_name": "digital.upbeat.estisharati_user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "836088783430-5rv3r5okih41lbh1bmrtj4era4fovvd4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "digital.upbeat.estisharati_user",
+            "certificate_hash": "1cf02613b58ab5bbe0d2bea424608d2d3aeffca5"
+          }
+        },
+        {
+          "client_id": "836088783430-njffv27i2tif82q0tk8d0kkmfpk8oi40.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADl0GgbuBHb-f4mRuIWofxyUwrrAigvco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "836088783430-njffv27i2tif82q0tk8d0kkmfpk8oi40.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
