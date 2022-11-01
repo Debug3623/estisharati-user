@@ -90,7 +90,7 @@ class ConsultantDetails : BaseCompatActivity() {
         layoutView.courseName.text = consultantDetailsResponse.name
         val simpleExoPlayer = SimpleExoPlayer.Builder(this@ConsultantDetails).build()
         val uri = Uri.parse(consultantDetailsResponse.preview_video)
-        Log.d("preview_video", uri.toString());
+        Log.d("preview_video", uri.toString())
         val mediaItem: MediaItem = MediaItem.fromUri(uri)
         layoutView.exoPlayer.player = simpleExoPlayer
         simpleExoPlayer.setMediaItem(mediaItem)
@@ -163,7 +163,7 @@ class ConsultantDetails : BaseCompatActivity() {
             } else {
                 chatPrice.text = "${getString(R.string.usd)} ${consultantDetailsResponse.offer_chat_fee}"
                 chatOldPrice.text = "${getString(R.string.usd)} ${consultantDetailsResponse.chat_fee}"
-                chatOldPrice.setPaintFlags(chatOldPrice.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
+                chatOldPrice.paintFlags = chatOldPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 chatOldPrice.visibility = View.VISIBLE
             }
         } else {
@@ -179,7 +179,7 @@ class ConsultantDetails : BaseCompatActivity() {
             } else {
                 voicePrice.text = "${getString(R.string.usd)} ${consultantDetailsResponse.offer_voice_fee}"
                 voiceOldPrice.text = "${getString(R.string.usd)} ${consultantDetailsResponse.voice_fee}"
-                voiceOldPrice.setPaintFlags(voiceOldPrice.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
+                voiceOldPrice.paintFlags = voiceOldPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 voiceOldPrice.visibility = View.VISIBLE
             }
         } else {
@@ -195,7 +195,7 @@ class ConsultantDetails : BaseCompatActivity() {
             } else {
                 videoPrice.text = "${getString(R.string.usd)} ${consultantDetailsResponse.offer_video_fee}"
                 videoOldPrice.text = "${getString(R.string.usd)} ${consultantDetailsResponse.video_fee}"
-                videoOldPrice.setPaintFlags(videoOldPrice.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
+                videoOldPrice.paintFlags = videoOldPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 videoOldPrice.visibility = View.VISIBLE
             }
         } else {
@@ -231,7 +231,7 @@ class ConsultantDetails : BaseCompatActivity() {
         aleatdialog.setView(popup_view)
         aleatdialog.setCancelable(false)
         dialog = aleatdialog.create()
-        dialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
         popup_view.actionCancelBtn.setOnClickListener {
             dialog.dismiss()

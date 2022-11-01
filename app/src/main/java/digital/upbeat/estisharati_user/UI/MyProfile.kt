@@ -248,7 +248,7 @@ class MyProfile : AppCompatActivity() {
     fun profilePictureUpdateApiCall(filePath: String) {
         val file = File(filePath)
         val requestBody = RequestBody.create(MediaType.parse("*/*"), file)
-        val imageFile = MultipartBody.Part.createFormData("image", file.getName(), requestBody)
+        val imageFile = MultipartBody.Part.createFormData("image", file.name, requestBody)
 
         helperMethods.showProgressDialog(getString(R.string.profile_picture_is_updating))
         val responseBodyCall = retrofitInterface.PROFILE_PICTURE_UPDATE_API_CALL("Bearer ${dataUserObject.access_token}", imageFile)

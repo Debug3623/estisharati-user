@@ -38,7 +38,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 
-class CourseResource() : BaseCompatActivity() {
+class CourseResource : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     lateinit var preferencesHelper: SharedPreferencesHelper
     lateinit var retrofitInterface: RetrofitInterface
@@ -161,8 +161,8 @@ class CourseResource() : BaseCompatActivity() {
         tabTwo.tap_text.text = getString(R.string.documents)
         setUpViewPager(courseViewpager)
         courseTablayout.setupWithViewPager(courseViewpager)
-        courseTablayout.getTabAt(0)?.setCustomView(tabOne)
-        courseTablayout.getTabAt(1)?.setCustomView(tabTwo)
+        courseTablayout.getTabAt(0)?.customView = tabOne
+        courseTablayout.getTabAt(1)?.customView = tabTwo
     }
 
     private fun setUpViewPager(viewPager: ViewPager) {
@@ -170,7 +170,7 @@ class CourseResource() : BaseCompatActivity() {
         val adapter = TapViewPagerAdapter(supportFragmentManager)
         adapter.addFrag(courseVideo, "ONE")
         adapter.addFrag(CourseDocuments(this@CourseResource), "TWO")
-        viewPager.setAdapter(adapter)
+        viewPager.adapter = adapter
     }
 
     override fun onStart() {

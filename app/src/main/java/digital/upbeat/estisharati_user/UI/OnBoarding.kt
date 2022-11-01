@@ -38,7 +38,7 @@ class OnBoarding : BaseCompatActivity() {
     }
 
     fun initViews() {
-        helperMethods = HelperMethods(this@OnBoarding);
+        helperMethods = HelperMethods(this@OnBoarding)
 
         helperMethods.setStatusBarColor(this, R.color.white)
         handler = Handler()

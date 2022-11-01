@@ -366,8 +366,8 @@ class UserDrawer : BaseCompatActivity() {
                 radioEnglish.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(this@UserDrawer, R.color.orange))
                 radioArabic.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(this@UserDrawer, R.color.black))
             }
-            radioEnglish.setTextColor(ContextCompat.getColor(this@UserDrawer, R.color.orange));
-            radioArabic.setTextColor(ContextCompat.getColor(this@UserDrawer, R.color.black));
+            radioEnglish.setTextColor(ContextCompat.getColor(this@UserDrawer, R.color.orange))
+            radioArabic.setTextColor(ContextCompat.getColor(this@UserDrawer, R.color.black))
 
             radioEnglish.typeface = almarai_bold
             radioArabic.typeface = almarai_regular
@@ -376,8 +376,8 @@ class UserDrawer : BaseCompatActivity() {
                 radioEnglish.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(this@UserDrawer, R.color.black))
                 radioArabic.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(this@UserDrawer, R.color.orange))
             }
-            radioEnglish.setTextColor(ContextCompat.getColor(this@UserDrawer, R.color.black));
-            radioArabic.setTextColor(ContextCompat.getColor(this@UserDrawer, R.color.orange));
+            radioEnglish.setTextColor(ContextCompat.getColor(this@UserDrawer, R.color.black))
+            radioArabic.setTextColor(ContextCompat.getColor(this@UserDrawer, R.color.orange))
 
             radioEnglish.typeface = almarai_regular
             radioArabic.typeface = almarai_bold

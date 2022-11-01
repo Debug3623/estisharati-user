@@ -44,7 +44,7 @@ class ForgotPassword : BaseCompatActivity() {
     }
 
     fun initViews() {
-        helperMethods = HelperMethods(this@ForgotPassword);
+        helperMethods = HelperMethods(this@ForgotPassword)
         preferencesHelper = SharedPreferencesHelper(this@ForgotPassword)
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
 

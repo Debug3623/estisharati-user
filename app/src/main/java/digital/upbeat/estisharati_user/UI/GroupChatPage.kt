@@ -349,7 +349,7 @@ class GroupChatPage : BaseCompatActivity() {
     fun getImageUrlForChatApiCall(filePath: String) {
         val file = File(filePath)
         val requestBody = RequestBody.create(MediaType.parse("*/*"), file)
-        val image = MultipartBody.Part.createFormData("image", file.getName(), requestBody)
+        val image = MultipartBody.Part.createFormData("image", file.name, requestBody)
 
         helperMethods.showProgressDialog(getString(R.string.image_uploading))
         val responseBodyCall = retrofitInterface.UPLOAD_CHATTING_IMAGE_API_CALL("Bearer ${dataUser.access_token}", image)

@@ -34,7 +34,7 @@ class OffersConsultantsAdapter(val context: Context, val offers: Offers, val con
 
         holder.offersNewConsultantPrice.text = context.getString(R.string.usd) + " " + consultantsArrayList.get(position).offerprice
         holder.offersOldConsultantPrice.text = consultantsArrayList.get(position).consultant.price
-        holder.offersOldConsultantPrice.setPaintFlags(holder.offersOldConsultantPrice.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
+        holder.offersOldConsultantPrice.paintFlags = holder.offersOldConsultantPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         if (offers.helperMethods.findConsultantIsOnline(consultantsArrayList.get(position).consultant_id)) holder.onlineStatus.visibility = View.VISIBLE else holder.onlineStatus.visibility = View.GONE
 
         holder.offersConsultantParentLayout.setOnClickListener {

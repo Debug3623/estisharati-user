@@ -154,7 +154,7 @@ class ConsultationDetailsVideo : BaseCompatActivity() {
             simpleExoPlayer = SimpleExoPlayer.Builder(this@ConsultationDetailsVideo).build()
             val uri = Uri.parse(myConsultation.preview_video)
             val mediaItem: MediaItem = MediaItem.fromUri(uri)
-            exoPlayer.setPlayer(simpleExoPlayer)
+            exoPlayer.player = simpleExoPlayer
             simpleExoPlayer?.setMediaItem(mediaItem)
             simpleExoPlayer?.prepare()
             simpleExoPlayer?.play()

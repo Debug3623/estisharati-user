@@ -69,7 +69,7 @@ class VideoFullScreen : BaseCompatActivity() {
 
     fun setUpPlayer() {
         handler.postDelayed(runnable, 1000)
-        exoPlayer.setPlayer(simpleExoPlayer)
+        exoPlayer.player = simpleExoPlayer
         simpleExoPlayer.setMediaItems(GlobalData.mediaItemArrayList)
         simpleExoPlayer.prepare()
         simpleExoPlayer.play()

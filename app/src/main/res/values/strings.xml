@@ -8,7 +8,7 @@
 
     <string name="internet_connection_failed">Internet Connection Failed</string>
     <string name="please_check_your_internet_connection_and_try_again">Please check your internet connection and try again</string>
-    <string name="something_went_wrong">Something went wrong!</string>
+    <string name="something_went_wrong">Data not fetch successfully!</string>
     <string name="your_network_connection_is_slow_please_try_again">Your network connection is slow, please try again.</string>
     <string name="something_went_wrong_on_backend_server">Something went wrong on backend server!</string>
     <string name="login">Login</string>

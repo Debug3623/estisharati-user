@@ -210,7 +210,7 @@ class ContactUs : BaseCompatActivity() {
         var imageFile: MultipartBody.Part? = null
         uploadFile?.let {
             val requestBody = RequestBody.create(MediaType.parse("*/*"), it)
-            imageFile = MultipartBody.Part.createFormData("image", it.getName(), requestBody)
+            imageFile = MultipartBody.Part.createFormData("image", it.name, requestBody)
         }
         helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
         val responseBodyCall = retrofitInterface.CONTACTUS_API_CALL("Bearer ${dataUserObject.access_token}", nameRequestBody, phoneRequestBody, emailRequestBody, messageTypeRequestBody, subjectRequestBody, msgRequestBody, userIdRequestBody, imageFile)

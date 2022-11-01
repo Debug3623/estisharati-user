@@ -134,7 +134,7 @@ class Survey : AppCompatActivity() {
         goToShare.setOnClickListener {
             val sendIntent = Intent(Intent.ACTION_SEND)
             sendIntent.putExtra(Intent.EXTRA_TEXT, "I have done this \" ${surveysQuestionsResponse.data.title} \"  survey  form ${getString(R.string.app_name)} you can try by clicking the link \n" + mInvitationSurveryUrl)
-            sendIntent.setType("text/plain")
+            sendIntent.type = "text/plain"
             startActivity(sendIntent)
         }
     }
@@ -179,11 +179,11 @@ class Survey : AppCompatActivity() {
             rdbtn.textSize = 16f
             val params = RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT)
             if (option.image_path.equals("")) {
-                rdbtn.setText(option.name)
+                rdbtn.text = option.name
                 params.setMargins(0, 15, 0, 0)
             } else {
                 params.setMargins(0, 25, 0, 0)
-                rdbtn.setText(option.name)
+                rdbtn.text = option.name
                 rdbtn.compoundDrawablePadding = 10
                 Glide.with(this@Survey).load(option.image_path).apply(helperMethods.requestOption).into(object : CustomTarget<Drawable>(200, 150) {
                     override fun onLoadCleared(placeholder: Drawable?) {
@@ -195,7 +195,7 @@ class Survey : AppCompatActivity() {
                     }
                 })
             }
-            rdbtn.setLayoutParams(params)
+            rdbtn.layoutParams = params
 
 
             questionRadioGroup.addView(rdbtn)

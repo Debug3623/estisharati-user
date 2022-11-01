@@ -26,7 +26,7 @@ class InstructorAdapter(val context: Context, val instructor: Instructor, val co
         holder.consultantRate.text = consultants.get(position).user.rate
         holder.courseCount.text =context.getString(R.string.total_course)+ consultants.get(position).user.course_count
         if (consultants.get(position).user.qualification.size > 0) {
-            holder.qualificationDetails.setText(consultants.get(position).user.qualification.get(0).attr_value)
+            holder.qualificationDetails.text = consultants.get(position).user.qualification.get(0).attr_value
             holder.qualificationDetails.visibility = View.VISIBLE
         } else {
             holder.qualificationDetails.visibility = View.GONE

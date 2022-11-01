@@ -23,7 +23,7 @@ class SurveyListAdapter(val context: Context, val surveyList: SurveyList, val su
         holder.surveyName.text = surveyArrayList.get(position).title
         holder.surveyDescription.text = surveyList.helperMethods.getHtmlText(surveyArrayList.get(position).description)
         holder.surveyLayout.setOnClickListener {
-            val intent = Intent(context, Survey::class.java);
+            val intent = Intent(context, Survey::class.java)
             intent.putExtra("survey_id", surveyArrayList.get(position).id)
             context.startActivity(intent)
         }

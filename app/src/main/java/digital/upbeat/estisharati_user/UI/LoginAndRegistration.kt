@@ -317,6 +317,7 @@ class LoginAndRegistration : BaseCompatActivity() {
                                 preferencesHelper.isUserLogIn = true
                                 preferencesHelper.logInUser = dataUser
                                 startActivity(Intent(this@LoginAndRegistration, UserDrawer::class.java))
+                                println(dataUser.user_metas.fire_base_token)
                                 finish()
                             } else {
                                 val message = jsonObject.getString("message")

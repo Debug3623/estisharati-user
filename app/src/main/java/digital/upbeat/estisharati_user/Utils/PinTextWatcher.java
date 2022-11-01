@@ -11,7 +11,7 @@ import android.widget.EditText;
 
 
 public class PinTextWatcher implements TextWatcher {
-    private int currentIndex;
+    private final int currentIndex;
     private boolean isFirst = false, isLast = false;
     private String newTypedString = "";
     Context context;

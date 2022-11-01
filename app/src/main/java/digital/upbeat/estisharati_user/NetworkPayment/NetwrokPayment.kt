@@ -26,7 +26,7 @@ class NetwrokPayment {
         var paymentResponse = ""
 
         class OrderClass : AsyncTask<String?, String?, String?>() {
-            protected override fun doInBackground(vararg strings: String?): String? {
+            override fun doInBackground(vararg strings: String?): String? {
                 val client = OkHttpClient()
                 val amountJsonObject = JSONObject()
                 val Object = JSONObject()
@@ -94,12 +94,12 @@ class NetwrokPayment {
                 if (response != null) {
                     packagesSelection.callOrderFroPaymentAPI(response.access_token)
                 } else {
-                    packagesSelection.tokenError("Unable to get token !");
+                    packagesSelection.tokenError("Unable to get token !")
                 }
             }
 
             override fun onFailure(call: Call<AuthResponce?>, t: Throwable) {
-                packagesSelection.tokenError("Token onFailure !");
+                packagesSelection.tokenError("Token onFailure !")
             }
         })
     }

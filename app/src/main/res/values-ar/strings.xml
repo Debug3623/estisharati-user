@@ -17,7 +17,7 @@
     <string name="already_have_account">لديك حساب بالفعل!</string>
     <string name="internet_connection_failed">فشل في اتصال الإنترنت</string>
     <string name="please_check_your_internet_connection_and_try_again">من فضلك افحص اتصالك بالإنترنت ثم أعد المحاولة</string>
-    <string name="something_went_wrong">حدث خطأ!</string>
+    <string name="something_went_wrong">!لم يتم جلب البيانات بنجاح</string>
     <string name="your_network_connection_is_slow_please_try_again">شبكة الإنترنت بطيئة، من فضلك أعد المحاولة</string>
     <string name="something_went_wrong_on_backend_server">حدث خطأ في الخادم</string>
     <string name="could_not_get_your_device_token_please_try_again">تعذر الحصول على الرمز المميز لجهازك، من فضلك أعد المحاولة</string>

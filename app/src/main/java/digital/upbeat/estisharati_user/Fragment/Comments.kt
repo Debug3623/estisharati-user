@@ -64,11 +64,11 @@ class Comments(val courseDetails: CourseDetails) : Fragment() {
         star2Percent.text = courseDetails.responseCoursesDetails.average_rating.two_star + " %"
         star1Percent.text = courseDetails.responseCoursesDetails.average_rating.one_star + " %"
 
-        star5PercentView.setLayoutParams(getLayoutParams(courseDetails.responseCoursesDetails.average_rating.five_star))
-        star4PercentView.setLayoutParams(getLayoutParams(courseDetails.responseCoursesDetails.average_rating.four_star))
-        star3PercentView.setLayoutParams(getLayoutParams(courseDetails.responseCoursesDetails.average_rating.three_star))
-        star2PercentView.setLayoutParams(getLayoutParams(courseDetails.responseCoursesDetails.average_rating.two_star))
-        star1PercentView.setLayoutParams(getLayoutParams(courseDetails.responseCoursesDetails.average_rating.one_star))
+        star5PercentView.layoutParams = getLayoutParams(courseDetails.responseCoursesDetails.average_rating.five_star)
+        star4PercentView.layoutParams = getLayoutParams(courseDetails.responseCoursesDetails.average_rating.four_star)
+        star3PercentView.layoutParams = getLayoutParams(courseDetails.responseCoursesDetails.average_rating.three_star)
+        star2PercentView.layoutParams = getLayoutParams(courseDetails.responseCoursesDetails.average_rating.two_star)
+        star1PercentView.layoutParams = getLayoutParams(courseDetails.responseCoursesDetails.average_rating.one_star)
     }
 
     fun InitializeRecyclerview() {

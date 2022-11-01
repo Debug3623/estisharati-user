@@ -26,7 +26,7 @@ object NetworkApiClient {
                 }
                 httpClient.connectTimeout(1, TimeUnit.MINUTES).readTimeout(1, TimeUnit.MINUTES)
 //                val baseUrl = "https://api-gateway.sandbox.ngenius-payments.com/identity/auth/"
-                val baseUrl = "https://api-gateway.ngenius-payments.com/identity/auth/";
+                val baseUrl = "https://api-gateway.ngenius-payments.com/identity/auth/"
                 val retrofit = Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create(gson)).client(httpClient.build()).build()
                 service = retrofit.create(NetworkPaymentApi::class.java)
             }

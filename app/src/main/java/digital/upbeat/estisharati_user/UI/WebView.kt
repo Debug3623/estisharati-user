@@ -52,8 +52,8 @@ class WebView : BaseCompatActivity() {
 
     fun showWebview() {
         helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
-        web_view.getSettings().setJavaScriptEnabled(true)
-        web_view.setWebViewClient(WebViewController(helperMethods))
+        web_view.settings.javaScriptEnabled = true
+        web_view.webViewClient = WebViewController(helperMethods)
         web_view.loadUrl(url)
     }
 
@@ -65,7 +65,7 @@ class WebView : BaseCompatActivity() {
 
         override fun onPageFinished(view: WebView, url: String) {
             super.onPageFinished(view, url)
-            view.loadUrl("javascript:(function() { " + "document.getElementsByClassName('ndfHFb-c4YZDc-GSQQnc-LgbsSe ndfHFb-c4YZDc-to915-LgbsSe VIpgJd-TzA9Ye-eEGnhe ndfHFb-c4YZDc-LgbsSe')[0].style.display='none'; })()");
+            view.loadUrl("javascript:(function() { " + "document.getElementsByClassName('ndfHFb-c4YZDc-GSQQnc-LgbsSe ndfHFb-c4YZDc-to915-LgbsSe VIpgJd-TzA9Ye-eEGnhe ndfHFb-c4YZDc-LgbsSe')[0].style.display='none'; })()")
             helperMethods.dismissProgressDialog()
         }
 

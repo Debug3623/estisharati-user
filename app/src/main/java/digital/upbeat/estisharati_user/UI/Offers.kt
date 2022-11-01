@@ -161,6 +161,7 @@ class Offers : BaseCompatActivity() {
                             if (status.equals("200")) {
                                 val data = jsonObject.getString("data")
                                 offersresponse = Gson().fromJson(data, OffersResponse::class.java)
+//                                Log.d("response", offersresponse.toString())
                                 initializeOffersRecyclerview()
                             } else {
                                 val message = jsonObject.getString("message")

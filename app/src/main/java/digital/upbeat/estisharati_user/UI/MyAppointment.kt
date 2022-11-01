@@ -78,6 +78,7 @@ class MyAppointment : AppCompatActivity() {
         }
         return ""
     }
+
     fun appointmentsApiCall() {
         helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
         val responseBodyCall = retrofitInterface.APPOINTMENTS_API_CALL("Bearer ${dataUser.access_token}")

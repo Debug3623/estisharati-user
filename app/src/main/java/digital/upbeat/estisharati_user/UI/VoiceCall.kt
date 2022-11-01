@@ -130,7 +130,7 @@ class VoiceCall : BaseCompatActivity(), SensorEventListener {
 
     fun playRigntone() {
         player = MediaPlayer.create(this, R.raw.ringtone_fbi)
-        player?.setLooping(true) // Set looping
+        player?.isLooping = true // Set looping
         player?.setVolume(100f, 100f)
         player?.start()
     }
@@ -458,12 +458,12 @@ class VoiceCall : BaseCompatActivity(), SensorEventListener {
     }
 
     fun enableDisableViewGroup(viewGroup: ViewGroup, enabled: Boolean) {
-        val childCount: Int = viewGroup.getChildCount()
+        val childCount: Int = viewGroup.childCount
         for (i in 0 until childCount) {
             val view: View = viewGroup.getChildAt(i)
             view.isEnabled = enabled
             if (view is ViewGroup) {
-                enableDisableViewGroup(view as ViewGroup, enabled)
+                enableDisableViewGroup(view, enabled)
             }
         }
     }

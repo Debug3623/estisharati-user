@@ -118,7 +118,7 @@ class CourseDetails : BaseCompatActivity() {
         shareCourse.setOnClickListener {
             val sendIntent = Intent(Intent.ACTION_SEND)
             sendIntent.putExtra(Intent.EXTRA_TEXT, responseCoursesDetails.name + " Clicking link to view the course  " + "     " + courseInvitationUrl)
-            sendIntent.setType("text/plain")
+            sendIntent.type = "text/plain"
             startActivity(sendIntent)
         }
         postTestimonials.setOnClickListener {
@@ -149,7 +149,7 @@ class CourseDetails : BaseCompatActivity() {
             coursePrice.text = "${getString(R.string.usd)} ${responseCoursesDetails.offerprice}"
             courseOldPrice.text = " ${responseCoursesDetails.price}"
             offersEndDate.text = responseCoursesDetails.offer_end
-            courseOldPrice.setPaintFlags(courseOldPrice.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
+            courseOldPrice.paintFlags = courseOldPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             courseOldPrice.visibility = View.VISIBLE
             offersEndDateLayout.visibility = View.VISIBLE
         }
@@ -274,7 +274,7 @@ class CourseDetails : BaseCompatActivity() {
         layoutView.courseName.text = responseCoursesDetails.name
         val simpleExoPlayer = SimpleExoPlayer.Builder(this@CourseDetails).build()
         val uri = Uri.parse(responseCoursesDetails.video_path)
-        Log.d("preview_video",uri.toString());
+        Log.d("preview_video",uri.toString())
         val mediaItem: MediaItem = MediaItem.fromUri(uri)
         layoutView.exoPlayer.player =simpleExoPlayer
         simpleExoPlayer.setMediaItem(mediaItem)
@@ -296,9 +296,9 @@ class CourseDetails : BaseCompatActivity() {
         tabThree.tap_text.text = getString(R.string.comments)
         setUpViewPager(courseViewpager)
         courseTablayout.setupWithViewPager(courseViewpager)
-        courseTablayout.getTabAt(0)?.setCustomView(tabOne)
-        courseTablayout.getTabAt(1)?.setCustomView(tabTwo)
-        courseTablayout.getTabAt(2)?.setCustomView(tabThree)
+        courseTablayout.getTabAt(0)?.customView = tabOne
+        courseTablayout.getTabAt(1)?.customView = tabTwo
+        courseTablayout.getTabAt(2)?.customView = tabThree
     }
 
     private fun setUpViewPager(viewPager: ViewPager) {
@@ -306,7 +306,7 @@ class CourseDetails : BaseCompatActivity() {
         adapter.addFrag(CourseContent(this@CourseDetails), "ONE")
         adapter.addFrag(Instructor(this@CourseDetails), "TWO")
         adapter.addFrag(Comments(this@CourseDetails), "THREE")
-        viewPager.setAdapter(adapter)
+        viewPager.adapter = adapter
     }
 
     fun findConsultantID(id: String): Boolean {

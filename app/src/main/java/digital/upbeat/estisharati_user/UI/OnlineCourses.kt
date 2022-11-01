@@ -80,8 +80,8 @@ class OnlineCourses : BaseCompatActivity() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
-                    val visibleItemCount = layoutManager!!.getChildCount()
-                    val totalItemCount = layoutManager!!.getItemCount()
+                    val visibleItemCount = layoutManager!!.childCount
+                    val totalItemCount = layoutManager!!.itemCount
                     val pastVisiblesItems = layoutManager!!.findFirstVisibleItemPosition()
                     if (loading) {
                         if (visibleItemCount + pastVisiblesItems >= totalItemCount) {
@@ -182,7 +182,7 @@ class OnlineCourses : BaseCompatActivity() {
     }
 
     fun onlineCoursesApiCall(category_id: String, sortby: String, page: String) {
-        Log.d("pageCount", page);
+        Log.d("pageCount", page)
         if (pageCount == 1) {
             helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
         }

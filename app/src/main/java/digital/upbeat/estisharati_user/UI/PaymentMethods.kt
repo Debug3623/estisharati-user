@@ -137,6 +137,7 @@ class PaymentMethods : BaseCompatActivity() {
             }
         })
     }
+
     fun paymentMethodListApiCall() {
         helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
         val responseBodyCall = retrofitInterface.PAYMENTMETHOD_LIST_API_CALL("Bearer ${dataUser.access_token}")

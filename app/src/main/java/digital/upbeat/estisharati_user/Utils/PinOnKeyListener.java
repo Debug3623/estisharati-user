@@ -6,9 +6,9 @@ import android.view.View;
 import android.widget.EditText;
 
 public class PinOnKeyListener implements View.OnKeyListener {
-    private int currentIndex;
-    private Context context;
-    private EditText[] editTexts;
+    private final int currentIndex;
+    private final Context context;
+    private final EditText[] editTexts;
 
   public PinOnKeyListener(Context context, int currentIndex, EditText[] editTexts) {
         this.currentIndex = currentIndex;

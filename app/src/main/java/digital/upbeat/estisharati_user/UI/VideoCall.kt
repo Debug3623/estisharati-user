@@ -117,7 +117,7 @@ class VideoCall : BaseCompatActivity() {
                 } else {
                     video_muted_layout.visibility = View.GONE
                 }
-                val container = findViewById(R.id.remote_video_view_container) as FrameLayout
+                val container = findViewById<FrameLayout>(R.id.remote_video_view_container)
                 val surfaceView = container.getChildAt(0) as SurfaceView
                 val tag = surfaceView.tag
                 if (tag != null && tag as Int == uid) {
@@ -143,7 +143,7 @@ class VideoCall : BaseCompatActivity() {
         preferencesHelper = SharedPreferencesHelper(this@VideoCall)
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
 
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
 
         dataUser = preferencesHelper.logInUser
@@ -172,7 +172,7 @@ class VideoCall : BaseCompatActivity() {
 
     fun playRigntone() {
         player = MediaPlayer.create(this, R.raw.ringtone_fbi)
-        player?.setLooping(true) // Set looping
+        player?.isLooping = true // Set looping
         player?.setVolume(100f, 100f)
         player?.start()
     }
@@ -258,7 +258,7 @@ class VideoCall : BaseCompatActivity() {
                 iv.setColorFilter(ContextCompat.getColor(this@VideoCall, R.color.orange), PorterDuff.Mode.MULTIPLY)
             } // Stops/Resumes sending the local video stream.
             mRtcEngine.muteLocalVideoStream(iv.isSelected)
-            val container = findViewById(R.id.local_video_view_container) as FrameLayout
+            val container = findViewById<FrameLayout>(R.id.local_video_view_container)
             val surfaceView = container.getChildAt(0) as SurfaceView
             surfaceView.setZOrderMediaOverlay(!iv.isSelected)
             surfaceView.visibility = if (iv.isSelected) View.GONE else View.VISIBLE
@@ -470,7 +470,7 @@ class VideoCall : BaseCompatActivity() {
         // Our server will assign one and return the uid via the event
         // handler callback function (onJoinChannelSuccess) after
         // joining the channel successfully.
-        val container = findViewById(R.id.local_video_view_container) as FrameLayout
+        val container = findViewById<FrameLayout>(R.id.local_video_view_container)
         val surfaceView = RtcEngine.CreateRendererView(baseContext)
         surfaceView.setZOrderMediaOverlay(true)
         container.addView(surfaceView) // Initializes the local video view.
@@ -492,7 +492,7 @@ class VideoCall : BaseCompatActivity() {
     private fun setupRemoteVideo(uid: Int) { // Only one remote video view is available for this
         // tutorial. Here we check if there exists a surface
         // view tagged as this uid.
-        val container = findViewById(R.id.remote_video_view_container) as FrameLayout
+        val container = findViewById<FrameLayout>(R.id.remote_video_view_container)
 
         if (container.childCount >= 1) {
             return
@@ -528,7 +528,7 @@ class VideoCall : BaseCompatActivity() {
     }
 
     private fun onRemoteUserLeft() {
-        val container = findViewById(R.id.remote_video_view_container) as FrameLayout
+        val container = findViewById<FrameLayout>(R.id.remote_video_view_container)
         container.removeAllViews()
         leaveChannel()
     }

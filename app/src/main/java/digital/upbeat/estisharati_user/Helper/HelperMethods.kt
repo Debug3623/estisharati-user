@@ -131,7 +131,7 @@ class HelperMethods(val context: Context) {
     //    }
     fun ShowDateTimePicker(date: TextView, time: TextView) {
         val nextDate = Calendar.getInstance()
-        nextDate.add(Calendar.DAY_OF_YEAR, 1);
+        nextDate.add(Calendar.DAY_OF_YEAR, 1)
         val dateTime = Calendar.getInstance()
         val datePickerDialog = DatePickerDialog(context, OnDateSetListener { datePicker, year, monthOfYear, dayOfMonth ->
             dateTime[year, monthOfYear] = dayOfMonth
@@ -142,7 +142,7 @@ class HelperMethods(val context: Context) {
                 time.text = SimpleDateFormat("HH:mm", Locale.US).format(dateTime.time)
             }, nextDate[Calendar.HOUR_OF_DAY], nextDate[Calendar.MINUTE], false).show()
         }, nextDate[Calendar.YEAR], nextDate[Calendar.MONTH], nextDate[Calendar.DATE])
-        datePickerDialog.getDatePicker().setMinDate(nextDate.getTimeInMillis());
+        datePickerDialog.datePicker.minDate = nextDate.timeInMillis
         datePickerDialog.show()
     }
 
@@ -184,7 +184,7 @@ class HelperMethods(val context: Context) {
         aleatdialog.setView(popup_view)
         aleatdialog.setCancelable(false)
         dialog = aleatdialog.create()
-        dialog!!.getWindow()!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog!!.show()
     }
 

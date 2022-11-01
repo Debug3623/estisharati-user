@@ -232,6 +232,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
+                    android:layout_marginBottom="15dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -265,8 +266,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/exp_courses_recycler"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_height="match_parent"
                     android:scrollbars="none"
                     android:visibility="visible"
                     tools:itemCount="1"

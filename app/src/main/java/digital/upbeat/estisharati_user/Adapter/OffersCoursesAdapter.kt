@@ -35,7 +35,7 @@ class OffersCoursesAdapter(val context: Context, val offers: Offers, val courses
         holder.offersCourseRating.text = coursesArrayList.get(position).course.rate
         holder.offersCourseEndDate.text = coursesArrayList.get(position).enddate
         holder.offersCoursePeriod.text = coursesArrayList.get(position).course.period
-        holder.offersOldCoursePrice.setPaintFlags( holder.offersOldCoursePrice.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
+        holder.offersOldCoursePrice.paintFlags = holder.offersOldCoursePrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
 
 
         holder.offersCoursesParentLayout.setOnClickListener {

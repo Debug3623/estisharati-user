@@ -46,7 +46,7 @@ class PackagesSelection : BaseCompatActivity() {
     lateinit var dataUser: DataUser
     lateinit var referralResponse: ReferralResponse
     lateinit var paymentNetworkResponse: NetworkResponse
-    val PaymentResponseCode = 1996;
+    val PaymentResponseCode = 1996
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_packages_selection)
@@ -232,7 +232,7 @@ class PackagesSelection : BaseCompatActivity() {
         } else {
             referralDiscountLayout.visibility = View.GONE
         }
-        Log.d("payment amount", GlobalData.packagesOptions.transaction_amount + "  " + GlobalData.packagesOptions.vat_amount + "  " + GlobalData.packagesOptions.discount + "  " + GlobalData.packagesOptions.referral_discount);
+        Log.d("payment amount", GlobalData.packagesOptions.transaction_amount + "  " + GlobalData.packagesOptions.vat_amount + "  " + GlobalData.packagesOptions.discount + "  " + GlobalData.packagesOptions.referral_discount)
         if (referralResponse.android_pay == "2") {
             proceed.text = getString(R.string.Proceed_with_cash)
         } else {

@@ -84,7 +84,7 @@ class InviteApp : AppCompatActivity() {
         shareNow.setOnClickListener {
             val sendIntent = Intent(Intent.ACTION_SEND)
             sendIntent.putExtra(Intent.EXTRA_TEXT, "Please install the app by clicking link to get get amazing discounts in next purchase !. Referral Code "+referralResponse.data.referral_code+"     " + mInvitationUrl)
-            sendIntent.setType("text/plain")
+            sendIntent.type = "text/plain"
             startActivity(sendIntent)
         }
     }

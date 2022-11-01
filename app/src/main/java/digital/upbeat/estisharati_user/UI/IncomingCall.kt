@@ -260,7 +260,7 @@ class IncomingCall : BaseCompatActivity() {
 
     fun playRigntone() {
         player = MediaPlayer.create(this, R.raw.ring_ring)
-        player?.setLooping(true) // Set looping
+        player?.isLooping = true // Set looping
         player?.setVolume(100f, 100f)
         player?.start()
     }

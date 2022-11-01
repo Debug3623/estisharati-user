@@ -451,7 +451,7 @@ class ChatPage : BaseCompatActivity() {
     fun getImageUrlForChatApiCall(filePath: String) {
         val file = File(filePath)
         val requestBody = RequestBody.create(MediaType.parse("*/*"), file)
-        val image = MultipartBody.Part.createFormData("image", file.getName(), requestBody)
+        val image = MultipartBody.Part.createFormData("image", file.name, requestBody)
 
         helperMethods.showProgressDialog(getString(R.string.image_uploading))
         val responseBodyCall = retrofitInterface.UPLOAD_CHATTING_IMAGE_API_CALL("Bearer ${dataUser.access_token}", image)
@@ -630,7 +630,7 @@ class ChatPage : BaseCompatActivity() {
 
     fun sendPushNotification(dataFcmBody: DataFcmBody, showLoader: Boolean) {
         val body = Gson().toJson(dataFcmBody.data)
-        Log.d("body", body);
+        Log.d("body", body)
         if (showLoader) {
             helperMethods.showProgressDialog(getString(R.string.please_wait_while_preparing_to_call))
         }

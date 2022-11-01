@@ -37,15 +37,14 @@ class PackageAdapter(val context: Context, val packages: Packages?, val myPackag
     }
 
     override fun onBindViewHolder(holder: PackageViewHolder, position: Int) {
-        lateinit var packagesItems :Data
+       lateinit var packagesItems :Data
         if (offers != null) {
              packagesItems = offersPackagesArrayList.get(position).subscription
-
             holder.OldPrice.text = packagesItems.price
             holder.offersEndDate.text = offersPackagesArrayList.get(position).enddate
             holder.packagePrice.text = offersPackagesArrayList.get(position).offerprice
             holder.offerLayout.visibility = View.VISIBLE
-            holder.OldPrice.setPaintFlags( holder.OldPrice.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
+            holder.OldPrice.paintFlags = holder.OldPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
 
         } else if (packages != null) {
              packagesItems = packagesArrayList.get(position)
@@ -57,7 +56,7 @@ class PackageAdapter(val context: Context, val packages: Packages?, val myPackag
             holder.packagePrice.text = packagesItems.offerprice
             holder.OldPrice.text = packagesItems.price
             holder.offersEndDate.text = packagesItems.offer_end
-            holder.OldPrice.setPaintFlags(holder.OldPrice.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
+            holder.OldPrice.paintFlags = holder.OldPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         }
         } else if (myPackages != null) {
              packagesItems = packagesArrayList.get(position)
@@ -78,6 +77,7 @@ class PackageAdapter(val context: Context, val packages: Packages?, val myPackag
         holder.packageName.text = packagesItems.name
         holder.packageDescription.text = packagesItems.description
         holder.packagePeriod.text = packagesItems.period
+
         if (packagesItems.features.video.time.equals("0")) {
             holder.videoLayout.visibility = View.GONE
         } else {
