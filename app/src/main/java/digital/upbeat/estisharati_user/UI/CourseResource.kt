@@ -243,6 +243,8 @@ class CourseResource : BaseCompatActivity() {
     }
 
     fun startCourseApiCall(course_id: String) {
+        Log.d("course_ID",course_id)
+        Log.d("firebase_barrier_token","${dataUser.access_token}")
         helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
         val responseBodyCall = retrofitInterface.START_COURSE_API_CALL("Bearer ${dataUser.access_token}", course_id)
         responseBodyCall.enqueue(object : Callback<ResponseBody> {

@@ -136,6 +136,7 @@
     <string name="no_internet_connection">No Internet Connection</string>
     <string name="package_">Package</string>
     <string name="packages">Packages</string>
+    <string name="subscription_type">Schedule Date And Time</string>
     <string name="please_click_back_again_to_exit">Please click back again to exit !</string>
     <string name="exit">Exit</string>
     <string name="are_you_sure_do_you_want_exit_the_app_and_offline">Are you sure?\nDo you want exit the app and offline.</string>
@@ -199,7 +200,10 @@
     <string name="my_packages">My Packages</string>
     <string name="please_wait_while_fetching_packages">Please wait while fetching packages...</string>
     <string name="my_profile">My Profile</string>
+    <string name="choose_type_subscription_text">Please Choose The Type of Subscription</string>
     <string name="edit_profile">Edit profile</string>
+    <string name="voice_text">Voice</string>
+    <string name="chat_text">Chat</string>
     <string name="upgrade">Upgrade</string>
     <string name="change">Change</string>
     <string name="current_password">Current Password</string>
@@ -211,6 +215,7 @@
     <string name="skip">Skip</string>
     <string name="online_courses">Online Courses</string>
     <string name="choose_the_package">Choose the package</string>
+    <string name="choose_subscription_text">Choose  Subscription</string>
     <string name="packages_options">Packages Options</string>
     <string name="choose_how_to_buy">Choose how to buy?</string>
     <string name="monthly_yearly">Monthly / Yearly</string>
@@ -276,12 +281,12 @@
     <string name="minutes_left_for_the_conversation_to_end">minutes left for the conversation to end</string>
     <string name="all_users">All Users</string>
     <string name="blog">Estisharati Magazine</string>
-<!--    <string name="blog">Blog</string>-->
+    <!--    <string name="blog">Blog</string>-->
     <string name="please_wait_while_fetching_blog_post">Please wait while fetching blog post...</string>
     <string name="there_is_no_blog_post_available">There is no blog post available !</string>
     <string name="blog_details">Blog Details</string>
     <string name="survey">Personality tests</string>
-<!--    <string name="survey">Survey</string>-->
+    <!--    <string name="survey">Survey</string>-->
     <string name="start_survey">Start Survey</string>
     <string name="please_choose_any_option">Please choose any option !</string>
     <string name="there_is_no_survey_till_now">There is no survey till now !</string>
@@ -303,6 +308,7 @@
     <string name="please_select_data_and_time">Please select data and time !</string>
     <string name="select_your_appointment_request_date_and_time">Select your appointment request date and time</string>
     <string name="appointment">Appointment</string>
+    <string name="subscription_date_and_time">Select Subscription Date</string>
     <string name="please_wait_while_fetching_appointment">Please wait while fetching appointment...</string>
     <string name="pending">PENDING</string>
     <string name="accepted">ACCEPTED</string>
@@ -340,7 +346,7 @@
     <string name="type_here">Type here</string>
     <string name="publish">Publish</string>
     <string name="consult_me">Consult Me</string>
-<!--    <string name="posts">Posts</string>-->
+    <!--    <string name="posts">Posts</string>-->
     <string name="please_feel_free_to_leave_your_posts">Please feel free to share your post</string>
     <string name="newest">Newest</string>
     <string name="oldest">Oldest</string>

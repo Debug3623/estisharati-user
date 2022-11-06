@@ -3,6 +3,7 @@ package digital.upbeat.estisharati_user.Adapter
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -73,6 +74,7 @@ class CourseLessonAdapter(val context: Context, val courseVideos: CourseVideos?,
                     val intent = Intent(context, WebView::class.java)
                     intent.putExtra("name", lessons.get(position).title)
                     intent.putExtra("url", lessons.get(position).lesson_file)
+                    Log.d("titleUrl",lessons.get(position).lesson_file)
                     context.startActivity(intent)
                 }
             }

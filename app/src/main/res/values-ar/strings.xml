@@ -127,6 +127,11 @@
     <string name="no_internet_connection">لا يوجد اتصال بالإنترنت</string>
     <string name="package_">الباقة</string>
     <string name="packages">الباقات</string>
+    <string name="subscription_type">جدولة التاريخ والوقت</string>
+    <string name="voice_text">صوت</string>
+    <string name="chat_text">دردشة</string>
+    <string name="choose_subscription_text">اختر الاشتراك</string>
+    <string name="choose_type_subscription_text">الرجاء اختيار نوع الاشتراك</string>
     <string name="please_click_back_again_to_exit">من فضلك اضغط على زر الرجوع مرة أخرى للخروج !</string>
     <string name="exit">خروج</string>
     <string name="are_you_sure_do_you_want_exit_the_app_and_offline">هل أنت متأكد من الخروج من التطبيق؟</string>
@@ -296,6 +301,7 @@
     <string name="please_select_data_and_time">الرجاء تحديد الوقت و التاريخ</string>
     <string name="select_your_appointment_request_date_and_time">حدد تاريخ و وقت موعد طلبك</string>
     <string name="appointment">موعد</string>
+    <string name="subscription_date_and_time">حدد تاريخ الاشتراك</string>
     <string name="please_wait_while_fetching_appointment">الرجاء الانتظار أثناء تحديد الموعد ...</string>
     <string name="pending">قيد الانتظار</string>
     <string name="accepted">تمت الموافقة</string>

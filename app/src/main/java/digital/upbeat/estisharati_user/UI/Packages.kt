@@ -40,7 +40,7 @@ class Packages : BaseCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_packages)
         initViews()
-        clickEvents()
+        clickEvents1()
         if (helperMethods.isConnectingToInternet) {
             SUBSCRIPTIONS_API_CALL()
         } else {
@@ -74,6 +74,20 @@ class Packages : BaseCompatActivity() {
             } else {
                 finish()
             }
+        }
+    }
+
+    fun clickEvents1() {
+        nav_back.setOnClickListener { finish() }
+//        choose_the_package.setOnClickListener {
+//            val intent = Intent(this, ConsultantsInThePackage::class.java)
+//            intent.putExtra("consultants",packagesResponse.data[layoutManager.centerItemPosition].consultants)
+//            startActivity(intent)
+//        }
+        choose_the_package.setOnClickListener {
+            val intent = Intent(this, ConsultantsInThePackage::class.java)
+            intent.putExtra("consultants",packagesResponse.data[layoutManager.centerItemPosition].consultants)
+            startActivity(intent)
         }
     }
 

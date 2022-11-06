@@ -58,17 +58,20 @@ class ConsultantDetails : BaseCompatActivity() {
     var audio = "0"
     var video = "0"
     var price = 0.0
+    var transaction = "0.0"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_consultant_details)
         initViews()
         clickEvents()
-
+        Log.d("choiceId",intent.getStringExtra("consultant_id").toString())
+        transaction= intent.getStringExtra("transaction_amount").toString()
         if (helperMethods.isConnectingToInternet) {
             intent.getStringExtra("consultant_id")?.let { consultantDetailsApiCall(it) }
         } else {
             helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
         }
+
     }
 
     fun initViews() {
@@ -104,10 +107,18 @@ class ConsultantDetails : BaseCompatActivity() {
     }
 
     fun clickEvents() {
-        nav_back.setOnClickListener { finish() }
+        nav_back.setOnClickListener {
+            val intent = Intent(this@ConsultantDetails, Packages::class.java)
+            intent.putExtra("viaFrom", "Home")
+            startActivity(intent)
+            finish()
+        }
 
         req_consultation_now.setOnClickListener {
-            showConsultationCategory()
+//            showConsultationCategory()
+            redirectToPayment()
+
+
         }
         favoriteLayout.setOnClickListener {
             if (helperMethods.isConnectingToInternet) {
@@ -209,8 +220,8 @@ class ConsultantDetails : BaseCompatActivity() {
     }
 
     fun redirectToPayment() {
-        GlobalData.packagesOptions = PackagesOptions(consultantDetailsResponse.id, consultantDetailsResponse.name, "consultation", categoryId, chat, audio, video, price.toString(), "0", "0", "", "", "0", "0", "", "0", "0")
-        startActivity(Intent(this@ConsultantDetails, PackagesSelection::class.java))
+
+         startActivity(Intent(this@ConsultantDetails, PackagesSelection::class.java))
     }
 
     fun InitializeRecyclerview() {

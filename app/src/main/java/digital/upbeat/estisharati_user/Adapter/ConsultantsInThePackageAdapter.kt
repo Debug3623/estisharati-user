@@ -1,5 +1,6 @@
 package digital.upbeat.estisharati_user.Adapter
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import digital.upbeat.estisharati_user.DataClassHelper.Packages.Consultant
 import digital.upbeat.estisharati_user.R
+import digital.upbeat.estisharati_user.UI.ConsultantCategories
 import digital.upbeat.estisharati_user.UI.ConsultantDetails
 import digital.upbeat.estisharati_user.UI.ConsultantsInThePackage
 import digital.upbeat.estisharati_user.ViewHolder.ConsultantsInThePackageViewHolder
@@ -29,10 +31,12 @@ class ConsultantsInThePackageAdapter(val context: Context, val consultantsInTheP
         if (consultantsInThePackage.helperMethods.findConsultantIsOnline(consultantsArrayList.get(position).id)) holder.onlineStatus.visibility = View.VISIBLE else holder.onlineStatus.visibility = View.GONE
 
         holder.consultantLayout.setOnClickListener {
-            val intent = Intent(context, ConsultantDetails::class.java)
+            val intent = Intent(context, ConsultantCategories::class.java)
             intent.putExtra("consultant_id", consultantsArrayList.get(position).id)
             intent.putExtra("category_id", "")
             context.startActivity(intent)
+            (context as Activity).finish()
+
         }
     }
 }

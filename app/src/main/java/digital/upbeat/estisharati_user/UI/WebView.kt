@@ -30,7 +30,13 @@ class WebView : BaseCompatActivity() {
         helperMethods = HelperMethods(this@WebView)
         if (intent.extras != null) {
             action_bar_title.text = intent.getStringExtra("name")
-            url = "https://docs.google.com/viewer?url=${intent.getStringExtra("url")}&embedded=true"
+
+//            url = "${intent.getStringExtra("url")}" // for video only
+//            url = "https://docs.google.com/viewer?url=https://www.antennahouse.com/XSLsample/pdf/sample-link_1.pdf &embedded=true"
+//            url = "https://docs.google.com/viewer?url=${intent.getStringExtra("url")}&embedded=true"
+
+            url = "https://docs.google.com/viewer?embedded=true&url=${intent.getStringExtra("url")}"
+            Log.d("urlWhole:", "https://docs.google.com/viewer?url=${intent.getStringExtra("url")}&embedded=true");
         }
     }
 

@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import com.google.gson.Gson
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
+import digital.upbeat.estisharati_user.DataClassHelper.ConsultantDetails.ConsultantDetailsResponse
 import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_user.DataClassHelper.Referral.ReferralResponse
 import digital.upbeat.estisharati_user.DataClassHelper.Subscription.SubscriptionResponse
@@ -46,10 +47,12 @@ class PackagesSelection : BaseCompatActivity() {
     lateinit var dataUser: DataUser
     lateinit var referralResponse: ReferralResponse
     lateinit var paymentNetworkResponse: NetworkResponse
+//    lateinit var consultantDetailsResponse: ConsultantDetailsResponse
     val PaymentResponseCode = 1996
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_packages_selection)
+        Log.d("GlobalDataamount",GlobalData.packagesOptions.transaction_amount)
         initViews()
         clickEvents()
     }
@@ -203,6 +206,7 @@ class PackagesSelection : BaseCompatActivity() {
 
 
         chooseName.text = GlobalData.packagesOptions.name
+        Log.d("jawad", GlobalData.packagesOptions.transaction_amount)
         choosePrice.text = GlobalData.packagesOptions.transaction_amount
         originalPrice.text = resources.getString(R.string.usd) + " " + GlobalData.packagesOptions.originalPrice
 

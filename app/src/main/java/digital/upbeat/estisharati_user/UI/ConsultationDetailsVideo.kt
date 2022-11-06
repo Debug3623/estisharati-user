@@ -321,6 +321,7 @@ class ConsultationDetailsVideo : BaseCompatActivity() {
             shareExperienceApiCall(ConsultationItem.consultant_id,ConsultationItem.category_id,comments.text.toString())
         }
     }
+
     fun shareExperienceApiCall(consultant_id: String, category_id: String, comments: String) {
         helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
         val responseBodyCall = retrofitInterface.POST_SHARE_EXPERIENCE_CONSULTANT_API_CALL("Bearer ${dataUser.access_token}", consultant_id, category_id, comments)

@@ -2,6 +2,7 @@ package digital.upbeat.estisharati_user.Adapter
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,6 +45,7 @@ class MyCoursesAdapter(val context: Context, val myCourses: MyCourses, var myCou
         holder.myCourseLayout.setOnClickListener {
             val intent = Intent(context, CourseResource::class.java)
             intent.putExtra("courseId", mycourseItem.id)
+            Log.d("courseId==", mycourseItem.id)
             context.startActivity(intent)
         }
     }

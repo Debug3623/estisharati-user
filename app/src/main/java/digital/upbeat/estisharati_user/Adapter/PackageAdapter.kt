@@ -3,9 +3,11 @@ package digital.upbeat.estisharati_user.Adapter
 import android.content.Context
 import android.content.Intent
 import android.graphics.Paint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import digital.upbeat.estisharati_user.DataClassHelper.Offers.Package
@@ -69,27 +71,34 @@ class PackageAdapter(val context: Context, val packages: Packages?, val myPackag
             intent.putExtra("courses", packagesItems.courses)
             context.startActivity(intent)
         }
-        holder.showConsultantsInThePackage.setOnClickListener {
-            val intent = Intent(context, ConsultantsInThePackage::class.java)
-            intent.putExtra("consultants", packagesItems.consultants)
-            context.startActivity(intent)
-        }
+//        holder.showConsultantsInThePackage.setOnClickListener {
+//            val intent = Intent(context, ConsultantsInThePackage::class.java)
+//            intent.putExtra("consultants", packagesItems.consultants)
+//            context.startActivity(intent)
+//        }
         holder.packageName.text = packagesItems.name
-        holder.packageDescription.text = packagesItems.description
+
+        if(packagesItems.description==""){
+            holder.packageDescription.text = "Sorry No Description is available for these package"
+        }else{
+            holder.packageDescription.text = packagesItems.description
+        }
         holder.packagePeriod.text = packagesItems.period
 
-        if (packagesItems.features.video.time.equals("0")) {
-            holder.videoLayout.visibility = View.GONE
-        } else {
-            holder.videoLayout.visibility = View.VISIBLE
-            holder.videoHourse.text = context.getString(R.string.video_call) + " " + helperMethods.formatToMinute(packagesItems.features.video.time)
-        }
-        if (packagesItems.features.audio.time.equals("0")) {
-            holder.voiceLayout.visibility = View.GONE
-        } else {
-            holder.voiceLayout.visibility = View.VISIBLE
-            holder.voiceHourse.text = context.getString(R.string.voice_call) + " " + helperMethods.formatToMinute(packagesItems.features.audio.time)
-        }
+        Log.d("description++",holder.packageDescription.text.toString());
+
+//        if (packagesItems.features.video.time.equals("0")) {
+//            holder.videoLayout.visibility = View.GONE
+//        } else {
+//            holder.videoLayout.visibility = View.VISIBLE
+//            holder.videoHourse.text = context.getString(R.string.video_call) + " " + helperMethods.formatToMinute(packagesItems.features.video.time)
+//        }
+//        if (packagesItems.features.audio.time.equals("0")) {
+//            holder.voiceLayout.visibility = View.GONE
+//        } else {
+//            holder.voiceLayout.visibility = View.VISIBLE
+//            holder.voiceHourse.text = context.getString(R.string.voice_call) + " " + helperMethods.formatToMinute(packagesItems.features.audio.time)
+//        }
         if (packagesItems.features.written.time.equals("0")) {
             holder.writtenLayout.visibility = View.GONE
         } else {
@@ -108,36 +117,40 @@ class PackageAdapter(val context: Context, val packages: Packages?, val myPackag
         }
 
 
-        holder.consultantImage1.visibility = View.GONE
-        holder.consultantImage2.visibility = View.GONE
-        holder.consultantImage3.visibility = View.GONE
-        holder.consultantImage4.visibility = View.GONE
-        holder.consultantImage5.visibility = View.GONE
 
-        for (consultantIndex in packagesItems.consultants.indices) {
-            if (consultantIndex == 0) {
-                holder.consultantImage1.visibility = View.VISIBLE
-                Glide.with(context).load(packagesItems.consultants.get(consultantIndex).image_path).apply(helperMethods.requestOption).into(holder.consultantImage1)
-            }
-            if (consultantIndex == 1) {
-                holder.consultantImage2.visibility = View.VISIBLE
-                Glide.with(context).load(packagesItems.consultants.get(consultantIndex).image_path).apply(helperMethods.requestOption).into(holder.consultantImage2)
-            }
-            if (consultantIndex == 2) {
-                holder.consultantImage3.visibility = View.VISIBLE
-                Glide.with(context).load(packagesItems.consultants.get(consultantIndex).image_path).apply(helperMethods.requestOption).into(holder.consultantImage3)
-            }
-            if (consultantIndex == 3) {
-                holder.consultantImage4.visibility = View.VISIBLE
-                Glide.with(context).load(packagesItems.consultants.get(consultantIndex).image_path).apply(helperMethods.requestOption).into(holder.consultantImage4)
-            }
-            if (consultantIndex == 4) {
-                holder.consultantImage5.visibility = View.VISIBLE
-                Glide.with(context).load(packagesItems.consultants.get(consultantIndex).image_path).apply(helperMethods.requestOption).into(holder.consultantImage5)
-            }
-        }
+//        holder.consultantImage1.visibility = View.GONE
+//        holder.consultantImage2.visibility = View.GONE
+//        holder.consultantImage3.visibility = View.GONE
+//        holder.consultantImage4.visibility = View.GONE
+//        holder.consultantImage5.visibility = View.GONE
+//
+//        for (consultantIndex in packagesItems.consultants.indices) {
+//            if (consultantIndex == 0) {
+//                holder.consultantImage1.visibility = View.VISIBLE
+//                Glide.with(context).load(packagesItems.consultants.get(consultantIndex).image_path).apply(helperMethods.requestOption).into(holder.consultantImage1)
+//            }
+//            if (consultantIndex == 1) {
+//                holder.consultantImage2.visibility = View.VISIBLE
+//                Glide.with(context).load(packagesItems.consultants.get(consultantIndex).image_path).apply(helperMethods.requestOption).into(holder.consultantImage2)
+//            }
+//            if (consultantIndex == 2) {
+//                holder.consultantImage3.visibility = View.VISIBLE
+//                Glide.with(context).load(packagesItems.consultants.get(consultantIndex).image_path).apply(helperMethods.requestOption).into(holder.consultantImage3)
+//            }
+//            if (consultantIndex == 3) {
+//                holder.consultantImage4.visibility = View.VISIBLE
+//                Glide.with(context).load(packagesItems.consultants.get(consultantIndex).image_path).apply(helperMethods.requestOption).into(holder.consultantImage4)
+//            }
+//            if (consultantIndex == 4) {
+//                holder.consultantImage5.visibility = View.VISIBLE
+//                Glide.with(context).load(packagesItems.consultants.get(consultantIndex).image_path).apply(helperMethods.requestOption).into(holder.consultantImage5)
+//            }
+//        }
+
+
 
         holder.packageLayout.setOnClickListener {
+
             offers?.let {
                 offers.choosePackage(offersPackagesArrayList.get(position))
             }
