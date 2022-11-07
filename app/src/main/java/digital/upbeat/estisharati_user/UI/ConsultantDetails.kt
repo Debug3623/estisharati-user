@@ -59,13 +59,23 @@ class ConsultantDetails : BaseCompatActivity() {
     var video = "0"
     var price = 0.0
     var transaction = "0.0"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_consultant_details)
         initViews()
         clickEvents()
-        Log.d("choiceId",intent.getStringExtra("consultant_id").toString())
+
+        video= intent.getStringExtra("video").toString()
+        audio= intent.getStringExtra("audio").toString()
+        chat= intent.getStringExtra("chat").toString()
         transaction= intent.getStringExtra("transaction_amount").toString()
+
+        Log.d("videoP",video)
+        Log.d("audioP",audio)
+        Log.d("chatt",chat)
+
+
         if (helperMethods.isConnectingToInternet) {
             intent.getStringExtra("consultant_id")?.let { consultantDetailsApiCall(it) }
         } else {
@@ -165,7 +175,7 @@ class ConsultantDetails : BaseCompatActivity() {
         previewVideo.visibility = if (consultantDetailsResponse.preview_video != "") View.VISIBLE else View.GONE
         downloadDocument.visibility = if (consultantDetailsResponse.qualification != "") View.VISIBLE else View.GONE
 
-        if (consultantDetailsResponse.chat) {
+        if (chat=="1") {
             chatLayout.visibility = View.VISIBLE
             chatPriceLayout.visibility = View.VISIBLE
             if (consultantDetailsResponse.offer_chat_fee.equals("0")) {
@@ -181,7 +191,7 @@ class ConsultantDetails : BaseCompatActivity() {
             chatLayout.visibility = View.GONE
             chatPriceLayout.visibility = View.GONE
         }
-        if (consultantDetailsResponse.voice) {
+        if (audio=="1") {
             voiceLayout.visibility = View.VISIBLE
             voicePriceLayout.visibility = View.VISIBLE
             if (consultantDetailsResponse.offer_voice_fee.equals("0")) {
@@ -197,7 +207,7 @@ class ConsultantDetails : BaseCompatActivity() {
             voiceLayout.visibility = View.GONE
             voicePriceLayout.visibility = View.GONE
         }
-        if (consultantDetailsResponse.video) {
+        if (video=="1") {
             videoLayout.visibility = View.VISIBLE
             videoPriceLayout.visibility = View.VISIBLE
             if (consultantDetailsResponse.offer_video_fee.equals("0")) {

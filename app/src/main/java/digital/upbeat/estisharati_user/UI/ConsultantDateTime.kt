@@ -39,6 +39,10 @@ class ConsultantDateTime : AppCompatActivity() {
     var consultantId = "0"
     var transaction = "0"
 
+    var chat = "0"
+    var audio = "0"
+    var video = "0"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_consultant_date_time)
@@ -51,8 +55,11 @@ class ConsultantDateTime : AppCompatActivity() {
         }
 
         consultantId= intent.getStringExtra("consultant_id").toString()
-
         transaction= intent.getStringExtra("transaction_amount").toString()
+        video= intent.getStringExtra("video").toString()
+        audio= intent.getStringExtra("audio").toString()
+        chat= intent.getStringExtra("chat").toString()
+
     }
 
     fun initViews() {
@@ -174,6 +181,13 @@ class ConsultantDateTime : AppCompatActivity() {
                                 val intent = Intent(this@ConsultantDateTime, ConsultantDetails::class.java)
                                 intent.putExtra("consultant_id", consultantId)
                                 intent.putExtra("category_id", "")
+                                if(video=="1"){
+                                    intent.putExtra("video",video)
+                                }else if(audio=="1"){
+                                    intent.putExtra("audio",audio)
+                                }else if(chat=="1"){
+                                    intent.putExtra("chat",chat)
+                                }
                                 startActivity(intent)
 
                             } else {

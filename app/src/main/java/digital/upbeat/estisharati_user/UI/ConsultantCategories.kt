@@ -1,5 +1,6 @@
 package digital.upbeat.estisharati_user.UI
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Paint
@@ -58,13 +59,10 @@ class ConsultantCategories : AppCompatActivity() {
     var video = "0"
     var price = 0.0
     var consultantId = "0"
-//    lateinit var myConsultationArrayList: ArrayList<Data>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_consultant_categories)
-//
-//        transData = intent.getStringExtra("consultants").toString()
 
         initViews()
 
@@ -73,6 +71,7 @@ class ConsultantCategories : AppCompatActivity() {
         } else {
             helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
         }
+
         consultantId= intent.getStringExtra("consultant_id").toString()
 
 
@@ -87,11 +86,6 @@ class ConsultantCategories : AppCompatActivity() {
 //         myConsultation = myConsultationArrayList.get(intent.getIntExtra("position", 0))
     }
 
-
-//    fun clickEvents() {
-//        nav_back_ac.setOnClickListener { finish() }
-//
-//    }
 
     fun showConsultationCategory() {
         popup_view = LayoutInflater.from(this@ConsultantCategories).inflate(R.layout.consultation_category_layout, null)
@@ -121,7 +115,7 @@ class ConsultantCategories : AppCompatActivity() {
         }
     }
 
-    fun showConsultationPriceDetailsPopup() {
+    @SuppressLint("SuspiciousIndentation") fun showConsultationPriceDetailsPopup() {
         price = 0.0
         popup_view.consultationsOptionLayout.visibility = View.VISIBLE
         popup_view.consultationPriceLayout.visibility = View.VISIBLE
@@ -211,6 +205,13 @@ class ConsultantCategories : AppCompatActivity() {
 
                 val intent = Intent(this, ConsultantDateTime::class.java)
                       intent.putExtra("consultant_id",consultantId)
+                if(video=="1"){
+                    intent.putExtra("video",video)
+                }else if(audio=="1"){
+                    intent.putExtra("audio",audio)
+                }else if(chat=="1"){
+                    intent.putExtra("chat",chat)
+                }
                     startActivity(intent)
 
             } else {
@@ -264,5 +265,7 @@ class ConsultantCategories : AppCompatActivity() {
             }
         })
     }
+
+
 
 }
