@@ -35,4 +35,7 @@ class ConsultantsInThePackage : BaseCompatActivity() {
         consultants_in_the_package_recycler.layoutManager = LinearLayoutManager(this@ConsultantsInThePackage)
         consultants_in_the_package_recycler.adapter = ConsultantsInThePackageAdapter(this@ConsultantsInThePackage, this@ConsultantsInThePackage, consultantsArrayList)
     }
+
+
+
 }

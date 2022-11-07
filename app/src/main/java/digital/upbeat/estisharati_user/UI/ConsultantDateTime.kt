@@ -84,7 +84,6 @@ class ConsultantDateTime : AppCompatActivity() {
         LayoutView.actionOk.setOnClickListener {
             if (validateAppointment(LayoutView)) {
                 saveAppointmentApiCall(myConsultationArrayList[0].consultant_id, LayoutView.appointmentData.text.toString(), LayoutView.appointmentTime.text.toString(), myConsultationArrayList[0].category_id)
-////                dialog.dismiss()
 
             }
         }

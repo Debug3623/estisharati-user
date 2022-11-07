@@ -87,7 +87,9 @@ class Packages : BaseCompatActivity() {
         choose_the_package.setOnClickListener {
             val intent = Intent(this, ConsultantsInThePackage::class.java)
             intent.putExtra("consultants",packagesResponse.data[layoutManager.centerItemPosition].consultants)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent)
+            this.finish()
         }
     }
 
