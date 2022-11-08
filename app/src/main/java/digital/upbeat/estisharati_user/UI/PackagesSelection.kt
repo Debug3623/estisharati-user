@@ -28,6 +28,7 @@ import kotlinx.android.synthetic.main.activity_course_details.*
 import kotlinx.android.synthetic.main.activity_packages_selection.*
 import kotlinx.android.synthetic.main.activity_packages_selection.nav_back
 import kotlinx.android.synthetic.main.add_coupon_layout.view.*
+import kotlinx.android.synthetic.main.appointment_layout.view.*
 import okhttp3.ResponseBody
 import org.json.JSONException
 import org.json.JSONObject
@@ -49,10 +50,15 @@ class PackagesSelection : BaseCompatActivity() {
     lateinit var paymentNetworkResponse: NetworkResponse
 //    lateinit var consultantDetailsResponse: ConsultantDetailsResponse
     val PaymentResponseCode = 1996
+    var appointmentDate = "0"
+    var appointmentTime = "0"
+    var consultantId = ""
+    var categoryId = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_packages_selection)
-        Log.d("GlobalDataamount",GlobalData.packagesOptions.transaction_amount)
+
         initViews()
         clickEvents()
     }
@@ -62,6 +68,16 @@ class PackagesSelection : BaseCompatActivity() {
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
         sharedPreferencesHelper = SharedPreferencesHelper(this@PackagesSelection)
         dataUser = sharedPreferencesHelper.logInUser
+
+        appointmentDate= intent.getStringExtra("appointment_date").toString()
+        appointmentTime= intent.getStringExtra("appointment_time").toString()
+        consultantId= intent.getStringExtra("consultant_id").toString()
+        categoryId= intent.getStringExtra("category_id").toString()
+
+        Log.d("appointmentDate",appointmentDate)
+        Log.d("appointmentTime",appointmentTime)
+        Log.d("consultant_id",consultantId)
+        Log.d("category_id",categoryId)
     }
 
     fun clickEvents() {
@@ -402,7 +418,9 @@ class PackagesSelection : BaseCompatActivity() {
                                 dataUser.subscription.courses = subscriptionResponse.data.courses
                                 dataUser.subscription.package_count = subscriptionResponse.data.package_count
                                 sharedPreferencesHelper.logInUser = dataUser
-                                startActivity(Intent(this@PackagesSelection, ThanksPage::class.java))
+
+                                 saveAppointmentApiCall(consultantId, appointmentDate, appointmentTime, categoryId)
+
                             } else {
                                 if (helperMethods.checkTokenValidation(subscriptionResponse.status, subscriptionResponse.message)) {
                                     finish()
@@ -432,4 +450,51 @@ class PackagesSelection : BaseCompatActivity() {
             }
         })
     }
+    fun saveAppointmentApiCall(consultant_id: String, data: String, time: String, categoryId: String) {
+        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
+        val responseBodyCall = retrofitInterface.SAVE_APPOINTMENT_API_CALL("Bearer ${dataUser.access_token}", consultant_id, data, time, categoryId)
+        responseBodyCall.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                helperMethods.dismissProgressDialog()
+
+                if (response.isSuccessful) {
+                    if (response.body() != null) {
+                        try {
+                            val jsonObject = JSONObject(response.body()!!.string())
+                            val status = jsonObject.getString("status")
+                            if (status.equals("200")) {
+
+                                startActivity(Intent(this@PackagesSelection, ThanksPage::class.java))
+
+                            } else {
+                                val message = jsonObject.getString("message")
+                                if (helperMethods.checkTokenValidation(status, message)) {
+                                    finish()
+                                    return
+                                }
+                                helperMethods.AlertPopup(getString(R.string.alert), message)
+                            }
+                        } catch (e: JSONException) {
+                            helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
+                            e.printStackTrace()
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    } else {
+                        Log.d("body", "Body Empty")
+                    }
+                } else {
+                    helperMethods.showToastMessage(getString(R.string.something_went_wrong))
+                    Log.d("body", "Not Successful")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                helperMethods.dismissProgressDialog()
+                t.printStackTrace()
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
+            }
+        })
+    }
+
 }

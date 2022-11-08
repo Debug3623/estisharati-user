@@ -50,6 +50,7 @@ class ConsultantCategories : AppCompatActivity() {
     lateinit var sharedPreferencesHelper: SharedPreferencesHelper
     lateinit var retrofitInterface: RetrofitInterface
     lateinit var dataUser: DataUser
+    lateinit var myConsultation: Data
     lateinit var consultantDetailsResponse: ConsultantDetailsResponse
     var myConsultationArrayList: ArrayList<Data> = arrayListOf()
     lateinit var dialog: AlertDialog
@@ -73,7 +74,7 @@ class ConsultantCategories : AppCompatActivity() {
             helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
         }
 
-        consultantId= intent.getStringExtra("consultant_id").toString()
+
 
 
     }
@@ -83,9 +84,9 @@ class ConsultantCategories : AppCompatActivity() {
         sharedPreferencesHelper = SharedPreferencesHelper(this@ConsultantCategories)
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
         dataUser = sharedPreferencesHelper.logInUser
+
         intent.getStringExtra("category_id")?.let { categoryId = it }
-//         myConsultationArrayList = intent.getParcelableArrayListExtra<Data>("myConsultationArrayList") as ArrayList<Data>
-//         myConsultation = myConsultationArrayList.get(intent.getIntExtra("position", 0))
+        consultantId= intent.getStringExtra("consultant_id").toString()
     }
 
 
@@ -118,7 +119,7 @@ class ConsultantCategories : AppCompatActivity() {
         }
     }
 
-    @SuppressLint("SuspiciousIndentation") fun showConsultationPriceDetailsPopup() {
+    fun showConsultationPriceDetailsPopup() {
         price = 0.0
         popup_view.consultationsOptionLayout.visibility = View.VISIBLE
         popup_view.consultationPriceLayout.visibility = View.VISIBLE
@@ -206,7 +207,7 @@ class ConsultantCategories : AppCompatActivity() {
 
                 GlobalData.packagesOptions = PackagesOptions(consultantDetailsResponse.id, consultantDetailsResponse.name, "consultation", categoryId, chat, audio, video, price.toString(), "0", "0", "", "", "0", "0", "", "0", "0")
 
-                myCoursesApiCall()
+                showAppointmentPopup()
 
             } else {
                 helperMethods.showToastMessage(getString(R.string.please_select_your_consultation_type))
@@ -271,8 +272,20 @@ class ConsultantCategories : AppCompatActivity() {
         dialog.show()
         LayoutView.actionOk.setOnClickListener {
             if (validateAppointment(LayoutView)) {
-                saveAppointmentApiCall(myConsultationArrayList[0].consultant_id, LayoutView.appointmentData.text.toString(), LayoutView.appointmentTime.text.toString(), myConsultationArrayList[0].category_id)
-
+//               saveAppointmentApiCall(myConsultation.consultant_id, LayoutView.appointmentData.text.toString(), LayoutView.appointmentTime.text.toString(), myConsultation.category_id)
+                val intent = Intent(this@ConsultantCategories, ConsultantDetails::class.java)
+                intent.putExtra("consultant_id", consultantId)
+                intent.putExtra("category_id", categoryId)
+                intent.putExtra("appointment_date", LayoutView.appointmentData.text.toString())
+                intent.putExtra("appointment_time", LayoutView.appointmentTime.text.toString())
+                if(video=="1"){
+                    intent.putExtra("video",video)
+                }else if(audio=="1"){
+                    intent.putExtra("audio",audio)
+                }else if(chat=="1"){
+                    intent.putExtra("chat",chat)
+                }
+                startActivity(intent)
             }
         }
         LayoutView.actionCancel.setOnClickListener {
@@ -302,107 +315,6 @@ class ConsultantCategories : AppCompatActivity() {
     }
 
 
-    fun saveAppointmentApiCall(consultant_id: String, data: String, time: String, categoryId: String) {
-        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
-        val responseBodyCall = retrofitInterface.SAVE_APPOINTMENT_API_CALL("Bearer ${dataUser.access_token}", consultant_id, data, time, categoryId)
-        responseBodyCall.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                helperMethods.dismissProgressDialog()
-
-                if (response.isSuccessful) {
-                    if (response.body() != null) {
-                        try {
-                            val jsonObject = JSONObject(response.body()!!.string())
-                            val status = jsonObject.getString("status")
-                            if (status.equals("200")) {
-
-                                val intent = Intent(this@ConsultantCategories, ConsultantDetails::class.java)
-                                intent.putExtra("consultant_id", consultantId)
-                                intent.putExtra("category_id", "")
-                                if(video=="1"){
-                                    intent.putExtra("video",video)
-                                }else if(audio=="1"){
-                                    intent.putExtra("audio",audio)
-                                }else if(chat=="1"){
-                                    intent.putExtra("chat",chat)
-                                }
-                                startActivity(intent)
-
-                            } else {
-                                val message = jsonObject.getString("message")
-                                if (helperMethods.checkTokenValidation(status, message)) {
-                                    finish()
-                                    return
-                                }
-                                helperMethods.AlertPopup(getString(R.string.alert), message)
-                            }
-                        } catch (e: JSONException) {
-                            helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
-                            e.printStackTrace()
-                        } catch (e: IOException) {
-                            e.printStackTrace()
-                        }
-                    } else {
-                        Log.d("body", "Body Empty")
-                    }
-                } else {
-                    helperMethods.showToastMessage(getString(R.string.something_went_wrong))
-                    Log.d("body", "Not Successful")
-                }
-            }
-
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                helperMethods.dismissProgressDialog()
-                t.printStackTrace()
-                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
-            }
-        })
-    }
-
-
-    fun myCoursesApiCall() {
-        helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
-        val responseBodyCall = retrofitInterface.MY_CONSULTANTS_API_CALL("Bearer ${dataUser.access_token}")
-        responseBodyCall.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                helperMethods.dismissProgressDialog()
-
-                if (response.isSuccessful) {
-                    if (response.body() != null) {
-                        try {
-                            val myConsultationResponse: MyConsultationResponse = Gson().fromJson(response.body()!!.string(), MyConsultationResponse::class.java)
-                            if (myConsultationResponse.status.equals("200")) {
-                                myConsultationArrayList = myConsultationResponse.data
-                                showAppointmentPopup()
-                            } else {
-                                if (helperMethods.checkTokenValidation(myConsultationResponse.status, myConsultationResponse.message)) {
-                                    finish()
-                                    return
-                                }
-                                helperMethods.AlertPopup(getString(R.string.alert), myConsultationResponse.message)
-                            }
-                        } catch (e: JSONException) {
-                            helperMethods.showToastMessage(getString(R.string.something_went_wrong_on_backend_server))
-                            e.printStackTrace()
-                        } catch (e: IOException) {
-                            e.printStackTrace()
-                        }
-                    } else {
-                        Log.d("body", "Body Empty")
-                    }
-                } else {
-                    helperMethods.showToastMessage(getString(R.string.something_went_wrong))
-                    Log.d("body", "Not Successful")
-                }
-            }
-
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                helperMethods.dismissProgressDialog()
-                t.printStackTrace()
-                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
-            }
-        })
-    }
 
 
 
