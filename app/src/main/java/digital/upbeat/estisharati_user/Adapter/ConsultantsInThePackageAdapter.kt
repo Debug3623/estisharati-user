@@ -11,7 +11,6 @@ import com.bumptech.glide.Glide
 import digital.upbeat.estisharati_user.DataClassHelper.Packages.Consultant
 import digital.upbeat.estisharati_user.R
 import digital.upbeat.estisharati_user.UI.ConsultantCategories
-import digital.upbeat.estisharati_user.UI.ConsultantDetails
 import digital.upbeat.estisharati_user.UI.ConsultantsInThePackage
 import digital.upbeat.estisharati_user.ViewHolder.ConsultantsInThePackageViewHolder
 

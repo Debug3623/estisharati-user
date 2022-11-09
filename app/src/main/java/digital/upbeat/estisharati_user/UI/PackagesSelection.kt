@@ -54,6 +54,7 @@ class PackagesSelection : BaseCompatActivity() {
     var appointmentTime = "0"
     var consultantId = ""
     var categoryId = ""
+    var condition = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,11 +74,13 @@ class PackagesSelection : BaseCompatActivity() {
         appointmentTime= intent.getStringExtra("appointment_time").toString()
         consultantId= intent.getStringExtra("consultant_id").toString()
         categoryId= intent.getStringExtra("category_id").toString()
+        condition= intent.getStringExtra("condition").toString()
 
         Log.d("appointmentDate",appointmentDate)
         Log.d("appointmentTime",appointmentTime)
         Log.d("consultant_id",consultantId)
         Log.d("category_id",categoryId)
+        Log.d("condition",condition)
     }
 
     fun clickEvents() {
@@ -419,8 +422,12 @@ class PackagesSelection : BaseCompatActivity() {
                                 dataUser.subscription.package_count = subscriptionResponse.data.package_count
                                 sharedPreferencesHelper.logInUser = dataUser
 
-                                 saveAppointmentApiCall(consultantId, appointmentDate, appointmentTime, categoryId)
+                                 if(condition=="1"){
+                                     saveAppointmentApiCall(consultantId, appointmentDate, appointmentTime, categoryId)
 
+                                 }else{
+                                     startActivity(Intent(this@PackagesSelection, ThanksPage::class.java))
+                                 }
                             } else {
                                 if (helperMethods.checkTokenValidation(subscriptionResponse.status, subscriptionResponse.message)) {
                                     finish()
@@ -450,6 +457,7 @@ class PackagesSelection : BaseCompatActivity() {
             }
         })
     }
+
     fun saveAppointmentApiCall(consultant_id: String, data: String, time: String, categoryId: String) {
         helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
         val responseBodyCall = retrofitInterface.SAVE_APPOINTMENT_API_CALL("Bearer ${dataUser.access_token}", consultant_id, data, time, categoryId)

@@ -9,14 +9,13 @@ import digital.upbeat.estisharati_user.DataClassHelper.ConsultantDetails.Categor
 import digital.upbeat.estisharati_user.DataClassHelper.Home.Category
 import digital.upbeat.estisharati_user.Fragment.Consultations
 import digital.upbeat.estisharati_user.Fragment.Home
-import digital.upbeat.estisharati_user.UI.ConsultantCategories
 import digital.upbeat.estisharati_user.R
 import digital.upbeat.estisharati_user.UI.ConsultantDetails
 import digital.upbeat.estisharati_user.UI.LegalAdvice
 import digital.upbeat.estisharati_user.ViewHolder.ConsultationsViewHolder
 import digital.upbeat.estisharati_user.ViewHolder.ExpConsultationsViewHolder
 
-class ConsultationsCategoryAdapter(val context: Context, val consultantCategories: ConsultantCategories, val categoriesArrayList: ArrayList<Categories>) : RecyclerView.Adapter<ConsultationsViewHolder>() {
+class ConsultationsCategoryAdapter(val context: Context, val consultantDetails: ConsultantDetails, val categoriesArrayList: ArrayList<Categories>) : RecyclerView.Adapter<ConsultationsViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConsultationsViewHolder {
         val layoutView = LayoutInflater.from(context).inflate(R.layout.consultations_item, parent, false)
         return ConsultationsViewHolder(layoutView)
@@ -29,8 +28,8 @@ class ConsultationsCategoryAdapter(val context: Context, val consultantCategorie
     override fun onBindViewHolder(holder: ConsultationsViewHolder, position: Int) {
         holder.consul_name.text = categoriesArrayList.get(position).category.name
         holder.parentLayout.setOnClickListener {
-            consultantCategories.categoryId = (categoriesArrayList.get(position).category.category_id)
-            consultantCategories.showConsultationPriceDetailsPopup()
+            consultantDetails.categoryId = (categoriesArrayList.get(position).category.category_id)
+            consultantDetails.showConsultationPriceDetailsPopup()
         }
     }
 }

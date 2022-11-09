@@ -78,13 +78,15 @@ class Packages : BaseCompatActivity() {
     }
 
     fun clickEvents1() {
+
         nav_back.setOnClickListener { finish() }
-//        choose_the_package.setOnClickListener {
-//            val intent = Intent(this, ConsultantsInThePackage::class.java)
-//            intent.putExtra("consultants",packagesResponse.data[layoutManager.centerItemPosition].consultants)
-//            startActivity(intent)
-//        }
+
         choose_the_package.setOnClickListener {
+
+            val packages = packagesResponse.data.get(layoutManager.centerItemPosition)
+            val price = if (packages.offerprice.equals("0")) packages.price else packages.offerprice
+            GlobalData.packagesOptions = PackagesOptions(packages.id, packages.name, "subscription", "", "0", "0", "0", price, "0", "0", "", "", "0", "0", "", "0", "0")
+
             val intent = Intent(this, ConsultantsInThePackage::class.java)
             intent.putExtra("consultants",packagesResponse.data[layoutManager.centerItemPosition].consultants)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

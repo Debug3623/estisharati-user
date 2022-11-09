@@ -6,15 +6,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import digital.upbeat.estisharati_user.DataClassHelper.ConsultantDetails.Categories
-import digital.upbeat.estisharati_user.DataClassHelper.Home.Category
-import digital.upbeat.estisharati_user.Fragment.Consultations
-import digital.upbeat.estisharati_user.Fragment.Home
 import digital.upbeat.estisharati_user.R
 import digital.upbeat.estisharati_user.UI.ConsultantCategories
-import digital.upbeat.estisharati_user.UI.ConsultantDetails
-import digital.upbeat.estisharati_user.UI.LegalAdvice
 import digital.upbeat.estisharati_user.ViewHolder.ConsultationsViewHolder
-import digital.upbeat.estisharati_user.ViewHolder.ExpConsultationsViewHolder
 
 class ConsultationsScheduleAdapter(val context: Context, val consultantDetails: ConsultantCategories, val categoriesArrayList: ArrayList<Categories>) : RecyclerView.Adapter<ConsultationsViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConsultationsViewHolder {

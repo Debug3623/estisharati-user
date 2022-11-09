@@ -13,6 +13,7 @@ import digital.upbeat.estisharati_user.UI.ConsultantDetails
 import digital.upbeat.estisharati_user.UI.CourseDetails
 import digital.upbeat.estisharati_user.UI.Notifications
 import digital.upbeat.estisharati_user.ViewHolder.NotificationsViewHolder
+import kotlinx.android.synthetic.main.appointment_layout.view.*
 
 class NotificationsAdapter(val context: Context, val notifications: Notifications, val notificationsArrayList: ArrayList<Data>) : RecyclerView.Adapter<NotificationsViewHolder>() {
     val helperMethods: HelperMethods
@@ -58,6 +59,17 @@ class NotificationsAdapter(val context: Context, val notifications: Notification
                     val intent = Intent(context, ConsultantDetails::class.java)
                     intent.putExtra("consultant_id", it.get(0).consultant_id)
                     intent.putExtra("category_id", "")
+                    //test data
+                    intent.putExtra("appointment_date", "")
+                    intent.putExtra("appointment_time", "")
+                    intent.putExtra("consultant_id", "")
+                    intent.putExtra("category_id", "")
+                    intent.putExtra("condition", "0")
+                    intent.putExtra("chat", "")
+                    intent.putExtra("audio", "")
+                    intent.putExtra("video", "")
+                    intent.putExtra("transaction_amount", "")
+
                     context.startActivity(intent)
                 } else {
                 }

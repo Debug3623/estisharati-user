@@ -23,8 +23,6 @@ import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
 import digital.upbeat.estisharati_user.DataClassHelper.ConsultantComments.commentsResponse
 import digital.upbeat.estisharati_user.DataClassHelper.ConsultantDetails.ConsultantDetailsResponse
 import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
-import digital.upbeat.estisharati_user.DataClassHelper.MyConsultation.Data
-import digital.upbeat.estisharati_user.DataClassHelper.MyConsultation.MyConsultationResponse
 import digital.upbeat.estisharati_user.DataClassHelper.PackagesOptions.PackagesOptions
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
@@ -32,13 +30,10 @@ import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
 import digital.upbeat.estisharati_user.Utils.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_consultant_details.*
-import kotlinx.android.synthetic.main.appointment_layout.view.*
-import kotlinx.android.synthetic.main.consultant_balance_popup.view.*
 import kotlinx.android.synthetic.main.consultation_category_layout.view.*
 import kotlinx.android.synthetic.main.consultation_category_layout.view.chatLayout
 import kotlinx.android.synthetic.main.consultation_category_layout.view.videoLayout
 import kotlinx.android.synthetic.main.consultation_category_layout.view.voiceLayout
-import kotlinx.android.synthetic.main.fragment_consultations.*
 import kotlinx.android.synthetic.main.preview_courses_popup.view.*
 import okhttp3.ResponseBody
 import org.json.JSONException
@@ -65,6 +60,7 @@ class ConsultantDetails : BaseCompatActivity() {
     var appointmentDate = "0"
     var appointmentTime = "0"
     var consultantId = ""
+    var condition = "0"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,6 +91,7 @@ class ConsultantDetails : BaseCompatActivity() {
         appointmentTime= intent.getStringExtra("appointment_time").toString()
         consultantId=intent.getStringExtra("consultant_id").toString()
         categoryId =intent.getStringExtra("category_id").toString()
+        condition =intent.getStringExtra("condition").toString()
 
       //  Received Data
         Log.d("video",video)
@@ -105,6 +102,7 @@ class ConsultantDetails : BaseCompatActivity() {
         Log.d("appointmentTime",appointmentTime)
         Log.d("consultant_id",consultantId)
         Log.d("category_id",categoryId)
+        Log.d("condition",condition)
 
     }
 
@@ -134,15 +132,22 @@ class ConsultantDetails : BaseCompatActivity() {
 
     fun clickEvents() {
         nav_back.setOnClickListener {
-            val intent = Intent(this@ConsultantDetails, Packages::class.java)
-            intent.putExtra("viaFrom", "Home")
-            startActivity(intent)
-            finish()
+           if(condition=="1"){
+               val intent = Intent(this@ConsultantDetails, Packages::class.java)
+               intent.putExtra("viaFrom", "Home")
+               startActivity(intent)
+               finish()
+           }else{
+               finish()
+           }
         }
 
         req_consultation_now.setOnClickListener {
-
-            redirectToPayment()
+          if(condition == "1") {
+              redirectToPayment()
+          }else{
+              showConsultationCategory()
+          }
 
         }
 
@@ -246,14 +251,21 @@ class ConsultantDetails : BaseCompatActivity() {
     }
 
     fun redirectToPayment() {
-        val intent = Intent(this@ConsultantDetails, PackagesSelection::class.java)
-        intent.putExtra("appointment_date", appointmentDate)
-        intent.putExtra("appointment_time", appointmentTime)
-        intent.putExtra("consultant_id", consultantId)
-        intent.putExtra("category_id", categoryId)
-        startActivity(intent)
 
-//         startActivity(Intent(this@ConsultantDetails, PackagesSelection::class.java))
+        if(condition == "1") {
+            val intent = Intent(this@ConsultantDetails, PackagesSelection::class.java)
+            intent.putExtra("appointment_date", appointmentDate)
+            intent.putExtra("appointment_time", appointmentTime)
+            intent.putExtra("consultant_id", consultantId)
+            intent.putExtra("category_id", categoryId)
+            intent.putExtra("condition", "1")
+            startActivity(intent)
+        }else{
+            GlobalData.packagesOptions = PackagesOptions(consultantDetailsResponse.id, consultantDetailsResponse.name, "consultation", categoryId, chat, audio, video, price.toString(), "0", "0", "", "", "0", "0", "", "0", "0")
+            startActivity(Intent(this@ConsultantDetails, PackagesSelection::class.java))
+            intent.putExtra("condition", "0")
+        }
+
     }
 
     fun InitializeRecyclerview() {
@@ -413,6 +425,121 @@ class ConsultantDetails : BaseCompatActivity() {
                 helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
             }
         })
+    }
+
+    fun showConsultationCategory() {
+        popup_view = LayoutInflater.from(this@ConsultantDetails).inflate(R.layout.consultation_category_layout, null)
+        val aleatdialog = AlertDialog.Builder(this@ConsultantDetails)
+        aleatdialog.setView(popup_view)
+        aleatdialog.setCancelable(false)
+        dialog = aleatdialog.create()
+        dialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+        popup_view.actionCancelBtn.setOnClickListener {
+            dialog.dismiss()
+        }
+        popup_view.consultationsRecycler.setHasFixedSize(true)
+        popup_view.consultationsRecycler.removeAllViews()
+        popup_view.consultationsRecycler.layoutManager = LinearLayoutManager(this@ConsultantDetails)
+        popup_view.consultationsRecycler.adapter = ConsultationsCategoryAdapter(this@ConsultantDetails, this@ConsultantDetails, consultantDetailsResponse.categories)
+        if (categoryId.equals("")) {
+            popup_view.consultationsOptionLayout.visibility = View.GONE
+            popup_view.consultationPriceLayout.visibility = View.GONE
+            popup_view.actionProceedBtn.visibility = View.GONE
+            popup_view.consultationsRecycler.visibility = View.VISIBLE
+        } else {
+            showConsultationPriceDetailsPopup()
+        }
+    }
+
+    fun showConsultationPriceDetailsPopup() {
+        price = 0.0
+        popup_view.consultationsOptionLayout.visibility = View.VISIBLE
+        popup_view.consultationPriceLayout.visibility = View.VISIBLE
+        popup_view.actionProceedBtn.visibility = View.VISIBLE
+        popup_view.consultationsRecycler.visibility = View.GONE
+        popup_view.chatLayout.visibility = if (consultantDetailsResponse.chat) View.VISIBLE else View.GONE
+        popup_view.voiceLayout.visibility = if (consultantDetailsResponse.voice) View.VISIBLE else View.GONE
+        popup_view.videoLayout.visibility = if (consultantDetailsResponse.video) View.VISIBLE else View.GONE
+
+        popup_view.chatCount.text = consultantDetailsResponse.chat_count + " " + getString(R.string.written_chat)
+        popup_view.voiceCount.text = helperMethods.formatToSecond(consultantDetailsResponse.voice_count)
+        popup_view.videoCount.text = helperMethods.formatToSecond(consultantDetailsResponse.video_count)
+        if (chat.equals("1")) {
+            popup_view.chatImage.clearColorFilter()
+            popup_view.chatText.setTextColor(ContextCompat.getColor(this@ConsultantDetails, R.color.black))
+            if (consultantDetailsResponse.offer_chat_fee.equals("0")) {
+                price += consultantDetailsResponse.chat_fee.toDouble()
+            } else {
+                price += consultantDetailsResponse.offer_chat_fee.toDouble()
+            }
+        } else {
+            popup_view.chatImage.setColorFilter(ContextCompat.getColor(this@ConsultantDetails, R.color.gray))
+            popup_view.chatText.setTextColor(ContextCompat.getColor(this@ConsultantDetails, R.color.gray))
+        }
+        if (audio.equals("1")) {
+            popup_view.voiceImage.clearColorFilter()
+            popup_view.voiceText.setTextColor(ContextCompat.getColor(this@ConsultantDetails, R.color.black))
+            if (consultantDetailsResponse.offer_voice_fee.equals("0")) {
+                price += consultantDetailsResponse.voice_fee.toDouble()
+            } else {
+                price += consultantDetailsResponse.offer_voice_fee.toDouble()
+            }
+        } else {
+            popup_view.voiceImage.setColorFilter(ContextCompat.getColor(this@ConsultantDetails, R.color.gray))
+            popup_view.voiceText.setTextColor(ContextCompat.getColor(this@ConsultantDetails, R.color.gray))
+        }
+        if (video.equals("1")) {
+            popup_view.videoImage.clearColorFilter()
+            popup_view.videoText.setTextColor(ContextCompat.getColor(this@ConsultantDetails, R.color.black))
+            if (consultantDetailsResponse.offer_voice_fee.equals("0")) {
+                price += consultantDetailsResponse.video_fee.toDouble()
+            } else {
+                price += consultantDetailsResponse.offer_video_fee.toDouble()
+            }
+        } else {
+            popup_view.videoImage.setColorFilter(ContextCompat.getColor(this@ConsultantDetails, R.color.gray))
+            popup_view.videoText.setTextColor(ContextCompat.getColor(this@ConsultantDetails, R.color.gray))
+        }
+        popup_view.chatLayout.setOnClickListener {
+            if (chat.equals("1")) {
+                chat = "0"
+            } else {
+                chat = "1"
+                audio = "0"
+                video = "0"
+            }
+            showConsultationPriceDetailsPopup()
+        }
+        popup_view.voiceLayout.setOnClickListener {
+            if (audio.equals("1")) {
+                audio = "0"
+            } else {
+                audio = "1"
+                chat = "0"
+                video = "0"
+            }
+            showConsultationPriceDetailsPopup()
+        }
+        popup_view.videoLayout.setOnClickListener {
+            if (video.equals("1")) {
+                video = "0"
+            } else {
+                video = "1"
+                audio = "0"
+                chat = "0"
+            }
+            showConsultationPriceDetailsPopup()
+        }
+        popup_view.consultantPrice.text = "${getString(R.string.usd)} ${helperMethods.convetDecimalFormat(price)}"
+        popup_view.actionProceedBtn.setOnClickListener {
+            if (chat.equals("1") || audio.equals("1") || video.equals("1")) {
+                dialog.dismiss()
+                redirectToPayment()
+            } else {
+                helperMethods.showToastMessage(getString(R.string.please_select_your_consultation_type))
+            }
+        }
     }
 
 

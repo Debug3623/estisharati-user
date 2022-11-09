@@ -1,11 +1,8 @@
 package digital.upbeat.estisharati_user.UI
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -14,26 +11,18 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.google.gson.Gson
-import digital.upbeat.estisharati_user.Adapter.ConsultantCommentsReplyAdapter
-import digital.upbeat.estisharati_user.Adapter.ConsultationsCategoryAdapter
 import digital.upbeat.estisharati_user.Adapter.ConsultationsScheduleAdapter
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitApiClient
 import digital.upbeat.estisharati_user.ApiHelper.RetrofitInterface
-import digital.upbeat.estisharati_user.DataClassHelper.ConsultantComments.commentsResponse
 import digital.upbeat.estisharati_user.DataClassHelper.ConsultantDetails.ConsultantDetailsResponse
 import digital.upbeat.estisharati_user.DataClassHelper.Login.DataUser
 import digital.upbeat.estisharati_user.DataClassHelper.MyConsultation.Data
-import digital.upbeat.estisharati_user.DataClassHelper.MyConsultation.MyConsultationResponse
 import digital.upbeat.estisharati_user.DataClassHelper.PackagesOptions.PackagesOptions
 import digital.upbeat.estisharati_user.Helper.GlobalData
 import digital.upbeat.estisharati_user.Helper.HelperMethods
 import digital.upbeat.estisharati_user.Helper.SharedPreferencesHelper
 import digital.upbeat.estisharati_user.R
-import kotlinx.android.synthetic.main.activity_consultant_categories.*
-import kotlinx.android.synthetic.main.activity_consultant_details.*
-import kotlinx.android.synthetic.main.activity_packages.*
 import kotlinx.android.synthetic.main.appointment_layout.view.*
 import kotlinx.android.synthetic.main.consultation_category_layout.view.*
 import okhttp3.ResponseBody
@@ -60,7 +49,7 @@ class ConsultantCategories : AppCompatActivity() {
     var audio = "0"
     var video = "0"
     var price = 0.0
-    var consultantId = "0"
+    var consultantId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,6 +76,9 @@ class ConsultantCategories : AppCompatActivity() {
 
         intent.getStringExtra("category_id")?.let { categoryId = it }
         consultantId= intent.getStringExtra("consultant_id").toString()
+
+        Log.d("consultant_id_CC",consultantId)
+        Log.d("category_id_CC",categoryId)
     }
 
 
@@ -205,7 +197,7 @@ class ConsultantCategories : AppCompatActivity() {
 
                 dialog.dismiss()
 
-                GlobalData.packagesOptions = PackagesOptions(consultantDetailsResponse.id, consultantDetailsResponse.name, "consultation", categoryId, chat, audio, video, price.toString(), "0", "0", "", "", "0", "0", "", "0", "0")
+//                GlobalData.packagesOptions = PackagesOptions(consultantDetailsResponse.id, consultantDetailsResponse.name, "consultation", categoryId, chat, audio, video, price.toString(), "0", "0", "", "", "0", "0", "", "0", "0")
 
                 showAppointmentPopup()
 
@@ -272,10 +264,10 @@ class ConsultantCategories : AppCompatActivity() {
         dialog.show()
         LayoutView.actionOk.setOnClickListener {
             if (validateAppointment(LayoutView)) {
-//               saveAppointmentApiCall(myConsultation.consultant_id, LayoutView.appointmentData.text.toString(), LayoutView.appointmentTime.text.toString(), myConsultation.category_id)
                 val intent = Intent(this@ConsultantCategories, ConsultantDetails::class.java)
                 intent.putExtra("consultant_id", consultantId)
                 intent.putExtra("category_id", categoryId)
+                intent.putExtra("condition", "1")
                 intent.putExtra("appointment_date", LayoutView.appointmentData.text.toString())
                 intent.putExtra("appointment_time", LayoutView.appointmentTime.text.toString())
                 if(video=="1"){
