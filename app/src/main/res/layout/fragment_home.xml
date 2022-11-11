@@ -41,7 +41,7 @@
                     android:layout_marginBottom="10dp"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-                <digital.upbeat.estisharati_user.Utils.CirclePageIndicator
+                <estisharatibussiness.users.com.Utils.CirclePageIndicator
                     android:id="@+id/indicator"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

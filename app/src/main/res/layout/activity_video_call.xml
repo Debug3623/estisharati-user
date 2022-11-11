@@ -33,7 +33,7 @@ tools:context=".UI.VideoCall">
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <digital.upbeat.estisharati_user.Utils.CircleImageView
+            <estisharatibussiness.users.com.Utils.CircleImageView
                 android:id="@+id/caller_profile"
                 android:layout_width="90dp"
                 android:layout_height="90dp"

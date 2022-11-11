@@ -15,7 +15,7 @@
         android:visibility="gone">
 
 
-        <digital.upbeat.estisharati_user.Utils.CircleImageView
+        <estisharatibussiness.users.com.Utils.CircleImageView
             android:id="@+id/other_text_profile"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -168,7 +168,7 @@
         android:orientation="horizontal"
         android:visibility="gone">
 
-        <digital.upbeat.estisharati_user.Utils.CircleImageView
+        <estisharatibussiness.users.com.Utils.CircleImageView
             android:id="@+id/other_image_profile"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -480,7 +480,7 @@
             android:gravity="end"
             android:orientation="vertical">
 
-            <digital.upbeat.estisharati_user.Utils.CircleImageView
+            <estisharatibussiness.users.com.Utils.CircleImageView
                 android:id="@+id/me_text_profile"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
@@ -661,7 +661,7 @@
             android:gravity="end"
             android:orientation="vertical">
 
-            <digital.upbeat.estisharati_user.Utils.CircleImageView
+            <estisharatibussiness.users.com.Utils.CircleImageView
                 android:id="@+id/me_image_profile"
                 android:layout_width="50dp"
                 android:layout_height="50dp"

@@ -28,7 +28,7 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <digital.upbeat.estisharati_user.Utils.CirclePageIndicator
+            <estisharatibussiness.users.com.Utils.CirclePageIndicator
                 android:id="@+id/indicator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

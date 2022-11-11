@@ -24,7 +24,7 @@
             android:padding="10dp">
 
 
-            <digital.upbeat.estisharati_user.Utils.CircleImageView
+            <estisharatibussiness.users.com.Utils.CircleImageView
                 android:id="@+id/cmdUserImage"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -185,7 +185,7 @@
                         android:layout_weight="4"
                         android:gravity="center_vertical">
 
-                        <digital.upbeat.estisharati_user.Utils.CircleImageView
+                        <estisharatibussiness.users.com.Utils.CircleImageView
                             android:id="@+id/userImage"
                             android:layout_width="40dp"
                             android:layout_height="40dp"

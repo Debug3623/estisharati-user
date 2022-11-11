@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="digital.upbeat.estisharati_user">
+    package="estisharatibussiness.users.com">
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
@@ -21,14 +21,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
-            android:name=".UI.ConsultantCategories"
+            android:name="estisharatibussiness.users.com.UI.ConsultantCategories"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".UI.ConsultantDateTime"
+            android:name="estisharatibussiness.users.com.UI.ConsultantDateTime"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -47,17 +47,17 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
         <activity
-            android:name=".UI.PostDetailsActivity"
+            android:name="estisharatibussiness.users.com.UI.PostDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.PostsActivity"
+            android:name="estisharatibussiness.users.com.UI.PostsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.CreatePostActivity"
+            android:name="estisharatibussiness.users.com.UI.CreatePostActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".UI.SurveyList" />
+        <activity android:name="estisharatibussiness.users.com.UI.SurveyList" />
         <activity
-            android:name=".UI.SplashTemp"
+            android:name="estisharatibussiness.users.com.UI.SplashTemp"
             android:exported="false"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -67,128 +67,128 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".UI.TestimonialsDetails"
+            android:name="estisharatibussiness.users.com.UI.TestimonialsDetails"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.Testimonials"
+            android:name="estisharatibussiness.users.com.UI.Testimonials"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.MyAppointment"
+            android:name="estisharatibussiness.users.com.UI.MyAppointment"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.InviteApp"
+            android:name="estisharatibussiness.users.com.UI.InviteApp"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.Survey"
+            android:name="estisharatibussiness.users.com.UI.Survey"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.BlogDetails"
+            android:name="estisharatibussiness.users.com.UI.BlogDetails"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.Blog"
+            android:name="estisharatibussiness.users.com.UI.Blog"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.VideoFullScreen"
+            android:name="estisharatibussiness.users.com.UI.VideoFullScreen"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.FullScreenAppTheme" />
         <activity
-            android:name=".UI.GroupChatPage"
+            android:name="estisharatibussiness.users.com.UI.GroupChatPage"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.MyPackages"
+            android:name="estisharatibussiness.users.com.UI.MyPackages"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.Search"
+            android:name="estisharatibussiness.users.com.UI.Search"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.FAQ"
+            android:name="estisharatibussiness.users.com.UI.FAQ"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.Offers"
+            android:name="estisharatibussiness.users.com.UI.Offers"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.Favorites"
+            android:name="estisharatibussiness.users.com.UI.Favorites"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.WebView"
+            android:name="estisharatibussiness.users.com.UI.WebView"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.VideoCall"
+            android:name="estisharatibussiness.users.com.UI.VideoCall"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.IncomingCall"
+            android:name="estisharatibussiness.users.com.UI.IncomingCall"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.VoiceCall"
+            android:name="estisharatibussiness.users.com.UI.VoiceCall"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.AddPaymentMethod"
+            android:name="estisharatibussiness.users.com.UI.AddPaymentMethod"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.PaymentMethods"
+            android:name="estisharatibussiness.users.com.UI.PaymentMethods"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.PhotoViewer"
+            android:name="estisharatibussiness.users.com.UI.PhotoViewer"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.ChatPage"
+            android:name="estisharatibussiness.users.com.UI.ChatPage"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.ChatHome"
+            android:name="estisharatibussiness.users.com.UI.ChatHome"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.ThanksPage"
+            android:name="estisharatibussiness.users.com.UI.ThanksPage"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.ConsultantsInThePackage"
+            android:name="estisharatibussiness.users.com.UI.ConsultantsInThePackage"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.ExistingCourses"
+            android:name="estisharatibussiness.users.com.UI.ExistingCourses"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.PackagesSelection"
+            android:name="estisharatibussiness.users.com.UI.PackagesSelection"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.Packages"
+            android:name="estisharatibussiness.users.com.UI.Packages"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.CourseResource"
+            android:name="estisharatibussiness.users.com.UI.CourseResource"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.ConsultationDetailsVideo"
+            android:name="estisharatibussiness.users.com.UI.ConsultationDetailsVideo"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.CourseDetails"
+            android:name="estisharatibussiness.users.com.UI.CourseDetails"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.Notifications"
+            android:name="estisharatibussiness.users.com.UI.Notifications"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.ConsultantDetails"
+            android:name="estisharatibussiness.users.com.UI.ConsultantDetails"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.LegalAdvice"
+            android:name="estisharatibussiness.users.com.UI.LegalAdvice"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.MyProfile"
+            android:name="estisharatibussiness.users.com.UI.MyProfile"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.Pages"
+            android:name="estisharatibussiness.users.com.UI.Pages"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.ContactUs"
+            android:name="estisharatibussiness.users.com.UI.ContactUs"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.OnlineCourses"
+            android:name="estisharatibussiness.users.com.UI.OnlineCourses"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.MyCourses"
+            android:name="estisharatibussiness.users.com.UI.MyCourses"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.MyConsultations"
+            android:name="estisharatibussiness.users.com.UI.MyConsultations"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.UserDrawer"
+            android:name="estisharatibussiness.users.com.UI.UserDrawer"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -198,19 +198,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".UI.OnBoarding"
+            android:name="estisharatibussiness.users.com.UI.OnBoarding"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.ForgotPassword"
+            android:name="estisharatibussiness.users.com.UI.ForgotPassword"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.Verification"
+            android:name="estisharatibussiness.users.com.UI.Verification"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.LoginAndRegistration"
+            android:name="estisharatibussiness.users.com.UI.LoginAndRegistration"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UI.SplashScreen"
+            android:name="estisharatibussiness.users.com.UI.SplashScreen"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -228,7 +228,7 @@
             android:resource="@color/orange" />
 
         <service
-            android:name=".Utils.FCMService"
+            android:name="estisharatibussiness.users.com.Utils.FCMService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>

@@ -16,7 +16,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp">
 
-            <digital.upbeat.estisharati_user.Utils.CircleImageView
+            <estisharatibussiness.users.com.Utils.CircleImageView
                 android:id="@+id/subReplyUserImage"
                 android:layout_width="40dp"
                 android:layout_height="40dp"

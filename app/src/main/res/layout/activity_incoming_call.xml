@@ -30,7 +30,7 @@
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
-            <digital.upbeat.estisharati_user.Utils.CircleImageView
+            <estisharatibussiness.users.com.Utils.CircleImageView
                 android:id="@+id/caller_profile"
                 android:layout_width="100dp"
                 android:layout_height="100dp"

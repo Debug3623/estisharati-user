@@ -441,7 +441,7 @@
                     app:tabIndicatorHeight="2dp"
                     app:tabMode="scrollable" />
 
-                <digital.upbeat.estisharati_user.Utils.WrapContentViewPager
+                <estisharatibussiness.users.com.Utils.WrapContentViewPager
                     android:id="@+id/courseViewpager"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
