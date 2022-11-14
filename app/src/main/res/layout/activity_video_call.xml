@@ -6,7 +6,7 @@ android:id="@+id/activity_video_chat_view"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:background="@color/ach_white_dark"
-tools:context=".UI.VideoCall">
+tools:context=".UserInterface.VideoCallActivity">
 
 <RelativeLayout
     android:id="@+id/root"

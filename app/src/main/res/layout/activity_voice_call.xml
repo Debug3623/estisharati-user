@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/ach_white_dark"
-    tools:context=".UI.VoiceCall">
+    tools:context=".UserInterface.VoiceCallActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

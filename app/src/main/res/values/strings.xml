@@ -1,10 +1,21 @@
 <resources>
-    <string name="app_name">Estisharati</string>
+    <string name="app_name">Eshtisharati User</string>
 
 
     <string name="agora_app_id" translatable="false">29c6b00fa7ba4e1eaa2c52d3ef791786</string>
     <string name="agora_access_token" translatable="false"></string>
-    <string name="facebook_app_id" translatable="false">1224933531667223</string>
+<!--    <string name="facebook_app_id" translatable="false">526070909080519</string>-->
+
+<!--    <string name="facebook_app_id" translatable="false">1234</string>-->
+
+
+<!--    <string name="fb_login_protocol_scheme" translatable="false">fb1234</string>-->
+<!--    <string name="facebook_client_token" translatable="false">56789</string>-->
+
+
+    <string name="facebook_app_id" translatable="false">1151513752466417</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb1151513752466417</string>
+    <string name="facebook_client_token" translatable="false">56789</string>
 
     <string name="internet_connection_failed">Internet Connection Failed</string>
     <string name="please_check_your_internet_connection_and_try_again">Please check your internet connection and try again</string>

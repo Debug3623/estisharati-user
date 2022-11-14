@@ -13,8 +13,6 @@ android {
         //zahid
         versionCode 1
         versionName "1.0.0"
-//        versionCode 28
-//        versionName "3.0.8"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
