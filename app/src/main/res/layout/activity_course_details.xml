@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserInterface.ActivityCourseDetails">
+    tools:context=".UserInterfaces.ActivityCourseDetails">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -441,7 +441,7 @@
                     app:tabIndicatorHeight="2dp"
                     app:tabMode="scrollable" />
 
-                <estisharatibussiness.users.com.Utils.WrapContentViewPager
+                <estisharatibussiness.users.com.UtilsClasses.WrapContentViewPager
                     android:id="@+id/courseViewpager"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

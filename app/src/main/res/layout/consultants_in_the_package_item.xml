@@ -19,7 +19,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp">
 
-            <estisharatibussiness.users.com.Utils.CircleImageView
+            <estisharatibussiness.users.com.UtilsClasses.CircleImageView
                 android:id="@+id/consultantImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

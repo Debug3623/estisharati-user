@@ -18,7 +18,7 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
-        <estisharatibussiness.users.com.Utils.CircleImageView
+        <estisharatibussiness.users.com.UtilsClasses.CircleImageView
             android:id="@+id/profilePicture"
             android:layout_width="40dp"
             android:layout_height="40dp"

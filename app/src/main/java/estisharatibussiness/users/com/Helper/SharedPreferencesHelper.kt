@@ -3,8 +3,8 @@ package estisharatibussiness.users.com.Helper
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
-import estisharatibussiness.users.com.DataClassHelper.CityCountry.DataCountry
-import estisharatibussiness.users.com.DataClassHelper.Login.DataUser
+import estisharatibussiness.users.com.DataClassHelperMehtods.CityCountry.DataCountry
+import estisharatibussiness.users.com.DataClassHelperMehtods.Login.DataUser
 import org.codehaus.jackson.map.ObjectMapper
 import java.io.IOException
 

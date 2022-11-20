@@ -45,13 +45,13 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.firestore.FirebaseFirestore
-import estisharatibussiness.users.com.DataClassHelper.Chat.DataUserMessageFireStore
-import estisharatibussiness.users.com.DataClassHelper.Login.DataUser
-import estisharatibussiness.users.com.DataClassHelper.Utils.DataTextsAndColors
+import estisharatibussiness.users.com.DataClassHelperMehtods.Chat.DataUserMessageFireStore
+import estisharatibussiness.users.com.DataClassHelperMehtods.Login.DataUser
+import estisharatibussiness.users.com.DataClassHelperMehtods.Utils.DataTextsAndColors
 import estisharatibussiness.users.com.R
-import estisharatibussiness.users.com.UserInterface.ActivitySplashScreen
-import estisharatibussiness.users.com.UserInterface.ActivitySplashTemp
-import estisharatibussiness.users.com.Utils.alertActionClickListner
+import estisharatibussiness.users.com.UserInterfaces.ActivitySplashScreen
+import estisharatibussiness.users.com.UserInterfaces.ActivitySplashTemp
+import estisharatibussiness.users.com.UtilsClasses.alertActionClickListner
 import kotlinx.android.synthetic.main.alert_popup.view.*
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -64,7 +64,7 @@ import java.util.*
 import java.util.regex.Pattern
 import kotlin.collections.ArrayList
 import android.app.PendingIntent
-import estisharatibussiness.users.com.UserInterface.ChatPageActivity
+import estisharatibussiness.users.com.UserInterfaces.ChatPageActivity
 
 class HelperMethods(val context: Context) {
     val calendarInstance: Calendar

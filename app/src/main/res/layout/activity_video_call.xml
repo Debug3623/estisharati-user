@@ -6,7 +6,7 @@ android:id="@+id/activity_video_chat_view"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:background="@color/ach_white_dark"
-tools:context=".UserInterface.VideoCallActivity">
+tools:context=".UserInterfaces.VideoCallActivity">
 
 <RelativeLayout
     android:id="@+id/root"
@@ -33,7 +33,7 @@ tools:context=".UserInterface.VideoCallActivity">
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <estisharatibussiness.users.com.Utils.CircleImageView
+            <estisharatibussiness.users.com.UtilsClasses.CircleImageView
                 android:id="@+id/caller_profile"
                 android:layout_width="90dp"
                 android:layout_height="90dp"

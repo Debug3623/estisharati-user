@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/ach_white_light"
-    tools:context=".UserInterface.LoginAndRegistration">
+    tools:context=".UserInterfaces.LoginAndRegistration">
 
     <ImageView
         android:layout_width="match_parent"

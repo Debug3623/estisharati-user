@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".UserInterface.OnBoarding">
+    tools:context=".UserInterfaces.OnBoarding">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <estisharatibussiness.users.com.Utils.CirclePageIndicator
+            <estisharatibussiness.users.com.UtilsClasses.CirclePageIndicator
                 android:id="@+id/indicator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

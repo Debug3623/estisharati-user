@@ -1,17 +1,18 @@
 package estisharatibussiness.users.com.Helper
 
 import com.google.android.exoplayer2.MediaItem
-import estisharatibussiness.users.com.DataClassHelper.Chat.DataUserFireStore
-import estisharatibussiness.users.com.DataClassHelper.Home.HomeResponse
-import estisharatibussiness.users.com.DataClassHelper.PackagesOptions.PackagesOptions
-import estisharatibussiness.users.com.DataClassHelper.StartCourse.Lesson
-import estisharatibussiness.users.com.DataClassHelper.Testimonials.TestimonialsResponse
-import estisharatibussiness.users.com.DataClassHelper.posts.PostsResponse
+import estisharatibussiness.users.com.DataClassHelperMehtods.Chat.DataUserFireStore
+import estisharatibussiness.users.com.DataClassHelperMehtods.Home.HomeResponse
+import estisharatibussiness.users.com.DataClassHelperMehtods.PackagesOptions.PackagesOptions
+import estisharatibussiness.users.com.DataClassHelperMehtods.StartCourse.Lesson
+import estisharatibussiness.users.com.DataClassHelperMehtods.Testimonials.TestimonialsResponse
+import estisharatibussiness.users.com.DataClassHelperMehtods.posts.PostsResponse
 
 object GlobalData {
     const val PICK_IMAGE_GALLERY = 1
     const val PICK_IMAGE_CAMERA = 2
     var BaseUrl = "https://super-servers.com/estisharati/api/v1/en/"
+//    var BaseUrl = "https://apptocom.com/estisharati/api/v1/en/"
     var profileUpdate = false
     var FcmToken = ""
     var forwardType = ""

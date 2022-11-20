@@ -35,7 +35,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <estisharatibussiness.users.com.Utils.CircleImageView
+                    <estisharatibussiness.users.com.UtilsClasses.CircleImageView
                         android:id="@+id/user_image"
                         android:layout_width="65dp"
                         android:layout_height="65dp"
