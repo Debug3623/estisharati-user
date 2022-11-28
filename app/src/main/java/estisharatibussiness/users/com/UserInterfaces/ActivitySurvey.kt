@@ -68,8 +68,8 @@ class ActivitySurvey : AppCompatActivity() {
         val invitationLink = "https://www.estisharati.com?surveyId=$survey_id"
         Firebase.dynamicLinks.shortLinkAsync {
             link = Uri.parse(invitationLink)
-            domainUriPrefix = "https://estisharati.page.link"
-            androidParameters("digital.upbeat.estisharati_user") {}
+            domainUriPrefix = "https://estisharatibussiness.page.link"
+            androidParameters("estisharatibussiness.users.com") {}
             iosParameters("com.Estisharaty") {}
         }.addOnSuccessListener { shortDynamicLink ->
             mInvitationSurveryUrl = shortDynamicLink.shortLink.toString() + "?surveyId=$survey_id"

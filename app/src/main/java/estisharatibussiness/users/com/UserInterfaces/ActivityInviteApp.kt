@@ -66,8 +66,8 @@ class ActivityInviteApp : AppCompatActivity() {
         val invitationLink = "https://www.estisharati.com?referral_code=${referralResponse.data.referral_code}"
         Firebase.dynamicLinks.shortLinkAsync {
             link = Uri.parse(invitationLink)
-            domainUriPrefix = "https://estisharati.page.link"
-            androidParameters("digital.upbeat.estisharati_user") {}
+            domainUriPrefix = "https://estisharatibussiness.page.link"
+            androidParameters("estisharatibussiness.users.com") {}
             iosParameters("com.Estisharaty") {}
         }.addOnSuccessListener { shortDynamicLink ->
             mInvitationUrl = shortDynamicLink.shortLink.toString()+"?referral_code=${referralResponse.data.referral_code}"

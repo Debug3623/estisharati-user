@@ -65,6 +65,7 @@ class ActivityConsultantDetails : BaseCompatActivity() {
     var consultantId = ""
     var condition = ""
     var pricen = ""
+    var meeting = "16 meetings-(60 min)"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -249,11 +250,10 @@ class ActivityConsultantDetails : BaseCompatActivity() {
          videoLayout.visibility = View.GONE
          videoPriceLayout.visibility = View.GONE
      }
+            chatCount.text = meeting + " " + getString(R.string.written_chat)
+            voiceCount.text = meeting
+            videoCount.text = meeting
 
-
-        chatCount.text = consultantDetailsResponse.chat_count + " " + getString(R.string.written_chat)
-        voiceCount.text = helperMethods.formatToSecond(consultantDetailsResponse.voice_count)
-        videoCount.text = helperMethods.formatToSecond(consultantDetailsResponse.video_count)
     }
 
     fun setConsultantDetails() {

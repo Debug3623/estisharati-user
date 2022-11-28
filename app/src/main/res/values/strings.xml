@@ -201,7 +201,7 @@
     <string name="save">SAVE</string>
     <string name="confirm">Confirm</string>
     <string name="reject">Reject</string>
-    <string name="legal_advice">Legal Advice</string>
+    <string name="legal_advice">Quick Advice</string>
     <string name="search_for_consultant">Search for consultant</string>
     <string name="please_wait_while_fetching_advice">Please wait while fetching advice...</string>
     <string name="my_consultations">My Consultations</string>

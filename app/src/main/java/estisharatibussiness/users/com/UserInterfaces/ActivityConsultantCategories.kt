@@ -22,6 +22,7 @@ import estisharatibussiness.users.com.Helper.GlobalData
 import estisharatibussiness.users.com.Helper.HelperMethods
 import estisharatibussiness.users.com.Helper.SharedPreferencesHelper
 import estisharatibussiness.users.com.R
+import kotlinx.android.synthetic.main.activity_consultant_details.*
 import kotlinx.android.synthetic.main.appointment_layout.view.*
 import kotlinx.android.synthetic.main.consultation_category_layout.view.*
 import okhttp3.ResponseBody
@@ -49,7 +50,9 @@ class ActivityConsultantCategories : AppCompatActivity() {
     var video = "0"
     var price = 0.0
     var pricen = ""
+    var condition = "0"
     var consultantId = ""
+    var meeting = "16 meetings-(60 min)"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,9 +80,11 @@ class ActivityConsultantCategories : AppCompatActivity() {
         intent.getStringExtra("category_id")?.let { categoryId = it }
         consultantId= intent.getStringExtra("consultant_id").toString()
         pricen= intent.getStringExtra("price").toString()
+        condition= intent.getStringExtra("condition").toString()
 
         Log.d("consultant_id_CC",consultantId)
         Log.d("category_id_CC",categoryId)
+        Log.d("condition_CC",condition)
     }
 
 
@@ -122,9 +127,18 @@ class ActivityConsultantCategories : AppCompatActivity() {
         popup_view.voiceLayout.visibility = if (consultantDetailsResponse.voice) View.VISIBLE else View.GONE
         popup_view.videoLayout.visibility = if (consultantDetailsResponse.video) View.VISIBLE else View.GONE
 
-        popup_view.chatCount.text = consultantDetailsResponse.chat_count + " " + getString(R.string.written_chat)
-        popup_view.voiceCount.text = helperMethods.formatToSecond(consultantDetailsResponse.voice_count)
-        popup_view.videoCount.text = helperMethods.formatToSecond(consultantDetailsResponse.video_count)
+//       if(condition=="1"){
+//           chatCount.text = meeting + " " + getString(R.string.written_chat)
+//           voiceCount.text = meeting
+//           videoCount.text = meeting
+
+//       }else{
+           popup_view.chatCount.text = consultantDetailsResponse.chat_count + " " + getString(R.string.written_chat)
+           popup_view.voiceCount.text = helperMethods.formatToSecond(consultantDetailsResponse.voice_count)
+           popup_view.videoCount.text = helperMethods.formatToSecond(consultantDetailsResponse.video_count)
+
+//       }
+
         if (chat.equals("1")) {
             popup_view.chatImage.clearColorFilter()
             popup_view.chatText.setTextColor(ContextCompat.getColor(this@ActivityConsultantCategories, R.color.black))

@@ -34,6 +34,7 @@ class ConsultantsInThePackageAdapter(val context: Context, val price: String,val
             intent.putExtra("consultant_id", consultantsArrayList.get(position).id)
             intent.putExtra("category_id", "")
             intent.putExtra("price", price)
+            intent.putExtra("condition", "1")
             context.startActivity(intent)
             (context as Activity).finish()
 
