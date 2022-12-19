@@ -172,8 +172,8 @@ class ActivityCourseDetails : BaseCompatActivity() {
         val invitationLink = "https://www.estisharati.com?courseId=${responseCoursesDetails.id}"
         Firebase.dynamicLinks.shortLinkAsync {
             link = Uri.parse(invitationLink)
-            domainUriPrefix = "https://estisharati.page.link"
-            androidParameters("digital.upbeat.estisharati_user") {}
+            domainUriPrefix = "https://estisharatibussiness.page.link"
+            androidParameters("estisharatibussiness.users.com") {}
             iosParameters("com.Estisharaty") {}
         }.addOnSuccessListener { shortDynamicLink ->
             courseInvitationUrl = shortDynamicLink.shortLink.toString() + "?courseId=${responseCoursesDetails.id}"

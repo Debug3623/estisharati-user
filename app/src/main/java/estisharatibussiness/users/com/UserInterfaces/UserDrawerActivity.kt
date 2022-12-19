@@ -114,7 +114,7 @@ class UserDrawerActivity : BaseCompatActivity() {
             when (checkedId) {
                 R.id.radio_english -> { //                    radioButtonChange(true)
                     preferencesHelper.appLang = "en"
-                    GlobalData.BaseUrl = "https://super-servers.com/estisharati/api/v1/${preferencesHelper.appLang}/"
+                    GlobalData.BaseUrl = "https://apptocom.com/estisharati/api/v1/${preferencesHelper.appLang}/"
                     Log.d("BaseURL", GlobalData.BaseUrl)
                     GlobalData.homeResponseMain = null
                     startActivity(Intent(this@UserDrawerActivity, ActivitySplashScreen::class.java))
@@ -122,7 +122,7 @@ class UserDrawerActivity : BaseCompatActivity() {
                 }
                 R.id.radio_arabic -> { //                    radioButtonChange(false)
                     preferencesHelper.appLang = "ar"
-                    GlobalData.BaseUrl = "https://super-servers.com/estisharati/api/v1/${preferencesHelper.appLang}/"
+                    GlobalData.BaseUrl = "https://apptocom.com/estisharati/api/v1/${preferencesHelper.appLang}/"
                     Log.d("BaseURL", GlobalData.BaseUrl)
                     GlobalData.homeResponseMain = null
                     startActivity(Intent(this@UserDrawerActivity, ActivitySplashScreen::class.java))

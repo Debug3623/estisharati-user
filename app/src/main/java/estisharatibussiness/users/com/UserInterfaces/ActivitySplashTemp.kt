@@ -24,8 +24,8 @@ class ActivitySplashTemp : AppCompatActivity() {
         preferencesHelper = SharedPreferencesHelper(this@ActivitySplashTemp)
     }
         fun loginProcess() {
-        GlobalData.BaseUrl = "https://super-servers.com/estisharati/api/v1/${preferencesHelper.appLang}/"
-        Log.d("BaseURL", GlobalData.BaseUrl)
+        GlobalData.BaseUrl = "https://apptocom.com/estisharati/api/v1/${preferencesHelper.appLang}/"
+        Log.d("BaseURLSplashTemp", GlobalData.BaseUrl)
         GlobalData.homeResponseMain = null
         if (preferencesHelper.isUserLogIn) {
             startActivity(Intent(this@ActivitySplashTemp, UserDrawerActivity::class.java))

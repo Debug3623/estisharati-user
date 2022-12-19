@@ -185,7 +185,7 @@ class ActivitySplashScreen : BaseCompatActivity() {
     }
 
     fun loginProcess() {
-        GlobalData.BaseUrl = "https://super-servers.com/estisharati/api/v1/${preferencesHelper.appLang}/"
+        GlobalData.BaseUrl = "https://apptocom.com/estisharati/api/v1/${preferencesHelper.appLang}/"
         Log.d("BaseURL", GlobalData.BaseUrl)
         GlobalData.homeResponseMain = null
         if (preferencesHelper.isUserLogIn) {

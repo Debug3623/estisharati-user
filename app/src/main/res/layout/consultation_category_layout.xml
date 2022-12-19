@@ -140,7 +140,30 @@
                     android:textColor="@color/dark_gray"
                     android:textSize="15sp" />
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/noConsultantAvialble"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/videoT1ext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/almarai_regular"
+                    android:text="@string/noConsultant"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+
         </LinearLayout>
+
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/consultationsRecycler"

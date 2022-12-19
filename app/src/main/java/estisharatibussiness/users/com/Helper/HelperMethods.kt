@@ -551,7 +551,11 @@ class HelperMethods(val context: Context) {
         val geocoder = Geocoder(context, Locale.getDefault())
         var addresses: List<Address?> = ArrayList() // Here 1 represent max location result to returned, by documents it recommended 1 to 5
         return try {
-            geocoder.getFromLocation(latitude, longitude, 1).also { addresses = it }
+            geocoder.getFromLocation(latitude, longitude, 1).also {
+                if (it != null) {
+                    addresses = it
+                }
+            } as List<Address?>
         } catch (e: IOException) {
             e.printStackTrace()
             Toast.makeText(context, "Could not get your Location and check your internet connection", Toast.LENGTH_LONG).show()

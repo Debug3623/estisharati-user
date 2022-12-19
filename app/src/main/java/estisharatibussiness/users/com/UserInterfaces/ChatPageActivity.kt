@@ -125,7 +125,9 @@ class ChatPageActivity : BaseCompatActivity() {
         }
         IdArray.add(dataUser.id.toInt())
         IdArray.add(userId.toInt())
-        Collections.sort(IdArray)
+        IdArray.sort()
+//        Collections.sort(IdArray)
+
         firestoreUserLisiner()
         firestoreChatLisiner()
 
@@ -368,7 +370,7 @@ class ChatPageActivity : BaseCompatActivity() {
                         UpdateConsultationSecondsApiCall(it.id, dataUserFireStore.user_id, count.toString(), message.toText(), "")
                         message.text = "".toEditable()
                         overridePendingTransition(0, 0)
-                        startActivity(intent);
+                        startActivity(intent)
                         overridePendingTransition(0, 0)
                         finish()
 //                       chatAdapter!!.notifyDataSetChanged()
@@ -491,7 +493,7 @@ class ChatPageActivity : BaseCompatActivity() {
                                     inside_reply.put("position", "")
                                     UpdateConsultationSecondsApiCall(it.id, dataUserFireStore.user_id, "1", "", image_path)
                                     overridePendingTransition(0, 0)
-                                    startActivity(intent);
+                                    startActivity(intent)
                                     overridePendingTransition(0, 0)
                                     finish()
 

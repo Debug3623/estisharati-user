@@ -3,16 +3,16 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "estisharatibussiness.users.com"
         minSdkVersion 21
-        targetSdkVersion 32
+        targetSdkVersion 33
         //zahid
-        versionCode 3
-        versionName "1.0.3"
+        versionCode 7
+        versionName "1.0.7"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

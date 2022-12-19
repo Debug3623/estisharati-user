@@ -90,6 +90,9 @@ class ActivityPackages : BaseCompatActivity() {
             val intent = Intent(this, ConsultantsInSideThePackageActivity::class.java)
             intent.putExtra("consultants",packagesResponse.data[layoutManager.centerItemPosition].consultants)
             intent.putExtra("price",price)
+            intent.putExtra("audioF",packagesResponse.data[layoutManager.centerItemPosition].features.audio.time)
+            intent.putExtra("videoF",packagesResponse.data[layoutManager.centerItemPosition].features.video.time)
+            intent.putExtra("chatF",packagesResponse.data[layoutManager.centerItemPosition].features.written.time)
 
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)

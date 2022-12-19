@@ -78,6 +78,7 @@ class ActivityPackagesSelection : BaseCompatActivity() {
         Log.d("consultant_id",consultantId)
         Log.d("category_id",categoryId)
         Log.d("condition",condition)
+        Log.d("BearerToken ","${dataUser.access_token}")
     }
 
     fun clickEvents() {
@@ -347,6 +348,7 @@ class ActivityPackagesSelection : BaseCompatActivity() {
                     if (response.body() != null) {
                         try {
                             referralResponse = Gson().fromJson(response.body()!!.string(), ReferralResponse::class.java)
+                            Log.d("refral_api Response",referralResponse.toString())
                             if (referralResponse.status.equals("200")) {
                                 setChoosenDetails()
                             } else {

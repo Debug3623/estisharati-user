@@ -52,7 +52,11 @@ class ActivityConsultantCategories : AppCompatActivity() {
     var pricen = ""
     var condition = "0"
     var consultantId = ""
-    var meeting = "16 meetings-(60 min)"
+
+    var audioF = ""
+    var videoF = "0"
+    var chatF = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,9 +86,17 @@ class ActivityConsultantCategories : AppCompatActivity() {
         pricen= intent.getStringExtra("price").toString()
         condition= intent.getStringExtra("condition").toString()
 
+        audioF= intent.getStringExtra("audioF").toString()
+        videoF= intent.getStringExtra("videoF").toString()
+        chatF= intent.getStringExtra("chatF").toString()
+
         Log.d("consultant_id_CC",consultantId)
         Log.d("category_id_CC",categoryId)
         Log.d("condition_CC",condition)
+
+        Log.d("audioF",audioF)
+        Log.d("videoF",videoF)
+        Log.d("chatF",chatF)
     }
 
 
@@ -119,25 +131,134 @@ class ActivityConsultantCategories : AppCompatActivity() {
 
     fun showConsultationPriceDetailsPopup() {
         price = 0.0
+        var meeting = "16 meetings\n(60 min each)"
         popup_view.consultationsOptionLayout.visibility = View.VISIBLE
         popup_view.consultationPriceLayout.visibility = View.VISIBLE
         popup_view.actionProceedBtn.visibility = View.VISIBLE
         popup_view.consultationsRecycler.visibility = View.GONE
-        popup_view.chatLayout.visibility = if (consultantDetailsResponse.chat) View.VISIBLE else View.GONE
-        popup_view.voiceLayout.visibility = if (consultantDetailsResponse.voice) View.VISIBLE else View.GONE
-        popup_view.videoLayout.visibility = if (consultantDetailsResponse.video) View.VISIBLE else View.GONE
 
-//       if(condition=="1"){
-//           chatCount.text = meeting + " " + getString(R.string.written_chat)
-//           voiceCount.text = meeting
-//           videoCount.text = meeting
 
-//       }else{
+        popup_view.chatLayout.visibility = if (chatF == "0") {
+            View.GONE
+        } else {
+            if (consultantDetailsResponse.chat) {
+                View.VISIBLE
+            } else {
+                View.GONE
+
+            }
+        }
+        popup_view.voiceLayout.visibility = if (audioF == "0") {
+            View.GONE
+        } else {
+            if (consultantDetailsResponse.voice) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+        }
+        popup_view.videoLayout.visibility = if (videoF == "0") {
+            View.GONE
+        } else {
+            if (consultantDetailsResponse.video) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+        }
+
+
+        if(chatF=="0" && video=="0" && audioF=="0"){
+
+            popup_view.noConsultantAvialble.visibility =View.VISIBLE
+
+        }else{
+            popup_view.noConsultantAvialble.visibility =View.GONE
+
+        }
+
+        if(chatF=="0" && video=="0" && audioF!="0" ){
+            if(consultantDetailsResponse.voice){
+                popup_view.noConsultantAvialble.visibility =View.GONE
+
+            }else{
+                popup_view.noConsultantAvialble.visibility =View.VISIBLE
+                Log.d("elseCASEMine","")
+            }
+        }
+
+        if(chatF=="0" && video!="0"  && audioF=="0"){
+            if(consultantDetailsResponse.video){
+                popup_view.noConsultantAvialble.visibility =View.GONE
+
+            }else{
+                popup_view.noConsultantAvialble.visibility =View.VISIBLE
+                Log.d("elseCASEMine","")
+            }
+        }
+
+        if(chatF=="0" && video!="0"  && audioF!="0" ){
+            if(consultantDetailsResponse.video ||consultantDetailsResponse.voice){
+                popup_view.noConsultantAvialble.visibility =View.GONE
+
+            }else{
+                popup_view.noConsultantAvialble.visibility =View.VISIBLE
+                Log.d("elseCASEMine","")
+            }
+        }
+
+        if(chatF!="0" && video=="0" && audioF=="0"){
+       if(consultantDetailsResponse.chat){
+           popup_view.noConsultantAvialble.visibility =View.GONE
+           Log.d("chat_1_ con_chat_1","")
+       }else{
+           popup_view.noConsultantAvialble.visibility =View.VISIBLE
+           Log.d("chat_1_ con_chat_0","")
+       }
+        }
+
+        if(chatF!="0" && video=="0" && audioF!="0" ){
+            if(consultantDetailsResponse.chat || consultantDetailsResponse.voice ){
+                popup_view.noConsultantAvialble.visibility =View.GONE
+
+            }else{
+                popup_view.noConsultantAvialble.visibility =View.VISIBLE
+                Log.d("elseCASEMine","")
+            }
+        }
+
+        if(chatF!="0"  && video!="0"  && audioF=="0"){
+            if(consultantDetailsResponse.chat || consultantDetailsResponse.video ){
+                popup_view.noConsultantAvialble.visibility =View.GONE
+
+            }else{
+                popup_view.noConsultantAvialble.visibility =View.VISIBLE
+                Log.d("elseCASEMine","")
+            }
+        }
+
+        if(chatF!="0"  && video!="0"  && audioF!="0"){
+
+            if(consultantDetailsResponse.chat ||consultantDetailsResponse.voice || consultantDetailsResponse.video ){
+                popup_view.noConsultantAvialble.visibility =View.GONE
+
+            }else{
+                popup_view.noConsultantAvialble.visibility =View.VISIBLE
+                Log.d("elseCASEMine","")
+            }
+        }
+
+       if(condition == "1"){
+           popup_view.chatCount.text = meeting + " " + getString(R.string.written_chat)
+           popup_view.voiceCount.text = meeting
+           popup_view.videoCount.text = meeting
+
+       }else{
            popup_view.chatCount.text = consultantDetailsResponse.chat_count + " " + getString(R.string.written_chat)
            popup_view.voiceCount.text = helperMethods.formatToSecond(consultantDetailsResponse.voice_count)
            popup_view.videoCount.text = helperMethods.formatToSecond(consultantDetailsResponse.video_count)
 
-//       }
+       }
 
         if (chat.equals("1")) {
             popup_view.chatImage.clearColorFilter()
@@ -175,6 +296,7 @@ class ActivityConsultantCategories : AppCompatActivity() {
             popup_view.videoImage.setColorFilter(ContextCompat.getColor(this@ActivityConsultantCategories, R.color.gray))
             popup_view.videoText.setTextColor(ContextCompat.getColor(this@ActivityConsultantCategories, R.color.gray))
         }
+
         popup_view.chatLayout.setOnClickListener {
             if (chat.equals("1")) {
                 chat = "0"

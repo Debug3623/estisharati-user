@@ -154,6 +154,7 @@
     <string name="type_your_message">اكتب رسالتك</string>
     <string name="photo">صورة</string>
     <string name="voice">صوت</string>
+    <string name="noConsultant">المستشار غير متوفر لهذه الحزمة</string>
     <string name="video">فيديو</string>
     <string name="add_to_favorite">إضافة إلى المفضلة</string>
     <string name="show_more">اعرض المزيد</string>

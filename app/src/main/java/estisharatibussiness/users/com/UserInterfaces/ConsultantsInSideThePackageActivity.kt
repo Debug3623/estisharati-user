@@ -12,6 +12,9 @@ import kotlinx.android.synthetic.main.activity_consultants_in_the_package.*
 class ConsultantsInSideThePackageActivity : BaseCompatActivity() {
     lateinit var helperMethods: HelperMethods
     var price = ""
+    var audioF = ""
+    var videoF = ""
+    var chatF = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_consultants_in_the_package)
@@ -23,6 +26,9 @@ class ConsultantsInSideThePackageActivity : BaseCompatActivity() {
     fun initViews() {
         helperMethods = HelperMethods(this@ConsultantsInSideThePackageActivity)
         price= intent.getStringExtra("price").toString()
+        audioF= intent.getStringExtra("audioF").toString()
+        videoF= intent.getStringExtra("videoF").toString()
+        chatF= intent.getStringExtra("chatF").toString()
     }
 
     fun clickEvents() {
@@ -34,7 +40,7 @@ class ConsultantsInSideThePackageActivity : BaseCompatActivity() {
         consultants_in_the_package_recycler.setHasFixedSize(true)
         consultants_in_the_package_recycler.removeAllViews()
         consultants_in_the_package_recycler.layoutManager = LinearLayoutManager(this@ConsultantsInSideThePackageActivity)
-        consultants_in_the_package_recycler.adapter = ConsultantsInThePackageAdapter(this@ConsultantsInSideThePackageActivity, price, this@ConsultantsInSideThePackageActivity, consultantsArrayList)
+        consultants_in_the_package_recycler.adapter = ConsultantsInThePackageAdapter(this@ConsultantsInSideThePackageActivity, price, audioF, videoF, chatF, this@ConsultantsInSideThePackageActivity, consultantsArrayList)
     }
 
 

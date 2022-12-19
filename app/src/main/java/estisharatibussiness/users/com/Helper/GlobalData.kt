@@ -11,8 +11,8 @@ import estisharatibussiness.users.com.DataClassHelperMehtods.posts.PostsResponse
 object GlobalData {
     const val PICK_IMAGE_GALLERY = 1
     const val PICK_IMAGE_CAMERA = 2
-    var BaseUrl = "https://super-servers.com/estisharati/api/v1/en/"
-//    var BaseUrl = "https://apptocom.com/estisharati/api/v1/en/"
+//    var BaseUrl = "https://super-servers.com/estisharati/api/v1/en/"
+    var BaseUrl = "https://apptocom.com/estisharati/api/v1/en/"
     var profileUpdate = false
     var FcmToken = ""
     var forwardType = ""

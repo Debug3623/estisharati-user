@@ -14,7 +14,7 @@ import estisharatibussiness.users.com.UserInterfaces.ActivityConsultantCategorie
 import estisharatibussiness.users.com.UserInterfaces.ConsultantsInSideThePackageActivity
 import estisharatibussiness.users.com.PublicViewHolder.ConsultantsInThePackageViewHolder
 
-class ConsultantsInThePackageAdapter(val context: Context, val price: String,val consultantsInSideThePackageActivity: ConsultantsInSideThePackageActivity, val consultantsArrayList: ArrayList<Consultant>) : RecyclerView.Adapter<ConsultantsInThePackageViewHolder>() {
+class ConsultantsInThePackageAdapter(val context: Context, val price: String, val audioF: String,val videoF: String,val chatF: String,val consultantsInSideThePackageActivity: ConsultantsInSideThePackageActivity, val consultantsArrayList: ArrayList<Consultant>) : RecyclerView.Adapter<ConsultantsInThePackageViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConsultantsInThePackageViewHolder {
         val layoutView = LayoutInflater.from(context).inflate(R.layout.consultants_in_the_package_item, parent, false)
         return ConsultantsInThePackageViewHolder(layoutView)
@@ -35,6 +35,9 @@ class ConsultantsInThePackageAdapter(val context: Context, val price: String,val
             intent.putExtra("category_id", "")
             intent.putExtra("price", price)
             intent.putExtra("condition", "1")
+            intent.putExtra("audioF", audioF)
+            intent.putExtra("videoF", videoF)
+            intent.putExtra("chatF", chatF)
             context.startActivity(intent)
             (context as Activity).finish()
 
