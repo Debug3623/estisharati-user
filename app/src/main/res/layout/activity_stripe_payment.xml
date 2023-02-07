@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UserInterfaces.StripePayment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="15dp"
+        android:layout_height="40dp">
+        <ImageView
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.2"
+            android:background="@drawable/bg_card_2"/>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="2"
+        android:layout_height="0dp">
+     <ImageView
+         android:layout_width="wrap_content"
+         android:alpha="0.5"
+         android:layout_height="wrap_content"
+         android:background="@drawable/bg_card">
+
+     </ImageView>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="4"
+        android:layout_height="0dp">
+        <com.braintreepayments.cardform.view.CardForm
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:id="@+id/card_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_height="0dp">
+
+        <Button
+            android:layout_gravity="center"
+            android:id="@+id/btnBuy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="45dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/corner_redius_30dp_light_green1"
+            android:fontFamily="@font/almarai_regular"
+            android:gravity="center"
+            android:padding="15dp"
+            android:layout_alignParentBottom="true"
+            android:text="@string/buy_Now"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18sp"/>
+        <Button
+            android:layout_gravity="center"
+            android:id="@+id/scanCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="45dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/corner_redius_30dp_light_green1"
+            android:fontFamily="@font/almarai_regular"
+            android:gravity="center"
+            android:padding="15dp"
+            android:layout_alignParentBottom="true"
+            android:text="@string/scan_card"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+
+<!--    <com.fevziomurtekin.payview.Payview-->
+<!--        android:id="@+id/payview"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        app:cardBgColor="@android:color/white"-->
+<!--        android:theme="@style/Theme.MaterialComponents"-->
+<!--        app:cardFgColor="@android:color/holo_blue_light"-->
+<!--        app:cardTextColor="@color/black"-->
+<!--        app:cardNameHelperText="Enter to card name. Max 25 characters."-->
+<!--        app:cardCvTextSize="14"-->
+<!--        app:cardNoTextSize="14"-->
+<!--        app:cardNumberHelperText="You must enter your 16-digit card number."-->
+<!--        app:cardYearTextSize="13"-->
+<!--        app:cardNameTextSize="15"-->
+<!--        app:cardMonthTextSize="13"-->
+<!--        app:cardAnimationType="vertical"-->
+<!--        app:cardCvErrorText="You must enter 3-digit characters"-->
+<!--        app:cardMonthErrorText="You must enter 2-digit characters and you'll enter to number the most digit-value is '12'"-->
+<!--        app:cardYearErrorText="You must enter 2-digit characters and you'll enter to number the most digit-value is '99'"-->
+<!--        app:cardExpiredErrorText="Your card has expired. Please enter the usage date correctly."-->
+<!--        />-->
+
+</LinearLayout>

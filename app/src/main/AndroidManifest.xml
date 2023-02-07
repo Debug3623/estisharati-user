@@ -19,20 +19,31 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar"
-        >
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
-        <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
+        android:theme="@style/AppTheme.NoActionBar">
+        <activity
+            android:name=".UserInterfaces.StripePayment"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="@string/facebook_client_token" />
 
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivityConsultantCategories"
+            android:name=".UserInterfaces.ActivityConsultantCategories"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivityConsultantDateTime"
+            android:name=".UserInterfaces.ActivityConsultantDateTime"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -46,35 +57,34 @@
             android:name="com.facebook.sdk.AutoInitEnabled"
             android:value="true" />
 
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
-
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
-
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.PostDetailsActivity"
+            android:name=".UserInterfaces.PostDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.PostsActivity"
+            android:name=".UserInterfaces.PostsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.CreatePostActivity"
+            android:name=".UserInterfaces.CreatePostActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="estisharatibussiness.users.com.UserInterfaces.ActivitySurveyList" />
+        <activity android:name=".UserInterfaces.ActivitySurveyList" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivitySplashTemp"
+            android:name=".UserInterfaces.ActivitySplashTemp"
             android:exported="false"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -84,128 +94,128 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.TestimonialsDetails"
+            android:name=".UserInterfaces.TestimonialsDetails"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivityTestimonials"
+            android:name=".UserInterfaces.ActivityTestimonials"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.MyAppointment"
+            android:name=".UserInterfaces.MyAppointment"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivityInviteApp"
+            android:name=".UserInterfaces.ActivityInviteApp"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivitySurvey"
+            android:name=".UserInterfaces.ActivitySurvey"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivityBlogDetails"
+            android:name=".UserInterfaces.ActivityBlogDetails"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivityBlogActivity"
+            android:name=".UserInterfaces.ActivityBlogActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivityVideoFullScreen"
+            android:name=".UserInterfaces.ActivityVideoFullScreen"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.FullScreenAppTheme" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivityGroupChatPage"
+            android:name=".UserInterfaces.ActivityGroupChatPage"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivityMyPackages"
+            android:name=".UserInterfaces.ActivityMyPackages"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivitySearch"
+            android:name=".UserInterfaces.ActivitySearch"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivityFAQ"
+            android:name=".UserInterfaces.ActivityFAQ"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivityOffers"
+            android:name=".UserInterfaces.ActivityOffers"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivityFavorites"
+            android:name=".UserInterfaces.ActivityFavorites"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.WebViewActivity"
+            android:name=".UserInterfaces.WebViewActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.VideoCallActivity"
+            android:name=".UserInterfaces.VideoCallActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivityIncomingCall"
+            android:name=".UserInterfaces.ActivityIncomingCall"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.VoiceCallActivity"
+            android:name=".UserInterfaces.VoiceCallActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivityAddPaymentActivity"
+            android:name=".UserInterfaces.ActivityAddPaymentActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.PaymentMethods"
+            android:name=".UserInterfaces.PaymentMethods"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.PhotoViewer"
+            android:name=".UserInterfaces.PhotoViewer"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ChatPageActivity"
+            android:name=".UserInterfaces.ChatPageActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ChatHomeActivity"
+            android:name=".UserInterfaces.ChatHomeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ThanksPageActivity"
+            android:name=".UserInterfaces.ThanksPageActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ConsultantsInSideThePackageActivity"
+            android:name=".UserInterfaces.ConsultantsInSideThePackageActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ExistingCourses"
+            android:name=".UserInterfaces.ExistingCourses"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivityPackagesSelection"
+            android:name=".UserInterfaces.ActivityPackagesSelection"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivityPackages"
+            android:name=".UserInterfaces.ActivityPackages"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivityCourseResource"
+            android:name=".UserInterfaces.ActivityCourseResource"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivityConsultationDetailsVideo"
+            android:name=".UserInterfaces.ActivityConsultationDetailsVideo"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivityCourseDetails"
+            android:name=".UserInterfaces.ActivityCourseDetails"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.Notifications"
+            android:name=".UserInterfaces.Notifications"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivityConsultantDetails"
+            android:name=".UserInterfaces.ActivityConsultantDetails"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivityLegalAdvice"
+            android:name=".UserInterfaces.ActivityLegalAdvice"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivityMyProfile"
+            android:name=".UserInterfaces.ActivityMyProfile"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivityPages"
+            android:name=".UserInterfaces.ActivityPages"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivityContactUs"
+            android:name=".UserInterfaces.ActivityContactUs"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.OnlineCourses"
+            android:name=".UserInterfaces.OnlineCourses"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivityMyCourses"
+            android:name=".UserInterfaces.ActivityMyCourses"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivityMyConsultations"
+            android:name=".UserInterfaces.ActivityMyConsultations"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.UserDrawerActivity"
+            android:name=".UserInterfaces.UserDrawerActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -215,19 +225,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.OnBoarding"
+            android:name=".UserInterfaces.OnBoarding"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivityForgotPassword"
+            android:name=".UserInterfaces.ActivityForgotPassword"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.VerificationActivity"
+            android:name=".UserInterfaces.VerificationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.LoginAndRegistration"
+            android:name=".UserInterfaces.LoginAndRegistration"
             android:screenOrientation="portrait" />
         <activity
-            android:name="estisharatibussiness.users.com.UserInterfaces.ActivitySplashScreen"
+            android:name=".UserInterfaces.ActivitySplashScreen"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>

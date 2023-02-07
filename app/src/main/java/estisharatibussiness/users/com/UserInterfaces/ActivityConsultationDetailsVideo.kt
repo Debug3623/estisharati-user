@@ -144,21 +144,21 @@ class ActivityConsultationDetailsVideo : BaseCompatActivity() {
     }
 
     fun setUpPlayer() {
-        if (myConsultation.preview_video.equals("")) {
-            exoPlayer.visibility = View.GONE
-            placeHolder.visibility = View.VISIBLE
-        } else {
-            exoPlayer.visibility = View.VISIBLE
-            placeHolder.visibility = View.GONE
-
-            simpleExoPlayer = SimpleExoPlayer.Builder(this@ActivityConsultationDetailsVideo).build()
-            val uri = Uri.parse(myConsultation.preview_video)
-            val mediaItem: MediaItem = MediaItem.fromUri(uri)
-            exoPlayer.player = simpleExoPlayer
-            simpleExoPlayer?.setMediaItem(mediaItem)
-            simpleExoPlayer?.prepare()
-            simpleExoPlayer?.play()
-        }
+//        if (myConsultation.preview_video.equals("")) {
+//            exoPlayer.visibility = View.GONE
+//            placeHolder.visibility = View.VISIBLE
+//        } else {
+//            exoPlayer.visibility = View.VISIBLE
+//            placeHolder.visibility = View.GONE
+//
+//            simpleExoPlayer = SimpleExoPlayer.Builder(this@ActivityConsultationDetailsVideo).build()
+//            val uri = Uri.parse(myConsultation.preview_video)
+//            val mediaItem: MediaItem = MediaItem.fromUri(uri)
+//            exoPlayer.player = simpleExoPlayer
+//            simpleExoPlayer?.setMediaItem(mediaItem)
+//            simpleExoPlayer?.prepare()
+//            simpleExoPlayer?.play()
+//        }
     }
 
     fun getConsultationSecondsApiCall(consultant_id: String) {

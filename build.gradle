@@ -5,6 +5,7 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        maven { url "https://pay.cards/maven" }
 
     }
     dependencies {

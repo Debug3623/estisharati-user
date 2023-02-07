@@ -40,14 +40,14 @@
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
-            <ImageView
-                android:id="@+id/appointmentImage"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="100dp"
-                android:src="@drawable/ic_on_time" />
+<!--            <ImageView-->
+<!--                android:id="@+id/appointmentImage"-->
+<!--                android:layout_width="30dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:layout_alignParentEnd="true"-->
+<!--                android:layout_centerVertical="true"-->
+<!--                android:layout_marginEnd="100dp"-->
+<!--                android:src="@drawable/ic_on_time" />-->
 
             <TextView
                 android:id="@+id/balanceBTN"
@@ -275,24 +275,45 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/appointmentImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black">
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@color/white">
 
-        <com.google.android.exoplayer2.ui.PlayerView
-            android:id="@+id/exoPlayer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:resize_mode="fit" />
+<!--        <com.google.android.exoplayer2.ui.PlayerView-->
+<!--            android:id="@+id/exoPlayer"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            app:resize_mode="fit" />-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/placeHolder"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:scaleType="fitCenter"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:src="@drawable/ic_app_icon" />-->
 
         <ImageView
-            android:id="@+id/placeHolder"
-            android:layout_width="match_parent"
-            android:scaleType="fitCenter"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_app_icon" />
-    </RelativeLayout>
+            android:id="@+id/appointmentImage1"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_on_time" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="15dp">
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/click_me">
+
+        </TextView>
+
+    </LinearLayout>
 
 
 </LinearLayout>

@@ -24,7 +24,8 @@
     <string name="cancel">إلغاء</string>
     <string name="ok">حسنًا</string>
     <!--    <string name="aed">درهم إماراتي</string>-->
-    <string name="usd">درهم إماراتي</string>
+    <string name="usd">درهم</string>
+    <string name="price">السعر</string>
     <string name="ability_to_download_course_videos">تنزيل مقاطع فيديو الدورة التدريبية</string>
     <string name="you_can_not_download_course_videos">لا تستطيع تنزيل مقاطع فيديو الدورة التدريبية</string>
     <string name="buy_now">اشتري الآن</string>
@@ -212,6 +213,8 @@
     <string name="choose_how_to_buy">اختيار طريقة الشراء؟</string>
     <string name="monthly_yearly">شهريًا \ سنويًا</string>
     <string name="proceed_payment">متابعة الدفع</string>
+    <string name="buy_Now">اشتري الآن</string>
+    <string name="scan_card">مسح البطاقة</string>
     <string name="do_you_have_any_coupon">هل لديك أي قسائم شراء ؟</string>
     <string name="search_for_cources_amp_consultaions"><![CDATA[البحث عن دورات تدريبية & استشارات]]></string>
     <string name="thanks">شكرًا جزيلًا</string>
@@ -320,6 +323,7 @@
     <string name="please_wait_while_fetching_testimonials">الرجاء الانتظار أثناء تحميل الآراء...</string>
     <string name="privacy_policy">سياسة الخصوصية</string>
     <string name="share_your_testimonial">شارك بتجربتك</string>
+    <string name="click_me">انقر هنا لتحديد موعد وتاريخه</string>
     <string name="write_your_experience_about_this_course">اكتب تجربتك حول هذه الدورة!</string>
     <string name="payment_policy">سياسة الدفع</string>
     <string name="company_address">عنوان الشركة: خليفه أ - شارع الابتكار - فيلا ١١</string>

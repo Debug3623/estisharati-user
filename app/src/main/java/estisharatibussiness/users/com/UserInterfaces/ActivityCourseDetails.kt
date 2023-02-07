@@ -103,7 +103,14 @@ class ActivityCourseDetails : BaseCompatActivity() {
                 //                val priceIncludedVat = vatAmount + price.toDouble()
                 GlobalData.packagesOptions = PackagesOptions(responseCoursesDetails.id, responseCoursesDetails.name, "course", "", "0", "0", "0", price, "0", "0", "", "", "0", "0", "", "0", "0")
 
-                startActivity(Intent(this@ActivityCourseDetails, ActivityPackagesSelection::class.java))
+//                startActivity(Intent(this@ActivityCourseDetails, ActivityPackagesSelection::class.java))
+                val intent = Intent(this@ActivityCourseDetails, ActivityPackagesSelection::class.java)
+                intent.putExtra("appointment_date", "")
+                intent.putExtra("appointment_time", "")
+                intent.putExtra("consultant_id", "")
+                intent.putExtra("category_id", "")
+                intent.putExtra("condition", "0")
+                startActivity(intent)
             }
         }
         favoriteLayout.setOnClickListener {

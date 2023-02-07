@@ -351,7 +351,7 @@ class ChatPageActivity : BaseCompatActivity() {
         }
         send_msg.setOnClickListener {
             if (sendMessageValidation()) {
-                if (chat_balance > 0) {
+                if (chat_balance >  0) {
                     if (currentUserFireStore.blocked_user_ids.contains(userId) || dataUserFireStore.blocked_user_ids.contains(dataUser.id)) {
                         helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.chat_has_been_blocked))
                         return@setOnClickListener

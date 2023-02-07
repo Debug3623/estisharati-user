@@ -45,7 +45,6 @@ class ActivityPackagesSelection : BaseCompatActivity() {
     lateinit var dataUser: DataUser
     lateinit var referralResponse: ReferralResponse
     lateinit var paymentNetworkResponse: NetworkResponse
-//    lateinit var consultantDetailsResponse: ConsultantDetailsResponse
     val PaymentResponseCode = 1996
     var appointmentDate = "0"
     var appointmentTime = "0"
@@ -91,12 +90,27 @@ class ActivityPackagesSelection : BaseCompatActivity() {
         proceed.setOnClickListener {
             if (helperMethods.isConnectingToInternet) {
                 helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
+         //new payment
+
 
                 if (referralResponse.android_pay == "2") {
                     subscriptionApiCall()
                 } else {
-                    NetwrokPayment().getToken(this@ActivityPackagesSelection)
+
+                    val intent = Intent(this@ActivityPackagesSelection, StripePayment::class.java)
+                    intent.putExtra("appointment_date", appointmentDate)
+                    intent.putExtra("appointment_time", appointmentTime)
+                    intent.putExtra("consultant_id", consultantId)
+                    intent.putExtra("category_id", categoryId)
+                    intent.putExtra("condition", condition)
+                    startActivity(intent)
+
+
+//                    startActivity(Intent(this@ActivityPackagesSelection, StripePayment::class.java))
+//                    NetwrokPayment().getToken(this@ActivityPackagesSelection)
                 }
+
+
             } else {
                 helperMethods.AlertPopup(getString(R.string.internet_connection_failed), getString(R.string.please_check_your_internet_connection_and_try_again))
             }
@@ -169,7 +183,8 @@ class ActivityPackagesSelection : BaseCompatActivity() {
                 }, getString(R.string.payment_), getString(R.string.payment_failed), true, getString(R.string.ok), "")
             }
             CardPaymentData.STATUS_GENERIC_ERROR -> {
-                Log.d("CardPaymentData", "STATUS_GENERIC_ERROR")
+                print("Generic error(${data.reason})")
+                Log.d("CardPaymentData", "STATUS_GENERIC_ERROR",)
                 helperMethods.showAlertDialog(this, object : alertActionClickListner {
                     override fun onActionOk() {
                     }

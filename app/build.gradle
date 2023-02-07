@@ -11,8 +11,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 33
         //zahid
-        versionCode 7
-        versionName "1.0.7"
+        versionCode 10
+        versionName "1.1.0"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -67,10 +67,14 @@ dependencies {
 
     //Androidx Support
     implementation 'androidx.appcompat:appcompat:1.4.1'
+
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+
     implementation 'androidx.annotation:annotation:1.3.0'
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'com.google.android.material:material:1.5.0'
@@ -132,4 +136,16 @@ dependencies {
 
     //Facebook
     implementation 'com.facebook.android:facebook-android-sdk:12.0.1'
+
+    implementation 'com.github.fevziomurtekin:PayView:1.0.3'
+ //card UI
+    implementation 'com.braintreepayments:card-form:5.4.0'
+    implementation 'com.github.fevziomurtekin:PayView:1.0.3'
+
+  //Scan Card
+    implementation 'io.card:android-sdk:5.5.0'
+
+
+
+
 }

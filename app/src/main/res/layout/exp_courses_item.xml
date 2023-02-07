@@ -27,25 +27,7 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_temp2" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:background="@drawable/gradient_gray_shape_bottom_left"
-                android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/coursePrice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginBottom="12dp"
-                    android:fontFamily="@font/almarai_regular"
-                    android:text="AED 999"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
-            </RelativeLayout>
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
@@ -61,4 +43,27 @@
         android:text="Conversation skill in English"
         android:textColor="@color/black_light"
         android:textSize="13sp" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:background="@drawable/corner_redius_30dp_light_green1_white_stroke"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="15dp"
+        android:layout_height="18dp">
+        <TextView
+            android:id="@+id/coursePrice"
+           android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="2dp"
+            android:layout_alignParentBottom="true"
+            android:fontFamily="@font/almarai_regular"
+            android:text="AED 999"
+            android:textColor="@color/white"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+
 </LinearLayout>

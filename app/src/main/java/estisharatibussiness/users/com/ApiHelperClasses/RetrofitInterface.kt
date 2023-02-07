@@ -236,4 +236,8 @@ interface RetrofitInterface {
     @POST("userpost/comment")
     fun SHARE_POST_COMMENTS_API_CALL(@Header("Authorization") token: String,@Field("post_id") post_id: String, @Field("comment") comment: String): Call<ResponseBody>
 
+    @FormUrlEncoded
+    @POST("user/save-wallet")
+    fun STRIPE_PAYMENT(@Header("Authorization") token: String, @Field("cardno") cardno: String, @Field("month") month: String, @Field("year") year: String, @Field("cvv") cvv: String, @Field("amount") amount: String,@Field("payment_method") payment_method: String): Call<ResponseBody>
+
 }

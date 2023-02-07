@@ -66,7 +66,7 @@ class LoginAndRegistration : BaseCompatActivity() {
                     val request = GraphRequest.newMeRequest(it.accessToken) { JSONObject, response ->
                         try {
                             if (JSONObject != null) {
-                                val id = JSONObject.getString("id")
+                                val id = JSONObject.getString(" ")
                                 val first_name = JSONObject.getString("first_name")
                                 val last_name = JSONObject.getString("last_name")
                                 val email = JSONObject.getString("email")

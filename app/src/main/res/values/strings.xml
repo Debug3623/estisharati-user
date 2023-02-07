@@ -4,13 +4,13 @@
 
     <string name="agora_app_id" translatable="false">29c6b00fa7ba4e1eaa2c52d3ef791786</string>
     <string name="agora_access_token" translatable="false"></string>
-<!--    <string name="facebook_app_id" translatable="false">526070909080519</string>-->
+    <!--    <string name="facebook_app_id" translatable="false">526070909080519</string>-->
 
-<!--    <string name="facebook_app_id" translatable="false">1234</string>-->
+    <!--    <string name="facebook_app_id" translatable="false">1234</string>-->
 
 
-<!--    <string name="fb_login_protocol_scheme" translatable="false">fb1234</string>-->
-<!--    <string name="facebook_client_token" translatable="false">56789</string>-->
+    <!--    <string name="fb_login_protocol_scheme" translatable="false">fb1234</string>-->
+    <!--    <string name="facebook_client_token" translatable="false">56789</string>-->
 
 
     <string name="facebook_app_id" translatable="false">1151513752466417</string>
@@ -44,6 +44,7 @@
     <string name="cancel">CANCEL</string>
     <string name="ok">OK</string>
     <string name="usd">AED</string>
+    <string name="price">السعر</string>
     <!--    <string name="aed">AED</string>-->
     <string name="ability_to_download_course_videos">ability to download course videos</string>
     <string name="you_can_not_download_course_videos">You can not download course videos</string>
@@ -232,6 +233,8 @@
     <string name="choose_how_to_buy">Choose how to buy?</string>
     <string name="monthly_yearly">Monthly / Yearly</string>
     <string name="proceed_payment">Proceed Payment</string>
+    <string name="buy_Now">Buy Now</string>
+    <string name="scan_card">Scan Card</string>
     <string name="do_you_have_any_coupon">Do you have any coupon ?</string>
     <string name="search_for_cources_amp_consultaions"><![CDATA[Search for Cources & Consultaions]]></string>
     <string name="thanks">THANKS</string>
@@ -338,6 +341,7 @@
     <string name="please_wait_while_fetching_testimonials">Please wait while fetching testimonials...</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="share_your_testimonial">Share your testimonial</string>
+    <string name="click_me">Click Here to Select an Appointment Date and Time</string>
     <string name="write_your_experience_about_this_course">Write your experience about this course !</string>
     <string name="payment_policy">Payment Policy</string>
     <string name="company_address">Company Address: Abu Dhabi City -Ebtikar Streat - Villa 11</string>
