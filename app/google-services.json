@@ -1,0 +1,114 @@
+{
+  "project_info": {
+    "project_number": "1062457354711",
+    "project_id": "estisharatiandroid",
+    "storage_bucket": "estisharatiandroid.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1062457354711:android:0d18486e086b4bad508392",
+        "android_client_info": {
+          "package_name": "estisharati.bussiness.eshtisharati_consultants"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1062457354711-bjmjle45h289c21p4aaus29u4eltu9jh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB99YYl4bcPIRVroNFFPeluFTXoTFBVSAA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1062457354711-bjmjle45h289c21p4aaus29u4eltu9jh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1062457354711-su9idnanvc3gmknkorv0i7a8qsouih7p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "estisharatibussiness.users.com"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1062457354711:android:3527a57aba66e26c508392",
+        "android_client_info": {
+          "package_name": "estisharatibussiness.users.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1062457354711-36gmjq3c2e32r718hi8a0vm6hchr32ri.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "estisharatibussiness.users.com",
+            "certificate_hash": "8036c22a37691759ec8b8a5902e01a3b21c81459"
+          }
+        },
+        {
+          "client_id": "1062457354711-5af75hgbqspav7vna82u4j7qj6posht4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "estisharatibussiness.users.com",
+            "certificate_hash": "1cf02613b58ab5bbe0d2bea424608d2d3aeffca5"
+          }
+        },
+        {
+          "client_id": "1062457354711-a605qbn76g0t8ppe2t8f37km7q5cg06c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "estisharatibussiness.users.com",
+            "certificate_hash": "8036c22a37691750ec8b8a5902e01a3b21c81459"
+          }
+        },
+        {
+          "client_id": "1062457354711-u7l67q4emvcptidld16afa8t1m9mo1oc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "estisharatibussiness.users.com",
+            "certificate_hash": "5ff59f315e67036a4eb0dcaa0b0fa32e4a71e598"
+          }
+        },
+        {
+          "client_id": "1062457354711-bjmjle45h289c21p4aaus29u4eltu9jh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB99YYl4bcPIRVroNFFPeluFTXoTFBVSAA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1062457354711-bjmjle45h289c21p4aaus29u4eltu9jh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1062457354711-su9idnanvc3gmknkorv0i7a8qsouih7p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "estisharatibussiness.users.com"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
