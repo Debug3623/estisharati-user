@@ -36,7 +36,6 @@ class ActivityAddPaymentActivity : BaseCompatActivity() {
     lateinit var sharedPreferencesHelper: SharedPreferencesHelper
     var ptResponse: PTResponse = PTResponse(arrayListOf(), "","")
     var paymentMethodType = "1"
-    //push
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_payment_method)
