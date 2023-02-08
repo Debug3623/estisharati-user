@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="digital.upbeat.estisharati_consultant">
+    package="estisharati.bussiness.eshtisharati_consultants">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -22,13 +22,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
+            android:name=".ForgetPasswordActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".UI.SplashTemp"
             android:exported="false"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="OPEN_ACTIVITY" />
-                <category android:name="android.intent.category.DEFAULT" />
 
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
@@ -76,6 +83,7 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="NotificationClick" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -104,7 +112,7 @@
             android:resource="@color/orange" />
 
         <service
-            android:name=".Utils.FCMService"
+            android:name="estisharati.bussiness.eshtisharati_consultants.Utils.FCMService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>

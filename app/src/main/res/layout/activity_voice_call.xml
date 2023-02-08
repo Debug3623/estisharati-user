@@ -21,7 +21,7 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <digital.upbeat.estisharati_consultant.Utils.CircleImageView
+            <estisharati.bussiness.eshtisharati_consultants.Utils.CircleImageView
                 android:id="@+id/caller_profile"
                 android:layout_width="90dp"
                 android:layout_height="90dp"

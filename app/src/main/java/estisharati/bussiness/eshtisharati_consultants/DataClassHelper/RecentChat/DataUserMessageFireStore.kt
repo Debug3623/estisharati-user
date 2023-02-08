@@ -1,0 +1,5 @@
+package estisharati.bussiness.eshtisharati_consultants.DataClassHelper.RecentChat
+
+import estisharati.bussiness.eshtisharati_consultants.DataClassHelper.Chat.DataMessageFireStore
+
+data class DataUserMessageFireStore(val dataUserFireStore: DataUserFireStore,val messagesArrayList: ArrayList<DataMessageFireStore>)

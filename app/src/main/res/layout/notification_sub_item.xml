@@ -13,7 +13,7 @@
         android:padding="10dp">
 
 
-        <digital.upbeat.estisharati_consultant.Utils.CircleImageView
+        <estisharati.bussiness.eshtisharati_consultants.Utils.CircleImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:elevation="3dp"

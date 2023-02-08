@@ -3,13 +3,13 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "digital.upbeat.estisharati_consultant"
+        applicationId "estisharati.bussiness.eshtisharati_consultants"
         minSdkVersion 21
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode 10
         versionName "2.0.0"
         multiDexEnabled true
@@ -100,8 +100,8 @@ dependencies {
     implementation 'com.hbb20:ccp:2.5.3'
 
     //Agora
-    implementation 'com.github.agorabuilder:native-full-sdk:3.4.5'
-
+//    implementation 'com.github.agorabuilder:native-full-sdk:3.4.5'
+    implementation 'io.agora.rtc:full-sdk:3.5.2'
     //Shimmer
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 

@@ -19,7 +19,7 @@
             android:layout_height="55dp">
 
 
-            <digital.upbeat.estisharati_consultant.Utils.CircleImageView
+            <estisharati.bussiness.eshtisharati_consultants.Utils.CircleImageView
                 android:id="@+id/other_text_profile"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
@@ -194,7 +194,7 @@
             android:layout_width="55dp"
             android:layout_height="55dp">
 
-            <digital.upbeat.estisharati_consultant.Utils.CircleImageView
+            <estisharati.bussiness.eshtisharati_consultants.Utils.CircleImageView
                 android:id="@+id/other_image_profile"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
@@ -533,7 +533,7 @@
                 android:layout_width="55dp"
                 android:layout_height="55dp">
 
-                <digital.upbeat.estisharati_consultant.Utils.CircleImageView
+                <estisharati.bussiness.eshtisharati_consultants.Utils.CircleImageView
                     android:id="@+id/me_text_profile"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
@@ -724,7 +724,7 @@
                 android:layout_width="55dp"
                 android:layout_height="55dp">
 
-                <digital.upbeat.estisharati_consultant.Utils.CircleImageView
+                <estisharati.bussiness.eshtisharati_consultants.Utils.CircleImageView
                     android:id="@+id/me_image_profile"
                     android:layout_width="50dp"
                     android:layout_height="50dp"

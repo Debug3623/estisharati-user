@@ -1,5 +1,0 @@
-package digital.upbeat.estisharati_consultant.DataClassHelper.RecentChat
-
-import digital.upbeat.estisharati_consultant.DataClassHelper.Chat.DataMessageFireStore
-
-data class DataUserMessageFireStore(val dataUserFireStore: DataUserFireStore,val messagesArrayList: ArrayList<DataMessageFireStore>)

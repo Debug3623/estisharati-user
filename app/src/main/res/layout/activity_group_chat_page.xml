@@ -29,7 +29,7 @@
                 android:adjustViewBounds="true"
                 android:src="@drawable/ic_left_arrow_white" />
 
-            <digital.upbeat.estisharati_consultant.Utils.CircleImageView
+            <estisharati.bussiness.eshtisharati_consultants.Utils.CircleImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="15dp"

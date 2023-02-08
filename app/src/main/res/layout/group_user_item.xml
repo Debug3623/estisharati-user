@@ -20,7 +20,7 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <digital.upbeat.estisharati_consultant.Utils.CircleImageView
+            <estisharati.bussiness.eshtisharati_consultants.Utils.CircleImageView
                 android:id="@+id/profile_picture"
                 android:layout_width="60dp"
                 android:layout_height="60dp"

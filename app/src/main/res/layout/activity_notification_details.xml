@@ -160,7 +160,7 @@ social media Course"
                             android:padding="10dp">
 
 
-                            <digital.upbeat.estisharati_consultant.Utils.CircleImageView
+                            <estisharati.bussiness.eshtisharati_consultants.Utils.CircleImageView
                                 android:id="@+id/userImage"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
@@ -316,7 +316,7 @@ social media Course"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <digital.upbeat.estisharati_consultant.Utils.CircleImageView
+                            <estisharati.bussiness.eshtisharati_consultants.Utils.CircleImageView
                                 android:id="@+id/myProfileImage"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"

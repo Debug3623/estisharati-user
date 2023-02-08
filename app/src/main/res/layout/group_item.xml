@@ -18,7 +18,7 @@
         android:paddingBottom="15dp">
 
 
-        <digital.upbeat.estisharati_consultant.Utils.CircleImageView
+        <estisharati.bussiness.eshtisharati_consultants.Utils.CircleImageView
             android:id="@+id/groupIcon"
             android:layout_width="55dp"
             android:layout_height="55dp"
