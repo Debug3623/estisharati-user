@@ -2,6 +2,7 @@ package estisharatibussiness.users.com.AdapterClasses
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -54,21 +55,23 @@ class NotificationsAdapter(val context: Context, val notifications: Notification
                     intent.putExtra("courseId", it.get(0).course_id)
                     context.startActivity(intent)
                 } else if (it.get(0).type.equals("consultant")) {
-                    val intent = Intent(context, ActivityConsultantDetails::class.java)
-                    intent.putExtra("consultant_id", it.get(0).consultant_id)
-                    intent.putExtra("category_id", "")
-                    //test data
-                    intent.putExtra("appointment_date", "")
-                    intent.putExtra("appointment_time", "")
-                    intent.putExtra("consultant_id", "")
-                    intent.putExtra("category_id", "")
-                    intent.putExtra("condition", "0")
-                    intent.putExtra("chat", "")
-                    intent.putExtra("audio", "")
-                    intent.putExtra("video", "")
-                    intent.putExtra("transaction_amount", "")
 
-                    context.startActivity(intent)
+                    Log.d("consultants move","consultants notification press")
+//                    val intent = Intent(context, ActivityConsultantDetails::class.java)
+//                    intent.putExtra("consultant_id", it[0].consultant_id)
+//                    intent.putExtra("category_id", "")
+//                    //test data
+//                    intent.putExtra("appointment_date", "")
+//                    intent.putExtra("appointment_time", "")
+//                    intent.putExtra("consultant_id", "")
+//                    intent.putExtra("category_id", "")
+//                    intent.putExtra("condition", "0")
+//                    intent.putExtra("chat", "")
+//                    intent.putExtra("audio", "")
+//                    intent.putExtra("video", "")
+//                    intent.putExtra("transaction_amount", "")
+//
+//                    context.startActivity(intent)
                 } else {
                 }
             }

@@ -75,7 +75,7 @@ class ActivityPackagesSelection : BaseCompatActivity() {
         Log.d("appointmentDate",appointmentDate)
         Log.d("appointmentTime",appointmentTime)
         Log.d("consultant_id",consultantId)
-        Log.d("category_id",categoryId)
+        Log.d("category_id",GlobalData.packagesOptions.category_id)
         Log.d("condition",condition)
         Log.d("BearerToken ","${dataUser.access_token}")
     }
@@ -90,8 +90,6 @@ class ActivityPackagesSelection : BaseCompatActivity() {
         proceed.setOnClickListener {
             if (helperMethods.isConnectingToInternet) {
                 helperMethods.showProgressDialog(getString(R.string.please_wait_while_loading))
-         //new payment
-
 
                 if (referralResponse.android_pay == "2") {
                     subscriptionApiCall()
@@ -105,9 +103,6 @@ class ActivityPackagesSelection : BaseCompatActivity() {
                     intent.putExtra("condition", condition)
                     startActivity(intent)
 
-
-//                    startActivity(Intent(this@ActivityPackagesSelection, StripePayment::class.java))
-//                    NetwrokPayment().getToken(this@ActivityPackagesSelection)
                 }
 
 
@@ -415,7 +410,7 @@ class ActivityPackagesSelection : BaseCompatActivity() {
             else -> {
             }
         }
-        val responseBodyCall = retrofitInterface.USER_SUBSCRIPTION_API_CALL("Bearer ${dataUser.access_token}", GlobalData.packagesOptions.type, GlobalData.packagesOptions.category_id, GlobalData.packagesOptions.chat, GlobalData.packagesOptions.audio, GlobalData.packagesOptions.video, subscription_id, course_id, consultant_id, GlobalData.packagesOptions.transaction_amount, "0", "1", if (referralResponse.android_pay == "2") {
+        val responseBodyCall = retrofitInterface.USER_SUBSCRIPTION_API_CALL("Bearer ${dataUser.access_token}", GlobalData.packagesOptions.type, GlobalData.packagesOptions.category_id, GlobalData.packagesOptions.chat, GlobalData.packagesOptions.audio, GlobalData.packagesOptions.video, subscription_id, course_id, consultantId, GlobalData.packagesOptions.transaction_amount, "0", "1", if (referralResponse.android_pay != "2") {
             UUID.randomUUID().toString()
         } else {
             paymentNetworkResponse._embedded.payment.get(0).orderReference

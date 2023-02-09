@@ -64,9 +64,9 @@ class Consultations(val userDrawerActivity: UserDrawerActivity) : Fragment() {
     }
 
     fun clickEvents() {
-        view!!.isFocusableInTouchMode = true
-        view!!.requestFocus()
-        view!!.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+        requireView().isFocusableInTouchMode = true
+        requireView().requestFocus()
+        requireView().setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_BACK && event.action === KeyEvent.ACTION_UP) {
                 if (subCategoryArrayList.size > 0) {
                     InitializeRecyclerview(categoriesResponse.data, arrayListOf())

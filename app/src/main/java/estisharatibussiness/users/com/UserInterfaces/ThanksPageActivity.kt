@@ -2,6 +2,7 @@ package estisharatibussiness.users.com.UserInterfaces
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import estisharatibussiness.users.com.DataClassHelperMehtods.PackagesOptions.PackagesOptions
 import estisharatibussiness.users.com.Helper.GlobalData
 import estisharatibussiness.users.com.Helper.HelperMethods
@@ -16,6 +17,7 @@ class ThanksPageActivity : BaseCompatActivity() {
         setContentView(R.layout.activity_thanks_page)
         initViews()
         clickEvents()
+        Log.d("types_shows",GlobalData.packagesOptions.type)
     }
 
     fun initViews() {

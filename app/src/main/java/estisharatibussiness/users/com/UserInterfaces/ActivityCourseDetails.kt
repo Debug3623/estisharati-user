@@ -99,11 +99,7 @@ class ActivityCourseDetails : BaseCompatActivity() {
                 } else {
                     responseCoursesDetails.offerprice
                 }
-                //                val vatAmount = price.toDouble() * 0.05
-                //                val priceIncludedVat = vatAmount + price.toDouble()
                 GlobalData.packagesOptions = PackagesOptions(responseCoursesDetails.id, responseCoursesDetails.name, "course", "", "0", "0", "0", price, "0", "0", "", "", "0", "0", "", "0", "0")
-
-//                startActivity(Intent(this@ActivityCourseDetails, ActivityPackagesSelection::class.java))
                 val intent = Intent(this@ActivityCourseDetails, ActivityPackagesSelection::class.java)
                 intent.putExtra("appointment_date", "")
                 intent.putExtra("appointment_time", "")

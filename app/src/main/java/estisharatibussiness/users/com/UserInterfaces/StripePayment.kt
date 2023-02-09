@@ -264,7 +264,7 @@ class StripePayment : AppCompatActivity() {
             else -> {
             }
         }
-        val responseBodyCall = retrofitInterface.USER_SUBSCRIPTION_API_CALL("Bearer ${dataUser.access_token}", GlobalData.packagesOptions.type, GlobalData.packagesOptions.category_id, GlobalData.packagesOptions.chat, GlobalData.packagesOptions.audio, GlobalData.packagesOptions.video, subscription_id, course_id, consultant_id, GlobalData.packagesOptions.transaction_amount, "0", "1", if (referralResponse.android_pay != "2") {
+        val responseBodyCall = retrofitInterface.USER_SUBSCRIPTION_API_CALL("Bearer ${dataUser.access_token}", GlobalData.packagesOptions.type, GlobalData.packagesOptions.category_id, GlobalData.packagesOptions.chat, GlobalData.packagesOptions.audio, GlobalData.packagesOptions.video, subscription_id, course_id, if(condition=="1" || condition==null ) {consultantId} else { consultant_id}, GlobalData.packagesOptions.transaction_amount, "0", "1", if (referralResponse.android_pay != "2") {
             UUID.randomUUID().toString()
         } else {
 //            paymentNetworkResponse._embedded.payment.get(0).orderReference

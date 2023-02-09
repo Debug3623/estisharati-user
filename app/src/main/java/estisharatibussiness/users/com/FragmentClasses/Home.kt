@@ -394,6 +394,7 @@ class Home(val userDrawerActivity: UserDrawerActivity) : Fragment() {
                         }
                     } else {
                         Log.d("body", "Body Empty")
+
                     }
                 } else {
                     helperMethods.showToastMessage(getString(R.string.something_went_wrong))
