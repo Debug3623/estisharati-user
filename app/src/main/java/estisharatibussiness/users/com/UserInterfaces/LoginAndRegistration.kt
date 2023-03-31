@@ -326,6 +326,11 @@ class LoginAndRegistration : BaseCompatActivity() {
                                 preferencesHelper.isUserLogIn = true
                                 preferencesHelper.logInUser = dataUser
                                 startActivity(Intent(this@LoginAndRegistration, UserDrawerActivity::class.java))
+
+                                var editor = sharedPreference.edit()
+                                editor.putInt("Congregate",1)
+                                editor.commit()
+
                                 println("firebaseToken_google${dataUser.user_metas.fire_base_token}")
                                 finish()
                             } else {
