@@ -13,10 +13,10 @@ class PackageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val packageDescription = itemView.packageDescription
     val packagePrice = itemView.packagePrice
     val packagePeriod = itemView.packagePeriod
-//    val videoLayout = itemView.videoLayout
-//    val videoHourse = itemView.videoHourse
-//    val voiceLayout = itemView.voiceLayout
-//    val voiceHourse = itemView.voiceHourse
+    val videoLayout = itemView.videoLayout
+    val videoHourse = itemView.videoHourse
+    val voiceLayout = itemView.voiceLayout
+    val voiceHourse = itemView.voiceHourse
     val writtenLayout = itemView.writtenLayout
     val writtenHourse = itemView.writtenHourse
     val courseLayout = itemView.courseLayout

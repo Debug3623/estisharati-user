@@ -10,6 +10,14 @@
     <string name="terms_and_policy">الشروط والسياسة</string>
     <string name="don_t_have_an_account">ليس لديك حساب!</string>
     <string name="first_name">الاسم الاول</string>
+
+    <string name="meeting">16 جلسة (60 دقيقة لكل جلسة)</string>
+    <string name="meeting2">1 ساعة</string>
+
+    <string name="congratulation">مبروك!</string>
+    <string name="win_text"> لقد حصلت علي دورة مجانية! كهدية تسجيل في منصة إستشاراتي</string>
+    <string name="take_me">يزور</string>
+
     <string name="last_name">الكنية</string>
     <string name="phone">هاتف</string>
     <string name="register_caps">تسجيل</string>
@@ -39,6 +47,7 @@
     <string name="video_call">مكالمة فيديو </string>
     <string name="voice_call">مكالمة صوتية </string>
     <string name="written_chat">أحرف</string>
+    <string name="written_chat_package">دردشة مكتوبة</string>
     <string name="Please_wait">من فضلك انتظر</string>
     <string name="alert">تنبيه</string>
     <string name="estisharati_notification_settings">إعدادات إشعارات استشاراتي</string>

@@ -3,16 +3,16 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
 android {
-    compileSdkVersion 33
+    compileSdkVersion 32
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "estisharatibussiness.users.com"
         minSdkVersion 21
-        targetSdkVersion 33
+        targetSdkVersion 32
         //zahid
-        versionCode 10
-        versionName "1.1.0"
+        versionCode 15
+        versionName "1.1.5"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -144,6 +144,9 @@ dependencies {
 
   //Scan Card
     implementation 'io.card:android-sdk:5.5.0'
+
+ // Lotti Animation
+    implementation "com.airbnb.android:lottie:4.0.0"
 
 
 

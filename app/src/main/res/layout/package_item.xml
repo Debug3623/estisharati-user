@@ -130,55 +130,55 @@
             android:orientation="vertical">
 
 
-<!--            <LinearLayout-->
-<!--                android:id="@+id/videoLayout"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="10dp"-->
-<!--                android:gravity="center_vertical"-->
-<!--                android:orientation="horizontal">-->
+            <LinearLayout
+                android:id="@+id/videoLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-<!--                <ImageView-->
-<!--                    android:layout_width="22dp"-->
-<!--                    android:layout_height="22dp"-->
-<!--                    android:adjustViewBounds="true"-->
-<!--                    android:src="@drawable/ic_tick_pack_green" />-->
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_tick_pack_green" />
 
-<!--                <TextView-->
-<!--                    android:id="@+id/videoHourse"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="20dp"-->
-<!--                    android:fontFamily="@font/almarai_regular"-->
-<!--                    android:text="Video for half an hour"-->
-<!--                    android:textColor="@color/black_light"-->
-<!--                    android:textSize="15sp" />-->
-<!--            </LinearLayout>-->
+                <TextView
+                    android:id="@+id/videoHourse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="@font/almarai_regular"
+                    android:text="Video for half an hour"
+                    android:textColor="@color/black_light"
+                    android:textSize="15sp" />
+            </LinearLayout>
 
-<!--            <LinearLayout-->
-<!--                android:id="@+id/voiceLayout"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="10dp"-->
-<!--                android:gravity="center_vertical"-->
-<!--                android:orientation="horizontal">-->
+            <LinearLayout
+                android:id="@+id/voiceLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-<!--                <ImageView-->
-<!--                    android:layout_width="22dp"-->
-<!--                    android:layout_height="22dp"-->
-<!--                    android:adjustViewBounds="true"-->
-<!--                    android:src="@drawable/ic_tick_pack_green" />-->
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_tick_pack_green" />
 
-<!--                <TextView-->
-<!--                    android:id="@+id/voiceHourse"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="20dp"-->
-<!--                    android:fontFamily="@font/almarai_regular"-->
-<!--                    android:text="voice Chat one time"-->
-<!--                    android:textColor="@color/black_light"-->
-<!--                    android:textSize="15sp" />-->
-<!--            </LinearLayout>-->
+                <TextView
+                    android:id="@+id/voiceHourse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="@font/almarai_regular"
+                    android:text="voice Chat one time"
+                    android:textColor="@color/black_light"
+                    android:textSize="15sp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/writtenLayout"

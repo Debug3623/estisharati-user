@@ -1,6 +1,8 @@
 package estisharatibussiness.users.com.UserInterfaces
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import estisharatibussiness.users.com.R
 import android.text.Editable
@@ -45,6 +47,7 @@ class LoginAndRegistration : BaseCompatActivity() {
     lateinit var mGoogleApiClient: GoogleSignInClient
     lateinit var launchActivity: ActivityResultLauncher<Intent>
     lateinit var callbackManager: CallbackManager
+    lateinit var sharedPreference: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_and_registration)
@@ -53,6 +56,7 @@ class LoginAndRegistration : BaseCompatActivity() {
     }
 
     fun initViews() {
+        sharedPreference =  getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
         helperMethods = HelperMethods(this@LoginAndRegistration)
         preferencesHelper = SharedPreferencesHelper(this@LoginAndRegistration)
         helperMethods.setStatusBarColor(this, R.color.white)
@@ -257,6 +261,11 @@ class LoginAndRegistration : BaseCompatActivity() {
                                 preferencesHelper.isUserLogIn = true
                                 preferencesHelper.logInUser = dataUser
                                 startActivity(Intent(this@LoginAndRegistration, UserDrawerActivity::class.java))
+
+                                var editor = sharedPreference.edit()
+                                editor.putInt("Congregate",1)
+                                editor.commit()
+
                                 finish()
                             } else {
                                 val message = jsonObject.getString("message")

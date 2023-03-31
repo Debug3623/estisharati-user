@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@color/transparent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="15dp">
+
+ <LinearLayout
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     android:orientation="vertical"
+     android:layout_gravity="center"
+     android:gravity="center"
+     android:background="@drawable/corner_redius_10dp_white"
+     android:padding="15dp">
+
+     <com.airbnb.lottie.LottieAnimationView
+         android:id="@+id/video_loading"
+         android:layout_width="match_parent"
+         android:layout_height="200dp"
+         android:layout_centerInParent="true"
+         android:scaleType="centerCrop"
+         app:lottie_autoPlay="true"
+         app:lottie_loop="true"
+         app:lottie_rawRes="@raw/congratulation" />
+     <com.airbnb.lottie.LottieAnimationView
+         android:id="@+id/video_loading1"
+         android:layout_width="50dp"
+         android:layout_height="50dp"
+         android:layout_centerInParent="true"
+         android:scaleType="centerCrop"
+         app:lottie_autoPlay="true"
+         app:lottie_loop="true"
+         app:lottie_rawRes="@raw/giftbox" />
+
+     <TextView
+         android:id="@+id/txt_msg"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_margin="10dp"
+         android:text="@string/congratulation"
+         android:fontFamily="@font/almarai_regular"
+         android:textColor="@color/dark_green"
+         android:textSize="26sp"
+         android:gravity="center"
+         android:paddingTop="10dp"
+         android:paddingBottom="10dp"
+         android:textStyle="bold" />
+
+
+     <TextView
+         android:id="@+id/textView2"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:fontFamily="@font/almarai_regular"
+         android:text="@string/win_text"
+         android:textColor="@color/black"
+         android:gravity="center"
+         android:paddingTop="10dp"
+         android:paddingBottom="10dp"
+         android:textSize="15sp"
+         android:textStyle="bold" />
+
+
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:orientation="horizontal"
+         android:layout_height="wrap_content">
+         <Button
+             android:id="@+id/btnDialogRead"
+             android:layout_width="0dp"
+             android:layout_weight="1"
+             android:layout_height="wrap_content"
+             android:layout_margin="16dp"
+             android:background="@drawable/background_corner_button"
+             android:text="@string/take_me"
+             android:fontFamily="@font/almarai_regular"
+             android:textColor="@color/white_pink"
+             android:textSize="15sp"
+             android:textStyle="bold"
+             />
+         <Button
+             android:id="@+id/btnDialog"
+             android:layout_width="0dp"
+             android:layout_weight="1"
+             android:layout_height="wrap_content"
+             android:layout_margin="16dp"
+             android:background="@drawable/background_corner_button"
+             android:text="@string/cancel"
+             android:fontFamily="@font/almarai_regular"
+             android:textColor="@color/white_pink"
+             android:textSize="15sp"
+             android:textStyle="bold"
+             />
+
+     </LinearLayout>
+
+ </LinearLayout>
+
+</LinearLayout>

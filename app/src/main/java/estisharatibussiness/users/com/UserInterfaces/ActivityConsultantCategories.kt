@@ -1,5 +1,6 @@
 package estisharatibussiness.users.com.UserInterfaces
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -25,6 +26,9 @@ import estisharatibussiness.users.com.R
 import kotlinx.android.synthetic.main.activity_consultant_details.*
 import kotlinx.android.synthetic.main.appointment_layout.view.*
 import kotlinx.android.synthetic.main.consultation_category_layout.view.*
+import kotlinx.android.synthetic.main.consultation_category_layout.view.videoLayout
+import kotlinx.android.synthetic.main.consultation_category_layout.view.voiceLayout
+import kotlinx.android.synthetic.main.package_item.view.*
 import okhttp3.ResponseBody
 import org.json.JSONException
 import org.json.JSONObject
@@ -32,6 +36,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
+import kotlin.math.log
 
 class ActivityConsultantCategories : AppCompatActivity() {
 
@@ -94,9 +99,7 @@ class ActivityConsultantCategories : AppCompatActivity() {
         Log.d("category_id_CC",categoryId)
         Log.d("condition_CC",condition)
 
-        Log.d("audioF",audioF)
-        Log.d("videoF",videoF)
-        Log.d("chatF",chatF)
+
     }
 
 
@@ -129,13 +132,23 @@ class ActivityConsultantCategories : AppCompatActivity() {
         }
     }
 
-    fun showConsultationPriceDetailsPopup() {
+    @SuppressLint("SetTextI18n") fun showConsultationPriceDetailsPopup() {
         price = 0.0
-        var meeting = "16 meetings\n(60 min each)"
         popup_view.consultationsOptionLayout.visibility = View.VISIBLE
         popup_view.consultationPriceLayout.visibility = View.VISIBLE
         popup_view.actionProceedBtn.visibility = View.VISIBLE
         popup_view.consultationsRecycler.visibility = View.GONE
+
+
+        Log.d("packageInfo","*************")
+        Log.d("audioF",audioF)
+        Log.d("videoF",videoF)
+        Log.d("chatF",chatF)
+
+        Log.d("ConsultantInfo","*************")
+        Log.d("chat_C", consultantDetailsResponse.chat.toString())
+        Log.d("video_C", consultantDetailsResponse.video.toString())
+        Log.d("audio_C", consultantDetailsResponse.video.toString())
 
 
         popup_view.chatLayout.visibility = if (chatF == "0") {
@@ -148,6 +161,7 @@ class ActivityConsultantCategories : AppCompatActivity() {
 
             }
         }
+
         popup_view.voiceLayout.visibility = if (audioF == "0") {
             View.GONE
         } else {
@@ -157,6 +171,7 @@ class ActivityConsultantCategories : AppCompatActivity() {
                 View.GONE
             }
         }
+
         popup_view.videoLayout.visibility = if (videoF == "0") {
             View.GONE
         } else {
@@ -167,91 +182,39 @@ class ActivityConsultantCategories : AppCompatActivity() {
             }
         }
 
-
-        if(chatF=="0" && video=="0" && audioF=="0"){
-
-            popup_view.noConsultantAvialble.visibility =View.VISIBLE
-
-        }else{
-            popup_view.noConsultantAvialble.visibility =View.GONE
-
+        popup_view.noConsultantAvialble.visibility = if (!consultantDetailsResponse.video &&
+            !consultantDetailsResponse.voice && !consultantDetailsResponse.chat) {
+            View.VISIBLE
+        } else {
+            View.GONE
         }
 
-        if(chatF=="0" && video=="0" && audioF!="0" ){
-            if(consultantDetailsResponse.voice){
-                popup_view.noConsultantAvialble.visibility =View.GONE
 
-            }else{
-                popup_view.noConsultantAvialble.visibility =View.VISIBLE
-                Log.d("elseCASEMine","")
-            }
-        }
 
-        if(chatF=="0" && video!="0"  && audioF=="0"){
-            if(consultantDetailsResponse.video){
-                popup_view.noConsultantAvialble.visibility =View.GONE
 
-            }else{
-                popup_view.noConsultantAvialble.visibility =View.VISIBLE
-                Log.d("elseCASEMine","")
-            }
-        }
-
-        if(chatF=="0" && video!="0"  && audioF!="0" ){
-            if(consultantDetailsResponse.video ||consultantDetailsResponse.voice){
-                popup_view.noConsultantAvialble.visibility =View.GONE
-
-            }else{
-                popup_view.noConsultantAvialble.visibility =View.VISIBLE
-                Log.d("elseCASEMine","")
-            }
-        }
-
-        if(chatF!="0" && video=="0" && audioF=="0"){
-       if(consultantDetailsResponse.chat){
-           popup_view.noConsultantAvialble.visibility =View.GONE
-           Log.d("chat_1_ con_chat_1","")
-       }else{
-           popup_view.noConsultantAvialble.visibility =View.VISIBLE
-           Log.d("chat_1_ con_chat_0","")
-       }
-        }
-
-        if(chatF!="0" && video=="0" && audioF!="0" ){
-            if(consultantDetailsResponse.chat || consultantDetailsResponse.voice ){
-                popup_view.noConsultantAvialble.visibility =View.GONE
-
-            }else{
-                popup_view.noConsultantAvialble.visibility =View.VISIBLE
-                Log.d("elseCASEMine","")
-            }
-        }
-
-        if(chatF!="0"  && video!="0"  && audioF=="0"){
-            if(consultantDetailsResponse.chat || consultantDetailsResponse.video ){
-                popup_view.noConsultantAvialble.visibility =View.GONE
-
-            }else{
-                popup_view.noConsultantAvialble.visibility =View.VISIBLE
-                Log.d("elseCASEMine","")
-            }
-        }
-
-        if(chatF!="0"  && video!="0"  && audioF!="0"){
-
-            if(consultantDetailsResponse.chat ||consultantDetailsResponse.voice || consultantDetailsResponse.video ){
-                popup_view.noConsultantAvialble.visibility =View.GONE
-
-            }else{
-                popup_view.noConsultantAvialble.visibility =View.VISIBLE
-                Log.d("elseCASEMine","")
-            }
-        }
 
        if(condition == "1"){
-           popup_view.chatCount.text = meeting + " " + getString(R.string.written_chat)
-           popup_view.voiceCount.text = meeting
-           popup_view.videoCount.text = meeting
+
+
+           if( pricen.toInt() >= 600)
+           {
+               popup_view.chatCount.text = getString(R.string.meeting)
+               popup_view.voiceCount.text = getString(R.string.meeting)
+               popup_view.videoCount.text =getString(R.string.meeting)
+               Log.d("condition_1 Above 600","")
+           }else{
+               popup_view.chatCount.text =getString(R.string.meeting2)
+               popup_view.voiceCount.text = getString(R.string.meeting2)
+               popup_view.videoCount.text = getString(R.string.meeting2)
+               Log.d("condition_1 below 600","")
+           }
+
+
+
+//           popup_view.chatCount.text = consultantDetailsResponse.chat_count + " " + getString(R.string.written_chat)
+//           popup_view.voiceCount.text = helperMethods.formatToSecond(consultantDetailsResponse.voice_count)
+//           popup_view.videoCount.text = helperMethods.formatToSecond(consultantDetailsResponse.video_count)
+
 
        }else{
            popup_view.chatCount.text = consultantDetailsResponse.chat_count + " " + getString(R.string.written_chat)
@@ -260,13 +223,13 @@ class ActivityConsultantCategories : AppCompatActivity() {
 
        }
 
-        if (chat.equals("1")) {
+        if (chat == "1") {
             popup_view.chatImage.clearColorFilter()
             popup_view.chatText.setTextColor(ContextCompat.getColor(this@ActivityConsultantCategories, R.color.black))
-            if (consultantDetailsResponse.offer_chat_fee.equals("0")) {
-                price += consultantDetailsResponse.chat_fee.toDouble()
+            price += if(consultantDetailsResponse.offer_chat_fee == "0") {
+                consultantDetailsResponse.chat_fee.toDouble()
             } else {
-                price += consultantDetailsResponse.offer_chat_fee.toDouble()
+                consultantDetailsResponse.offer_chat_fee.toDouble()
             }
         } else {
             popup_view.chatImage.setColorFilter(ContextCompat.getColor(this@ActivityConsultantCategories, R.color.gray))
@@ -275,16 +238,16 @@ class ActivityConsultantCategories : AppCompatActivity() {
         if (audio.equals("1")) {
             popup_view.voiceImage.clearColorFilter()
             popup_view.voiceText.setTextColor(ContextCompat.getColor(this@ActivityConsultantCategories, R.color.black))
-            if (consultantDetailsResponse.offer_voice_fee.equals("0")) {
-                price += consultantDetailsResponse.voice_fee.toDouble()
+            price += if (consultantDetailsResponse.offer_voice_fee == "0") {
+                consultantDetailsResponse.voice_fee.toDouble()
             } else {
-                price += consultantDetailsResponse.offer_voice_fee.toDouble()
+                consultantDetailsResponse.offer_voice_fee.toDouble()
             }
         } else {
             popup_view.voiceImage.setColorFilter(ContextCompat.getColor(this@ActivityConsultantCategories, R.color.gray))
             popup_view.voiceText.setTextColor(ContextCompat.getColor(this@ActivityConsultantCategories, R.color.gray))
         }
-        if (video.equals("1")) {
+        if (video == "1") {
             popup_view.videoImage.clearColorFilter()
             popup_view.videoText.setTextColor(ContextCompat.getColor(this@ActivityConsultantCategories, R.color.black))
             if (consultantDetailsResponse.offer_voice_fee.equals("0")) {
@@ -327,7 +290,7 @@ class ActivityConsultantCategories : AppCompatActivity() {
             }
             showConsultationPriceDetailsPopup()
         }
-        popup_view.consultantPrice.text = "${getString(R.string.usd)} ${pricen}"
+        popup_view.consultantPrice.text = "${getString(R.string.usd)} $pricen"
 
         popup_view.actionProceedBtn.setOnClickListener {
             if (chat.equals("1") || audio.equals("1") || video.equals("1")) {

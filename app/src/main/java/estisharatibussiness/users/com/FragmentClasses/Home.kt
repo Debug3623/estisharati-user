@@ -1,7 +1,11 @@
 package estisharatibussiness.users.com.FragmentClasses
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -9,6 +13,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.Button
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
@@ -28,6 +34,7 @@ import estisharatibussiness.users.com.Helper.HelperMethods
 import estisharatibussiness.users.com.Helper.SharedPreferencesHelper
 import estisharatibussiness.users.com.R
 import estisharatibussiness.users.com.UserInterfaces.*
+import kotlinx.android.synthetic.main.activity_my_appointment.*
 import kotlinx.android.synthetic.main.app_bar_user_drawer.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.nav_side_manu.*
@@ -67,6 +74,7 @@ class Home(val userDrawerActivity: UserDrawerActivity) : Fragment() {
         }
     }
     var onlineUserArraylist = arrayListOf<DataUserFireStore>()
+    lateinit var sharedPreference: SharedPreferences
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? { // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
 
@@ -74,6 +82,8 @@ class Home(val userDrawerActivity: UserDrawerActivity) : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
         initViews()
         clickEvents()
         if (GlobalData.homeResponseMain != null) {
@@ -98,6 +108,16 @@ class Home(val userDrawerActivity: UserDrawerActivity) : Fragment() {
     }
 
     fun initViews() {
+
+        sharedPreference =  requireActivity().getPreferences(Context.MODE_PRIVATE)
+
+        if (sharedPreference.getInt("Congregate",1)==0){
+                congratulationDialogue()
+            Log.d("preferences == 0","congratulation time to display")
+            }else{
+          Log.d("preferences == 1","congratulation already Done")
+        }
+
         helperMethods = HelperMethods(requireContext())
         preferencesHelper = SharedPreferencesHelper(requireContext())
         Log.d("BaseUrl1", GlobalData.BaseUrl)
@@ -118,14 +138,17 @@ class Home(val userDrawerActivity: UserDrawerActivity) : Fragment() {
             startActivity(intent)
             GlobalData.surveyId = ""
         }
+
+
     }
 
-    fun clickEvents() {
+    @SuppressLint("MissingInflatedId") fun clickEvents() {
         ask_for_advice.setOnClickListener {
-            val intent = Intent(requireContext(), ActivityLegalAdvice::class.java)
-            intent.putExtra("category_id", "")
-            intent.putExtra("category_name", "")
-            startActivity(intent)
+//            val intent = Intent(requireContext(), ActivityLegalAdvice::class.java)
+//            intent.putExtra("category_id", "")
+//            intent.putExtra("category_name", "")
+//            startActivity(intent)
+
         }
         exp_consultations_all.setOnClickListener {
             userDrawerActivity.navConsultations()
@@ -145,6 +168,27 @@ class Home(val userDrawerActivity: UserDrawerActivity) : Fragment() {
             startActivity(Intent(requireContext(), ActivitySurveyList::class.java))
         }
     }
+
+    private fun congratulationDialogue() {
+        val  dialogBuilder = context?.let { AlertDialog.Builder(it) }
+        val layoutView = layoutInflater.inflate(R.layout.congratulation_file, null)
+        val dialogButton = layoutView.findViewById(R.id.btnDialog) as Button
+        val dialogButtonRead = layoutView.findViewById(R.id.btnDialogRead) as Button
+        dialogBuilder?.setView(layoutView)
+        val   alertDialog = dialogBuilder?.create()
+        alertDialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        alertDialog.show()
+        dialogButton.setOnClickListener(View.OnClickListener { alertDialog?.dismiss() })
+
+        dialogButtonRead.setOnClickListener(View.OnClickListener {
+            alertDialog?.dismiss()
+            val intent = Intent(context, ActivityCourseDetails::class.java)
+            intent.putExtra("courseId", "77")
+            context?.startActivity(intent)
+        })
+
+    }
+
 
     private fun ShowViewPager() {
         requireActivity().notificationCount.text = GlobalData.homeResponse.notification_count
@@ -170,6 +214,10 @@ class Home(val userDrawerActivity: UserDrawerActivity) : Fragment() {
         } else {
             initializeTestimonialsRecyclerview()
         }
+
+
+
+
         super.onStart()
     }
 
@@ -409,4 +457,7 @@ class Home(val userDrawerActivity: UserDrawerActivity) : Fragment() {
             }
         })
     }
+
+
 }
+
