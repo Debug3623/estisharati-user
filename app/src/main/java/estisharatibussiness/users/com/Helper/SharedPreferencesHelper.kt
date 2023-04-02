@@ -74,4 +74,10 @@ class SharedPreferencesHelper(mContext: Context) {
                 e.printStackTrace()
             }
         }
+
+    var congrates: String
+        get() = pref.getString("status", "1").toString()
+        set(status) {
+            pref_editor.putString("status", status).apply()
+        }
 }

@@ -48,7 +48,6 @@ class VerificationActivity : BaseCompatActivity() {
     var password = ""
     var verified = ""
     var resendTimer: CountDownTimer? = null
-    lateinit var sharedPreference: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +57,6 @@ class VerificationActivity : BaseCompatActivity() {
     }
 
     fun initViews() {
-        sharedPreference =  getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
         helperMethods = HelperMethods(this@VerificationActivity)
         preferencesHelper = SharedPreferencesHelper(this@VerificationActivity)
         retrofitInterface = RetrofitApiClient(GlobalData.BaseUrl).getRetrofit().create(RetrofitInterface::class.java)
@@ -334,10 +332,6 @@ class VerificationActivity : BaseCompatActivity() {
                                 hashMap.put("availability", true)
                                 hashMap.put("channel_unique_id", "")
                                 helperMethods.setUserDetailsToFirestore( dataUser.id, hashMap)
-
-                                var editor = sharedPreference.edit()
-                                editor.putInt("Congregate",0)
-                                editor.commit()
 
                                 val intent = Intent(this@VerificationActivity, OnBoarding::class.java)
                                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

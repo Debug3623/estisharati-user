@@ -1,12 +1,15 @@
 package estisharatibussiness.users.com.UserInterfaces
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.animation.AnimationUtils
 import estisharatibussiness.users.com.AdapterClasses.OnBoardingPagerAdapter
 import estisharatibussiness.users.com.DataClassHelperMehtods.Boarding.DataBoarding
 import estisharatibussiness.users.com.Helper.HelperMethods
+import estisharatibussiness.users.com.Helper.SharedPreferencesHelper
 import estisharatibussiness.users.com.R
 import estisharatibussiness.users.com.UtilsClasses.BaseCompatActivity
 import kotlinx.android.synthetic.main.activity_on_boarding.*
@@ -28,6 +31,7 @@ class OnBoarding : BaseCompatActivity() {
             handler.postDelayed(this, delay.toLong())
         }
     }
+    lateinit var preferencesHelper: SharedPreferencesHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,13 +43,14 @@ class OnBoarding : BaseCompatActivity() {
 
     fun initViews() {
         helperMethods = HelperMethods(this@OnBoarding)
-
+        preferencesHelper = SharedPreferencesHelper(this@OnBoarding)
         helperMethods.setStatusBarColor(this, R.color.white)
         handler = Handler()
     }
 
     fun clickEvents() {
         skip.setOnClickListener {
+//            preferencesHelper.congrates = "0"
             startActivity(Intent(this@OnBoarding, UserDrawerActivity::class.java))
             finish()
         }

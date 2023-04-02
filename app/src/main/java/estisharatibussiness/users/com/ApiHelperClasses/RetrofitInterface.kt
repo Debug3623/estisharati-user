@@ -240,4 +240,9 @@ interface RetrofitInterface {
     @POST("user/save-wallet")
     fun STRIPE_PAYMENT(@Header("Authorization") token: String, @Field("cardno") cardno: String, @Field("month") month: String, @Field("year") year: String, @Field("cvv") cvv: String, @Field("amount") amount: String,@Field("payment_method") payment_method: String): Call<ResponseBody>
 
+
+
+    @POST("user/updateStatus")
+    fun STATUS_ALERT(@Header("Authorization") token: String): Call<ResponseBody>
+
 }

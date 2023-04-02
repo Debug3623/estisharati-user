@@ -28,6 +28,7 @@ import estisharatibussiness.users.com.DataClassHelperMehtods.Chat.DataCallsFireS
 import estisharatibussiness.users.com.DataClassHelperMehtods.Login.DataUser
 import estisharatibussiness.users.com.DataClassHelperMehtods.Chat.DataUserFireStore
 import estisharatibussiness.users.com.DataClassHelperMehtods.Home.HomeResponse
+import estisharatibussiness.users.com.DataClassHelperMehtods.SurveysQuestions.SurveysQuestionsResponse
 import estisharatibussiness.users.com.DataClassHelperMehtods.Testimonials.TestimonialsResponse
 import estisharatibussiness.users.com.Helper.GlobalData
 import estisharatibussiness.users.com.Helper.HelperMethods
@@ -74,7 +75,6 @@ class Home(val userDrawerActivity: UserDrawerActivity) : Fragment() {
         }
     }
     var onlineUserArraylist = arrayListOf<DataUserFireStore>()
-    lateinit var sharedPreference: SharedPreferences
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? { // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
 
@@ -109,15 +109,6 @@ class Home(val userDrawerActivity: UserDrawerActivity) : Fragment() {
 
     fun initViews() {
 
-        sharedPreference =  requireActivity().getPreferences(Context.MODE_PRIVATE)
-
-        if (sharedPreference.getInt("Congregate",1)==0){
-                congratulationDialogue()
-            Log.d("preferences == 0","congratulation time to display")
-            }else{
-          Log.d("preferences == 1","congratulation already Done")
-        }
-
         helperMethods = HelperMethods(requireContext())
         preferencesHelper = SharedPreferencesHelper(requireContext())
         Log.d("BaseUrl1", GlobalData.BaseUrl)
@@ -139,15 +130,14 @@ class Home(val userDrawerActivity: UserDrawerActivity) : Fragment() {
             GlobalData.surveyId = ""
         }
 
-
     }
 
     @SuppressLint("MissingInflatedId") fun clickEvents() {
         ask_for_advice.setOnClickListener {
-//            val intent = Intent(requireContext(), ActivityLegalAdvice::class.java)
-//            intent.putExtra("category_id", "")
-//            intent.putExtra("category_name", "")
-//            startActivity(intent)
+            val intent = Intent(requireContext(), ActivityLegalAdvice::class.java)
+            intent.putExtra("category_id", "")
+            intent.putExtra("category_name", "")
+            startActivity(intent)
 
         }
         exp_consultations_all.setOnClickListener {
@@ -297,10 +287,21 @@ class Home(val userDrawerActivity: UserDrawerActivity) : Fragment() {
                                 val data = jsonObject.getString("data")
                                 GlobalData.homeResponse = Gson().fromJson(data, HomeResponse::class.java)
                                 GlobalData.homeResponseMain = GlobalData.homeResponse
-                                Log.d("homeResponse",  GlobalData.homeResponseMain!!.notification_count)
+                                Log.d("notifications_count",  GlobalData.homeResponseMain!!.notification_count)
+                                Log.d("alert_status",  GlobalData.homeResponseMain!!.alert_status.toString())
                                 ShowViewPager()
                                 InitializeRecyclerview()
                                 firestoreLisiner()
+                                alertApiCall()
+                                if (GlobalData.homeResponseMain!!.alert_status){
+                                    Log.d("no Alert","user Already register")
+                                }else{
+                                    congratulationDialogue()
+
+                                    Log.d("Alert time","congratulation time to display")
+
+                                }
+
                             } else {
                                 val message = jsonObject.getString("message")
                                 if (helperMethods.checkTokenValidation(status, message)) {
@@ -386,7 +387,7 @@ class Home(val userDrawerActivity: UserDrawerActivity) : Fragment() {
     }
 
     private fun initializeOnlineUserRecyclerview() {
-        if (!onlineUserArraylist.isEmpty()) {
+        if (onlineUserArraylist.isEmpty()) {
             online_now_layout.visibility = View.VISIBLE
             onlineUserArraylist.add(DataUserFireStore())
             online_user_recycler.setHasFixedSize(true)
@@ -444,6 +445,29 @@ class Home(val userDrawerActivity: UserDrawerActivity) : Fragment() {
                         Log.d("body", "Body Empty")
 
                     }
+                } else {
+                    helperMethods.showToastMessage(getString(R.string.something_went_wrong))
+                    Log.d("body", "Not Successful")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                helperMethods.dismissProgressDialog()
+                t.printStackTrace()
+                helperMethods.AlertPopup(getString(R.string.alert), getString(R.string.your_network_connection_is_slow_please_try_again))
+            }
+        })
+    }
+
+    fun alertApiCall() {
+        val responseBodyCall = retrofitInterface.STATUS_ALERT("Bearer ${dataUser.access_token}")
+        responseBodyCall.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+
+                if (response.isSuccessful) {
+
+                     Log.d("status_done_api_call","true")
+
                 } else {
                     helperMethods.showToastMessage(getString(R.string.something_went_wrong))
                     Log.d("body", "Not Successful")
