@@ -89,7 +89,7 @@ class ActivityCourseDetails : BaseCompatActivity() {
 
 
         buyTheCourse.setOnClickListener {
-            if (responseCoursesDetails.is_subscribed) {
+            if (responseCoursesDetails.is_subscribed || responseCoursesDetails.id.toInt() == 77) {
                 val intent = Intent(this@ActivityCourseDetails, ActivityCourseResource::class.java)
                 intent.putExtra("courseId", responseCoursesDetails.id)
                 startActivity(intent)
@@ -109,6 +109,7 @@ class ActivityCourseDetails : BaseCompatActivity() {
                 startActivity(intent)
             }
         }
+
         favoriteLayout.setOnClickListener {
             if (helperMethods.isConnectingToInternet) {
                 addRemoveFavouriteCourseApiCall(responseCoursesDetails.id)
@@ -161,7 +162,7 @@ class ActivityCourseDetails : BaseCompatActivity() {
             download_video.setText(R.string.you_can_not_download_course_videos)
         }
 
-        buyTheCourse.text = if (responseCoursesDetails.is_subscribed) resources.getString(R.string.start_course) else resources.getString(R.string.buy_now)
+        buyTheCourse.text = if (responseCoursesDetails.is_subscribed  || responseCoursesDetails.id.toInt() == 77) resources.getString(R.string.start_course) else resources.getString(R.string.buy_now)
 
         testimonialLayout.visibility = if (responseCoursesDetails.is_subscribed) View.VISIBLE else View.GONE
 
