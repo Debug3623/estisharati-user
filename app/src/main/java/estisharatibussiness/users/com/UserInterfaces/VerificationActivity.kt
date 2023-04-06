@@ -102,7 +102,7 @@ class VerificationActivity : BaseCompatActivity() {
                     sendCodeFromFirebase(phone)
                 }
             }
-            Log.d("come_from", come_from + "  " + phone + "   " + verified)
+            Log.d("come_from", "$come_from  $phone   $verified")
         }
     }
 

@@ -260,7 +260,7 @@ class LoginAndRegistration : BaseCompatActivity() {
                                 helperMethods.setUserDetailsToFirestore(dataUser.id, hashMap)
                                 preferencesHelper.isUserLogIn = true
                                 preferencesHelper.logInUser = dataUser
-//                                preferencesHelper.congrates = "0"
+                                Log.d("fcm_f",dataUser.user_metas.fire_base_token)
                                 startActivity(Intent(this@LoginAndRegistration, UserDrawerActivity::class.java))
                                 finish()
 

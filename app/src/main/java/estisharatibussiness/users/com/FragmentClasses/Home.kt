@@ -387,7 +387,7 @@ class Home(val userDrawerActivity: UserDrawerActivity) : Fragment() {
     }
 
     private fun initializeOnlineUserRecyclerview() {
-        if (onlineUserArraylist.isEmpty()) {
+        if (onlineUserArraylist.isNotEmpty()) {
             online_now_layout.visibility = View.VISIBLE
             onlineUserArraylist.add(DataUserFireStore())
             online_user_recycler.setHasFixedSize(true)

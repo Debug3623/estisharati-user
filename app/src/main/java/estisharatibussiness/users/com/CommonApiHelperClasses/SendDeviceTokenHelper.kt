@@ -39,9 +39,7 @@ class SendDeviceTokenHelper(val context: Context, val activitySplashScreen: Acti
         if (GlobalData.FcmToken.equals("")) {
             helperMethods.dismissProgressDialog()
             Toast.makeText(context, context.getString(R.string.could_not_get_your_device_token_please_try_again), Toast.LENGTH_LONG).show()
-            if (activitySplashScreen != null) {
-                activitySplashScreen.checkSelfPermission()
-            }
+            activitySplashScreen?.checkSelfPermission()
 
             return
         }
@@ -78,18 +76,14 @@ class SendDeviceTokenHelper(val context: Context, val activitySplashScreen: Acti
                     helperMethods.showToastMessage(context.getString(R.string.something_went_wrong))
                     Log.d("body", "Not Successful")
                 }
-                if (activitySplashScreen != null) {
-                    activitySplashScreen.checkSelfPermission()
-                }
+                activitySplashScreen?.checkSelfPermission()
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 helperMethods.dismissProgressDialog()
                 t.printStackTrace()
                 //                Toast.makeText(context, context.getString(R.string.your_network_connection_is_slow_please_try_again), Toast.LENGTH_LONG).show()
-                if (activitySplashScreen != null) {
-                    activitySplashScreen.checkSelfPermission()
-                }
+                activitySplashScreen?.checkSelfPermission()
             }
         })
     }
