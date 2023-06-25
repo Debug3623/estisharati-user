@@ -58,6 +58,7 @@ class VideoCallActivity : BaseCompatActivity() {
     var showAction: CountDownTimer? = null
     var ringingDuration: CountDownTimer? = null
     var callConnectedTimeMilles = ""
+    var enableSpeakerphone = false
     //    var channelUniqueId = ""
     //    var callerId = ""
     //    var callerName = ""
@@ -279,6 +280,18 @@ class VideoCallActivity : BaseCompatActivity() {
         }
         end_call.setOnClickListener {
             leaveChannel()
+        }
+
+        speaker.setOnClickListener {
+            val iv = it as ImageView
+            if (enableSpeakerphone) {
+                enableSpeakerphone = false
+                iv.clearColorFilter()
+            } else {
+                enableSpeakerphone = true
+                iv.setColorFilter(ContextCompat.getColor(this@VideoCallActivity, R.color.orange), PorterDuff.Mode.MULTIPLY)
+            }
+            mRtcEngine.setEnableSpeakerphone(enableSpeakerphone)
         }
 
         front_action_layout.setOnClickListener {

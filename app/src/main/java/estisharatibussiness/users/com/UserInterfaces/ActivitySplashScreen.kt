@@ -177,7 +177,11 @@ class ActivitySplashScreen : BaseCompatActivity() {
     }
 
     fun checkSelfPermission() {
-        if (ContextCompat.checkSelfPermission(this@ActivitySplashScreen, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(this@ActivitySplashScreen, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(this@ActivitySplashScreen, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(this@ActivitySplashScreen, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_DENIED) {
+        if (ContextCompat.checkSelfPermission(this@ActivitySplashScreen, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED ||
+            ContextCompat.checkSelfPermission(this@ActivitySplashScreen, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED ||
+            ContextCompat.checkSelfPermission(this@ActivitySplashScreen, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED ||
+            ContextCompat.checkSelfPermission(this@ActivitySplashScreen, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_DENIED||
+            ContextCompat.checkSelfPermission(this@ActivitySplashScreen, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_DENIED   ) {
             helperMethods.selfPermission(this@ActivitySplashScreen)
         } else {
             loginProcess()

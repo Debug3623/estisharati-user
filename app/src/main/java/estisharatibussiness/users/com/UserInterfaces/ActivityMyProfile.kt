@@ -14,6 +14,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -122,7 +123,7 @@ class ActivityMyProfile : AppCompatActivity() {
         }
     }
 
-    fun clickEvents() {
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU) fun clickEvents() {
         nav_back.setOnClickListener { finish() }
         change_password_layot.visibility = View.GONE
         change_password_arrow.setImageResource(R.drawable.ic_up_arrow_white)

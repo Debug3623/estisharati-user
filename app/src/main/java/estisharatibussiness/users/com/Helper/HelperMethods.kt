@@ -64,6 +64,8 @@ import java.util.*
 import java.util.regex.Pattern
 import kotlin.collections.ArrayList
 import android.app.PendingIntent
+import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat.requestPermissions
 import estisharatibussiness.users.com.UserInterfaces.ChatPageActivity
 
 class HelperMethods(val context: Context) {
@@ -233,9 +235,16 @@ class HelperMethods(val context: Context) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
-    fun selfPermission(activity: Activity?) {
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED || ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO), 123)
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU) fun selfPermission(activity: Activity?) {
+
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED ||
+            ContextCompat.checkSelfPermission(context, Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_DENIED ||
+            ContextCompat.checkSelfPermission(context, Manifest.permission.READ_MEDIA_AUDIO) == PackageManager.PERMISSION_DENIED||
+            ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_DENIED||
+            ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_DENIED||
+            ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_AUDIO,Manifest.permission.POST_NOTIFICATIONS), 123)
+
         }
     }
 
@@ -259,12 +268,12 @@ class HelperMethods(val context: Context) {
         }
     }
 
-    fun ChangeProfilePhotoPopup(activity: Activity) {
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU) fun ChangeProfilePhotoPopup(activity: Activity) {
         if (!isConnectingToInternet) {
             AlertPopup(context.getString(R.string.internet_connection_failed), context.getString(R.string.please_check_your_internet_connection_and_try_again))
             return
         }
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             val file_upload_camera_gallery = LayoutInflater.from(context).inflate(R.layout.pick_picture_gallery_camera, null)
             val aleatdialog = AlertDialog.Builder(context)
             aleatdialog.setView(file_upload_camera_gallery)

@@ -107,7 +107,7 @@ class ActivityCourseResource : BaseCompatActivity() {
 
         simpleExoPlayer.addListener(object : Player.Listener {
             override fun onTimelineChanged(timeline: Timeline, reason: Int) {}
-            override fun onTracksChanged(trackGroups: TrackGroupArray, trackSelections: TrackSelectionArray) {
+            override fun onTracksChanged(tracks: Tracks) {
                 GlobalData.lessonsPlayingPosition = simpleExoPlayer.currentWindowIndex
                 courseVideo.InitializeRecyclerview()
             }

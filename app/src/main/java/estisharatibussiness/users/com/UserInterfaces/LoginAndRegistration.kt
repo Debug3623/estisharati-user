@@ -193,7 +193,7 @@ class LoginAndRegistration : BaseCompatActivity() {
         sign_in_button_facebook.setOnClickListener { launchFacebookSignIn() }
     }
 
-    fun loginValidation(): Boolean {
+    private fun loginValidation(): Boolean {
         if (email_phone_number.toText().equals("")) {
             helperMethods.showToastMessage(getString(R.string.enter_email_address))
             return false
@@ -216,13 +216,14 @@ class LoginAndRegistration : BaseCompatActivity() {
         return true
     }
 
-    fun launchGoogleSignIn() {
+    private fun launchGoogleSignIn() {
         mGoogleApiClient = GoogleSignIn.getClient(this, googleSignInOptions)
         val intent = mGoogleApiClient.signInIntent
         startActivityForResult(intent, RC_SIGN_IN)
+        println("google_signing_ press")
     }
 
-    fun launchFacebookSignIn() {
+    private fun launchFacebookSignIn() {
         if (AccessToken.getCurrentAccessToken() != null) {
             LoginManager.getInstance().logOut()
         }

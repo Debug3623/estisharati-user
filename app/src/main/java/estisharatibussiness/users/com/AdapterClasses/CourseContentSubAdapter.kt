@@ -20,6 +20,6 @@ class CourseContentSubAdapter(val context: Context, val courseContent: CourseCon
     }
 
     override fun onBindViewHolder(holder: CourseContentSubViewHolder, position: Int) {
-        holder.lessonTitle.text = lessons.get(position).title
+        holder.lessonTitle.text = lessons[position].title
     }
 }

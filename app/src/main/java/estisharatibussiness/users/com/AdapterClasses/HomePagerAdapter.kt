@@ -35,7 +35,7 @@ class HomePagerAdapter(var context: Context, val home: Home, val sliderArrayList
         val layoutView = layoutInflater.inflate(R.layout.home_slider_item, container, false) as View
         Glide.with(context).load(sliderArrayList.get(position).image_path).apply(home.helperMethods.requestOption).into(layoutView.sliderImage)
         layoutView.sliderTitle.text = sliderArrayList.get(position).title
-        layoutView.sliderDescription.text = home.helperMethods.getHtmlText(sliderArrayList.get(position).description).toString()
+        layoutView.sliderDescription.text = sliderArrayList.get(position).description?.let { home.helperMethods.getHtmlText(it).toString() }
         layoutView.sliderDiscover.setOnClickListener {
             when (sliderArrayList.get(position).type) {
                 "external_link" -> {
