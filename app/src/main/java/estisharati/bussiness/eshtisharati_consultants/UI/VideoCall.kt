@@ -30,6 +30,14 @@ import io.agora.rtc.video.BeautyOptions
 import io.agora.rtc.video.VideoCanvas
 import io.agora.rtc.video.VideoEncoderConfiguration
 import kotlinx.android.synthetic.main.activity_video_call.*
+import kotlinx.android.synthetic.main.activity_video_call.caller_name
+import kotlinx.android.synthetic.main.activity_video_call.caller_profile
+import kotlinx.android.synthetic.main.activity_video_call.calling_status
+import kotlinx.android.synthetic.main.activity_video_call.circle_progress
+import kotlinx.android.synthetic.main.activity_video_call.end_call
+import kotlinx.android.synthetic.main.activity_video_call.speaker
+import kotlinx.android.synthetic.main.activity_video_call.timer
+import kotlinx.android.synthetic.main.activity_voice_call.*
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -42,6 +50,7 @@ class VideoCall : BaseCompatActivity() {
     var ringingDuration: CountDownTimer? = null
 
     var callConnectedTimeMilles = ""
+    var enableSpeakerphone = false
 
     //    var channelUniqueId = ""
     //    var callerId = ""
@@ -103,7 +112,7 @@ class VideoCall : BaseCompatActivity() {
                 } else {
                     video_muted_layout.visibility = View.GONE
                 }
-                val container = findViewById(R.id.remote_video_view_container) as FrameLayout
+                val container = findViewById<FrameLayout>(R.id.remote_video_view_container)
                 val surfaceView = container.getChildAt(0) as SurfaceView
                 val tag = surfaceView.tag
                 if (tag != null && tag as Int == uid) {
@@ -242,7 +251,7 @@ class VideoCall : BaseCompatActivity() {
                 iv.setColorFilter(ContextCompat.getColor(this@VideoCall, R.color.orange), PorterDuff.Mode.MULTIPLY)
             } // Stops/Resumes sending the local video stream.
             mRtcEngine.muteLocalVideoStream(iv.isSelected)
-            val container = findViewById(R.id.local_video_view_container) as FrameLayout
+            val container = findViewById<FrameLayout>(R.id.local_video_view_container)
             val surfaceView = container.getChildAt(0) as SurfaceView
             surfaceView.setZOrderMediaOverlay(!iv.isSelected)
             surfaceView.visibility = if (iv.isSelected) View.GONE else View.VISIBLE
@@ -270,6 +279,19 @@ class VideoCall : BaseCompatActivity() {
         }
 
         root.viewTreeObserver.addOnGlobalLayoutListener { local_video_view_container.setOnTouchListener(CustomTouchListener(root.width, root.height)) }
+
+        speaker.setOnClickListener {
+            val iv = it as ImageView
+            if (enableSpeakerphone) {
+                enableSpeakerphone = false
+                iv.clearColorFilter()
+            } else {
+                enableSpeakerphone = true
+                iv.setColorFilter(ContextCompat.getColor(this@VideoCall, R.color.orange), PorterDuff.Mode.MULTIPLY)
+            }
+            mRtcEngine.setEnableSpeakerphone(enableSpeakerphone)
+        }
+
     }
 
     override fun onDestroy() {

@@ -113,7 +113,7 @@ tools:context=".UI.VideoCall">
                     android:layout_marginBottom="30dp"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:weightSum="3">
+                    android:weightSum="4">
 
                     <ImageView
                         android:id="@+id/switch_camera"
@@ -138,6 +138,14 @@ tools:context=".UI.VideoCall">
                         android:layout_weight="1"
                         android:adjustViewBounds="true"
                         android:src="@drawable/btn_mute" />
+
+                    <ImageView
+                        android:id="@+id/speaker"
+                        android:adjustViewBounds="true"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/btn_speaker" />
 
 
                 </LinearLayout>
